@@ -72,7 +72,9 @@
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <TextBlock x:Name="Perso_Label" Text="{Binding PrintedText}"/>
+                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="Perso_Label" Text="{Binding PrintedText}"/>
+                </ScrollViewer>
             </ScrollViewer>
         </Border>
         <TabControl HorizontalAlignment="Left" Height="166" Margin="211,10,0,0" VerticalAlignment="Top" Width="480">
@@ -122,7 +124,7 @@
             <TabItem Header="Elements">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="randoElem" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ListView HorizontalAlignment="Left" Height="123" Margin="97,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elemRes}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView x:Name="elemRes" HorizontalAlignment="Left" Height="123" Margin="97,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elemRes}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
@@ -136,7 +138,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView HorizontalAlignment="Left" Height="124" Margin="234,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView x:Name="elemMaster" HorizontalAlignment="Left" Height="124" Margin="234,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
@@ -150,14 +152,18 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBlock Height="102" Margin="371,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="5,31,0,0" TextWrapping="Wrap" Text="TextBlock" Width="87" Height="102" VerticalAlignment="Top"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="102" Margin="371,31,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" Width="98">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=elemMaster, Path=SelectedItem.Mag_element.desc_etat}"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalAlignment="Left" Margin="5,31,0,0" Width="87" Height="102" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=elemRes, Path=SelectedItem.Mag_element.desc_etat}"/>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Magie">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox x:Name="randomMag" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ListView HorizontalAlignment="Left" Height="123" Margin="90,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_magoRes}">
+                    <CheckBox x:Name="randomMag" Content="Random" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top"/>
+                    <ListView x:Name="MagRes" HorizontalAlignment="Left" Height="123" Margin="90,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Pers_magoRes}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -171,7 +177,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Height="123" Margin="244,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_mago}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView x:Name="MagMaster" Height="123" Margin="244,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Pers_mago}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -185,8 +191,12 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBlock Margin="387,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="99" HorizontalAlignment="Left" Width="82"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="5,34,0,5" TextWrapping="Wrap" Text="TextBlock" Width="80"/>
+                    <ScrollViewer Margin="382,20,0,05" VerticalAlignment="Top" Height="113" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=MagMaster, Path=SelectedItem.Magie_type.descr}"/>
+                    </ScrollViewer>
+                    <ScrollViewer HorizontalAlignment="Left" Margin="05,20,0,5" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="90">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=MagRes, Path=SelectedItem.Magie_type.descr}" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Sorts">
@@ -420,7 +430,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Background">
-                <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="#FFE5E5E5" Text="{Binding NewPerso.background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" MaxLength="8000" Background="#FFE5E5E5" Text="{Binding NewPerso.background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </TabItem>
         </TabControl>
         <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
