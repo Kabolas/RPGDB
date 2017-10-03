@@ -1,0 +1,480 @@
+﻿<UserControl x:Class="RPG_Jahr_words.WorldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
+             xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="456" d:DesignWidth="701">
+    <UserControl.Resources>
+        <local:MagoToVisible x:Key="VisibleMago"/>
+        <local:TechnoToVisible x:Key="VisibleTech"/>
+        <local:MagoToBool x:Key="BoolMago"/>
+        <local:TechnoToBool x:Key="BoolTech"/>
+        <local:CheckToVisible x:Key="BoolToVisible"/>
+        <local:OrToVisibility x:Key="OrVisible"/>
+        <local:Or x:Key="Or"/>
+        <local:And x:Key="And"/>
+        <local:AndToVisibility x:Key="AndVisible"/>
+        <local:ToWorldEnum x:Key="SelToEnum"/>
+        <local:OneFromMany x:Key="TrueToFirst"/>
+        <local:DisplayFromBool x:Key="DisplayPath"/>
+        <local:NullToFalse x:Key="NullFalse"/>
+        <local:StringEquals x:Key="StringEquals"/>
+        <local:WorldElemWrite x:Key="WorldWrite"/>
+        <local:NullReturn x:Key="Null"/>
+        <local:TrueToSingle x:Key="Single"/>
+        <local:IntToBool x:Key="EmptyBool"/>
+        <local:ToList x:Key="ToList"/>
+        <CollectionViewSource x:Key="Regions" Source="{Binding Regions}"/>
+        <CollectionViewSource x:Key="Villes" Source="{Binding Villes}"/>
+        <CollectionViewSource x:Key="Continents" Source="{Binding Continents}"/>
+        <CollectionViewSource x:Key="Biomes" Source="{Binding Biomes}"/>
+        <CollectionViewSource x:Key="Peoples" Source="{Binding People}"/>
+        <CollectionViewSource x:Key="MineType" Source="{Binding MinerTypes}"/>
+        <CollectionViewSource x:Key="VilleType" Source="{Binding TownTypes}"/>
+    </UserControl.Resources>
+    <Grid>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="115,26,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <TextBox x:Name="World_name" HorizontalAlignment="Left" Height="25" Margin="10,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100">
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource WorldWrite}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SaveConti.nom"/>
+                    <Binding Path="SaveTown.nom"/>
+                    <Binding Path="SaveRegion.nom"/>
+                    <Binding Path="SaveMiner.nom"/>
+                    <Binding Path="SaveAll.nom"/>
+                    <Binding Path="SavePhenom.nom"/>
+                    <Binding Path="Elem.Type"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <ComboBox x:Name="World_elem" HorizontalAlignment="Left" Height="25" Margin="10,82,0,0" VerticalAlignment="Top" Width="100" SelectedValue="{Binding Elem.Type, Mode=TwoWay, Converter={StaticResource SelToEnum}, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Content" SelectionChanged="PlaceHolderElm">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBoxItem Content="~Element~"/>
+            <ComboBoxItem x:Name="Ville" Content="Ville"/>
+            <ComboBoxItem x:Name="Mineraux" Content="Mineraux"/>
+            <ComboBoxItem x:Name="Alliage" Content="Alliage"/>
+            <ComboBoxItem x:Name="Phenomene" Content="Phenomene"/>
+            <ComboBoxItem x:Name="Region" Content="Region"/>
+            <ComboBoxItem x:Name="Continent" Content="Continent"/>
+        </ComboBox>
+        <ComboBox x:Name="World_minerType" HorizontalAlignment="Left" DisplayMemberPath="type" Height="25" Margin="134,82,0,0" VerticalAlignment="Top" Width="121" IsEnabled="{Binding ElementName=Mineraux, Path=IsSelected}" Visibility="{Binding ElementName=Mineraux, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectedValuePath="type" SelectedItem="{Binding MinerSave.Minerai_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding MinerSave.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="PlaceHolder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Minerai_type type="~Type de Mineral~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource MineType}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <ComboBox x:Name="World_villeType" DisplayMemberPath="type" HorizontalAlignment="Left" Height="25" Margin="134,113,0,0" VerticalAlignment="Top" Width="121" SelectedValuePath="type" SelectedValue="{Binding SaveTown.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SaveTown.Ville_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Ville, Path=IsSelected}" Visibility="{Binding ElementName=Ville, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Ville_type type="~Type de Ville~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource VilleType}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <ComboBox x:Name="World_Ville_conti" DisplayMemberPath="nom" HorizontalAlignment="Left" Height="25" Margin="10,112,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="Refreshing" SelectedValuePath="nom">
+            <ComboBox.Resources>
+                <local:WorldElemWrite x:Key="RegChose"/>
+                <local:WorldElemWrite x:Key="ContiChose"/>
+            </ComboBox.Resources>
+            <ComboBox.SelectedItem>
+                <MultiBinding Converter="{StaticResource RegChose}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="Selected"/>
+                    <Binding Path="SaveRegion.Continent1"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="Elem.Type"/>
+                </MultiBinding>
+            </ComboBox.SelectedItem>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.IsEnabled>
+                <MultiBinding Converter="{StaticResource Or}">
+                    <Binding ElementName="Ville" Path="IsSelected"/>
+                    <Binding ElementName="Region" Path="IsSelected"/>
+                </MultiBinding>
+            </ComboBox.IsEnabled>
+            <ComboBox.Visibility>
+                <MultiBinding Converter="{StaticResource OrVisible}">
+                    <Binding ElementName="Region" Path="IsSelected"/>
+                    <Binding ElementName="Ville" Path="IsSelected"/>
+                </MultiBinding>
+            </ComboBox.Visibility>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Continent nom="~Continent~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Continents}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <GroupBox x:Name="border" FontSize="10" Header="Complementaire" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="164" Margin="260,10,0,0" VerticalAlignment="Top" Width="431">
+            <Grid>
+                <ComboBox x:Name="Mat_type" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="112" DisplayMemberPath="type" SelectedIndex="0" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="RefreshMaterials">
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Minerai_type type="~Type de Materiau~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource MineType}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <Slider x:Name="alliageqtity" HorizontalAlignment="Left" Margin="5,46,0,0" VerticalAlignment="Top" Width="94" Minimum="1" Maximum="5"
+							TickFrequency="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+                <ListBox x:Name="ShowThing" Margin="132,5,5,5" SelectionMode="{Binding ElementName=Ville, Path=IsSelected, Converter={StaticResource Single}}" DisplayMemberPath="nom" SelectionChanged="Showthingselection">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{StaticResource WorldWrite}" Mode="OneWay">
+                            <Binding Path="Biome"/>
+                            <Binding Path="ShowReg"/>
+                            <Binding Path="Bioming"/>
+                            <Binding Converter="{StaticResource Null}"/>
+                            <Binding Converter="{StaticResource Null}"/>
+                            <Binding Path="PhenomCrit"/>
+                            <Binding Path="Elem.Type"/>
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
+                    <ListBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource Or}">
+                            <Binding ElementName="Region" Path="IsSelected"/>
+                            <Binding ElementName="Phenomene" Path="IsSelected"/>
+                            <Binding ElementName="Continent" Path="IsSelected"/>
+                            <Binding ElementName="Ville" Path="IsSelected"/>
+                        </MultiBinding>
+                    </ListBox.IsEnabled>
+                </ListBox>
+                <ListView x:Name="AlliageRecipe" Margin="122,5,85,5" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Multiple" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}" ItemsSource="{Binding Recipe}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding N_recette}"/>
+                            <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Nom}"/>
+                            <GridViewColumn Header="Origine" Width="50" DisplayMemberBinding="{Binding Origine}"/>
+                            <GridViewColumn Header="Nombre" Width="45" DisplayMemberBinding="{Binding Quantite}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView Margin="339,5,5,5" ItemsSource="{Binding Results}" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding IdRecipe}"/>
+                            <GridViewColumn Header="Nbr" Width="25">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="20" Text="{Binding Nombre, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <TextBlock x:Name="allqtity" HorizontalAlignment="Left" Margin="104,48,0,0" TextWrapping="Wrap" Text="{Binding ElementName=alliageqtity, Path=Value}" VerticalAlignment="Top" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+                <ComboBox x:Name="allprocess" HorizontalAlignment="Left" Margin="5,71,0,0" VerticalAlignment="Top" Width="99" SelectedIndex="0" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                    <System:String>~Procédé~</System:String>
+                    <CheckBox x:Name="fromFor" Content="Forge" Checked="FromFor_Checked" Unchecked="FromFor_Unchecked"/>
+                    <CheckBox x:Name="fromAlc" Content="Alchimie" Checked="FromAlc_Checked" Unchecked="FromAlc_Unchecked"/>
+                </ComboBox>
+                <ListBox x:Name="Ville_pop" HorizontalAlignment="Left" Height="134" Margin="1,5,0,0" VerticalAlignment="Top" Width="117" SelectionMode="Multiple" SelectionChanged="UsagePop">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{StaticResource TrueToFirst}">
+                            <Binding Path="People"/>
+                            <Binding Path="Uses"/>
+                            <Binding ElementName="Ville" Path="IsSelected"/>
+                            <Binding ElementName="Mineraux" Path="IsSelected"/>
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
+                    <ListBox.DisplayMemberPath>
+                        <MultiBinding Converter="{StaticResource DisplayPath}" ConverterParameter="nom,utilisation">
+                            <Binding ElementName="Ville" Path="IsSelected"/>
+                            <Binding ElementName="Mineraux" Path="IsSelected"/>
+                        </MultiBinding>
+                    </ListBox.DisplayMemberPath>
+                    <ListBox.Visibility>
+                        <MultiBinding Converter="{StaticResource OrVisible}">
+                            <Binding ElementName="Mineraux" Path="IsSelected"/>
+                            <Binding ElementName="Ville" Path="IsSelected"/>
+                        </MultiBinding>
+                    </ListBox.Visibility>
+                    <ListBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource Or}">
+                            <Binding ElementName="Mineraux" Path="IsSelected"/>
+                            <Binding ElementName="Ville" Path="IsSelected"/>
+                        </MultiBinding>
+                    </ListBox.IsEnabled>
+                </ListBox>
+                <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Margin="5,91,0,28" Width="25" Click="AjoutClick" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="Alliage" Path="IsSelected"/>
+                            <Binding ElementName="Materials" Path="ItemsSource" Converter="{StaticResource NullFalse}"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="31,91,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding Path="SelectedItems.Count" ElementName="AlliageRecipe"/>
+                            <Binding ElementName="Alliage" Path="IsSelected"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button Content="+" HorizontalAlignment="Left" Margin="57,91,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+                <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="83,91,0,28" Width="34" SelectedIndex="0" ItemsSource="{Binding RecipeCount}" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+                <ComboBox x:Name="Materials" Margin="5,26,302,99" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}" ItemsSource="{Binding Materiau}" DisplayMemberPath="nom"/>
+                <TextBox x:Name="Item_rec_manacost" Text="{Binding AlcManacost, Mode=TwoWay}" HorizontalAlignment="Left" Margin="44,119,0,5" TextWrapping="Wrap" Width="37" IsEnabled="{Binding ElementName=fromAlc, Path=IsChecked}" Visibility="{Binding ElementName=Item_rec_manacost, Path=IsEnabled, Converter={StaticResource BoolToVisible}}"/>
+                <TextBlock HorizontalAlignment="Left" Height="16" Margin="5,122,0,0" TextWrapping="Wrap" Text="Magie" VerticalAlignment="Top" Visibility="{Binding ElementName=Item_rec_manacost, Path=IsEnabled, Converter={StaticResource BoolToVisible}}"/>
+                <Button Content="⇀" HorizontalAlignment="Left" Margin="86,119,0,5" Width="23" FontSize="24" Padding="0,-8,1,1" Visibility="{Binding ElementName=Item_rec_manacost, Path=Visibility}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding Path="Text.Length" ElementName="Item_rec_manacost" Converter="{StaticResource EmptyBool}"/>
+                            <Binding ElementName="Item_rec_manacost" Path="IsEnabled"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </Grid>
+        </GroupBox>
+        <Button x:Name="new_biome" Content=" Biome " HorizontalAlignment="Left" Margin="464,179,0,0" VerticalAlignment="Top" Command="{Binding NewBiome}"/>
+        <Button Content="Save" HorizontalAlignment="Left" Height="22" Margin="662,179,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
+        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="143" Margin="10,179,0,0" VerticalAlignment="Top" Width="290">
+            <Grid>
+                <ComboBox x:Name="World_show_elem" HorizontalAlignment="Left" Margin="5,10,0,85" Width="101" SelectedValuePath="Content" SelectedValue="{Binding Show.Type, Mode=TwoWay, Converter={StaticResource SelToEnum}, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="FilterCriterias">
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                    <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBoxItem x:Name="base_show" Content="~Element~"/>
+                    <ComboBoxItem x:Name="Mine_show" Content="Mineraux"/>
+                    <ComboBoxItem x:Name="All_show" Content="Alliage"/>
+                    <ComboBoxItem x:Name="Town_show" Content="Ville"/>
+                    <ComboBoxItem x:Name="Reg_show" Content="Region"/>
+                    <ComboBoxItem x:Name="Cont_show" Content="Continent"/>
+                    <ComboBoxItem x:Name="Phen_show" Content="Phenomene"/>
+                </ComboBox>
+                <Button x:Name="World_showbut" Content="Montrer" HorizontalAlignment="Left" Height="25" Margin="5,85,0,0" VerticalAlignment="Top" Width="100" Click="Display"/>
+                <ComboBox x:Name="World_show_OptPheno" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Phen_show, Path=IsSelected}" Visibility="{Binding ElementName=Phen_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                    <System:String>~Option~</System:String>
+                    <System:String>Biomes</System:String>
+                    <System:String>Regions</System:String>
+                </ComboBox>
+                    <ComboBox x:Name="World_show_OptCont" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Cont_show, Path=IsSelected}" Visibility="{Binding ElementName=Cont_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                    <System:String>~Option~</System:String>
+                    <System:String>Biomes</System:String>
+                    <System:String>Villes</System:String>
+                    <System:String>Regions</System:String>
+                    <System:String>Origine</System:String>
+                </ComboBox>
+                <ComboBox x:Name="World_show_OptVille" SelectedIndex ="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Town_show, Path=IsSelected}" Visibility="{Binding ElementName=Town_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                    <System:String>~Option~</System:String>
+                    <System:String>Peuplade</System:String>
+                    <System:String>Type</System:String>
+                    <System:String>Region</System:String>
+                </ComboBox>
+                <ComboBox x:Name="World_show_OptAlliage" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=All_show, Path=IsSelected}" Visibility="{Binding ElementName=All_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                    <System:String>~Option~</System:String>
+                    <System:String>Procede</System:String>
+                    <System:String>Materiaux</System:String>
+                </ComboBox>
+                <ComboBox x:Name="World_show_OptMiner" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Mine_show, Path=IsSelected}" Visibility="{Binding ElementName=Mine_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                    <System:String>~Option~</System:String>
+                    <System:String>Utilisation</System:String>
+                    <System:String>Type</System:String>
+                    <System:String>Origine</System:String>
+                </ComboBox>
+                <ListBox x:Name="World_show_more" SelectionMode="Single" HorizontalAlignment="Left" Margin="111,10,0,10" Width="162"/>
+            </Grid>
+        </GroupBox>
+        <ComboBox x:Name="World_origin" Height="25" Margin="10,112,591,0" VerticalAlignment="Top" SelectedItem="{Binding SaveConti.monde, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Continent, Path=IsSelected}" Visibility="{Binding ElementName=Continent, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBoxItem Content="~Localisation~"/>
+            <System:String>Technocosme</System:String>
+            <System:String>Magocosme</System:String>
+        </ComboBox>
+        <ComboBox x:Name="World_origin_all" Height="25" Margin="134,143,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119" SelectionChanged="PlaceHolder">
+            <ComboBox.Resources>
+                <local:WorldElemWrite x:Key="AllMine"/>
+            </ComboBox.Resources>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.SelectedItem>
+                <MultiBinding Converter="{StaticResource AllMine}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="SaveMiner.origine"/>
+                    <Binding Path="SaveAll.origine"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="Elem.Type"/>
+                </MultiBinding>
+            </ComboBox.SelectedItem>
+            <ComboBox.Visibility>
+                <MultiBinding Converter="{StaticResource OrVisible}">
+                    <Binding ElementName="Alliage" Path="IsSelected"/>
+                    <Binding ElementName="Mineraux" Path="IsSelected"/>
+                </MultiBinding>
+            </ComboBox.Visibility>
+            <ComboBox.IsEnabled>
+                <MultiBinding Converter="{StaticResource Or}">
+                    <Binding ElementName="Alliage" Path="IsSelected"/>
+                    <Binding ElementName="Mineraux" Path="IsSelected"/>
+                </MultiBinding>
+            </ComboBox.IsEnabled>
+            <System:String>~Localisation~</System:String>
+            <System:String>Magocosme</System:String>
+            <System:String>Originel</System:String>
+            <System:String>Technocosme</System:String>
+            <System:String>Tous</System:String>
+        </ComboBox>
+        <TextBox x:Name="World_Cont_desc" HorizontalAlignment="Left" Height="25" Margin="10,142,0,0" TextWrapping="Wrap" Text="{Binding SaveConti.identification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="100" IsEnabled="{Binding ElementName=Continent, Path=IsSelected}" Visibility="{Binding ElementName=Continent, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <TextBlock x:Name="Worldo_Label" Text="{Binding PrintedText, Mode=TwoWay}"/>
+            </ScrollViewer>
+        </Border>
+        <GroupBox Header="Generation" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="119" Margin="10,327,0,0" VerticalAlignment="Top" Width="290">
+            <local:GenOptions x:Name="World"/>
+        </GroupBox>
+        <TextBox x:Name="min_All_Prix_mag" HorizontalAlignment="Left" Height="21" Margin="204,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" IsEnabled="{Binding ElementName=prix_mag, Path=IsEnabled}" Visibility="{Binding ElementName=prix_mag, Path=Visibility}">
+            <TextBox.Resources>
+                <local:WorldElemWrite x:Key="MagPrice"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource MagPrice}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="SaveMiner.prix_mago"/>
+                    <Binding Path="SaveAll.prix_mago"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="Elem.Type"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox x:Name="min_All_Prix_tech" HorizontalAlignment="Left" Height="21" Margin="204,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" IsEnabled="{Binding ElementName=prix_tech, Path=IsEnabled}" Visibility="{Binding ElementName=prix_tech, Path=Visibility}">
+            <TextBox.Resources>
+                <local:WorldElemWrite x:Key="TechPrice"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource TechPrice}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="SaveMiner.prix_tech"/>
+                    <Binding Path="SaveAll.prix_tech"/>
+                    <Binding ElementName="World_origin_all" Path="Height"/>
+                    <Binding Path="Elem.Type"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBlock x:Name="prix_tech" HorizontalAlignment="Left" Margin="150,35,0,0" TextWrapping="Wrap" Text="Prix tech : " VerticalAlignment="Top">
+            <TextBlock.IsEnabled>
+                <MultiBinding Converter="{StaticResource And}">
+                    <Binding ElementName="World_origin_all" Path="IsEnabled"/>
+                    <Binding ElementName="World_origin_all" Path="SelectedItem" Converter="{StaticResource BoolTech}"/>
+                </MultiBinding>
+            </TextBlock.IsEnabled>
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource AndVisible}">
+                    <Binding ElementName="World_origin_all" Path="IsEnabled"/>
+                    <Binding ElementName="World_origin_all" Path="SelectedItem" Converter="{StaticResource BoolTech}"/>
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
+        <TextBlock x:Name="prix_mag" HorizontalAlignment="Left" Margin="142,61,0,0" TextWrapping="Wrap" Text="Prix mago : " VerticalAlignment="Top">
+            <TextBlock.IsEnabled>
+                <MultiBinding Converter="{StaticResource And}">
+                    <Binding ElementName="World_origin_all" Path="IsEnabled"/>
+                    <Binding ElementName="World_origin_all" Path="SelectedItem" Converter="{StaticResource BoolMago}"/>
+                </MultiBinding>
+            </TextBlock.IsEnabled>
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource AndVisible}">
+                    <Binding ElementName="World_origin_all" Path="IsEnabled"/>
+                    <Binding ElementName="World_origin_all" Path="SelectedItem" Converter="{StaticResource BoolMago}"/>
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
+        <ComboBox x:Name="min_obt" Margin="10,112,591,0" VerticalAlignment="Top" Height="25" SelectedItem="{Binding SaveMiner.obtention, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Mineraux, Path=IsSelected}" Visibility="{Binding ElementName=Mineraux, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="PlaceHolder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBoxItem Content="~Obtention~"/>
+            <System:String>Minage</System:String>
+            <System:String>Ramassage</System:String>
+        </ComboBox>
+        <Button x:Name="new_use" Content=" Utilisation " HorizontalAlignment="Left" Margin="513,179,0,0" VerticalAlignment="Top" Command="{Binding NewUse}"/>
+        <Button x:Name="new_minType" Content=" Type de minerai " HorizontalAlignment="Left" Margin="364,179,0,0" VerticalAlignment="Top" Command="{Binding NewMine}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="305,181,0,0" TextWrapping="Wrap" Text="Nouveau :" VerticalAlignment="Top"/>
+        <CheckBox x:Name="buyable" Content="Achetable" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" IsChecked="{Binding Buyable}" Visibility="{Binding ElementName=buyable, Path=IsEnabled, Converter={StaticResource BoolToVisible}}">
+            <CheckBox.IsEnabled>
+                <MultiBinding Converter="{StaticResource Or}">
+                    <Binding ElementName="Alliage" Path="IsSelected"/>
+                    <Binding ElementName="Mineraux" Path="IsSelected"/>
+                </MultiBinding>
+            </CheckBox.IsEnabled>
+        </CheckBox>
+        <CheckBox Content="Lootable" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" IsChecked="{Binding Lootable}" IsEnabled="{Binding ElementName=buyable, Path=IsEnabled}" Visibility="{Binding ElementName=buyable, Path=Visibility}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,422 @@
+﻿<UserControl x:Class="RPG_Jahr_words.PersoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="456" d:DesignWidth="701">
+    <UserControl.Resources>
+        <local:Not x:Key="Not"/>
+        <local:CheckToVisible x:Key="BooltoVisible"/>
+        <local:StringEquals x:Key="StringEquals"/>
+        <CollectionViewSource x:Key="Origine" Source="{Binding Origines}"/>
+        <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
+        <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
+        <local:NullToFalse x:Key="NullFalse"/>
+    </UserControl.Resources>
+    <Grid>
+        <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="nom">
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Races nom="~Race~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Races}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <ComboBox x:Name="Perso_Origin" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="nom">
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Monde_w nom="~Origine~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Origine}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <ComboBox x:Name="Perso_Categ" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="type" SelectedValuePath="type">
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:PersoCategorie type="~Categorie~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource categories}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,130,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Jahr}"/>
+        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,152,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top"/>
+        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="135" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
+            <Grid>
+                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,19,0,0" VerticalAlignment="Top" Width="111" SelectedIndex="0">
+                    <ComboBoxItem Content="Categorie"/>
+                </ComboBox>
+                <ComboBox x:Name="Perso_show_Race" HorizontalAlignment="Left" Height="25" Margin="140,10,0,0" VerticalAlignment="Top" Width="128" SelectedIndex="0">
+                    <ComboBoxItem Content="~Race~"/>
+                </ComboBox>
+                <CheckBox x:Name="Perso_show_evol" Content="CheckBox" HorizontalAlignment="Left" Height="18" Margin="9,47,0,0" VerticalAlignment="Top" Width="98"/>
+                <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="140,38,0,0" VerticalAlignment="Top" Width="128" SelectedIndex="0">
+                    <ComboBoxItem Content="~Monde d'origine~"/>
+                </ComboBox>
+                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="9,83,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="190,83,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="83,83,0,0" VerticalAlignment="Top"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Generation Option" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="110" Margin="10,336,0,0" VerticalAlignment="Top" Width="290">
+            <local:GenOptions x:Name="Perso"/>
+        </GroupBox>
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <TextBlock x:Name="Perso_Label" Text="{Binding PrintedText}"/>
+            </ScrollViewer>
+        </Border>
+        <TabControl HorizontalAlignment="Left" Height="166" Margin="211,10,0,0" VerticalAlignment="Top" Width="480">
+            <TabItem Header="Stats">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBlock HorizontalAlignment="Left" Margin="10,5,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="404,5,0,0" TextWrapping="Wrap" Text="Dexterité" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="320,5,0,0" TextWrapping="Wrap" Text="Résistance" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="242,5,0,0" TextWrapping="Wrap" Text="Défense" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="163,5,0,0" TextWrapping="Wrap" Text="Puissance" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="84,5,0,0" TextWrapping="Wrap" Text="Force" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="404,90,0,0" TextWrapping="Wrap" Text="Vitesse eau" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="320,90,0,0" TextWrapping="Wrap" Text="Vitesse vol" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="242,90,0,0" TextWrapping="Wrap" Text="Vitesse sol" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="163,90,0,0" TextWrapping="Wrap" Text="Charisme" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="84,90,0,0" TextWrapping="Wrap" Text="Sagesse" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,0,0,32" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Bottom"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Pv = Endurance * 10, Stamina = Endurance * 12, Fuel Magique = Puissance*10, Precision = (Intelligence + Sagesse)*0.4 + 0.66*Dexterite " VerticalAlignment="Top" Height="41" Width="454"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Elements">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="randoElem" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="102,10,0,0" VerticalAlignment="Top" Width="122" ItemsSource="{Binding NewPerso.Perso_elemRes}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
+                                <GridViewColumn Header="Resistance" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding maitrise}" TextChanged="ElemCheck"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="229,9,0,0" VerticalAlignment="Top" Width="122" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
+                                <GridViewColumn Header="Maitrise" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding maitrise}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBox HorizontalAlignment="Left" Height="57" Margin="356,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="108"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Magie">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="randomMag" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="88,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_elemRes}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
+                                <GridViewColumn Header="Resistance" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding maitrise}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView Height="118" Margin="242,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
+                                <GridViewColumn Header="Maitrise" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding maitrise}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBlock HorizontalAlignment="Left" Margin="385,34,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="94" Width="79"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Sorts">
+                <Grid Background="#FFE5E5E5">
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="306,10,0,0" VerticalAlignment="Top" Width="158">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" Width="Auto"/>
+                                <!--<GridViewColumn Header="Nom" Width="Auto"/>
+                                <GridViewColumn Header="Nom" Width="Auto"/>-->
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ComboBox HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="133" DisplayMemberPath="ecole" SelectedIndex="0">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Magie" Source="{Binding Magie}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Magie_type ecole="~Ecole de magie~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Magie}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="143,10,0,0" VerticalAlignment="Top" Width="158">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" Width="Auto"/>
+                                <!--<GridViewColumn Header="Nom" Width="Auto"/>
+                                <GridViewColumn Header="Nom" Width="Auto"/>-->
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Combo">
+                <Grid Background="#FFE5E5E5">
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="307,10,0,0" VerticalAlignment="Top" Width="157">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" Width="Auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ComboBox HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Combocats" Source="{Binding Categoriescombo}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:ComboCat categorie="~Type de Combo~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Combocats}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="139,10,0,0" VerticalAlignment="Top" Width="157">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" Width="Auto"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Stuff">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="ChosenStuff" Height="118" Margin="312,10,5,0" VerticalAlignment="Top" ItemsSource="{Binding Stuff}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Stuff.Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding Stuff.nom}"/>
+                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding Stuff.origine}"/>
+                                <GridViewColumn Header="Nombre" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding Nombre}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ComboBox x:Name="Stufftype" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="91" SelectedItem="0">
+                        <ComboBoxItem>~Type d'objet~</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffAll">Alliages</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffWeap">Armes</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffArmor">Armures</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffJew">Bijoux</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffCons">Consommable</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffLoot">Loot</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffBook">Livre</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffMetal">Métaux</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffPier">Pierres</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffVeg">Végétaux</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffMun">Munitions</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffPar">Parchemins</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffVeh">Véhicule</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffCom">Communs</ComboBoxItem>
+                        <ComboBoxItem x:Name="StuffCont">Conteneur</ComboBoxItem>
+                    </ComboBox>
+                    <ListView x:Name="StuffList" Margin="133,10,197,10" ItemsSource="{Binding StuffList}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding origine}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="add_item_but_Copy" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,58,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <RadioButton Content="&lt;" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top"/>
+                    <RadioButton Content="=" HorizontalAlignment="Left" Margin="37,37,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                    <RadioButton Content=">" HorizontalAlignment="Left" Margin="69,37,0,0" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="5,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="69,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="69,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="101,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="37,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="5,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="37,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="99,85,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Loot">
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="Loottype" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="93">
+                        <System:String>~Type d'objet~</System:String>
+                        <System:String>Alliages</System:String>
+                        <System:String>Armes</System:String>
+                        <System:String>Armures</System:String>
+                        <System:String>Bijoux</System:String>
+                        <System:String>Consommable</System:String>
+                        <System:String>Loot</System:String>
+                        <System:String>Livre</System:String>
+                        <System:String>Métaux</System:String>
+                        <System:String>Pierres</System:String>
+                        <System:String>Végétaux</System:String>
+                        <System:String>Munitions</System:String>
+                        <System:String>Parchemins</System:String>
+                        <System:String>Véhicule</System:String>
+                        <System:String>Communs</System:String>
+                        <System:String>Conteneur</System:String>
+                    </ComboBox>
+                    <ListView x:Name="PersoLoot" Height="118" Margin="186,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Loots}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Loot.Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding Loot.nom}"/>
+                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding Loot.origine}"/>
+                                <GridViewColumn Header="Chances" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding Chance}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Nombre" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding Quantite}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="ListLoot" Margin="10,37,323,10" ItemsSource="{Binding LootList}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding origine}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,69,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Trais">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="Traits" HorizontalAlignment="Left" Height="118" Margin="61,10,0,0" VerticalAlignment="Top" Width="138" ItemsSource="{Binding Trais}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content=" Detail " Tag="{Binding nom}" Click="TraitDetail"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBlock x:Name="Avantages" HorizontalAlignment="Left" Margin="204,10,0,0" TextWrapping="Wrap" Text="Avantages:" VerticalAlignment="Top" Height="118" Width="117"/>
+                    <TextBlock x:Name="Inconvenient" HorizontalAlignment="Left" Margin="326,10,0,0" TextWrapping="Wrap" Text="Inconvenient:" VerticalAlignment="Top" Height="118" Width="117"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Armes">
+                <Grid Background="#FFE5E5E5">
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="135,10,0,0" VerticalAlignment="Top" Width="183" ItemsSource="{Binding NewPerso.Perso_weap_Master}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Arme" Width="Auto" DisplayMemberBinding="{Binding Weapon_type.type}"/>
+                                <GridViewColumn Header="Type" Width="Auto" DisplayMemberBinding="{Binding Weapon_type.categorie}"/>
+                                <GridViewColumn Header="Maitrise" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Width="20" Text="{Binding maitrise}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <CheckBox Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Background">
+                <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
+        <Button Content=" Categorie " HorizontalAlignment="Left" Margin="476,181,0,0" VerticalAlignment="Top" Command="{Binding NewCat}"/>
+        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Bestiaire_Beast nom="~Bête~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Beasts_pets}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <Button Content=" Creature " HorizontalAlignment="Left" Margin="381,181,0,0" VerticalAlignment="Top" Command="{Binding NewCreature}"/>
+        <ComboBox x:Name="PersCrea" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=PersCrea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Creatures" Source="{Binding Creature}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Perso_Creature nom="~Creature~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Creatures}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+    </Grid>
+</UserControl>

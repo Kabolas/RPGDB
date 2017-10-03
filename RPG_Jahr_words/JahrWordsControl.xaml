@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="RPG_Jahr_words.JahrWordsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
+             d:DesignHeight="456" d:DesignWidth="701">
+    <UserControl.Resources>
+        <local:Not x:Key="Not"/>
+        <local:DisplayFromBool x:Key="Display"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <local:CheckToVisible x:Key="BoolToVisibility"/>
+            <local:CommonToAlph x:Key="ToJahr"/>
+            <local:Not x:Key="Not"/>
+            <local:DisplayFromBool x:Key="Display"/>
+        </Grid.Resources>
+        <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Width="117" Margin="10,10,0,0" Height="25" VerticalAlignment="Top">
+            <TextBox.Resources>
+                <local:WorldOrWord x:Key="WordOrWorld"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource WordOrWorld}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SaveMonde.mot_monde" Mode="TwoWay"/>
+                    <Binding Path="SaveMot.mo_initial" Mode="TwoWay"/>
+                    <Binding Path="IsWorld" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="132,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <TextBox x:Name="genwordnorm" Height="25" Margin="273,10,319,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            <TextBox.Resources>
+                <local:WorldOrWord x:Key="WordOrWorld"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource WordOrWorld}" Mode="TwoWay">
+                    <Binding Path="SaveMonde.translatedWord"/>
+                    <Binding Path="SaveMot.translatedWord"/>
+                    <Binding Path="IsWorld" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox x:Name="geneWord" TextWrapping="Wrap" FontFamily="RPG" HorizontalAlignment="Left" Width="136" Margin="555,10,0,0" IsEnabled="False" Text="{Binding ElementName=genwordnorm, Path=Text, Converter={StaticResource ToJahr}, ConverterParameter='Jahr'}" Height="25" VerticalAlignment="Top"/>
+        <Button Content="Sauvegarder" Margin="607,0,10,289" Height="25" VerticalAlignment="Bottom" Command="{Binding Save}"/>
+        <ComboBox x:Name="wordType" Margin="10,42,0,0" HorizontalAlignment="Left" Width="101" DisplayMemberPath="mot_type" SelectedValuePath="mot_type" SelectedItem="{Binding SaveMot.Type1, Mode=OneWayToSource}" SelectedValue="{Binding SaveMot.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=IsWorld, Converter={StaticResource Not}, Path=IsChecked}" Height="25" VerticalAlignment="Top">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Types" Source="{Binding Types}"/>
+            </ComboBox.Resources>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Type mot_type="~Type de mot~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Types}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <Button Content="+" Margin="273,172,0,0" Height="25" FontSize="36" Padding="-1,-16,1,1" HorizontalAlignment="Left" Width="25" VerticalAlignment="Top" Command="{Binding NewChamp}"/>
+        <Button Content="+" HorizontalAlignment="Left" Height="25" Margin="116,43,0,0" Width="25" FontSize="36" Padding="-1,-16,1,1" VerticalAlignment="Top" Command="{Binding NewType}"/>
+        <ScrollViewer Margin="322,0,5,319" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="94" VerticalAlignment="Bottom">
+            <TextBlock x:Name="infos" Grid.ColumnSpan="3" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Text="Informations: " VerticalAlignment="Bottom" IsEnabled="False"/>
+        </ScrollViewer>
+        <GroupBox BorderBrush="Black" BorderThickness="1" Header="Display Option" HorizontalAlignment="Left" Margin="10,205,0,119" Width="290">
+            <Grid>
+                <Button Content="Chants lexicaux" HorizontalAlignment="Left" Margin="5,10,0,0" Height="20" VerticalAlignment="Top" Click="ChmpDisp"/>
+                <Button Content="Categories" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,10,0,0" Click="CatDisp"/>
+                <ComboBox x:Name="type" HorizontalAlignment="Left" Margin="5,35,0,0" VerticalAlignment="Top" Width="105" DisplayMemberPath="mot_type" SelectedIndex="0" IsEnabled="{Binding ElementName=ShowMot, Path=IsChecked}">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Types" Source="{Binding Types}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Type mot_type="Tout types"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Types}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <ComboBox x:Name="showchamp" HorizontalAlignment="Left" Margin="157,35,0,0" DisplayMemberPath="Registre" VerticalAlignment="Top" Width="116" SelectedIndex="0" IsEnabled="{Binding ElementName=ShowMot, Path=IsChecked}" Visibility="{Binding ElementName=ShowMot, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Chmp" Source="{Binding Champs}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:ChampLex Registre="~Chant voulu~"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <ComboBox x:Name="showcat" HorizontalAlignment="Left" Margin="157,35,0,0" DisplayMemberPath="Cat_monde" VerticalAlignment="Top" Width="116" SelectedIndex="0" IsEnabled="{Binding ElementName=ShowWorld, Path=IsChecked}" Visibility="{Binding ElementName=ShowWorld, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Cat" Source="{Binding Cats}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Categories_monde Cat_monde="~Categorie voulue~"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <Button Content="Mots Enregistrés" Margin="168,0,5,10" Click="Display" Height="25" VerticalAlignment="Bottom"/>
+                <Button Content="Regle de Grammaire" HorizontalAlignment="Left" Margin="161,10,0,0" VerticalAlignment="Top" Click="Regle_Click"/>
+                <RadioButton x:Name="ShowMot" Content="Mots" Margin="5,0,227,28" Height="15" VerticalAlignment="Bottom" IsChecked="True"/>
+                <RadioButton x:Name="ShowWorld" Content="Monde" Margin="57,0,164,28" Height="15" VerticalAlignment="Bottom"/>
+                <RadioButton Content="Tous" HorizontalAlignment="Left" Margin="5,0,0,10" Height="15" VerticalAlignment="Bottom"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="104" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="290">
+            <local:GenOptions x:Name="Jahr_dic"/>
+        </GroupBox>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="322,0,10,10" Height="274" VerticalAlignment="Bottom">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="label1" IsEnabled="False" Text="{Binding PrintedText, Mode=TwoWay}"/>
+            </ScrollViewer>
+        </Border>
+        <ListBox x:Name="List" ItemsSource="{Binding Cats}" DisplayMemberPath="Cat_monde" HorizontalAlignment="Left" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedCat}"  SelectionMode="Multiple" Margin="146,42,0,289" Width="152" ScrollViewer.VerticalScrollBarVisibility="Auto" IsEnabled="{Binding ElementName=IsWorld, Path=IsChecked}" Visibility="{Binding ElementName=List, Path=IsEnabled, Converter={StaticResource BoolToVisibility}}"/>
+        <RadioButton x:Name="IsWorld" Content="Monde" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" IsChecked="{Binding IsWorld}" Checked="IsWorld_Checked" Unchecked="IsWorld_Unchecked"/>
+        <RadioButton Content="Mots" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Checked="IsWorld_Unchecked"/>
+        <ListBox x:Name="List_Copy" ItemsSource="{Binding Champs}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedChmp}" DisplayMemberPath="Registre"  HorizontalAlignment="Left" SelectionMode="Multiple" Margin="146,42,0,289" Width="152" ScrollViewer.VerticalScrollBarVisibility="Auto" IsEnabled="{Binding ElementName=IsWorld, Path=IsChecked, Converter={StaticResource Not}}" Visibility="{Binding ElementName=List_Copy, Path=IsEnabled, Converter={StaticResource BoolToVisibility}}"/>
+    </Grid>
+</UserControl>

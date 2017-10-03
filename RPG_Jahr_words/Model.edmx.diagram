@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="511d8b662c85485bb5529176bfe6435a" Name="Diagram1">
+        <EntityTypeShape EntityType="RPGModel.Alliage" Width="1.5" PointX="8.25" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Arme_distance" Width="1.5" PointX="16.5" PointY="40.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Armes_cac" Width="1.5" PointX="19.5" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Armes_magique" Width="1.5" PointX="16.5" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Armor_cat" Width="1.5" PointX="6" PointY="44.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Best_cat" Width="1.5" PointX="0.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Best_stats" Width="1.5" PointX="5.25" PointY="51.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Bijoux" Width="1.5" PointX="11.25" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Bijoux_place" Width="1.5" PointX="9" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Biomes" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Boolean" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Capacites_armor" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Carburant" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Categories_monde" Width="1.5" PointX="2.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.ChampLex" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Ciblage" Width="1.5" PointX="3.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Comportements" Width="1.5" PointX="0.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Conso_type" Width="1.5" PointX="9" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Conteneurs" Width="1.5" PointX="8.25" PointY="45.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Continent" Width="1.5" PointX="3" PointY="48.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Crowd_control" Width="1.5" PointX="3.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Degat_type" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Effets" Width="1.5" PointX="9" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Enchant_Effets" Width="1.5" PointX="5.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Enchantements" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Etat" Width="1.5" PointX="6.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Loot" Width="1.5" PointX="8.25" PointY="52.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Mag_element" Width="1.5" PointX="3.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Magie_type" Width="1.5" PointX="3.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Maniabilite" Width="1.5" PointX="12" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Minerai_type" Width="1.5" PointX="9" PointY="54.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Mineraux" Width="1.5" PointX="11.25" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Mode_deplacement" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Monde_w" Width="1.5" PointX="0.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Munition" Width="1.5" PointX="14.25" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Munition_type" Width="1.5" PointX="12" PointY="41.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Parchemins" Width="1.5" PointX="8.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Peuplade" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Phenomene" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Piece" Width="1.5" PointX="6" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Procede" Width="1.5" PointX="3.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Region" Width="1.5" PointX="5.25" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Reload_cat" Width="1.5" PointX="14.25" PointY="48.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Stat" Width="1.5" PointX="3.75" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Type" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Usage" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Vehicule" Width="1.5" PointX="14.25" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Ville" Width="1.5" PointX="7.5" PointY="48.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Ville_type" Width="1.5" PointX="5.25" PointY="56.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Voies" Width="1.5" PointX="8.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPGModel.Weapon_type" Width="1.5" PointX="14.25" PointY="45.375" IsExpanded="true" />
+        <AssociationConnector Association="RPGModel.FK_dist_waepon_type" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_mun_weap" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_reload_time" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_cac_waepon_type" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_mag_waepon_type" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_jewelry_place" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_Continent_Monde" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_Region_Continent" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_enchant_efect" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_elem_1_mun" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_elem_2_mun" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.fk_maniabilite" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_Mineraux_Totype" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_type_de_mun" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_Ville_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="RPGModel.FK_Ville_Peuplade" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RPGModel.Tailles" Width="1.5" PointX="0.75" PointY="11.875" />
+        <AssociationConnector Association="RPGModel.FK_size_cont" />
+        <EntityTypeShape EntityType="RPGModel.ComboCat" Width="1.5" PointX="11.375" PointY="10.875" />
+        <EntityTypeShape EntityType="RPGModel.Buff" Width="1.5" PointX="3.75" PointY="44.625" />
+        <EntityTypeShape EntityType="RPGModel.Combo" Width="1.5" PointX="16.625" PointY="22.125" />
+        <EntityTypeShape EntityType="RPGModel.Sorts" Width="1.5" PointX="6" PointY="16.375" />
+        <AssociationConnector Association="RPGModel.FK_combo_buff" />
+        <AssociationConnector Association="RPGModel.FK_spell_buff" />
+        <AssociationConnector Association="RPGModel.FK_combo_cible" />
+        <AssociationConnector Association="RPGModel.FK_spell_cible" />
+        <AssociationConnector Association="RPGModel.fk__combo_cat" />
+        <AssociationConnector Association="RPGModel.FK_combo_cc" />
+        <AssociationConnector Association="RPGModel.FK_combo_etat" />
+        <AssociationConnector Association="RPGModel.fk_combo_stat" />
+        <AssociationConnector Association="RPGModel.FK_spell_cc" />
+        <AssociationConnector Association="RPGModel.FK_spell_elem" />
+        <AssociationConnector Association="RPGModel.FK_spell_ecole" />
+        <AssociationConnector Association="RPGModel.FK_spell_parchemin" />
+        <AssociationConnector Association="RPGModel.fk_spell_stat" />
+        <EntityTypeShape EntityType="RPGModel.Capacites_best" Width="1.5" PointX="10.125" PointY="13.75" />
+        <EntityTypeShape EntityType="RPGModel.Beast_cap_Assoc" Width="1.5" PointX="12.375" PointY="24.5" />
+        <AssociationConnector Association="RPGModel.Fk_cap_beast" />
+        <EntityTypeShape EntityType="RPGModel.Bestiaire_Beast" Width="1.5" PointX="3" PointY="32.5" />
+        <AssociationConnector Association="RPGModel.FK_beast_caps" />
+        <AssociationConnector Association="RPGModel.FK_cat_beast" />
+        <AssociationConnector Association="RPGModel.FK_beast_stats" />
+        <AssociationConnector Association="RPGModel.FK_evolution" />
+        <AssociationConnector Association="RPGModel.FK_origin_Beast" />
+        <EntityTypeShape EntityType="RPGModel.CatWorldAssoc" Width="1.5" PointX="3.375" PointY="0.5" />
+        <EntityTypeShape EntityType="RPGModel.ChampLexicAssoc" Width="1.5" PointX="5.25" PointY="6.625" />
+        <EntityTypeShape EntityType="RPGModel.Monde" Width="1.5" PointX="2.875" PointY="30.125" />
+        <EntityTypeShape EntityType="RPGModel.Mots" Width="1.5" PointX="3" PointY="2.75" />
+        <AssociationConnector Association="RPGModel.FK_world_cat" />
+        <AssociationConnector Association="RPGModel.Fk_cat_world" />
+        <AssociationConnector Association="RPGModel.FK_champ" />
+        <AssociationConnector Association="RPGModel.Fk_mot" />
+        <AssociationConnector Association="RPGModel.FK_Mots_Type" />
+        <EntityTypeShape EntityType="RPGModel.ElemResArmorAssoc" Width="1.5" PointX="19.5" PointY="25.5" />
+        <AssociationConnector Association="RPGModel.Fk_elem_armor" />
+        <EntityTypeShape EntityType="RPGModel.Beast_elem" Width="1.5" PointX="6" PointY="36" />
+        <EntityTypeShape EntityType="RPGModel.Beast_elemRes" Width="1.5" PointX="12" PointY="21" />
+        <EntityTypeShape EntityType="RPGModel.Beast_mago" Width="1.5" PointX="6" PointY="29.625" />
+        <EntityTypeShape EntityType="RPGModel.Beast_magoRes" Width="1.5" PointX="6" PointY="32.625" />
+        <EntityTypeShape EntityType="RPGModel.Pers_mago" Width="1.5" PointX="26.875" PointY="24.375" />
+        <EntityTypeShape EntityType="RPGModel.Pers_magoRes" Width="1.5" PointX="26.875" PointY="27.375" />
+        <EntityTypeShape EntityType="RPGModel.Pers_stats" Width="1.5" PointX="26.875" PointY="36.75" />
+        <EntityTypeShape EntityType="RPGModel.Perso_elem" Width="1.5" PointX="29.875" PointY="22.75" />
+        <EntityTypeShape EntityType="RPGModel.Perso_elemRes" Width="1.5" PointX="29.875" PointY="19.75" />
+        <EntityTypeShape EntityType="RPGModel.PersoCategorie" Width="1.5" PointX="22.375" PointY="26.5" />
+        <EntityTypeShape EntityType="RPGModel.Race_ElemMaster" Width="1.5" PointX="24.625" PointY="15.375" />
+        <EntityTypeShape EntityType="RPGModel.Race_Magie" Width="1.5" PointX="27.625" PointY="18.5" />
+        <EntityTypeShape EntityType="RPGModel.Race_Stat_Cap" Width="1.5" PointX="24.625" PointY="19.25" />
+        <EntityTypeShape EntityType="RPGModel.Races" Width="1.5" PointX="22.375" PointY="14.875" />
+        <EntityTypeShape EntityType="RPGModel.Trais" Width="1.5" PointX="3.375" PointY="10.75" />
+        <AssociationConnector Association="RPGModel.FK_beast_elem" />
+        <AssociationConnector Association="RPGModel.FK_elem_beast" />
+        <AssociationConnector Association="RPGModel.FK_beast_reselem" />
+        <AssociationConnector Association="RPGModel.FK_reselem_beast" />
+        <AssociationConnector Association="RPGModel.FK_beast_magie" />
+        <AssociationConnector Association="RPGModel.FK_magie_beast" />
+        <AssociationConnector Association="RPGModel.FK_beast_magieres" />
+        <AssociationConnector Association="RPGModel.FK_magieres_beast" />
+        <AssociationConnector Association="RPGModel.FK_elem_pers" />
+        <AssociationConnector Association="RPGModel.Fk_elem_race" />
+        <AssociationConnector Association="RPGModel.FK_reselem_pers" />
+        <AssociationConnector Association="RPGModel.FK_magie_maitrise" />
+        <AssociationConnector Association="RPGModel.FK_magie_pers" />
+        <AssociationConnector Association="RPGModel.FK_magieres_pers" />
+        <AssociationConnector Association="RPGModel.Fk_race_elem" />
+        <AssociationConnector Association="RPGModel.FK_Race_magie_stat" />
+        <AssociationConnector Association="RPGModel.FK_Race_stat" />
+        <EntityTypeShape EntityType="RPGModel.Items" Width="1.5" PointX="9" PointY="16.625" />
+        <AssociationConnector Association="RPGModel.FK_all_item" />
+        <AssociationConnector Association="RPGModel.fk_bijoux_item" />
+        <AssociationConnector Association="RPGModel.FK_item_containing" />
+        <AssociationConnector Association="RPGModel.FK_Item_loot" />
+        <AssociationConnector Association="RPGModel.FK_item_miner" />
+        <AssociationConnector Association="RPGModel.FK_item_munition" />
+        <AssociationConnector Association="RPGModel.FK_item_Origin" />
+        <AssociationConnector Association="RPGModel.FK_item_parchemin" />
+        <AssociationConnector Association="RPGModel.FK_size_cat" />
+        <AssociationConnector Association="RPGModel.fk_vehicule_item" />
+        <EntityTypeShape EntityType="RPGModel.Armory" Width="1.5" PointX="17.25" PointY="30.375" />
+        <EntityTypeShape EntityType="RPGModel.Consommables" Width="1.5" PointX="16.25" PointY="13.25" />
+        <EntityTypeShape EntityType="RPGModel.Idiome" Width="1.5" PointX="14" PointY="13" />
+        <EntityTypeShape EntityType="RPGModel.Weaponry" Width="1.5" PointX="13.25" PointY="15.375" />
+        <AssociationConnector Association="RPGModel.FK_dist_weapon" />
+        <AssociationConnector Association="RPGModel.FK_cac_weapon" />
+        <AssociationConnector Association="RPGModel.FK_mag_weapon" />
+        <AssociationConnector Association="RPGModel.FK_armor_categorie" />
+        <AssociationConnector Association="RPGModel.FK_amory_item" />
+        <AssociationConnector Association="RPGModel.FK_armor_elem" />
+        <AssociationConnector Association="RPGModel.FK_armor_piece" />
+        <AssociationConnector Association="RPGModel.FK_conso_typ" />
+        <AssociationConnector Association="RPGModel.FK_conId" />
+        <AssociationConnector Association="RPGModel.FK_consoeffet1" />
+        <AssociationConnector Association="RPGModel.FK_consoeffet2" />
+        <AssociationConnector Association="RPGModel.FK_item_weapon" />
+        <AssociationConnector Association="RPGModel.FK_weap_elem1" />
+        <AssociationConnector Association="RPGModel.FK_weap_elem2" />
+        <EntityTypeShape EntityType="RPGModel.Book_type" Width="1.5" PointX="17.25" PointY="19.625" />
+        <EntityTypeShape EntityType="RPGModel.Livre" Width="1.5" PointX="19.5" PointY="28.375" />
+        <AssociationConnector Association="RPGModel.FK_booktype" />
+        <AssociationConnector Association="RPGModel.FK_bookIdiome" />
+        <AssociationConnector Association="RPGModel.FK_bookId" />
+        <AssociationConnector Association="RPGModel.FK_bookraiset1" />
+        <AssociationConnector Association="RPGModel.FK_bookraiset2" />
+        <EntityTypeShape EntityType="RPGModel.Perso_Creature" Width="1.5" PointX="22.375" PointY="23.625" />
+        <EntityTypeShape EntityType="RPGModel.Perso_weap_Master" Width="1.5" PointX="26.875" PointY="33.25" />
+        <AssociationConnector Association="RPGModel.Fk_weap_perso" />
+        <EntityTypeShape EntityType="RPGModel.Persos" Width="1.5" PointX="24.625" PointY="24.875" />
+        <AssociationConnector Association="RPGModel.Fk_perso_spece" />
+        <AssociationConnector Association="RPGModel.FK_origin_Pers" />
+        <AssociationConnector Association="RPGModel.FK_pers_magie" />
+        <AssociationConnector Association="RPGModel.FK_pers_magieres" />
+        <AssociationConnector Association="RPGModel.FK_Pers_stats" />
+        <AssociationConnector Association="RPGModel.Fk_perso_crea" />
+        <AssociationConnector Association="RPGModel.FK_pers_elem" />
+        <AssociationConnector Association="RPGModel.FK_pers_reselem" />
+        <AssociationConnector Association="RPGModel.FK_perso_weap" />
+        <AssociationConnector Association="RPGModel.FK_cat_Pers" />
+        <AssociationConnector Association="RPGModel.Fk_perso_race" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

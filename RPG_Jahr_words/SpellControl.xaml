@@ -1,0 +1,546 @@
+﻿<UserControl x:Class="RPG_Jahr_words.SpellControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="456" d:DesignWidth="701">
+    <Grid>
+        <Grid.Resources>
+            <local:ComboOrSpell x:Key="ComboOrSpell"/>
+            <local:SelectedToVisible x:Key="BoolToVisibility"/>
+            <local:Or x:Key="Or"/>
+            <local:And x:Key="And"/>
+            <local:IntToBool x:Key="Int"/>
+            <local:ComboToStats x:Key="SpellStats"/>
+            <CollectionViewSource x:Key="StatSpell" Source="{Binding StatMag}"/>
+            <CollectionViewSource x:Key="StatCombo" Source="{Binding StatPhys}"/>
+        </Grid.Resources>
+        <Grid.Background>
+            <ImageBrush ImageSource="main canalisation.jpg" TileMode="FlipX"/>
+        </Grid.Background>
+        <RadioButton x:Name="Spell_check" Content="Sort" HorizontalAlignment="Left" Margin="80,35,0,0" VerticalAlignment="Top" IsChecked="{Binding IsSpell, Mode=TwoWay}" Checked="Combo_check_Unchecked"/>
+        <GroupBox Header="Origine du sort" HorizontalAlignment="Left" Height="65" Margin="133,67,0,0" VerticalAlignment="Top" Width="122" Visibility="{Binding ElementName=Spell_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}" IsEnabled="{Binding ElementName=Spell_check, Path=IsChecked}">
+            <Grid>
+                <RadioButton Content="Originel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" IsChecked="{Binding FromOri, Mode=TwoWay}"/>
+                <RadioButton Content="Magocosme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" IsChecked="{Binding FromMago, Mode=TwoWay}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="borderSpell" Header="Details" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="181" Margin="260,10,0,0" VerticalAlignment="Top" Width="431">
+            <Grid>
+                <TextBlock x:Name="bordertitle" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sort" VerticalAlignment="Top" Margin="10,2,0,0"/>
+                <ComboBox x:Name="Spell_Cc" HorizontalAlignment="Left" Margin="5,72,0,0" VerticalAlignment="Top" Width="107" Height="25" DisplayMemberPath="CC" SelectedValuePath="CC" SelectionChanged="Placeholder">
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.Resources>
+                        <CollectionViewSource Source="{Binding CCs}" x:Key="CCs"/>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                        <local:ComboOrSpell x:Key="ItemSelected" OneToSource="True"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Crowd_control CC="~Crowd Control~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource CCs}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                    <ComboBox.SelectedItem>
+                        <MultiBinding Converter="{StaticResource ItemSelected}" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.Crowd_control"/>
+                            <Binding Path="SaveSort.Crowd_control"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedItem>
+                    <ComboBox.SelectedValue>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.Cc"/>
+                            <Binding Path="SaveSort.Cc"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+                <TextBox x:Name="Cc_perc" HorizontalAlignment="Left" Height="22" Margin="184,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderBrush="Aqua" IsEnabled="{Binding ElementName=Spell_Cc, Path=SelectedIndex}">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.Cc_chance"/>
+                            <Binding Path="SaveSort.Cc_chance"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="Cc_dur" HorizontalAlignment="Left" Height="22" Margin="277,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderBrush="Green" IsEnabled="{Binding ElementName=Spell_Cc, Path=SelectedIndex}">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.Cc_duree" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.Cc_duree" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock x:Name="Cc_perc_text" HorizontalAlignment="Left" Margin="117,79,0,0" TextWrapping="Wrap" Text="Chance (%)" VerticalAlignment="Top"/>
+                <TextBlock x:Name="Cc_dur_text" HorizontalAlignment="Left" Margin="237,79,0,0" TextWrapping="Wrap" Text="Durée " VerticalAlignment="Top"/>
+                <ComboBox x:Name="Sort_Buff" HorizontalAlignment="Left" Margin="5,102,0,0" VerticalAlignment="Top" Width="107" Height="25" SelectedValuePath="nom" DisplayMemberPath="nom" SelectionChanged="Placeholder">
+                    <ComboBox.Resources>
+                        <CollectionViewSource Source="{Binding Buffs}" x:Key="Buffs"/>
+                        <local:ComboOrSpell x:Key="ItemSelected" OneToSource="True"/>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </ComboBox.Resources>
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Buff nom="~Buff/DeBuff~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Buffs}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                    <ComboBox.SelectedItem>
+                        <MultiBinding Converter="{StaticResource ItemSelected}" Mode="OneWayToSource">
+                            <Binding Path="SaveCombo.Buff1"/>
+                            <Binding Path="SaveSort.Buff1"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedItem>
+                    <ComboBox.SelectedValue>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay">
+                            <Binding Path="SaveCombo.buff"/>
+                            <Binding Path="SaveSort.buff"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+                <TextBox x:Name="Buff_perc" HorizontalAlignment="Left" Height="22" Margin="184,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderBrush="Aqua" IsEnabled="{Binding ElementName=Sort_Buff, Path=SelectedIndex}">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.buff_chance" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.buff_chance" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="Buff_dur" HorizontalAlignment="Left" Height="22" Margin="277,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderBrush="Green" IsEnabled="{Binding ElementName=Sort_Buff, Path=SelectedIndex}">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.buff_duree" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.buff_duree" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock x:Name="Buff_perc_text" HorizontalAlignment="Left" Margin="117,109,0,0" TextWrapping="Wrap" Text="Chance (%)" VerticalAlignment="Top"/>
+                <TextBlock x:Name="Buff_dur_text" HorizontalAlignment="Left" Margin="237,109,0,0" TextWrapping="Wrap" Text="Durée " VerticalAlignment="Top"/>
+                <ComboBox x:Name="Sort_elem" HorizontalAlignment="Left" Margin="5,132,0,0" VerticalAlignment="Top" Width="87" Height="25" SelectedValue="{Binding SaveSort.element, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="element" SelectedItem="{Binding SaveSort.Mag_element, Mode=OneWayToSource}" IsEnabled="{Binding ElementName=Spell_check, Path=IsChecked}" Visibility="{Binding ElementName=Spell_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}" DisplayMemberPath="element">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Element" Source="{Binding Path=Elements}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Mag_element element="~Element~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Element}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <TextBox x:Name="Sort_elem_perc" HorizontalAlignment="Left" Height="22" Margin="168,135,0,0" TextWrapping="Wrap" Text="{Binding SaveSort.etat_chance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40" BorderBrush="Aqua" Visibility="{Binding ElementName=Spell_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="Spell_check" Path="IsChecked"/>
+                            <Binding ElementName="Sort_elem" Path="SelectedIndex" Converter="{StaticResource Int}"/>
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                </TextBox>
+                <TextBox x:Name="Sort_elem_dur" HorizontalAlignment="Left" Height="22" Margin="261,135,0,0" TextWrapping="Wrap" Text="{Binding SaveSort.etat_duree, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40" BorderBrush="Green" Visibility="{Binding ElementName=Spell_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="Spell_check" Path="IsChecked"/>
+                            <Binding ElementName="Sort_elem" Path="SelectedIndex" Converter="{StaticResource Int}"/>
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                </TextBox>
+                <TextBlock  HorizontalAlignment="Left" Margin="101,138,0,0" TextWrapping="Wrap" Text="Chance (%)" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="221,138,0,0" TextWrapping="Wrap" Text="Durée " VerticalAlignment="Top"/>
+                <ComboBox x:Name="Combo_etat" HorizontalAlignment="Left" Margin="5,132,0,0" VerticalAlignment="Top" Width="87" Height="25" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" DisplayMemberPath="etat1" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}"
+                          SelectionChanged="Placeholder" SelectedValuePath="etat1" SelectedItem="{Binding SaveCombo.Etat1, Mode=OneWayToSource}" SelectedValue="{Binding SaveCombo.etat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.Resources>
+                        <CollectionViewSource Source="{Binding States}" x:Key="States"/>
+                    </ComboBox.Resources>
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Etat etat1="~Etat~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource States}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <TextBox x:Name="Combo_etat_perc" HorizontalAlignment="Left" Height="22" Margin="168,135,0,0" TextWrapping="Wrap" Text="{Binding SaveCombo.etat_chance, Mode=TwoWay}" VerticalAlignment="Top" Width="40" BorderBrush="Aqua" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="Combo_check" Path="IsChecked"/>
+                            <Binding ElementName="Combo_etat" Path="SelectedIndex" Converter="{StaticResource Int}"/>
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                </TextBox>
+                <TextBox x:Name="Combo_etat_dur" HorizontalAlignment="Left" Height="22" Margin="261,135,0,0" TextWrapping="Wrap" Text="{Binding SaveCombo.etat_duree, Mode=TwoWay}" VerticalAlignment="Top" Width="40" BorderBrush="Green" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}">
+                    <TextBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="Combo_check" Path="IsChecked"/>
+                            <Binding ElementName="Combo_etat" Path="SelectedIndex" Converter="{StaticResource Int}"/>
+                        </MultiBinding>
+                    </TextBox.IsEnabled>
+                </TextBox>
+                <TextBox x:Name="Mana_cost" HorizontalAlignment="Left" Height="23" Margin="75,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderBrush="Blue">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" >
+                            <Binding Path="SaveCombo.mana_cout" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.mana_cost" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="Stamina_cost" HorizontalAlignment="Left" Height="23" Margin="165,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderBrush="Orange">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.stamina_cout" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.stamina_cout" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="5,48,0,0" TextWrapping="Wrap" Text="Cout :" VerticalAlignment="Top"/>
+                <ComboBox x:Name="ciblage" HorizontalAlignment="Left" Margin="322,135,0,0" VerticalAlignment="Top" Width="97" SelectedValuePath="ciblage1" DisplayMemberPath="ciblage1" SelectionChanged="Placeholder">
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.Resources>
+                        <CollectionViewSource Source="{Binding Ciblages}" x:Key="Cible"/>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                        <local:ComboOrSpell x:Key="ItemSelected" OneToSource="True"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Ciblage ciblage1="~Ciblage~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Cible}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                    <ComboBox.SelectedItem>
+                        <MultiBinding Converter="{StaticResource ItemSelected}" Mode="OneWayToSource" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.Ciblage1" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.Ciblage1" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedItem>
+                    <ComboBox.SelectedValue>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.ciblage" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.ciblage" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+                <TextBlock  HorizontalAlignment="Left" Margin="41,48,0,0" TextWrapping="Wrap" Text="Mana" VerticalAlignment="Top"/>
+                <TextBlock  HorizontalAlignment="Left" Margin="117,48,0,0" TextWrapping="Wrap" Text="Satmina" VerticalAlignment="Top"/>
+                <TextBlock  HorizontalAlignment="Left" Margin="10,23,0,0" TextWrapping="Wrap" Text="Attaque" VerticalAlignment="Top"/>
+                <TextBlock  HorizontalAlignment="Left" Margin="97,23,0,0" TextWrapping="Wrap" Text="Puissance" VerticalAlignment="Top"/>
+                <TextBlock  HorizontalAlignment="Left" Margin="193,23,0,0" TextWrapping="Wrap" Text="Rayon d'action" VerticalAlignment="Top"/>
+                <TextBlock  HorizontalAlignment="Left" Margin="238,51,0,0" TextWrapping="Wrap" Text="Portée" VerticalAlignment="Top"/>
+                <TextBox x:Name="Spell_atk" HorizontalAlignment="Left" Height="23" Margin="57,19,0,0" TextWrapping="Wrap" Text="{Binding SaveCombo.attaque, Mode=TwoWay}" VerticalAlignment="Top" Width="35" BorderBrush="red" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}"/>
+                <TextBox x:Name="Spell_pwr" HorizontalAlignment="Left" Height="23" Margin="153,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderBrush="Aquamarine">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.puissance" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.puissance" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="Spell_rng" HorizontalAlignment="Left" Height="23" Margin="277,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderBrush="Chocolate">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.portee" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.portee" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="Spell_ray" HorizontalAlignment="Left" Height="23" Margin="276,19,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderBrush="DarkSeaGreen">
+                    <TextBox.Resources>
+                        <local:ComboOrSpell x:Key="ComboSpell"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource ComboSpell}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SaveCombo.rayon" Mode="TwoWay"/>
+                            <Binding Path="SaveSort.rayon" Mode="TwoWay"/>
+                            <Binding Path="IsCombo" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <ListBox x:Name="Combo_ecole" HorizontalAlignment="Left" Height="111" Margin="322,19,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ItemsSource="{Binding Schools}" DisplayMemberPath="ecole" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedEcole}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Display" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="123" Margin="10,213,0,0" VerticalAlignment="Top" Width="290">
+            <Grid Margin="0,-1,0,0">
+                <ListBox x:Name="Spell_critere" HorizontalAlignment="Left" Margin="178,5,0,28" Width="100"/>
+                <ComboBox x:Name="Spell_criter" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="CriterChange">
+                    <ComboBoxItem Content="~Critère~"/>
+                    <ComboBoxItem x:Name="sp_crt_pwr" Content="Puissance"/>
+                    <ComboBoxItem x:Name="sp_crt_atk" Content="Attaque" IsEnabled="{Binding ElementName=combo_show, Path=IsChecked}"/>
+                    <ComboBoxItem x:Name="sp_crt_Cc" Content="Crowd Control"/>
+                    <ComboBoxItem x:Name="sp_crt_Elm" Content="Element" IsEnabled="{Binding ElementName=Spell_show, Path=IsChecked}"/>
+                    <ComboBoxItem x:Name="sp_crt_cstm" Content="Cout (Mana)"/>
+                    <ComboBoxItem x:Name="sp_crt_ett" Content="Etat" IsEnabled="{Binding ElementName=combo_show, Path=IsChecked}"/>
+                    <ComboBoxItem x:Name="sp_crt_scl" Content="Ecole"/>
+                    <ComboBoxItem x:Name="sp_crt_csts" Content="Cout (Stamina)"/>
+                    <ComboBoxItem x:Name="sp_crt_rng" Content="Portee"/>
+                    <ComboBoxItem x:Name="sp_crt_ray" Content="Rayon"/>
+                    <ComboBoxItem x:Name="sp_crt_wtyp" Content="Armes" IsEnabled="{Binding ElementName=combo_show ,Path=IsChecked}"/>
+                    <ComboBoxItem x:Name="sp_crt_buf" Content="Buff/DeBuff"/>
+                    <ComboBoxItem x:Name="sp_crt_lvl" Content="Niveau"/>
+                    <ComboBoxItem x:Name="sp_crt_cib" Content="Ciblage"/>
+                    <ComboBoxItem x:Name="sp_crt_cat" Content="Categorie" IsEnabled="{Binding ElementName=combo_show, Path=IsChecked}"/>
+                </ComboBox>
+                <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="45" Margin="0,57,0,0" VerticalAlignment="Top" Width="149">
+                    <Border.IsEnabled>
+                        <MultiBinding Converter="{StaticResource Or}">
+                            <Binding ElementName="sp_crt_lvl" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_ray" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_pwr" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_rng" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_cstm" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_csts" Path="IsSelected"/>
+                            <Binding ElementName="sp_crt_atk" Path="IsSelected"/>
+                        </MultiBinding>
+                    </Border.IsEnabled>
+                    <Grid>
+                        <RadioButton x:Name="is_sup" Content="Supérieur" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                        <RadioButton x:Name="is_inf" Content="Inferieur" HorizontalAlignment="Left" Margin="69,5,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="spel_cri_val" HorizontalAlignment="Left" Height="23" Margin="12,12,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="52"/>
+                    </Grid>
+                </Border>
+                <Button x:Name="Spell_show" Content="Montrer" HorizontalAlignment="Left" Margin="178,79,0,0" VerticalAlignment="Top" Width="75" Click="Display"/>
+                <RadioButton x:Name="sort_show" Content="Sort" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="combo_show" Content="Combo" HorizontalAlignment="Left" Margin="72,10,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="Spellu_Label" TextWrapping="WrapWithOverflow" TextTrimming="WordEllipsis" Text="{Binding PrintedText}"/>
+            </ScrollViewer>
+        </Border>
+        <GroupBox Header="Generation Option" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="104" Margin="10,342,0,0" VerticalAlignment="Top" Width="290">
+            <local:GenOptions x:Name="Spell"/>
+        </GroupBox>
+        <Button Content="Save" HorizontalAlignment="Left" Height="22" Margin="647,196,0,0" VerticalAlignment="Top" Width="44" Command="{Binding Save}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="310,199,0,0" TextWrapping="Wrap" Text="Nouveau :" VerticalAlignment="Top"/>
+        <Button x:Name="newCC" Content=" Crowd control " HorizontalAlignment="Left" Margin="499,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NCc}"/>
+        <Button x:Name="newEtat" Content=" Etat " HorizontalAlignment="Left" Margin="468,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NState}"/>
+        <TextBox x:Name="Spell_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94">
+            <TextBox.Resources>
+                <local:ComboOrSpell x:Key="ComboSpell"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    <Binding Path="SaveCombo.nom" Mode="TwoWay"/>
+                    <Binding Path="SaveSort.nom" Mode="TwoWay"/>
+                    <Binding Path="IsCombo" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="111,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <ComboBox x:Name="Spell_type" HorizontalAlignment="Left" Margin="133,40,0,0" VerticalAlignment="Top" Width="122" SelectionChanged="Placeholder" IsEnabled="{Binding ElementName=Spell_check, Path=IsChecked}" Visibility="{Binding ElementName=Spell_type, Path=IsEnabled, Converter={StaticResource BoolToVisibility}}" DisplayMemberPath="ecole" SelectedItem="{Binding SaveSort.Magie_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveSort.ecole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="ecole">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Ecoles" Source="{Binding Schools}" />
+            </ComboBox.Resources>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Magie_type ecole="~Ecole d'arcane"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Ecoles}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <TextBlock x:Name="use_txt" HorizontalAlignment="Left" Margin="80,49,0,0" TextWrapping="Wrap" Text="Niveau utilisation" VerticalAlignment="Top" Width="53" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}"/>
+        <TextBlock x:Name="txt_lvl" HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Niveau Sort" VerticalAlignment="Top" Width="48"/>
+        <ListBox x:Name="Combo_type" HorizontalAlignment="Left" Height="64" Margin="133,40,0,0" VerticalAlignment="Top" Width="122" SelectionMode="Multiple" ItemsSource="{Binding Weapons}" DisplayMemberPath="type" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_type, Path=IsEnabled, Converter={StaticResource BoolToVisibility}}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedWeapons}"/>
+        <Button x:Name="show_etat" Content=" Etats " HorizontalAlignment="Left" Margin="66,196,0,0" VerticalAlignment="Top" Click="ShowState"/>
+        <Button x:Name="show_Cc" Content=" Crowd Control " HorizontalAlignment="Left" Margin="104,196,0,0" VerticalAlignment="Top" Click="ShowCc"/>
+        <Button x:Name="show_Statut" Content=" Elements " HorizontalAlignment="Left" Margin="193,196,0,0" VerticalAlignment="Top" Click="ShowElement"/>
+        <Button x:Name="newBuff" Content=" (De)Buff " HorizontalAlignment="Left" Margin="414,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NBuff}"/>
+        <Button x:Name="show_Debuff" Content=" (De)Buff " HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Click="ShowBuf"/>
+        <Button x:Name="show_Ecole" Content=" Ecoles " HorizontalAlignment="Left" Margin="253,196,0,0" VerticalAlignment="Top" Click="ShowEcole"/>
+        <Button x:Name="new_cible" Content=" Ciblage " HorizontalAlignment="Left" Margin="364,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NCible}"/>
+        <TextBox x:Name="Spell_lvl" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48">
+            <TextBox.Resources>
+                <local:ComboOrSpell x:Key="ComboSpell"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SaveCombo.niveau" Mode="TwoWay"/>
+                    <Binding Path="SaveSort.niveau" Mode="TwoWay"/>
+                    <Binding Path="IsCombo" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox x:Name="Spell_use" HorizontalAlignment="Left" Height="23" Margin="80,81,0,0" TextWrapping="Wrap" Text="{Binding SaveCombo.lvl_use, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="48" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}"/>
+        <ComboBox x:Name="combo_stat" HorizontalAlignment="Left" Margin="185,13,0,0" VerticalAlignment="Top" Width="70" DisplayMemberPath="valeur" SelectedValuePath="valeur" SelectionChanged="Placeholder" IsEnabled="{Binding IsCombo}" Visibility="{Binding IsCombo, Converter={StaticResource BoolToVisibility}}" SelectedValue="{Binding SaveCombo.stat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SaveCombo.Stat1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.Resources>
+                <local:ComboOrSpell x:Key="SelectedItem" OneToSource="True"/>
+                <local:ComboOrSpell x:Key="ComboSpell"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Stat valeur="~Stat~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource StatCombo}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <ComboBox x:Name="spell_stat" HorizontalAlignment="Left" Margin="185,13,0,0" VerticalAlignment="Top" Width="70" DisplayMemberPath="valeur" SelectedValuePath="valeur" SelectionChanged="Placeholder" IsEnabled="{Binding IsSpell}" Visibility="{Binding IsSpell, Converter={StaticResource BoolToVisibility}}" SelectedItem="{Binding SaveSort.Stat1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveSort.stat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.Resources>
+                <local:ComboOrSpell x:Key="SelectedItem" OneToSource="True"/>
+                <local:ComboOrSpell x:Key="ComboorSpell"/>
+                <local:ComboOrSpell x:Key="ComboSpell"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Stat valeur="~Stat~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource StatSpell}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <GroupBox Header="Description" HorizontalAlignment="Left" Height="63" Margin="10,128,0,0" VerticalAlignment="Top" Width="245">
+
+            <TextBox x:Name="Spell_descr" AcceptsReturn="True" AcceptsTab="True">
+                <TextBox.Resources>
+                    <local:ComboOrSpell x:Key="ComboSpell"/>
+                </TextBox.Resources>
+                <TextBox.Text>
+                    <MultiBinding Converter="{StaticResource ComboSpell}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding Path="SaveCombo.descr" Mode="TwoWay"/>
+                        <Binding Path="SaveSort.descr" Mode="TwoWay"/>
+                        <Binding Path="IsCombo" Mode="OneWay"/>
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+        </GroupBox>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="80,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48">
+            <TextBox.Resources>
+                <local:ComboOrSpell x:Key="ComboSpell"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource ComboSpell}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SaveCombo.cooldown" Mode="TwoWay"/>
+                    <Binding Path="SaveSort.cooldown" Mode="TwoWay"/>
+                    <Binding Path="IsCombo" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBlock HorizontalAlignment="Left" Margin="10,112,0,0" TextWrapping="Wrap" Text="CoolDown:" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="133,109,0,0" VerticalAlignment="Top" Width="120" SelectedValuePath="categorie" SelectedValue="{Binding SaveCombo.type}" SelectedItem="{Binding SaveCombo.ComboCat, Mode=OneWayToSource}" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}" DisplayMemberPath="categorie" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.Resources>
+                <CollectionViewSource Source="{Binding Categories}" x:Key="Categories"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:ComboCat categorie="~Categorie~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Categories}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <RadioButton x:Name="Combo_check" Content="Combo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" IsChecked="{Binding IsCombo, Mode=TwoWay}" Checked="Combo_check_Checked" Unchecked="Combo_check_Unchecked"/>
+    </Grid>
+</UserControl>

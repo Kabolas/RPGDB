@@ -1,0 +1,1148 @@
+﻿<UserControl x:Class="RPG_Jahr_words.ItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="456" d:DesignWidth="701">
+    <UserControl.Resources>
+        <local:Not x:Key="NOT"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <local:MagoToBool x:Key="MagoToBool"/>
+            <local:TechnoToBool x:Key="TechToBool"/>
+            <local:MagoToVisible x:Key="MagoToVisible"/>
+            <local:TechnoToVisible x:Key="TechToVisible"/>
+            <local:CheckToVisible x:Key="CheckedToVisible"/>
+            <local:UncheckedToTrue x:Key="UncheckedTrue"/>
+            <local:SelectedToVisible x:Key="SelectedToVisible"/>
+            <local:SameTypeToFalse x:Key="TypeToBool"/>
+            <local:IntEquals x:Key="Equals"/>
+            <local:SelectedToItemType x:Key="SelectionToType"/>
+            <local:AllToBool x:Key="AllToBool"/>
+            <local:WeapLinkConvert x:Key="WeapLink"/>
+            <local:And x:Key="AND"/>
+            <local:Or x:Key="OR"/>
+            <local:SchoolToList x:Key="SchoolList"/>
+            <local:StringToJewel x:Key="SelectionToJewel"/>
+            <local:Not x:Key="NOT"/>
+            <local:FoundToNull x:Key="Found"/>
+            <local:IntToBool x:Key="IntToBool"/>
+            <local:NullToFalse x:Key="NullFalse"/>
+            <local:StringNotEquals x:Key="StringDiff"/>
+            <local:StringEquals x:Key="StringEquals"/>
+            <Style x:Key="Combostyle" TargetType="ComboBox">
+                <Setter Property="SelectedIndex" Value="0"/>
+            </Style>
+        </Grid.Resources>
+        <GroupBox BorderBrush="Black" Header="Affichage" BorderThickness="1" HorizontalAlignment="Left" Height="149" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
+            <Grid>
+                <ComboBox x:Name="Item_show_elem" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="112" SelectedIndex="0" Height="25" >
+                    <ComboBoxItem Content="~Type d'objet~"/>
+                    <ComboBoxItem x:Name="Armes_cac_show" Content="Armes Corps à Corps"/>
+                    <ComboBoxItem x:Name="Armes_dist_show" Content="Armes à Distance"/>
+                    <ComboBoxItem x:Name="Armes_mag_show" Content="Armes Magique"/>
+                    <ComboBoxItem x:Name="Armure_show" Content="Armure"/>
+                    <ComboBoxItem x:Name="Bijoux_show" Content="Bijoux"/>
+                    <ComboBoxItem x:Name="Consommables_show" Content="Consommables"/>
+                    <ComboBoxItem x:Name="Container_show" Content="Conteneur"/>
+                    <ComboBoxItem x:Name="Munitions_show" Content="Munition"/>
+                    <ComboBoxItem x:Name="Loot_show" Content="Loot"/>
+                    <ComboBoxItem x:Name="Vehicule_show" Content="Vehicule"/>
+                    <ComboBoxItem x:Name="Common_show" Content="Communs"/>
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <Button x:Name="Item_show_but" Content="Montrer" HorizontalAlignment="Left" Margin="193,101,0,0" VerticalAlignment="Top" Width="75" Click="Item_show_but_Click"/>
+                <RadioButton x:Name="show_inf" Content="Inférieur" HorizontalAlignment="Left" Margin="65,81,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="show_sup" Content="Supérieur" HorizontalAlignment="Left" Margin="65,96,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="Item_show_val" HorizontalAlignment="Left" Height="23" Margin="10,82,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50"/>
+                <ListBox x:Name="Show_criter" HorizontalAlignment="Left" Height="96" Margin="150,0,0,0" VerticalAlignment="Top" Width="128"/>
+                <ComboBox x:Name="Item_critere" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="112" SelectedIndex="0" SelectionChanged="Item_critere_SelectionChanged">
+                    <ComboBoxItem Content="~Critère~"/>
+                    <ComboBoxItem x:Name="criter_size" Content="Taille"/>
+                    <ComboBoxItem x:Name="criter_ori" Content="Origine"/>
+                    <ComboBoxItem x:Name="criter_prix" Content="Prix"/>
+                    <ComboBoxItem x:Name="criter_atk" Content="Attaque">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                                <Binding ElementName="Armure_show" Path="IsSelected"/>
+                                <Binding ElementName="Munitions_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_mal_vit" Content="Malus de vitesse" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_mal_dex" Content="Malus de dexterité" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_elm" Content="Element">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                                <Binding ElementName="Armure_show" Path="IsSelected"/>
+                                <Binding ElementName="Munitions_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_pwr" Content="Puissance">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                                <Binding ElementName="Armure_show" Path="IsSelected"/>
+                                <Binding ElementName="Munitions_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_def" Content="Defense" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_prec" Content="Precision">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_coutstam" Content="Cout (stamina)">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_cout" Content="Cout (mana)">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_res" Content="Resistance" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_ty_weap" Content="Type d'arme">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_ty_mun" Content="Type de Munition">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Munitions_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_armor" Content="Piece d'armure" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_ty_armor" Content="Type d'armure" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_voie" Content="Voie" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_deplac_mde" Content="Mode de deplacement" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_maneu" Content="Maneuvrabilité" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_mult" Content="Multiplicateur">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_crit" Content="Critique">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_carbu" Content="Carburant" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_ty_bij" Content="Type de Bijoux" IsEnabled="{Binding ElementName=Bijoux_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_eft_cons" Content="Effet de consommable" IsEnabled="{Binding ElementName=Consommables_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_ty_cons" Content="Type de consommable"  IsEnabled="{Binding ElementName=Consommables_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_ty_degat" Content="Type de degats">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_cac_show" Path="IsSelected"/>
+                                <Binding ElementName="Munitions_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_vit" Content="Vitesse" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_rng" Content="Range">
+                        <ComboBoxItem.IsEnabled>
+                            <MultiBinding Converter="{StaticResource OR}">
+                                <Binding ElementName="Armes_dist_show" Path="IsSelected"/>
+                                <Binding ElementName="Armes_mag_show" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBoxItem.IsEnabled>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="criter_limsiz" Content="Taille limite" IsEnabled="{Binding ElementName=Container_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_siz" Content="Capacité" IsEnabled="{Binding ElementName=Container_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_rld" Content="Rechargement" IsEnabled="{Binding ElementName=Armes_dist_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_lot" Content="Taille de Lot" IsEnabled="{Binding ElementName=Munitions_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_sol" Content="Solidité" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_reser" Content="Taille de reservoir" IsEnabled="{Binding ElementName=Vehicule_show, Path=IsSelected}"/>
+                    <ComboBoxItem x:Name="criter_cap" Content="Capacité (armure)" IsEnabled="{Binding ElementName=Armure_show, Path=IsSelected}"/>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="96" Margin="10,350,0,0" VerticalAlignment="Top" Width="290">
+            <local:GenOptions x:Name="Item"/>
+        </GroupBox>
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
+            <TextBlock x:Name="Itemu_Label" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" Text="{Binding PrintedText, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </Border>
+        <Border x:Name="Item_border" BorderBrush="Black" BorderThickness="1" Height="181" Margin="239,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="457">
+            <TabControl x:Name="Item_tab" FontSize="10">
+                <TabItem x:Name="Item_rec_tab" Header="Recette">
+                    <Grid x:Name="recette_grid" >
+                        <Grid.IsEnabled>
+                            <MultiBinding  Converter="{StaticResource AND}">
+                                <Binding ElementName="craftable" Path="IsChecked"/>
+                                <Binding ElementName="Jewel_link" Path="IsChecked" Converter="{StaticResource NOT}"/>
+                            </MultiBinding>
+                        </Grid.IsEnabled>
+                        <ComboBox x:Name="Component" HorizontalAlignment="Left" Height="25" Margin="5,63,0,0" VerticalAlignment="Top" Text="~Composant~" IsTextSearchEnabled="True" IsReadOnly="True" Width="113" ItemsSource="{Binding Components}" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Component_type, Path=SelectedIndex}"/>
+                        <ComboBox x:Name="Component_type" HorizontalAlignment="Left" Height="25" Margin="5,10,0,0" VerticalAlignment="Top" Width="113" SelectedIndex="0" SelectionChanged="RefreshCompo">
+                            <System:String>~Type de composant~</System:String>
+                            <System:String>Alliages</System:String>
+                            <System:String>Armes</System:String>
+                            <System:String>Armures</System:String>
+                            <System:String>Bijoux</System:String>
+                            <System:String>Consommable</System:String>
+                            <System:String>Loot</System:String>
+                            <System:String>Livre</System:String>
+                            <System:String>Métaux</System:String>
+                            <System:String>Pierres</System:String>
+                            <System:String>Végétaux</System:String>
+                            <System:String>Munitions</System:String>
+                            <System:String>Parchemins</System:String>
+                            <System:String>Véhicule</System:String>
+                            <System:String>Communs</System:String>
+                            <System:String>Conteneur</System:String>
+                        </ComboBox>
+
+                        <TextBlock HorizontalAlignment="Left" Margin="108,40,0,0" TextWrapping="Wrap" Text="{Binding ElementName=componentqtity, Path=Value}" VerticalAlignment="Top" IsEnabled="False"/>
+                        <Slider x:Name="componentqtity" HorizontalAlignment="Left" Height="23" Margin="5,40,0,0" VerticalAlignment="Top" Width="98" Minimum="0" Maximum="10"
+							TickFrequency="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" />
+                        <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="5,93,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding ElementName=Component, Path=ItemsSource, Converter={StaticResource NullFalse}}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+
+                        <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="32,93,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding ElementName=Item_rec, Path=SelectedItems.Count}"/>
+                        <TextBox x:Name="Item_rec_manacost" Text="{Binding ManaCraftCost,Mode=TwoWay}" HorizontalAlignment="Left" Height="22" Margin="38,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37"/>
+                        <TextBlock HorizontalAlignment="Left" Height="16" Margin="5,129,0,0" TextWrapping="Wrap" Text="Magie" VerticalAlignment="Top" />
+                        <ListView x:Name="Item_rec" HorizontalAlignment="Left" Margin="123,10,0,7" Width="227" SelectionMode="Multiple" ItemsSource="{Binding Recipe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding N_recette}"/>
+                                    <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Nom}"/>
+                                    <GridViewColumn Header="Origine" Width="60" DisplayMemberBinding="{Binding Origine}"/>
+                                    <GridViewColumn Header="Nombre" Width="45" DisplayMemberBinding="{Binding Quantite}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="+" HorizontalAlignment="Left" Margin="59,93,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1"/>
+                        <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="86,93,0,0" VerticalAlignment="Top" Width="34" Height="25" SelectedIndex="0" ItemsSource="{Binding RecipeCount}"/>
+                        <Button Content="⇀" HorizontalAlignment="Left" Margin="80,123,0,0" VerticalAlignment="Top" Width="23" Height="22" FontSize="24" Padding="0,-8,1,1" Click="Button_Click" IsEnabled="{Binding ElementName=Item_rec_manacost, Path=Text.Length}"/>
+                        <ListView Margin="355,10,10,7" ItemsSource="{Binding RecipeResults}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding IdRecipe}"/>
+                                    <GridViewColumn Header="Nbr" Width="25">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Text="{Binding Nombre, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_enchant_tab" Header="Enchant/livre" FontSize="7.5">
+                    <Grid x:Name="enchant_grid">
+                        <ListBox x:Name="Item_enchant" FontSize="12" HorizontalAlignment="Left" Height="134" Margin="304,10,0,0" VerticalAlignment="Top" Width="130" SelectionMode="Multiple" SelectionChanged="Selecion_with_all"/>
+                        <ComboBox x:Name="Item_enchantype" FontSize="10" HorizontalAlignment="Left" Height="20" Margin="211,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0">
+                            <ComboBoxItem Content="~Categorie~"/>
+                        </ComboBox>
+                        <TextBlock x:Name="filename" HorizontalAlignment="Left" FontSize="10" Margin="48,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                        <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="147" Margin="5,5,0,0" VerticalAlignment="Top" Width="201" IsEnabled="{Binding ElementName=Livre, Path=IsSelected}">
+                            <Grid>
+                                <ComboBox HorizontalAlignment="Left" FontSize="10" Margin="0,25,0,0" VerticalAlignment="Top" DisplayMemberPath="nom" Width="72" Height="20" SelectedItem="{Binding SaveBookin.Idiome, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="nom" SelectedValue="{Binding SaveBookin.langue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                                    <ComboBox.Resources>
+                                        <CollectionViewSource x:Key="Idiome" Source="{Binding Idiomes}"/>
+                                    </ComboBox.Resources>
+                                    <ComboBox.Style>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <Style.Triggers>
+                                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                    <Setter Property="SelectedIndex" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <local:Idiome nom="~Langue~"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource Idiome}}"/>
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <ComboBox x:Name="booktype" HorizontalAlignment="Left" FontSize="10" VerticalAlignment="Top" Width="72" Height="20" DisplayMemberPath="type" SelectedItem="{Binding SaveBookin.Book_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveBookin.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="type" SelectionChanged="process_SelectionChanged">
+                                    <ComboBox.Resources>
+                                        <CollectionViewSource x:Key="types" Source="{Binding Types}"/>
+                                    </ComboBox.Resources>
+                                    <ComboBox.Style>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <Style.Triggers>
+                                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                    <Setter Property="SelectedIndex" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <local:Book_type type="~Type~"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource types}}"/>
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <TextBox x:Name="bookcontent" HorizontalAlignment="Left" FontSize="10" Height="74" Margin="0,50,0,0" TextWrapping="Wrap" Text="{Binding SaveBookin.contenu}" VerticalAlignment="Top" Width="95" AcceptsReturn="True" AcceptsTab="True"/>
+                                <Button Content="Charger" HorizontalAlignment="Left" Margin="0,124,0,0" VerticalAlignment="Top" Width="43" Click="ChargeFile" IsEnabled="{Binding IsEnabled, ElementName=bookcontent}" FontSize="10"/>
+                                <ComboBox HorizontalAlignment="Left" Margin="114,77,0,0" VerticalAlignment="Top" Width="66" Height="20" FontSize="10" DisplayMemberPath="type" SelectedItem="{Binding SaveBookin.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="type" SelectedValue="{Binding SaveBookin.weapon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged" IsEnabled="{Binding SelectedValue, ConverterParameter=Raise, Converter={StaticResource StringEquals}, ElementName=booktype}">
+                                    <ComboBox.Resources>
+                                        <CollectionViewSource x:Key="Armesaucac" Source="{Binding Armes_aucac}"/>
+                                        <CollectionViewSource x:Key="ArmesAdistance" Source="{Binding Armes_adist}"/>
+                                        <CollectionViewSource x:Key="Magic_Weap" Source="{Binding Armes_magiques}"/>
+                                    </ComboBox.Resources>
+                                    <ComboBox.Style>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <Style.Triggers>
+                                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                    <Setter Property="SelectedIndex" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <local:Weapon_type type="~Armes~"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource ArmesAdistance}}"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource Armesaucac}}"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource Magic_Weap}}"/>
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <ComboBox HorizontalAlignment="Left" Margin="114,25,0,0" VerticalAlignment="Top" Width="66" Height="20" FontSize="10" DisplayMemberPath="ecole" SelectedItem="{Binding SaveBookin.Magie_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="ecole" SelectedValue="{Binding SaveBookin.magie, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged" IsEnabled="{Binding SelectedValue, ConverterParameter=Raise, Converter={StaticResource StringEquals}, ElementName=booktype}">
+                                    <ComboBox.Resources>
+                                        <CollectionViewSource x:Key="Ecoles" Source="{Binding Schools}"/>
+                                    </ComboBox.Resources>
+                                    <ComboBox.Style>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <Style.Triggers>
+                                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                    <Setter Property="SelectedIndex" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <local:Magie_type ecole="Ecole"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource Ecoles}}"/>
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <TextBox HorizontalAlignment="Left" Height="23" Margin="114,49,0,0" TextWrapping="Wrap" Text="{Binding SaveBookin.raise_mag, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="66" FontSize="10" IsEnabled="{Binding SelectedValue, ConverterParameter=Raise, Converter={StaticResource StringEquals}, ElementName=booktype}"/>
+                                <TextBox HorizontalAlignment="Left" Height="23" Margin="114,102,0,0" TextWrapping="Wrap" Text="{Binding SaveBookin.raise_weap, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="66" FontSize="10" IsEnabled="{Binding SelectedValue, ConverterParameter=Raise, Converter={StaticResource StringEquals}, ElementName=booktype}"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_armes_tab" Header="Arme">
+                    <Grid x:Name="armes_grid" IsEnabled="{Binding ElementName=Armes, Path=IsSelected}">
+                        <TabControl x:Name="armes_control" Margin="0,0,0,29">
+                            <TabItem x:Name="Item_cac_tab" Header="Cac">
+                                <Grid x:Name="cac_grid" IsEnabled="{Binding ElementName=Cac_weap, Path=IsChecked}">
+                                    <TextBox x:Name="CAC_attaque" HorizontalAlignment="Left" Height="21" Margin="53,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.attaque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_power" HorizontalAlignment="Left" Height="21" Margin="164,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_critique" HorizontalAlignment="Left" Height="21" Margin="53,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.critique, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_multiplicateur" HorizontalAlignment="Left" Text="{Binding SaveCac.critmult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="21" Margin="167,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="CAC_cout_mana" HorizontalAlignment="Left" Height="21" Text="{Binding SaveCac.mana_cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="74,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Attaque : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="114,12,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="11,40,0,0" TextWrapping="Wrap" Text="Critique : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="98,40,0,0" TextWrapping="Wrap" Text="Multiplicateur : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="10,71,0,0" TextWrapping="Wrap" Text="Cout (mana) :" VerticalAlignment="Top"/>
+                                    <ListBox x:Name="CAC_Degat_type" HorizontalAlignment="Left" Height="94" Margin="328,0,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelCacdmgtype}">
+                                        <System:String>Percusif</System:String>
+                                        <System:String>Perforant</System:String>
+                                        <System:String>Tranchant</System:String>
+                                    </ListBox>
+                                    <ComboBox x:Name="CAC_weap_type" HorizontalAlignment="Left" Margin="239,10,0,0" Width="84" DisplayMemberPath="type" SelectedItem="{Binding SaveCac.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="type" SelectedValue="{Binding SaveCac.type}" Height="19" VerticalAlignment="Top" SelectionChanged="process_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                                        <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="Armesaucac" Source="{Binding Path=Armes_aucac}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Weapon_type type="~Arme~"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource Armesaucac}}"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <TextBox x:Name="Cac_precision" HorizontalAlignment="Left" Height="21" Margin="169,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.precision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="119,71,0,0" TextWrapping="Wrap" Text="Precision : " VerticalAlignment="Top"/>
+                                    <TextBox x:Name="Cac_speed" HorizontalAlignment="Left" Height="21" Margin="283,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.atk_speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="231,31,0,0" TextWrapping="Wrap" Text="Vitesse d'attaque : " VerticalAlignment="Top" Width="52"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="216,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (stamina):"/>
+                                    <TextBox x:Name="CAC_cout_stamina" HorizontalAlignment="Left" Height="21" Text="{Binding SaveCac.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="283,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                </Grid>
+                            </TabItem>
+                            <TabItem x:Name="Item_distance_tab" Header="Distance">
+                                <Grid x:Name="dist_grid" IsEnabled="{Binding ElementName=Dist_weap, Path=IsChecked}">
+                                    <ComboBox x:Name="Munition_typ" HorizontalAlignment="Left" Height="25" Margin="6,64,0,0" VerticalAlignment="Top" Width="88" SelectedValuePath="type" DisplayMemberPath="type" Grid.ColumnSpan="2" SelectedValue="{Binding SaveDist.munition}"  SelectedItem="{Binding SaveDist.Munition_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                                        <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="Muns" Source="{Binding Path=Munition_list}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Munition_type type="~Munition~"/>
+                                                <CollectionContainer Collection="{Binding Source= {StaticResource Muns}}"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <TextBox x:Name="Dist_attaque" HorizontalAlignment="Left" Height="21" Margin="47,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveDist.attaque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Dist_power" HorizontalAlignment="Left" Text="{Binding SaveDist.puissance,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="21" Margin="54,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="Dist_critique" HorizontalAlignment="Left" Text="{Binding SaveDist.critique, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="21" Margin="146,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="Dist_multiplicateur" HorizontalAlignment="Left" Text="{Binding SaveDist.critmult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="21" Margin="173,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="Dist_cout_mana" HorizontalAlignment="Left" Height="21" Margin="258,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveDist.mana_cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Dist_range" HorizontalAlignment="Left" Height="21" Text="{Binding SaveDist.range, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="253,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="Dist_precision" HorizontalAlignment="Left" Text="{Binding SaveDist.precision}" Height="21" Margin="370,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="4,12,0,0" TextWrapping="Wrap" Text="Attaque : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="218,40,0,0" TextWrapping="Wrap" Text="Range : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="4,40,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="104,12,0,0" TextWrapping="Wrap" Text="Critique : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="104,40,0,0" TextWrapping="Wrap" Text="Multiplicateur : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="199,12,0,0" TextWrapping="Wrap" Text="Cout (mana) :" VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="323,40,0,0" TextWrapping="Wrap" Text="Precision : " VerticalAlignment="Top"/>
+                                    <ComboBox x:Name="rload_cat" HorizontalAlignment="Left" Margin="104,64,0,0" VerticalAlignment="Top" Width="105" Height="25" DisplayMemberPath="cat" SelectedValue="{Binding SaveDist.reload_tps}" SelectedValuePath="cat" SelectedItem="{Binding SaveDist.Reload_cat, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                                        <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="Reload" Source="{Binding Path=Rechargement}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Reload_cat cat="~Rechargement~"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource Reload}}"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <ComboBox x:Name="Dist_weap_type" HorizontalAlignment="Left" Margin="214,64,0,0" VerticalAlignment="Top" Width="84" Height="25" DisplayMemberPath="type" SelectedValue="{Binding SaveDist.type}" SelectedValuePath="type" SelectedItem="{Binding SaveDist.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                                        <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="ArmesAdistance" Source="{Binding Path=Armes_adist}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Weapon_type type="~Arme~"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource ArmesAdistance}}"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <CheckBox x:Name="Dist_dmg_stat" HorizontalAlignment="Left" Margin="303,69,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveDist.dmg_on_stat,Mode=TwoWay}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="324,64,0,-2" TextWrapping="Wrap" VerticalAlignment="Top">
+                                                <Run Text="Dégats dependants des stats"/>
+                                    </TextBlock>
+                                    <TextBox x:Name="Dist_cout_mana_Copy" HorizontalAlignment="Left" Height="21" Margin="374,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveDist.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="303,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (stamina) :"/>
+
+                                </Grid>
+                            </TabItem>
+                            <TabItem x:Name="Item_magic_tab" Header="Magique">
+                                <Grid x:Name="magic_grid" IsEnabled="{Binding ElementName=Magic_weap, Path=IsChecked}">
+                                    <TextBox x:Name="Mag_attaque" HorizontalAlignment="Left" Height="21" Margin="51,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.precision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Mag_power" HorizontalAlignment="Left" Height="21" Margin="54,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Mag_critique" HorizontalAlignment="Left" Height="21" Margin="138,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.critique, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Mag_multiplicateur" HorizontalAlignment="Left" Height="21" Margin="168,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.critmult,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Mag_cout_mana" HorizontalAlignment="Left" Height="21" Margin="66,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.manacost,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="Mag_range" HorizontalAlignment="Left" Height="21" Margin="146,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.range , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="4,5,0,0" TextWrapping="Wrap" Text="Precision : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="111,57,0,0" TextWrapping="Wrap" Text="Range : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="4,31,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="96,5,0,0" TextWrapping="Wrap" Text="Critique : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="99,31,0,0" TextWrapping="Wrap" Text="Multiplicateur : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="4,57,0,0" TextWrapping="Wrap" Text="Cout (mana) : " VerticalAlignment="Top"/>
+                                    <ComboBox x:Name="Item_Spell_typ" HorizontalAlignment="Left" Margin="183,2,0,0" VerticalAlignment="Top" Width="67" SelectedIndex="0" DisplayMemberPath="ecole" SelectionChanged="RefreshSpell">
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="Ecoles" Source="{Binding Path=Schools}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Magie_type ecole="Ecole"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource Ecoles}}"/>
+                                                <local:Magie_type ecole="Tous"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <ComboBox x:Name="Mag_weap_type" HorizontalAlignment="Left" Margin="128,77,0,0" VerticalAlignment="Top" Width="67"  DisplayMemberPath="type" SelectedValue="{Binding SaveMag.type}" SelectedItem="{Binding SaveMag.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                                        <ComboBox.Style>
+                                            <Style TargetType="{x:Type ComboBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                                        <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ComboBox.Style>
+                                        <ComboBox.Resources>
+                                            <CollectionViewSource x:Key="Magic_Weap" Source="{Binding Path=Armes_magiques}"/>
+                                        </ComboBox.Resources>
+                                        <ComboBox.ItemsSource>
+                                            <CompositeCollection>
+                                                <local:Munition_type type="~Arme~"/>
+                                                <CollectionContainer Collection="{Binding Source={StaticResource Magic_Weap}}"/>
+                                            </CompositeCollection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                    <ListView x:Name="Weap_Spel_list" HorizontalAlignment="Left" Height="100" Margin="255,0,0,0" VerticalAlignment="Top" Width="183" ItemsSource="{Binding ElementName=Sorts}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedSpells}" SelectionChanged="Weap_Spel_list_SelectionChanged">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                                <GridViewColumn Header="Nom" Width="50" DisplayMemberBinding="{Binding nom}"/>
+                                                <GridViewColumn Header="Puissance" Width="65" DisplayMemberBinding="{Binding puissance}"/>
+                                                <GridViewColumn Header="Cout" Width="30" DisplayMemberBinding="{Binding mana_cout}"/>
+                                                <GridViewColumn Header="Niveau" Width="40" DisplayMemberBinding="{Binding niveau}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <TextBox x:Name="Mag_cout_stam" HorizontalAlignment="Left" Height="21" Margin="66,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMag.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="15" Margin="4,80,0,0" TextWrapping="Wrap" Text="Cout (mana) : " VerticalAlignment="Top"/>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                        <ComboBox x:Name="weap_elem_1" HorizontalAlignment="Left" Height="22" Margin="89,127,0,0" VerticalAlignment="Top" Width="80" DisplayMemberPath="element" SelectedValue="{Binding SaveWeapon.element_1}" SelectedItem="{Binding SaveWeapon.Mag_element, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="element" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Weaponry'}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Element" Source="{Binding Path=Elements}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Mag_element element="~Element 1~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Element}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="weap_elem1_val" HorizontalAlignment="Left" Height="22" Margin="174,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" Text="{Binding SaveWeap.puissance_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter='Weaponry'/>
+                                    <Binding ElementName="weap_elem_1" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <TextBox x:Name="weap_elem1_perc" HorizontalAlignment="Left" Height="22" Margin="204,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" BorderBrush="Aqua" Text="{Binding SaveWeap.chance_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter='Weaponry'/>
+                                    <Binding ElementName="weap_elem_1" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <TextBox x:Name="weap_elem1_dur" HorizontalAlignment="Left" Height="22" Margin="234,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" BorderBrush="Green" Text="{Binding SaveWeap.duree_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter='Weaponry'/>
+                                    <Binding ElementName="weap_elem_1" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <ComboBox x:Name="weap_elem_2" HorizontalAlignment="Left" Height="22" Margin="274,127,0,0" VerticalAlignment="Top" Width="80" SelectedItem="{Binding SaveWeapon.Mag_element1,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="element" SelectedValuePath="element" SelectedValue="{Binding SaveWeapon.element_1}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter="Weaponry"/>
+                                    <Binding ElementName="weap_elem_1" Converter="{StaticResource AllToBool}" Path="SelectedItem" />
+                                </MultiBinding>
+                            </ComboBox.IsEnabled>
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource Source="{Binding TruncElements}" x:Key="TruncElems"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Mag_element element="~Element 2~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource TruncElems}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="weap_elem2_val" HorizontalAlignment="Left" Height="22" Margin="359,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter="Weaponry"/>
+                                    <Binding ElementName="weap_elem_1" Converter="{StaticResource AllToBool}" Path="SelectedItem" />
+                                    <Binding ElementName="weap_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                            <TextBox.Text >
+                                <Binding Path="Elem2_weap_val">
+                                    <Binding.ValidationRules>
+                                        <local:NumberRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="weap_elem2_perc" HorizontalAlignment="Left" Height="22" Margin="389,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" BorderBrush="Aqua">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter="Weaponry"/>
+                                    <Binding ElementName="weap_elem_1" Converter="{StaticResource AllToBool}" Path="SelectedItem" />
+                                    <Binding ElementName="weap_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                            <TextBox.Text>
+                                <Binding Path="Elem2_weap_perc">
+                                    <Binding.ValidationRules>
+                                        <local:NumberRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="weap_elem2_dur" HorizontalAlignment="Left" Margin="419,127,0,0" TextWrapping="Wrap" Width="25" BorderBrush="Green" Height="22" VerticalAlignment="Top">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding Path="Saving" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource TypeToBool}" ConverterParameter="Weaponry"/>
+                                    <Binding ElementName="weap_elem_1" Converter="{StaticResource AllToBool}" Path="SelectedItem"/>
+                                    <Binding ElementName="weap_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                            <TextBox.Text >
+                                <Binding Path="Elem2_weap_dure">
+                                    <Binding.ValidationRules>
+                                        <local:NumberRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock HorizontalAlignment="Left" Margin="0,131,0,0" TextWrapping="Wrap" Text="Durabilité :" VerticalAlignment="Top"/>
+                        <TextBox HorizontalAlignment="Left" Margin="53,127,0,0" TextWrapping="Wrap" Text="{Binding SaveWeapon.durabilite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="25" Height="22" VerticalAlignment="Top"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_armure_tab" Header="Armure">
+                    <Grid x:Name="armor_grid" IsEnabled="{Binding ElementName=Armure, Path=IsSelected}">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="Vouivre_armor.jpg" TileMode="Tile"/>
+                        </Grid.Background>
+                        <TextBox x:Name="armor_att" HorizontalAlignment="Left" Height="22" Margin="55,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.atk,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="armor_pwr" HorizontalAlignment="Left" Height="22" Margin="149,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="armor_def" HorizontalAlignment="Left" Height="22" Margin="55,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.def, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="armor_res" HorizontalAlignment="Left" Height="22" Margin="149,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="10,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Defense : "/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Attaque : "/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="95,66,0,0" TextWrapping="Wrap" Text="Resistance : " VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="98,41,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                        <ComboBox x:Name="Cat_armor" HorizontalAlignment="Left" Margin="10,127,0,0" Width="85" SelectedItem="{Binding SaveArmory.categorie, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged" Height="22" VerticalAlignment="Top">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBoxItem Content="~Categorie~"/>
+                            <System:String>Exosquelette</System:String>
+                            <System:String>Légère</System:String>
+                            <System:String>Intermediare</System:String>
+                            <System:String>Lourde</System:String>
+                        </ComboBox>
+                        <TextBox x:Name="armor_malus_dex" HorizontalAlignment="Left" Height="22" Margin="58,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.dex_malus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="armor_malus_vit" HorizontalAlignment="Left" Height="22" Margin="139,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveArmory.vit_malus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="5,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Malus : "/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="10,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Dexterité : "/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Bonus : "/>
+                        <TextBlock HorizontalAlignment="Left" Height="15" Margin="100,101,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Vitesse : "/>
+                        <ComboBox x:Name="armor_piece" HorizontalAlignment="Left" Margin="100,127,0,0" VerticalAlignment="Top" Width="74" DisplayMemberPath="emplacement" SelectedValue="{Binding SaveArmory.piece}" SelectedValuePath="emplacement" SelectedItem="{Binding SaveArmory.Piece1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Height="22" SelectionChanged="process_SelectionChanged" IsEnabled="{Binding ElementName=Cat_armor, Path=SelectedItem, Converter={StaticResource StringDiff}, ConverterParameter='Exosquelette'}">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Piece" Source="{Binding Path=Pieces}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Piece emplacement="~Piece~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Piece}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <ListView x:Name="armor_elem" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Height="133" Margin="194,10,0,0" VerticalAlignment="Top" Width="122" ItemsSource="{Binding Path=SaveArmory.ElemResArmorAssoc}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding element}"/>
+                                    <GridViewColumn Header="Valeur" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Tag="{Binding element}" Text="{Binding resValue}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListBox x:Name="armor_cap" Height="133" Margin="0,10,5,0" VerticalAlignment="Top" SelectionMode="Multiple" ItemsSource="{Binding Path=Armor_caps}" DisplayMemberPath="pouvoir" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedCaps}" HorizontalAlignment="Right" Width="118"/>
+                        <TextBox HorizontalAlignment="Left" Height="23" Margin="58,10,0,0" TextWrapping="Wrap" Text="{Binding SaveArmory.durabilite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,20,0,0" TextWrapping="Wrap" Text="Durabilité :" VerticalAlignment="Top"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_bijoux_tab" Header="Bijoux/Link/Cont" ToolTip="Bijoux, conteneurs et Lien à d'autres Items">
+                    <Grid x:Name="jewel_grid">
+                        <GroupBox BorderThickness="2" Margin="184,0,0,0" Header="Link">
+                            <Grid>
+                                <CheckBox x:Name="jewel_linked" Content="Objet existant" HorizontalAlignment="Left" Margin="1,4,0,0" VerticalAlignment="Top" IsChecked="{Binding Linked}" Unchecked="jewel_linked_Unchecked" Checked="jewel_linked_Unchecked"/>
+                                <ComboBox x:Name="Bijoux_item_link" HorizontalAlignment="Left" Height="24" Margin="87,0,0,0" VerticalAlignment="Top" Width="107" SelectedIndex="0" IsEnabled="{Binding IsChecked, ElementName=jewel_linked}" SelectionChanged="RefreshLinks">
+                                    <System:String>~Type d'objet~</System:String>
+                                    <System:String>Armes</System:String>
+                                    <System:String>Armures</System:String>
+                                    <System:String>Bijoux</System:String>
+                                    <System:String>Consommable</System:String>
+                                    <System:String>Conteneur</System:String>
+                                    <System:String>Vehicule</System:String>
+                                    <System:String>Munition</System:String>
+                                    <System:String>Pierre</System:String>
+                                    <System:String>Végétaux</System:String>
+                                    <System:String>Commun</System:String>
+                                </ComboBox>
+                                <ListView x:Name="Bijoux_link" HorizontalAlignment="Left" Margin="0,29,-1,0" Width="249" SelectionMode="Single" IsEnabled="{Binding IsChecked, ElementName=jewel_linked}" ItemsSource="{Binding LinkList}" SelectedItem="{Binding Saving, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Id}"/>
+                                            <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                            <GridViewColumn Header="Origine" Width="50" DisplayMemberBinding="{Binding origine}"/>
+                                            <GridViewColumn Header="Masse" Width="45" DisplayMemberBinding="{Binding masse}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Bijoux" HorizontalAlignment="Left" Height="51" Margin="5,0,0,0" VerticalAlignment="Top" Width="174" IsEnabled="{Binding IsSelected, ElementName=Bijoux}">
+                            <ComboBox x:Name="Bijoux_place" HorizontalAlignment="Left" Margin="33,5,0,0" VerticalAlignment="Top" Width="107" DisplayMemberPath="place" SelectedValue="{Binding SaveJewel.emplacement}" SelectedValuePath="place" SelectedItem="{Binding SaveJewel.Bijoux_place, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Height="25" SelectionChanged="process_SelectionChanged">
+                                <ComboBox.Resources>
+                                    <CollectionViewSource x:Key="emplacement" Source="{Binding Place}"/>
+                                </ComboBox.Resources>
+                                <ComboBox.Style>
+                                    <Style TargetType="{x:Type ComboBox}">
+                                        <Style.Triggers>
+                                            <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                <Setter Property="SelectedIndex" Value="0"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.Style>
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <local:Bijoux_place place="Type de bijoux"/>
+                                        <CollectionContainer Collection="{Binding Source={StaticResource emplacement}}"/>
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
+                        </GroupBox>
+                        <GroupBox Header="Conteneurs" HorizontalAlignment="Left" Height="100" Margin="5,51,0,0" VerticalAlignment="Top" Width="174" IsEnabled="{Binding IsSelected, ElementName=Container}">
+                            <Grid>
+                                <TextBox x:Name="Conteneur_capacite" HorizontalAlignment="Left" Height="23" Margin="114,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Text="{Binding SaveContain.taille}"/>
+                                <TextBlock x:Name="taille_container" HorizontalAlignment="Left" Margin="71,6,0,0" TextWrapping="Wrap" Text="Capacité" VerticalAlignment="Top"/>
+                                <CheckBox Content="Plein" HorizontalAlignment="Left" Margin="11,6,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveConso.rempli, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, ElementName=taille_container}" Visibility="{Binding Visibility, ElementName=taille_container}"/>
+                                <ComboBox HorizontalAlignment="Left" Margin="11,45,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="categorie" SelectedItem="{Binding SaveContain.Tailles, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="categorie" SelectedValue="{Binding SaveContain.max_sizeContain, Mode=TwoWay}" SelectionChanged="process_SelectionChanged">
+                                    <ComboBox.Style>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <Style.Triggers>
+                                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                                    <Setter Property="SelectedIndex" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ComboBox.Style>
+                                    <ComboBox.Resources>
+                                        <CollectionViewSource x:Key="Tailles" Source="{Binding Sizes}"/>
+                                    </ComboBox.Resources>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <local:Tailles categorie="~Taille~"/>
+                                            <CollectionContainer Collection="{Binding Source={StaticResource Tailles}}"/>
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <CheckBox Content="Masses cumulées" HorizontalAlignment="Left" Margin="11,26,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveContain.cumul, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ToolTip="La masse des items contenus et du conteneur sont cumulées."/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_conso_tab" Header="Conso">
+                    <Grid x:Name="conso_grid" IsEnabled="{Binding ElementName=Consommables, Path=IsSelected}">
+                        <ListBox x:Name="conso_type" HorizontalAlignment="Left" Height="131" Margin="309,10,0,0" VerticalAlignment="Top" Width="125" ItemsSource="{Binding Path=Conso_type}" DisplayMemberPath="type" SelectionMode="Single" SelectedItem="{Binding SaveConso.Conso_type, Mode=TwoWay}"/>
+                        <ComboBox x:Name="conso_effet_1" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="84" DisplayMemberPath="effet" SelectedValue="{Binding SaveConso.effet_1}" SelectedValuePath="effet" SelectedItem="{Binding SaveConso.Effets, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Effects" Source="{Binding Path=Conso_effects}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Effets effet="~Effet~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Effects}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="conso_min_1" HorizontalAlignment="Left" Height="22" Margin="65,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveConso.minimum_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=conso_effet_1, Path=SelectedIndex}"/>
+                        <TextBox x:Name="conso_pwr_1" HorizontalAlignment="Left" Height="22" Margin="210,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveConso.modulo_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=conso_effet_1, Path=SelectedIndex}"/>
+                        <TextBox x:Name="conso_dure_1" HorizontalAlignment="Left" Height="22" Margin="194,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveConso.duree1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=conso_effet_1, Path=SelectedIndex}"/>
+                        <TextBox x:Name="conso_dure_2" HorizontalAlignment="Left" Height="22" Margin="194,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"  IsEnabled="{Binding ElementName=conso_effet_2, Path=SelectedIndex}" Text="{Binding SaveConso.duree2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ComboBox x:Name="conso_effet_2" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="84" DisplayMemberPath="effet" SelectedValue="{Binding SaveConso.effet_2}" SelectedValuePath="effet" SelectedItem="{Binding SaveConso.Effets1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=conso_effet_1, Path=SelectedIndex}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Effects" Source="{Binding Path=Conso_effects}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Effets effet="~Effet~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Effects}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="conso_min_2" HorizontalAlignment="Left" Height="22" Margin="65,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" IsEnabled="{Binding ElementName=conso_effet_2, Path=SelectedIndex}" Text="{Binding SaveConso.minimum_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="conso_pwr_2" HorizontalAlignment="Left" Height="22" Margin="210,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" IsEnabled="{Binding ElementName=conso_effet_2, Path=SelectedIndex}" Text="{Binding SaveConso.modulo_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Minimum : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="155,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Puissance : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Minimum : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="155,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Puissance : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="155,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Durée : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="155,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Durée : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Nombre d'utilisation :" VerticalAlignment="Top"/>
+                        <TextBox HorizontalAlignment="Left" Height="23" Margin="110,4,0,0" TextWrapping="Wrap" Text="{Binding SaveConso.n_uses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_munition_tab" Header="Munition">
+                    <Grid x:Name="mun_grid" IsEnabled="{Binding ElementName=Munitions, Path=IsSelected}">
+                        <TextBox x:Name="mun_atk" HorizontalAlignment="Left" Height="22" Margin="61,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMun.degats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="mun_pwr" HorizontalAlignment="Left" Height="22" Margin="161,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMun.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="mun_cost" HorizontalAlignment="Left" Height="22" Margin="272,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveMun.mana_cout, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="18,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Attaque : "/>
+                        <TextBlock HorizontalAlignment="Left" Margin="111,50,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                        <ComboBox x:Name="mun_elem_1" HorizontalAlignment="Left" Height="22" Margin="13,119,0,0" VerticalAlignment="Top" Width="93" SelectedItem="{Binding SaveMun.Mag_element, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveMun.element_1}" SelectedValuePath="element" DisplayMemberPath="element" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Elements" Source="{Binding Path=Elements}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Mag_element element="~Element1~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Elements}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="mun_elem1_val" HorizontalAlignment="Left" Height="22" Margin="111,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" Text="{Binding SaveMun.puissance_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=mun_elem_1, Path=SelectedIndex}"/>
+                        <ComboBox x:Name="mun_elem_2" HorizontalAlignment="Left" Height="22" Margin="236,119,0,0" VerticalAlignment="Top" Width="93" DisplayMemberPath="element" SelectedValuePath="element" SelectedValue="{Binding SaveMun.element_2}" SelectedItem="{Binding SaveMun.Mag_element1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=mun_elem_1, Path=SelectedItem, Converter={StaticResource AllToBool}}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource Source="{Binding TruncElements}" x:Key="TruncElems"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Mag_element element="~Element 2~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource TruncElems}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBox x:Name="mun_elem2_val" HorizontalAlignment="Left" Height="22" Margin="334,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" Text="{Binding SaveMun.puissance_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding ElementName="mun_elem_1" Path="SelectedItem" Converter="{StaticResource AllToBool}"/>
+                                    <Binding ElementName="mun_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <ComboBox x:Name="mun_typ" HorizontalAlignment="Left" Height="23" Margin="13,10,0,0" VerticalAlignment="Top" Width="96" SelectedItem="{Binding SaveMun.Munition_type, Mode=OneWayToSource}" SelectedValue="{Binding SaveMun.categorie}" SelectedValuePath="type" DisplayMemberPath="type" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Munitions_l" Source="{Binding Munition_list}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Munition_type type="~Categorie~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Munitions_l}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBlock HorizontalAlignment="Left" Margin="206,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (mana) : "/>
+                        <ListBox x:Name="Dist_Degat_type" HorizontalAlignment="Right" Height="94" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" Margin="0,16,10,0" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelMundmgtype}">
+                            <System:String>Percusif</System:String>
+                            <System:String>Perforant</System:String>
+                            <System:String>Tranchant</System:String>
+                        </ListBox>
+                        <TextBox x:Name="mun_elem2_perc" HorizontalAlignment="Left" Height="22" Margin="369,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" BorderBrush="Aqua" Text="{Binding SaveMun.chance_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding ElementName="mun_elem_1" Path="SelectedItem" Converter="{StaticResource AllToBool}"/>
+                                    <Binding ElementName="mun_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <TextBox x:Name="mun_elem2_dur" HorizontalAlignment="Left" Height="22" Margin="404,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" BorderBrush="Green" Text="{Binding SaveMun.duree_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource AND}">
+                                    <Binding ElementName="mun_elem_1" Path="SelectedItem" Converter="{StaticResource AllToBool}"/>
+                                    <Binding ElementName="mun_elem_2" Path="SelectedIndex" Converter="{StaticResource IntToBool}"/>
+                                </MultiBinding>
+                            </TextBox.IsEnabled>
+                        </TextBox>
+                        <TextBox x:Name="mun_elem1_perc" HorizontalAlignment="Left" Height="22" Margin="146,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" BorderBrush="Aqua" Text="{Binding SaveMun.chance_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=mun_elem_1, Path=SelectedIndex}"/>
+                        <TextBox x:Name="mun_elem1_dur" HorizontalAlignment="Left" Height="22" Margin="181,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" BorderBrush="Green" Text="{Binding SaveMun.duree_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=mun_elem_1, Path=SelectedIndex}"/>
+                        <CheckBox Content="Affecté par la gravité" HorizontalAlignment="Left" Margin="204,95,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveMun.gravite}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Item_vehicul_tab" Header="Vehicule">
+                    <Grid x:Name="vehicule_grid" IsEnabled="{Binding ElementName=Vehicule, Path=IsSelected}">
+                        <TextBox x:Name="vehicul_speed" HorizontalAlignment="Left" Height="21" Margin="54,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveVehicule.vitesse_max, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="vehicul_solid" HorizontalAlignment="Left" Height="21" Margin="59,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveVehicule.solidite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="vehicul_reserv" HorizontalAlignment="Left" Height="21" Margin="58,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveVehicule.reservoir, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="15,20,0,0" TextWrapping="Wrap" Text="Vitesse : " VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="5,115,0,0" TextWrapping="Wrap" Text="Reservoir : " VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="13,87,0,0" TextWrapping="Wrap" Text="Solidité : " VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Height="36" Margin="124,0,0,0" TextWrapping="Wrap" Text="Mode de deplacement : " VerticalAlignment="Top" Width="97"/>
+                        <TextBlock HorizontalAlignment="Left" Height="21" Margin="232,10,0,0" TextWrapping="Wrap" Text="Carburant : " VerticalAlignment="Top" Width="70"/>
+                        <TextBlock HorizontalAlignment="Left" Height="21" Margin="337,10,0,0" TextWrapping="Wrap" Text="Voie : " VerticalAlignment="Top" Width="49"/>
+                        <ListBox x:Name="vehicul_deplac" HorizontalAlignment="Left" Height="100" Margin="124,36,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ItemsSource="{Binding Modes}" DisplayMemberPath="mode" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedMode}"/>
+                        <ListBox x:Name="vehicul_carbu" HorizontalAlignment="Left" Height="100" Margin="229,36,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ItemsSource="{Binding Carburants}" DisplayMemberPath="fuel" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedCarbu}"/>
+                        <ListBox x:Name="vehicul_acces" HorizontalAlignment="Left" Height="100" Margin="334,36,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ItemsSource="{Binding Voie}" DisplayMemberPath="voie" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedVoie}"/>
+                        <Separator HorizontalAlignment="Left" Margin="331,0,0,6" Width="1" BorderThickness="2" BorderBrush="Brown"/>
+                        <ComboBox x:Name="vehicul_mania" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="109" SelectedItem="{Binding SaveVehicule.maniabilite, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                            <ComboBox.Style>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="ComboBox.SelectedItem" Value="{x:Null}">
+                                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                            <ComboBoxItem Content="~Manoeuvrabilité~"/>
+                            <System:String>Sensible</System:String>
+                            <System:String>Maniable</System:String>
+                            <System:String>Rigide</System:String>
+                        </ComboBox>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="Descr" Header="Detail">
+                    <Grid>
+                        <TextBox x:Name="Item_descr" AcceptsTab="True" AcceptsReturn="True" TextWrapping="WrapWithOverflow" MaxLength="8000" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding Path=Saving.description,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Linked, Converter={StaticResource NOT}}" Margin="240,0,0,0"/>
+                        <GroupBox Header="Obtention" FontSize="10" HorizontalAlignment="Left" Height="134" Margin="10,10,0,0" VerticalAlignment="Top" Width="174" IsEnabled="{Binding IsChecked, Converter={StaticResource NOT}, ElementName=jewel_linked}">
+                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding Processes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedObtentions}" DisplayMemberPath="process"/>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Border>
+        <Button Content="Save" HorizontalAlignment="Left" Height="22" Margin="647,196,0,0" VerticalAlignment="Top" Width="44" Command="{Binding Sauvegarde}"/>
+        <CheckBox x:Name="Dist_weap" Panel.ZIndex="3" Content="Armes à distance" HorizontalAlignment="Left" Height="15" Margin="10,161,0,0" VerticalAlignment="Top" Width="116" IsEnabled="{Binding ElementName=Armes, Path=IsSelected}" IsChecked="{Binding NewDist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox x:Name="Cac_weap" Panel.ZIndex="3" Content="Armes au corps a corps" HorizontalAlignment="Left" Height="15" Margin="10,176,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=Armes, Path=IsSelected}" IsChecked="{Binding NewCac, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox x:Name="Magic_weap" Panel.ZIndex="3" Content="Arme Magique" HorizontalAlignment="Left" Height="15" Margin="10,146,0,0" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Armes, Path=IsSelected}" IsChecked="{Binding NewMag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <Button x:Name="new_mun" Content=" Munitions " HorizontalAlignment="Left" Height="22" Margin="364,196,0,0" VerticalAlignment="Top"  Command="{Binding NewMun}"/>
+        <Button x:Name="newProcess" Content=" Procede " HorizontalAlignment="Left" Height="22" Margin="433,196,0,0" VerticalAlignment="Top" Command="{Binding NewProcess}"/>
+        <Button x:Name="new_effect" Content=" Effet " HorizontalAlignment="Left" Margin="492,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NewEffect}"/>
+        <Button x:Name="new_weap_typ" Content=" Arme " HorizontalAlignment="Left" Margin="532,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NewWeap}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="305,199,0,0" TextWrapping="Wrap" Text="Nouveau :" VerticalAlignment="Top"/>
+        <Button x:Name="new_armor_cap" Content=" Capacité " HorizontalAlignment="Left" Margin="576,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NewCaps}"/>
+        <GroupBox HorizontalAlignment="Left" Height="196" Margin="4,0,0,0" VerticalAlignment="Top" Width="235" BorderThickness="0" IsEnabled="{Binding ElementName=jewel_linked, Path=IsChecked, Converter={StaticResource NOT}}">
+            <Grid>
+                <TextBox x:Name="Item_name" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding Saving.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="94" Margin="0,10,0,0"/>
+                <Button Content="⟳" HorizontalAlignment="Left" Height="25" Margin="99,10,0,0" VerticalAlignment="Top" Width="25" Click="Generation" FontSize="24" Padding="1,-8,1,1" ToolTip="Generer un nom avec le générateur de noms et les parametres entrés dans le cadre 'Generation Option'."/>
+                <CheckBox x:Name="craftable" Content="Craftable" HorizontalAlignment="Left" Height="16" Margin="0,96,0,0" VerticalAlignment="Top" Width="72" IsChecked="{Binding Saving.craftable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="Item_prix_mag" HorizontalAlignment="Left" Height="23" Margin="172,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding SelectedItem, Converter={StaticResource MagoToBool}, ElementName=Origin}" Visibility="{Binding SelectedItem, Converter={StaticResource MagoToVisible}, ElementName=Origin}">
+                    <Binding Path="Saving.prix_mago" Mode="TwoWay"/>
+                </TextBox>
+                <TextBox x:Name="Item_prix_tech" HorizontalAlignment="Left" Height="23" Margin="172,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding SelectedITem, Converter={StaticResource TechToBool}, ElementName=Origin}" Visibility="{Binding SelectedItem, Converter={StaticResource TechToVisible}, ElementName=Origin}">
+                    <Binding Path="Saving.prix_tech" Mode="TwoWay"/>
+                </TextBox>
+                <TextBox x:Name="Item_masse" HorizontalAlignment="Left" Height="23" Margin="172,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" >
+                    <Binding Path="Saving.masse" Mode="TwoWay"/>
+                </TextBox>
+                <TextBlock x:Name="Item_mag_txt" HorizontalAlignment="Left" Height="16" Margin="102,80,0,0" TextWrapping="Wrap" Text="Prix magique" VerticalAlignment="Top" Width="70" Visibility="{Binding SelectedItem, Converter={StaticResource MagoToVisible}, ElementName=Origin}"/>
+                <TextBlock x:Name="Item_tech_txt" HorizontalAlignment="Left" Height="16" Margin="125,105,0,0" TextWrapping="Wrap" Text="Prix tech" VerticalAlignment="Top" Width="47" Visibility="{Binding SelectedItem, Converter={StaticResource TechToVisible}, ElementName=Origin}"/>
+                <TextBlock HorizontalAlignment="Left" Height="16" Margin="137,128,0,0" TextWrapping="Wrap" Text="Masse" VerticalAlignment="Top" Width="35"/>
+                <ComboBox x:Name="Origin" HorizontalAlignment="Left" Height="22" Margin="0,70,0,0" VerticalAlignment="Top" Width="94" SelectedItem="{Binding Saving.origine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedItem" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <System:String>~Origine~</System:String>
+                    <System:String>Magocosme</System:String>
+                    <System:String>Originel</System:String>
+                    <System:String>Technocosme</System:String>
+                    <System:String>Tous</System:String>
+                </ComboBox>
+                <ComboBox HorizontalAlignment="Left" Margin="129,10,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="categorie" SelectedValuePath="categorie" SelectedItem="{Binding Saving.Tailles, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Saving.taille_cat, Mode=TwoWay}" SelectionChanged="process_SelectionChanged">
+                    <ComboBox.Style>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Style.Triggers>
+                                <Trigger Property="SelectedValue" Value="{x:Null}">
+                                    <Setter Property="SelectedIndex" Value="0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Tailles" Source="{Binding Sizes}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Tailles categorie="~Taille~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Tailles}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <CheckBox Content="Taille changeante" HorizontalAlignment="Left" Margin="112,40,0,0" VerticalAlignment="Top" IsChecked="{Binding Saving.resizable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Stockable" HorizontalAlignment="Left" Margin="112,57,0,0" VerticalAlignment="Top" IsChecked="{Binding Saving.storable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </GroupBox>
+        <CheckBox x:Name="Enchantable" Content="Enchantable" HorizontalAlignment="Left" Height="15" Margin="10,114,0,0" VerticalAlignment="Top" Width="92" IsChecked="{Binding Enchantable, Mode=TwoWay}"/>
+        <ComboBox x:Name="Item_elem" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="107" SelectedValue="{Binding Choice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SelectionToType}}" SelectedValuePath="Content" SelectionChanged="process_SelectionChanged">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="ComboBox.SelectedValue" Value="{x:Null}">
+                            <Setter Property="ComboBox.SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBoxItem x:Name="None" Content="~Type d'objet~"/>
+            <ComboBoxItem x:Name="Armes" Content="Armes"/>
+            <ComboBoxItem x:Name="Armure" Content="Armure" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Armory'}"/>
+            <ComboBoxItem x:Name="Bijoux" Content="Bijoux" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Bijoux'}"/>
+            <ComboBoxItem x:Name="Consommables" Content="Consommables" IsEnabled="{Binding Saving,Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Consommables'}"/>
+            <ComboBoxItem x:Name="Container" Content="Conteneur" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Conteneurs'}"/>
+            <ComboBoxItem x:Name="Munitions" Content="Munition" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Munition'}"/>
+            <ComboBoxItem x:Name="Loot" Content="Loot" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Loot'}"/>
+            <ComboBoxItem x:Name="Vehicule" Content="Vehicule" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource TypeToBool}, ConverterParameter='Vehicule'}"/>
+            <ComboBoxItem x:Name="Livre" Content="Livre" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Livre'}"/>
+            <ComboBoxItem x:Name="Common" Content="Communs" IsEnabled="{Binding ElementName=Bijoux_link, Path=SelectedIndex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Equals}, ConverterParameter=-1}"/>
+        </ComboBox>
+        <Button Content=" Tailles " HorizontalAlignment="Left" Margin="192,170,0,0" VerticalAlignment="Top" Click="SizeShow"/>
+    </Grid>
+</UserControl>
