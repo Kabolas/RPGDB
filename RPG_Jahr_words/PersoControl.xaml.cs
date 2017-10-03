@@ -149,5 +149,22 @@ namespace RPG_Jahr_words
             if (int.TryParse((sender as TextBox).Text, out int inutil))
                 (DataContext as ViewModel.PersoViewModel).ElementMasterCheck((sender as TextBox).Text);
         }
+
+        private void RefreshSpell(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void RefreshStuff(object sender, SelectionChangedEventArgs e)
+        {
+            if(StuffList!= null)
+            ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.Items)).Refresh();
+        }
+
+        private void RefreshLoot(object sender, SelectionChangedEventArgs e)
+        {
+            if(ListLoot!= null)
+            ((CollectionView)CollectionViewSource.GetDefaultView(ListLoot.Items)).Refresh();
+        }
     }
 }

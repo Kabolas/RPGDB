@@ -28,6 +28,8 @@ namespace RPG_Jahr_words.ViewModel
         private List<Items> _lootList, _stuffList;
         private List<Magie_type> _magie;
         private List<ComboCat> _categoriescombo;
+        private List<Sorts> _sort;
+        private List<Combo> _combos;
         public NameGen Gen { get; set; } = new NameGen();
         private RelayCommand _newTrais, _newCat, _newCreature;
 
@@ -105,6 +107,9 @@ namespace RPG_Jahr_words.ViewModel
         public List<Magie_type> Magie { get => _magie; set { _magie = value; RaisePropertyChanged(); } }
 
         public List<StuffItem> Stuff { get => _stuff; set { _stuff = value; RaisePropertyChanged(); } }
+
+        public List<Sorts> Sort { get => _sort; set { _sort = value; RaisePropertyChanged(); } }
+        public List<Combo> Combos { get => _combos; set { _combos = value; RaisePropertyChanged(); } }
 
         private void MakeCreature()
         {

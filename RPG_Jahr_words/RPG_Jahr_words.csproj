@@ -606,10 +606,6 @@
     <Content Include="RPG.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Personnages.mdf" />
-    <Content Include="Personnages_log.ldf">
-      <DependentUpon>Personnages.mdf</DependentUpon>
-    </Content>
     <Content Include="RPG_log.ldf">
       <DependentUpon>RPG.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

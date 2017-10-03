@@ -141,7 +141,7 @@
             <TabItem Header="Magie">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="randomMag" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="88,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_elemRes}">
+                    <ListView HorizontalAlignment="Left" Height="118" Margin="80,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_magoRes}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -155,7 +155,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Height="118" Margin="242,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView Height="118" Margin="234,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_mago}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -169,12 +169,12 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBlock HorizontalAlignment="Left" Margin="385,34,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="94" Width="79"/>
+                    <TextBlock Margin="377,34,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="94" HorizontalAlignment="Left" Width="92"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Sorts">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="306,10,0,0" VerticalAlignment="Top" Width="158">
+                    <ListView HorizontalAlignment="Left" Height="128" Margin="223,5,0,0" VerticalAlignment="Top" Width="246">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Nom" Width="Auto"/>
@@ -183,7 +183,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="133" DisplayMemberPath="ecole" SelectedIndex="0">
+                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="133" DisplayMemberPath="ecole" SelectedIndex="0" SelectionChanged="RefreshSpell">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Magie" Source="{Binding Magie}"/>
                         </ComboBox.Resources>
@@ -194,7 +194,7 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="143,10,0,0" VerticalAlignment="Top" Width="158">
+                    <ListView HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="183">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Nom" Width="Auto"/>
@@ -203,18 +203,19 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Button x:Name="add_item_but_Copy2" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="193,54,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Combo">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="307,10,0,0" VerticalAlignment="Top" Width="157">
+                    <ListView Height="128" Margin="203,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="266" ItemsSource="{Binding Sort}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Nom" Width="Auto"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0">
+                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Combocats" Source="{Binding Categoriescombo}"/>
                         </ComboBox.Resources>
@@ -225,13 +226,14 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="139,10,0,0" VerticalAlignment="Top" Width="157">
+                    <ListView HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="163" ItemsSource="{Binding Combos}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Nom" Width="Auto"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Button x:Name="add_item_but_Copy1" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="173,63,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Stuff">
@@ -252,7 +254,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox x:Name="Stufftype" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="91" SelectedItem="0">
+                    <ComboBox x:Name="Stufftype" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Width="91" SelectedIndex="0" SelectionChanged="RefreshStuff">
                         <ComboBoxItem>~Type d'objet~</ComboBoxItem>
                         <ComboBoxItem x:Name="StuffAll">Alliages</ComboBoxItem>
                         <ComboBoxItem x:Name="StuffWeap">Armes</ComboBoxItem>
@@ -295,7 +297,7 @@
             </TabItem>
             <TabItem Header="Loot">
                 <Grid Background="#FFE5E5E5">
-                    <ComboBox x:Name="Loottype" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="93">
+                    <ComboBox x:Name="Loottype" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="116" SelectedIndex="0" SelectionChanged="RefreshLoot">
                         <System:String>~Type d'objet~</System:String>
                         <System:String>Alliages</System:String>
                         <System:String>Armes</System:String>
@@ -370,7 +372,7 @@
             </TabItem>
             <TabItem Header="Armes">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="135,10,0,0" VerticalAlignment="Top" Width="183" ItemsSource="{Binding NewPerso.Perso_weap_Master}">
+                    <ListView x:Name="weapMaster" HorizontalAlignment="Left" Height="118" Margin="135,10,0,0" VerticalAlignment="Top" Width="183" ItemsSource="{Binding NewPerso.Perso_weap_Master}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Arme" Width="Auto" DisplayMemberBinding="{Binding Weapon_type.type}"/>
@@ -386,7 +388,12 @@
                         </ListView.View>
                     </ListView>
                     <CheckBox Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+                        <System:String>~Type d'arme~</System:String>
+                        <System:String>Corps a corps</System:String>
+                        <System:String>Distance</System:String>
+                        <System:String>Magique</System:String>
+                    </ComboBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Background">

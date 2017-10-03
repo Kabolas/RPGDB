@@ -37,20 +37,19 @@ namespace RPG_Jahr_words
     public partial class MainWindow : Window
     {
         public Tabitem Page { get; private set; }
-        public NameGen gen { get; private set; }
+        private NameGen _gen= new NameGen();
+        public NameGen Gen { get => _gen; private set=> _gen = value; } 
         private SqlConnection con;
         private SqlCommand com;
         public NumberRule rule { get; set; }
-
-        public RPGEntities15 bdd { get; private set; }
+        private RPGEntities15 _bdd= new RPGEntities15();
+        public RPGEntities15 Bdd { get => _bdd; private set => _bdd = value; } 
 
         public MainWindow()
         {
-            bdd = new RPGEntities15();
-            DataContext = new ViewModel.MainViewModel { Bdd = bdd };
-            gen = (DataContext as ViewModel.MainViewModel).Gen;
+            DataContext = new ViewModel.MainViewModel { Bdd = this.Bdd, Gen = this.Gen };
             InitializeComponent();
-            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Projects\RPG_Jahr_words\RPG_Jahr_words\RPG.mdf;Integrated Security=True;");// Connect Timeout=30;");// User Instance=True");
+            //con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Projects\RPG_Jahr_words\RPG_Jahr_words\RPG.mdf;Integrated Security=True;");// Connect Timeout=30;");// User Instance=True");
             
             NameGen.adjectif = false;
             NameGen.monde = false;
@@ -76,7 +75,7 @@ namespace RPG_Jahr_words
             //button13_Copy.Background = button13_Copy2.Background= lele;
             //button13_Copy4.Background = button13_Copy6.Background= momo;
             //button13.Background = button13_Copy1.Background= mo;
-            con.Open();
+            //con.Open();
             
             UpdateWin();
         }
@@ -163,45 +162,45 @@ namespace RPG_Jahr_words
         #region Bestiaire
         private void BeastUpdate()
         {
-            DataSet set = new DataSet();
-            new SqlDataAdapter("SELECT * FROM Comportements", con).Fill(set, "Comportement");
-            new SqlDataAdapter("SELECT * FROM Best_cat", con).Fill(set, "Categorie");
-            new SqlDataAdapter("SELECT nom FROM Items, Loot WHERE Items.Id = id_item", con).Fill(set, "Loots");
-            new SqlDataAdapter("SELECT * FROM Capacites_best", con).Fill(set, "Capacites");
-            new SqlDataAdapter("SELECT nom FROM Continent", con).Fill(set, "Continent");
-            new SqlDataAdapter("SELECT * FROM Biomes", con).Fill(set, "Biomes");
-            new SqlDataAdapter("SELECT nom FROM Region", con).Fill(set, "Region");
-            if (set.Tables["Categorie"].Rows.Count + 1 > Beast_cat.Items.Count)
-                foreach (DataRow row in set.Tables["Categorie"].Rows)
-                    if (!Beast_cat.Items.Contains(row.ItemArray[0]))
-                    {
-                        Beast_cat.Items.Add(row.ItemArray[0]);
-                        evol_cat.Items.Add(row.ItemArray[0]);
-                    }
-            if (Beast_lootlootable.Items.Count < set.Tables["Loots"].Rows.Count + 1)
-                foreach (DataRow row in set.Tables["Loots"].Rows)
-                    if (!Beast_lootlootable.Items.Contains(row.ItemArray[0]))
-                        Beast_lootlootable.Items.Add(row.ItemArray[0]);
-            if (Beast_behav.Items.Count < set.Tables["Comportement"].Rows.Count + 1)
-                foreach (DataRow row in set.Tables["Coportement"].Rows)
-                    if (!Beast_behav.Items.Contains(row.ItemArray[0]))
-                        Beast_behav.Items.Add(row.ItemArray[0]);
-            if (cap_list.Items.Count < set.Tables["Capacites"].Rows.Count)
-                foreach (DataRow row in set.Tables["Capacites"].Rows)
-                    if (!cap_list.Items.Contains(row.ItemArray[0]))
-                        cap_list.Items.Add(row.ItemArray[0]);
-            if (habitat_list.Items.Count < (set.Tables["Continent"].Rows.Count + set.Tables["Region"].Rows.Count + set.Tables["Biomes"].Rows.Count))
-            {
-                foreach (DataRow row in set.Tables["Continent"].Rows)
-                    if (!habitat_list.Items.Contains(row.ItemArray[0]))
-                        habitat_list.Items.Add(row.ItemArray[0]);
-                foreach (DataRow row in set.Tables["Region"].Rows)
-                    if (!habitat_list.Items.Contains(row.ItemArray[0]))
-                        habitat_list.Items.Add(row.ItemArray[0]);
-                foreach (DataRow row in set.Tables["Biomes"].Rows)
-                    if (!habitat_list.Items.Contains(row.ItemArray[0]))
-                        habitat_list.Items.Add(row.ItemArray[0]);
-            }
+            //DataSet set = new DataSet();
+            //new SqlDataAdapter("SELECT * FROM Comportements", con).Fill(set, "Comportement");
+            //new SqlDataAdapter("SELECT * FROM Best_cat", con).Fill(set, "Categorie");
+            //new SqlDataAdapter("SELECT nom FROM Items, Loot WHERE Items.Id = id_item", con).Fill(set, "Loots");
+            //new SqlDataAdapter("SELECT * FROM Capacites_best", con).Fill(set, "Capacites");
+            //new SqlDataAdapter("SELECT nom FROM Continent", con).Fill(set, "Continent");
+            //new SqlDataAdapter("SELECT * FROM Biomes", con).Fill(set, "Biomes");
+            //new SqlDataAdapter("SELECT nom FROM Region", con).Fill(set, "Region");
+            //if (set.Tables["Categorie"].Rows.Count + 1 > Beast_cat.Items.Count)
+            //    foreach (DataRow row in set.Tables["Categorie"].Rows)
+            //        if (!Beast_cat.Items.Contains(row.ItemArray[0]))
+            //        {
+            //            Beast_cat.Items.Add(row.ItemArray[0]);
+            //            evol_cat.Items.Add(row.ItemArray[0]);
+            //        }
+            //if (Beast_lootlootable.Items.Count < set.Tables["Loots"].Rows.Count + 1)
+            //    foreach (DataRow row in set.Tables["Loots"].Rows)
+            //        if (!Beast_lootlootable.Items.Contains(row.ItemArray[0]))
+            //            Beast_lootlootable.Items.Add(row.ItemArray[0]);
+            //if (Beast_behav.Items.Count < set.Tables["Comportement"].Rows.Count + 1)
+            //    foreach (DataRow row in set.Tables["Coportement"].Rows)
+            //        if (!Beast_behav.Items.Contains(row.ItemArray[0]))
+            //            Beast_behav.Items.Add(row.ItemArray[0]);
+            //if (cap_list.Items.Count < set.Tables["Capacites"].Rows.Count)
+            //    foreach (DataRow row in set.Tables["Capacites"].Rows)
+            //        if (!cap_list.Items.Contains(row.ItemArray[0]))
+            //            cap_list.Items.Add(row.ItemArray[0]);
+            //if (habitat_list.Items.Count < (set.Tables["Continent"].Rows.Count + set.Tables["Region"].Rows.Count + set.Tables["Biomes"].Rows.Count))
+            //{
+            //    foreach (DataRow row in set.Tables["Continent"].Rows)
+            //        if (!habitat_list.Items.Contains(row.ItemArray[0]))
+            //            habitat_list.Items.Add(row.ItemArray[0]);
+            //    foreach (DataRow row in set.Tables["Region"].Rows)
+            //        if (!habitat_list.Items.Contains(row.ItemArray[0]))
+            //            habitat_list.Items.Add(row.ItemArray[0]);
+            //    foreach (DataRow row in set.Tables["Biomes"].Rows)
+            //        if (!habitat_list.Items.Contains(row.ItemArray[0]))
+            //            habitat_list.Items.Add(row.ItemArray[0]);
+            //}
         }
         private void AddBeast_cat()
         {
@@ -421,12 +420,12 @@ namespace RPG_Jahr_words
                     break;
                 case Tabitem.Personnages:
                     if (sender == Perso_NameGen)
-                        Perso_name.Text = gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
+                        Perso_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
                     else if (sender == Perso_evolved_nameGen)
-                        Perso_evolved_name.Text = gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
+                        Perso_evolved_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
                     break;
                 case Tabitem.Bestiaire:
-                    Beast_name.Text = gen.Generation_gn_Sons(BeastGen.Value, BeastGen.Word, BeastGen.Before, BeastGen.Triphtongue, BeastGen.Symbol);
+                    Beast_name.Text = Gen.Generation_gn_Sons(BeastGen.Value, BeastGen.Word, BeastGen.Before, BeastGen.Triphtongue, BeastGen.Symbol);
                     break;
                 case Tabitem.Enchant:
                     break;
@@ -758,7 +757,7 @@ namespace RPG_Jahr_words
             ((TextBox)sender).Text = remp;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { con.Close(); bdd.Dispose(); ItemsControl.Dispose(); }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { Bdd.Dispose(); }
 
         private void moreorless(object sender, RoutedEventArgs e)
         {

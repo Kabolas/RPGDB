@@ -11,10 +11,10 @@
         <CheckBox  Content="Triphtongue" HorizontalAlignment="Left" Height="17" Margin="10,32,0,0" VerticalAlignment="Top" Width="114" IsChecked="{Binding Path=Triphtongue}" />
         <CheckBox  Content="Symbole" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" VerticalAlignment="Top" Width="114" IsChecked="{Binding Path=Symbol}"/>
         <TextBlock HorizontalAlignment="Left" Height="22" Margin="144,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135" IsEnabled="False" Text="{Binding ElementName=Letters, Path=Value,StringFormat={}{0} Lettres}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="223,9,0,0" TextWrapping="Wrap" Text="{Binding Path=Word}" VerticalAlignment="Top" Width="48"/>
-        <TextBlock HorizontalAlignment="Left" Margin="158,10,0,0" TextWrapping="Wrap" Text="Mot voulu :" VerticalAlignment="Top"/>
-        <RadioButton Content="Avant" HorizontalAlignment="Left" Margin="158,31,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Before}"/>
-        <RadioButton Content="Apres" HorizontalAlignment="Left" Margin="212,32,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="223,10,0,0" TextWrapping="Wrap" Text="{Binding Path=Word}" VerticalAlignment="Top" Width="57"/>
+        <TextBlock HorizontalAlignment="Left" Margin="158,11,0,0" TextWrapping="Wrap" Text="Mot voulu :" VerticalAlignment="Top"/>
+        <RadioButton Content="Avant" HorizontalAlignment="Left" Margin="158,32,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Before}"/>
+        <RadioButton Content="Apres" HorizontalAlignment="Left" Margin="212,33,0,0" VerticalAlignment="Top"/>
         <Slider x:Name="Letters" HorizontalAlignment="Left" Height="22" Margin="10,54,0,0" VerticalAlignment="Top" Width="129" Maximum="12" Minimum="3" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="{Binding Path=Value}"/>
     </Grid>
 </UserControl>

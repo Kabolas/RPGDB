@@ -16,11 +16,11 @@
             </Grid>
         </TabItem>
         <TabItem x:Name="Items" Header="Items">
-            <local:ItemControl x:Name="ItemsControl" Gen="{Binding Path=gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+            <local:ItemControl x:Name="ItemsControl" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Personnages" Header="Personnages">
             <Grid>
-                <local:PersoControl x:Name="Persos" Gen="{Binding Path=gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+                <local:PersoControl x:Name="Persos" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
             <Grid Visibility="Hidden">
                 <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,36,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106"/>
                 <Button x:Name="Perso_NameGen" Content="Generer" HorizontalAlignment="Left" Height="25" Margin="121,36,0,0" VerticalAlignment="Top" Width="83" Click="Generation"/>
@@ -289,16 +289,16 @@
         </TabItem>
         <TabItem x:Name="Enchantements" Header="Enchantements"/>
         <TabItem x:Name="Sorts" Header="Sorts">
-            <local:SpellControl Gen="{Binding Path=gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+            <local:SpellControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Monde" Header="Monde">
             <Grid>
-                <local:WorldControl Gen="{Binding Path=gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+                <local:WorldControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="Panth" Header="Panthéon"/>
         <TabItem x:Name="Dico_Jahr" Header="Dico Jahr">
-            <local:JahrWordsControl Gen="{Binding Path=gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+            <local:JahrWordsControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Dico_comm" Header="Dico comun"/>
         <TabItem x:Name="Dico_Av" Header="Dico avien"/>
