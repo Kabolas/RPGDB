@@ -212,7 +212,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="133" DisplayMemberPath="ecole" SelectedIndex="0" SelectionChanged="RefreshSpell">
+                    <ComboBox x:Name="SpellSchool" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="133" DisplayMemberPath="ecole" SelectedIndex="0" SelectionChanged="RefreshSpell">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Magie" Source="{Binding Magie}"/>
                         </ComboBox.Resources>
@@ -246,7 +246,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0" SelectionChanged="RefreshCombo">
+                    <ComboBox x:Name="ComboType" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0" SelectionChanged="RefreshCombo">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Combocats" Source="{Binding Categoriescombo}"/>
                         </ComboBox.Resources>
@@ -421,9 +421,9 @@
                         </ListView.View>
                     </ListView>
                     <CheckBox Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+                    <ComboBox x:Name="WeapSort" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="RefreshWeaps">
                         <System:String>~Type d'arme~</System:String>
-                        <System:String>Corps a corps</System:String>
+                        <System:String>Corps à corps</System:String>
                         <System:String>Distance</System:String>
                         <System:String>Magique</System:String>
                     </ComboBox>

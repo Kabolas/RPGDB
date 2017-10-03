@@ -46,11 +46,46 @@ namespace RPG_Jahr_words
         {
             InitializeComponent();
             CollectionView stuf = (CollectionView)CollectionViewSource.GetDefaultView(StuffList.Items);
-            //CollectionView stuf = (CollectionView)CollectionViewSource.GetDefaultView(StuffList.Items);
-            //CollectionView stuf = (CollectionView)CollectionViewSource.GetDefaultView(StuffList.Items);
+            CollectionView weaps = (CollectionView)CollectionViewSource.GetDefaultView(weapMaster.Items);
+            CollectionView spells = (CollectionView)CollectionViewSource.GetDefaultView(SpellList.Items);
+            CollectionView combos = (CollectionView)CollectionViewSource.GetDefaultView(ComboList.Items);
             CollectionView loot = (CollectionView)CollectionViewSource.GetDefaultView(ListLoot.Items);
             stuf.Filter = FilterStuff;
             loot.Filter = FilterLoot;
+            weaps.Filter = FilterWeps;
+            combos.Filter = FilterSpells;
+            combos.Filter = FilterCombs;
+        }
+
+        private bool FilterSpells(object obj)
+        {
+            if (SpellSchool.SelectedIndex > 0)
+                return (obj as Sorts).Magie_type == SpellSchool.SelectedItem as Magie_type;
+            return true;
+        }
+
+        private bool FilterCombs(object obj)
+        {
+            if (ComboType.SelectedIndex > 0)
+                return (obj as Combo).ComboCat == ComboType.SelectedItem as ComboCat;
+            return true;
+        }
+
+        private bool FilterWeps(object obj)
+        {
+            if (WeapSort.SelectedIndex > 0)
+                switch (WeapSort.SelectedItem as string)
+                {
+                    case "Corps à corps":
+                        return (obj as Perso_weap_Master).Weapon_type.type.Contains("Cac");
+                    case "Distance":
+                        return (obj as Perso_weap_Master).Weapon_type.type.Contains("Distance");
+                    case "Magique":
+                        return (obj as Perso_weap_Master).Weapon_type.type.Contains("Magique");
+                    default:
+                        return true;
+                }
+            return true;
         }
 
         private bool FilterLoot(object obj)
@@ -153,26 +188,32 @@ namespace RPG_Jahr_words
 
         private void RefreshSpell(object sender, SelectionChangedEventArgs e)
         {
-            if(SpellList!= null)
-            ((CollectionView)CollectionViewSource.GetDefaultView(SpellList.ItemsSource)).Refresh();
+            if (SpellList != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(SpellList.ItemsSource)).Refresh();
         }
 
         private void RefreshStuff(object sender, SelectionChangedEventArgs e)
         {
-            if(StuffList!= null)
-            ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
+            if (StuffList != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
         }
 
         private void RefreshLoot(object sender, SelectionChangedEventArgs e)
         {
-            if(ListLoot!= null)
-            ((CollectionView)CollectionViewSource.GetDefaultView(ListLoot.ItemsSource)).Refresh();
+            if (ListLoot != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(ListLoot.ItemsSource)).Refresh();
         }
 
         private void RefreshCombo(object sender, SelectionChangedEventArgs e)
         {
             if (ComboList != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(ComboList.ItemsSource)).Refresh();
+        }
+
+        private void RefreshWeaps(object sender, SelectionChangedEventArgs e)
+        {
+            if (weapMaster != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(weapMaster.ItemsSource)).Refresh();
         }
     }
 }
