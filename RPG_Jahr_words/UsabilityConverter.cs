@@ -722,4 +722,43 @@ namespace RPG_Jahr_words
             }
         }
     }
+
+    public class WriteInBoth : IMultiValueConverter
+    {
+        public object Convert(object[] values, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            object[] retab = new object[targetTypes.Length];
+            if (targetTypes[0] == typeof(string))
+                for (int i = 0; i < retab.Length; i++)
+                    retab[i] = value as string;
+            else if (targetTypes[0] == typeof(int) || targetTypes[0] == typeof(int?))
+                for (int i = 0; i < retab.Length; i++)
+                    retab[i] = int.Parse(value as string);
+            else if (targetTypes[0] == typeof(double) || targetTypes[0] == typeof(double?))
+                for (int i = 0; i < retab.Length; i++)
+                    retab[i] = double.Parse(value as string);
+            else
+                for (int i = 0; i < retab.Length; i++)
+                    retab[i] = value;
+            return retab;
+        }
+    }
+
+    public class MultiplyBy : IValueConverter
+    {
+        public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            return (targetType == typeof(int) ? (int)value / (int)parameter : (double)value / (double)parameter);
+        }
+
+        public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            return (targetType == typeof(int)?(int)value * (int)parameter: (double)value * (double)parameter);
+        }
+    }
 }

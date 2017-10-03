@@ -15,9 +15,11 @@
         <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
         <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
         <local:NullToFalse x:Key="NullFalse"/>
+        <local:MultiplyBy x:Key="By"/>
+        <local:WriteInBoth x:Key="Both"/>
     </UserControl.Resources>
     <Grid>
-        <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106"/>
+        <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
         <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="nom">
             <ComboBox.ItemsSource>
@@ -76,18 +78,32 @@
         <TabControl HorizontalAlignment="Left" Height="166" Margin="211,10,0,0" VerticalAlignment="Top" Width="480">
             <TabItem Header="Stats">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.force, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39">
+                        <TextBox.Text>
+                            <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
+                                <Binding Path="NewPerso.Pers_stats.puissance"/>
+                                <Binding Path="NewPerso.Pers_stats.magie_fuel"/>
+                            </MultiBinding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39">
+                        <TextBox.Text>
+                            <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
+                                <Binding Path="NewPerso.Pers_stats.pv" Converter="{StaticResource By}" ConverterParameter="10"/>
+                                <Binding Path="NewPerso.Pers_stats.stamina" Converter="{StaticResource By}" ConverterParameter="12"/>
+                            </MultiBinding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.dexterite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.defense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_vol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_sol,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.charisme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.sagesse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
                     <TextBlock HorizontalAlignment="Left" Margin="10,5,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="404,5,0,0" TextWrapping="Wrap" Text="Dexterité" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="320,5,0,0" TextWrapping="Wrap" Text="Résistance" VerticalAlignment="Top"/>
@@ -106,7 +122,7 @@
             <TabItem Header="Elements">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="randoElem" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="102,10,0,0" VerticalAlignment="Top" Width="122" ItemsSource="{Binding NewPerso.Perso_elemRes}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView HorizontalAlignment="Left" Height="123" Margin="97,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elemRes}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
@@ -120,7 +136,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="229,9,0,0" VerticalAlignment="Top" Width="122" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView HorizontalAlignment="Left" Height="124" Margin="234,10,0,0" VerticalAlignment="Top" Width="132" ItemsSource="{Binding NewPerso.Perso_elem}" IsEnabled="{Binding ElementName=randoElem, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Element" Width="Auto" DisplayMemberBinding="{Binding Mag_element.element}"/>
@@ -134,14 +150,14 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBox HorizontalAlignment="Left" Height="57" Margin="356,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="108"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock Height="102" Margin="371,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="5,31,0,0" TextWrapping="Wrap" Text="TextBlock" Width="87" Height="102" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Magie">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="randomMag" Content="Random" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <ListView HorizontalAlignment="Left" Height="118" Margin="80,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_magoRes}">
+                    <ListView HorizontalAlignment="Left" Height="123" Margin="90,10,0,0" VerticalAlignment="Top" Width="149" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}" ItemsSource="{Binding NewPerso.Perso_magoRes}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -155,7 +171,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Height="118" Margin="234,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_mago}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
+                    <ListView Height="123" Margin="244,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="138" ItemsSource="{Binding NewPerso.Perso_mago}" IsEnabled="{Binding ElementName=randomMag, Path=IsChecked, Converter={StaticResource Not}}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Ecole" Width="Auto" DisplayMemberBinding="{Binding Magie_type.ecole}"/>
@@ -169,7 +185,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBlock Margin="377,34,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="94" HorizontalAlignment="Left" Width="92"/>
+                    <TextBlock Margin="387,34,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="99" HorizontalAlignment="Left" Width="82"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="5,34,0,5" TextWrapping="Wrap" Text="TextBlock" Width="80"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Sorts">
@@ -177,9 +194,11 @@
                     <ListView HorizontalAlignment="Left" Height="128" Margin="223,5,0,0" VerticalAlignment="Top" Width="246">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Nom" Width="Auto"/>
-                                <!--<GridViewColumn Header="Nom" Width="Auto"/>
-                                <GridViewColumn Header="Nom" Width="Auto"/>-->
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Header="Puissance" Width="Auto" DisplayMemberBinding="{Binding puissance}"/>
+                                <GridViewColumn Header="Cout" Width="Auto" DisplayMemberBinding="{Binding mana_cout}"/>
+                                <GridViewColumn Header="Niveau" Width="Auto" DisplayMemberBinding="{Binding niveau}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -194,16 +213,18 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ListView HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="183">
+                    <ListView x:Name="SpellList" HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="183">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Nom" Width="Auto"/>
-                                <!--<GridViewColumn Header="Nom" Width="Auto"/>
-                                <GridViewColumn Header="Nom" Width="Auto"/>-->
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Header="Puissance" Width="Auto" DisplayMemberBinding="{Binding puissance}"/>
+                                <GridViewColumn Header="Cout" Width="Auto" DisplayMemberBinding="{Binding mana_cout}"/>
+                                <GridViewColumn Header="Niveau" Width="40" DisplayMemberBinding="{Binding niveau}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy2" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="193,54,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button x:Name="add_item_but_Copy2" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="193,54,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=SpellList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Combo">
@@ -215,7 +236,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0">
+                    <ComboBox HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0" SelectionChanged="RefreshCombo">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Combocats" Source="{Binding Categoriescombo}"/>
                         </ComboBox.Resources>
@@ -226,14 +247,16 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ListView HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="163" ItemsSource="{Binding Combos}">
+                    <ListView x:Name="ComboList" HorizontalAlignment="Left" Height="101" Margin="5,32,0,0" VerticalAlignment="Top" Width="163" ItemsSource="{Binding Combos}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Nom" Width="Auto"/>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                <GridViewColumn Header="Niveau" Width="40" DisplayMemberBinding="{Binding niveau}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy1" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="173,63,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button x:Name="add_item_but_Copy1" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="173,63,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=ComboList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Stuff">
@@ -272,7 +295,7 @@
                         <ComboBoxItem x:Name="StuffCom">Communs</ComboBoxItem>
                         <ComboBoxItem x:Name="StuffCont">Conteneur</ComboBoxItem>
                     </ComboBox>
-                    <ListView x:Name="StuffList" Margin="133,10,197,10" ItemsSource="{Binding StuffList}">
+                    <ListView x:Name="StuffList" Margin="133,10,197,10" ItemsSource="{Binding StuffList}" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -281,7 +304,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,58,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button x:Name="add_item_but_Copy" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,58,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                     <RadioButton Content="&lt;" HorizontalAlignment="Left" Margin="5,37,0,0" VerticalAlignment="Top"/>
                     <RadioButton Content="=" HorizontalAlignment="Left" Margin="37,37,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     <RadioButton Content=">" HorizontalAlignment="Left" Margin="69,37,0,0" VerticalAlignment="Top"/>
@@ -338,7 +361,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ListLoot" Margin="10,37,323,10" ItemsSource="{Binding LootList}">
+                    <ListView x:Name="ListLoot" Margin="10,37,323,10" ItemsSource="{Binding LootList}" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -347,7 +370,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,69,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NullFalse}, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,69,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                 </Grid>
             </TabItem>
             <TabItem Header="Trais">
@@ -397,7 +420,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Background">
-                <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="#FFE5E5E5"/>
+                <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="#FFE5E5E5" Text="{Binding NewPerso.background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </TabItem>
         </TabControl>
         <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>

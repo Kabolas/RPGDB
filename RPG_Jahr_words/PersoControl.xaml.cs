@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,13 +136,13 @@ namespace RPG_Jahr_words
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
             foreach (Items item in ListLoot.SelectedItems)
-                (PersoLoot.ItemsSource as List<LootItem>).Add(new LootItem { Loot = item, Chance = 0, Quantite = 0 });
+                (PersoLoot.ItemsSource as ObservableCollection<LootItem>).Add(new LootItem { Loot = item, Chance = 0, Quantite = 0 });
         }
 
         private void AjoutClickStuff(object sender, RoutedEventArgs e)
         {
             foreach (Items item in StuffList.SelectedItems)
-                (ChosenStuff.ItemsSource as List<StuffItem>).Add(new StuffItem { Stuff = item, Nombre = 0 });
+                (ChosenStuff.ItemsSource as ObservableCollection<StuffItem>).Add(new StuffItem { Stuff = item, Nombre = 0 });
         }
 
         private void ElemCheck(object sender, TextChangedEventArgs e)
@@ -152,19 +153,26 @@ namespace RPG_Jahr_words
 
         private void RefreshSpell(object sender, SelectionChangedEventArgs e)
         {
-
+            if(SpellList!= null)
+            ((CollectionView)CollectionViewSource.GetDefaultView(SpellList.ItemsSource)).Refresh();
         }
 
         private void RefreshStuff(object sender, SelectionChangedEventArgs e)
         {
             if(StuffList!= null)
-            ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.Items)).Refresh();
+            ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
         }
 
         private void RefreshLoot(object sender, SelectionChangedEventArgs e)
         {
             if(ListLoot!= null)
-            ((CollectionView)CollectionViewSource.GetDefaultView(ListLoot.Items)).Refresh();
+            ((CollectionView)CollectionViewSource.GetDefaultView(ListLoot.ItemsSource)).Refresh();
+        }
+
+        private void RefreshCombo(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboList != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(ComboList.ItemsSource)).Refresh();
         }
     }
 }

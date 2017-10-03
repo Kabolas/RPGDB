@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,8 @@ namespace RPG_Jahr_words.ViewModel
         private List<Races> _races;
         private List<Monde_w> _origines;
         private List<PersoCategorie> _cats;
-        private List<LootItem> _loots = new List<LootItem>();
-        private List<StuffItem> _stuff = new List<StuffItem>();
+        private ObservableCollection<LootItem> _loots = new ObservableCollection<LootItem>();
+        private ObservableCollection<StuffItem> _stuff = new ObservableCollection<StuffItem>();
         private List<Perso_Creature> _creature;
         private List<Bestiaire_Beast> _beasts;
         private List<Items> _lootList, _stuffList;
@@ -58,6 +59,7 @@ namespace RPG_Jahr_words.ViewModel
             Races = Bd.Races.Where(r => !r.Race_Stat_Cap.evolved || r.nom == "Jahr").ToList();
             Cats = Bd.PersoCategorie.ToList();
             Origines = Bd.Monde_w.Where(m => m.nom != "Tous").ToList();
+            //NewPerso.Pers_stats.Ma
         }
 
         public RPGEntities15 Bd { get => _bd; set { _bd = value; RaisePropertyChanged(); } }
@@ -94,7 +96,7 @@ namespace RPG_Jahr_words.ViewModel
         public List<Monde_w> Origines { get => _origines; set { _origines = value; RaisePropertyChanged(); } }
         public List<PersoCategorie> Cats { get => _cats; set { _cats = value; RaisePropertyChanged(); } }
 
-        public List<LootItem> Loots { get => _loots; set { _loots = value; RaisePropertyChanged(); } }
+        public ObservableCollection<LootItem> Loots { get => _loots; set { _loots = value; RaisePropertyChanged(); } }
         public List<Perso_Creature> Creature { get => _creature; set { _creature = value; RaisePropertyChanged(); } }
         public List<Bestiaire_Beast> Beasts { get => _beasts; set { _beasts = value; RaisePropertyChanged(); } }
         public RelayCommand NewCreature { get => _newCreature ?? (_newCreature = new RelayCommand(MakeCreature)); }
@@ -106,7 +108,7 @@ namespace RPG_Jahr_words.ViewModel
         public List<ComboCat> Categoriescombo { get => _categoriescombo; set { _categoriescombo = value; RaisePropertyChanged(); } }
         public List<Magie_type> Magie { get => _magie; set { _magie = value; RaisePropertyChanged(); } }
 
-        public List<StuffItem> Stuff { get => _stuff; set { _stuff = value; RaisePropertyChanged(); } }
+        public ObservableCollection<StuffItem> Stuff { get => _stuff; set { _stuff = value; RaisePropertyChanged(); } }
 
         public List<Sorts> Sort { get => _sort; set { _sort = value; RaisePropertyChanged(); } }
         public List<Combo> Combos { get => _combos; set { _combos = value; RaisePropertyChanged(); } }
