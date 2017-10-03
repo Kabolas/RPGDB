@@ -48,7 +48,7 @@
         <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,130,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Jahr}"/>
         <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,152,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
-        <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top"/>
+        <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
         <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="135" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
                 <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,19,0,0" VerticalAlignment="Top" Width="111" SelectedIndex="0">
@@ -83,15 +83,15 @@
                         <TextBox.Text>
                             <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
                                 <Binding Path="NewPerso.Pers_stats.puissance"/>
-                                <Binding Path="NewPerso.Pers_stats.magie_fuel"/>
+                                <Binding Path="NewPerso.Pers_stats.magie_fuel" Converter="{StaticResource By}" ConverterParameter="10" Mode="OneWayToSource"/>
                             </MultiBinding>
                         </TextBox.Text>
                     </TextBox>
                     <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39">
                         <TextBox.Text>
                             <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
-                                <Binding Path="NewPerso.Pers_stats.pv" Converter="{StaticResource By}" ConverterParameter="10"/>
-                                <Binding Path="NewPerso.Pers_stats.stamina" Converter="{StaticResource By}" ConverterParameter="12"/>
+                                <Binding Path="NewPerso.Pers_stats.pv" Converter="{StaticResource By}" ConverterParameter="10" Mode="OneWayToSource"/>
+                                <Binding Path="NewPerso.Pers_stats.stamina" Converter="{StaticResource By}" ConverterParameter="12" Mode="OneWayToSource"/>
                             </MultiBinding>
                         </TextBox.Text>
                     </TextBox>

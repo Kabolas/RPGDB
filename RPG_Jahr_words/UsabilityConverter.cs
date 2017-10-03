@@ -547,28 +547,28 @@ namespace RPG_Jahr_words
         {
             for (int i = 0; i < values.Length; i++)
                 vals[i] = values[i];
-            if(which!= null)
-            switch (which.Type)
-            {
-                case ViewModel.WorldType.None:
-                    return null;
-                case ViewModel.WorldType.Continent:
-                    return targetType == typeof(string) ? "" + vals[0] : vals[0];
-                case ViewModel.WorldType.Ville:
-                    return targetType == typeof(string) ? "" + vals[1] : vals[1];
-                case ViewModel.WorldType.Region:
-                    return targetType == typeof(string) ? "" + vals[2] : vals[2];
-                case ViewModel.WorldType.Mineraux:
-                    object k1 = targetType == typeof(string) ? "" + vals[3] : vals[3];
-                    return k1;
-                case ViewModel.WorldType.Alliage:
-                    object k2 = targetType == typeof(string) ? "" + vals[4] : vals[4];
-                    return k2;
-                case ViewModel.WorldType.Phenomene:
-                    return targetType == typeof(string) ? "" + vals[5] : vals[5];
-                default:
-                    return null;
-            }
+            if (which != null)
+                switch (which.Type)
+                {
+                    case ViewModel.WorldType.None:
+                        return null;
+                    case ViewModel.WorldType.Continent:
+                        return targetType == typeof(string) ? "" + vals[0] : vals[0];
+                    case ViewModel.WorldType.Ville:
+                        return targetType == typeof(string) ? "" + vals[1] : vals[1];
+                    case ViewModel.WorldType.Region:
+                        return targetType == typeof(string) ? "" + vals[2] : vals[2];
+                    case ViewModel.WorldType.Mineraux:
+                        object k1 = targetType == typeof(string) ? "" + vals[3] : vals[3];
+                        return k1;
+                    case ViewModel.WorldType.Alliage:
+                        object k2 = targetType == typeof(string) ? "" + vals[4] : vals[4];
+                        return k2;
+                    case ViewModel.WorldType.Phenomene:
+                        return targetType == typeof(string) ? "" + vals[5] : vals[5];
+                    default:
+                        return null;
+                }
             return null;
         }
 
@@ -644,7 +644,7 @@ namespace RPG_Jahr_words
         public static NameGen DicoConvert;
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            if (DicoConvert!=null && value != null && value != DependencyProperty.UnsetValue && value as string != "")
+            if (DicoConvert != null && value != null && value != DependencyProperty.UnsetValue && value as string != "")
                 switch (parameter as string)
                 {
                     case "Jahr":
@@ -733,18 +733,20 @@ namespace RPG_Jahr_words
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, CultureInfo culture)
         {
             object[] retab = new object[targetTypes.Length];
-            if (targetTypes[0] == typeof(string))
+            if (value as string != "")
                 for (int i = 0; i < retab.Length; i++)
-                    retab[i] = value as string;
-            else if (targetTypes[0] == typeof(int) || targetTypes[0] == typeof(int?))
-                for (int i = 0; i < retab.Length; i++)
-                    retab[i] = int.Parse(value as string);
-            else if (targetTypes[0] == typeof(double) || targetTypes[0] == typeof(double?))
-                for (int i = 0; i < retab.Length; i++)
-                    retab[i] = double.Parse(value as string);
-            else
-                for (int i = 0; i < retab.Length; i++)
-                    retab[i] = value;
+                {
+                    if (targetTypes[i] == null)
+                        retab[i] = null;
+                    else if (targetTypes[i] == typeof(string))
+                        retab[i] = value as string;
+                    else if (targetTypes[i] == typeof(int) || targetTypes[i] == typeof(int?))
+                        retab[i] = int.Parse(value as string);
+                    else if (targetTypes[i] == typeof(double) || targetTypes[i] == typeof(double?))
+                        retab[i] = double.Parse(value as string);
+                    else
+                        retab[i] = value;
+                }
             return retab;
         }
     }
@@ -753,12 +755,14 @@ namespace RPG_Jahr_words
     {
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            return (targetType == typeof(int) ? (int)value / (int)parameter : (double)value / (double)parameter);
+            return null;//(targetType == typeof(int) ? (int)value / (int)parameter : (double)value / (double)parameter);
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            return (targetType == typeof(int)?(int)value * (int)parameter: (double)value * (double)parameter);
+            if (targetType == null || value == null)
+                return null;
+            return (targetType == typeof(int) ? int.Parse(value as string) * int.Parse(parameter as string) : double.Parse(value as string) * double.Parse(parameter as string));
         }
     }
 }

@@ -32,7 +32,7 @@ namespace RPG_Jahr_words.ViewModel
         private List<Sorts> _sort;
         private List<Combo> _combos;
         public NameGen Gen { get; set; } = new NameGen();
-        private RelayCommand _newTrais, _newCat, _newCreature;
+        private RelayCommand _newTrais, _newCat, _newCreature, _save;
 
         private string _printedText;
         public PersoViewModel(RPGEntities15 entities15)
@@ -112,6 +112,13 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Sorts> Sort { get => _sort; set { _sort = value; RaisePropertyChanged(); } }
         public List<Combo> Combos { get => _combos; set { _combos = value; RaisePropertyChanged(); } }
+
+        public RelayCommand Save { get => _save??( _save = new RelayCommand(Saving)); }
+
+        private void Saving()
+        {
+
+        }
 
         private void MakeCreature()
         {
