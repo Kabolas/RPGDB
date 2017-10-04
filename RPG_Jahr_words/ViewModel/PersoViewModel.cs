@@ -31,6 +31,8 @@ namespace RPG_Jahr_words.ViewModel
         private List<ComboCat> _categoriescombo;
         private List<Sorts> _sort;
         private List<Combo> _combos;
+
+        private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
         private RelayCommand _newTrais, _newCat, _newCreature, _save;
 
@@ -54,6 +56,7 @@ namespace RPG_Jahr_words.ViewModel
             foreach(Weapon_type weapon in Bd.Weapon_type)
                 NewPerso.Perso_weap_Master.Add(new Perso_weap_Master { Persos = NewPerso, Weapon_type = weapon, maitrise = 0 });
             Trais = Bd.Trais.ToList();
+            CriSize = Bd.Tailles.ToList();
             LootList = Bd.Items.ToList();
             StuffList = Bd.Items.ToList();
             Races = Bd.Races.Where(r => !r.Race_Stat_Cap.evolved || r.nom == "Jahr").ToList();
@@ -114,6 +117,7 @@ namespace RPG_Jahr_words.ViewModel
         public List<Combo> Combos { get => _combos; set { _combos = value; RaisePropertyChanged(); } }
 
         public RelayCommand Save { get => _save??( _save = new RelayCommand(Saving)); }
+        public List<Tailles> CriSize { get => _criSize; set { _criSize = value; RaisePropertyChanged(); } }
 
         private void Saving()
         {
