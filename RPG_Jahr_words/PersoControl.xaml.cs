@@ -212,7 +212,7 @@ namespace RPG_Jahr_words
 
         private void RefreshWeaps(object sender, SelectionChangedEventArgs e)
         {
-            if (weapMaster != null)
+            if (weapMaster != null && weapMaster.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(weapMaster.ItemsSource)).Refresh();
         }
     }
