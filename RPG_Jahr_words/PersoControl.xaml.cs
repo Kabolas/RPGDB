@@ -254,7 +254,7 @@ namespace RPG_Jahr_words
 
         private void RefreshStuff(object sender, SelectionChangedEventArgs e)
         {
-            if (StuffList != null)
+            if (StuffList != null && StuffList.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
         }
 
