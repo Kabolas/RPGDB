@@ -11,12 +11,13 @@
         <local:Not x:Key="Not"/>
         <local:CheckToVisible x:Key="BooltoVisible"/>
         <local:StringEquals x:Key="StringEquals"/>
-        <CollectionViewSource x:Key="Origine" Source="{Binding Origines}"/>
-        <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
-        <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
+        <local:StringNotEquals x:Key="StringDifferent"/>
         <local:NullToFalse x:Key="NullFalse"/>
         <local:MultiplyBy x:Key="By"/>
         <local:WriteInBoth x:Key="Both"/>
+        <CollectionViewSource x:Key="Origine" Source="{Binding Origines}"/>
+        <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
+        <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
     </UserControl.Resources>
     <Grid>
         <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106"/>
@@ -45,29 +46,44 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,130,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Jahr}"/>
-        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,152,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
-        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,152,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,143,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringDifferent}, ConverterParameter=Jahr}"/>
+        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,165,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
-        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="135" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
+        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="144" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
-                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,10,0,0" VerticalAlignment="Top" Width="111" SelectedIndex="0">
-                    <ComboBoxItem Content="Categorie"/>
+                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,10,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="type">
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:PersoCategorie type="~Categorie~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource categories}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox x:Name="Perso_show_Race" HorizontalAlignment="Left" Height="25" Margin="140,10,0,0" VerticalAlignment="Top" Width="128" SelectedIndex="0">
-                    <ComboBoxItem Content="~Race~"/>
+                <ComboBox x:Name="Perso_show_Race" HorizontalAlignment="Left" Height="25" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="nom">
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Races nom="~Race~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Races}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
                 </ComboBox>
-                <CheckBox x:Name="Perso_show_evol" Content="CheckBox" HorizontalAlignment="Left" Height="18" Margin="9,47,0,0" VerticalAlignment="Top" Width="98"/>
-                <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="140,38,0,0" VerticalAlignment="Top" Width="128" SelectedIndex="0">
-                    <ComboBoxItem Content="~Monde d'origine~"/>
+                <CheckBox x:Name="Perso_show_evol" Content="evolue" HorizontalAlignment="Left" Height="18" Margin="104,40,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="114,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0" DisplayMemberPath="nom">
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Monde_w nom="~Origine~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Origine}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
                 </ComboBox>
-                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="9,83,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="190,83,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="83,83,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="195,97,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="84,97,0,0" VerticalAlignment="Top"/>
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Generation Option" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="110" Margin="10,336,0,0" VerticalAlignment="Top" Width="290">
+        <GroupBox Header="Generation Option" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="101" Margin="10,345,0,0" VerticalAlignment="Top" Width="290">
             <local:GenOptions x:Name="Perso"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
@@ -323,18 +339,18 @@
                         </ListView.View>
                     </ListView>
                     <Button x:Name="add_item_but_Copy" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,59,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-                    <RadioButton Content="&lt;" HorizontalAlignment="Left" Margin="5,62,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="=" HorizontalAlignment="Left" Margin="32,62,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                    <RadioButton Content=">" HorizontalAlignment="Left" Margin="59,62,0,0" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,120,0,0" TextWrapping="Wrap" Text="Te" Width="27"  VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="101,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="99,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="88" DisplayMemberPath="categorie" SelectedIndex="0">
+                    <RadioButton Content="&lt;" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top"/>
+                    <RadioButton Content="=" HorizontalAlignment="Left" Margin="37,59,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                    <RadioButton Content=">" HorizontalAlignment="Left" Margin="64,59,0,0" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,102,0,0" TextWrapping="Wrap" Text="Te" Width="27"  VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="101,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <TextBox HorizontalAlignment="Left" Height="18" Margin="101,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
+                    <ComboBox x:Name="stuffsize" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="59" DisplayMemberPath="categorie" SelectedIndex="0">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Sizes" Source="{Binding CritSize}"/>
                         </ComboBox.Resources>
@@ -342,6 +358,14 @@
                             <CompositeCollection>
                                 <local:Tailles categorie="~Taille~"/>
                                 <CollectionContainer Collection="{Binding Source={StaticResource Sizes}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ComboBox x:Name="stuffOri" HorizontalAlignment="Left" Margin="69,32,0,0" VerticalAlignment="Top" Width="59" SelectedIndex="0" DisplayMemberPath="nom">
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Monde_w nom="~Origine~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Origine}}"/>
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>

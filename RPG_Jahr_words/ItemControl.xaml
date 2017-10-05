@@ -381,22 +381,22 @@
                         <TabControl x:Name="armes_control" Margin="0,0,0,29">
                             <TabItem x:Name="Item_cac_tab" Header="Cac">
                                 <Grid x:Name="cac_grid" IsEnabled="{Binding ElementName=Cac_weap, Path=IsChecked}">
-                                    <TextBox x:Name="CAC_attaque" HorizontalAlignment="Left" Height="21" Margin="53,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.attaque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox x:Name="CAC_power" HorizontalAlignment="Left" Height="21" Margin="164,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox x:Name="CAC_critique" HorizontalAlignment="Left" Height="21" Margin="53,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.critique, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBox x:Name="CAC_multiplicateur" HorizontalAlignment="Left" Text="{Binding SaveCac.critmult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="21" Margin="167,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
-                                    <TextBox x:Name="CAC_cout_mana" HorizontalAlignment="Left" Height="21" Text="{Binding SaveCac.mana_cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="74,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Attaque : " VerticalAlignment="Top"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="114,12,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="11,40,0,0" TextWrapping="Wrap" Text="Critique : " VerticalAlignment="Top"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="98,40,0,0" TextWrapping="Wrap" Text="Multiplicateur : " VerticalAlignment="Top"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="10,71,0,0" TextWrapping="Wrap" Text="Cout (mana) :" VerticalAlignment="Top"/>
-                                    <ListBox x:Name="CAC_Degat_type" HorizontalAlignment="Left" Height="94" Margin="328,0,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelCacdmgtype}">
+                                    <TextBox x:Name="CAC_attaque" HorizontalAlignment="Left" Height="18" Margin="48,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.attaque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_power" HorizontalAlignment="Left" Height="18" Margin="159,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_critique" HorizontalAlignment="Left" Height="18" Margin="45,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.critique, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_multiplicateur" HorizontalAlignment="Left" Text="{Binding SaveCac.critmult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="18" Margin="159,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="CAC_cout_mana" HorizontalAlignment="Left" Height="18" Text="{Binding SaveCac.mana_cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="66,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="5,7,0,0" TextWrapping="Wrap" Text="Attaque : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="109,7,0,0" TextWrapping="Wrap" Text="Puissance : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="3,57,0,0" TextWrapping="Wrap" Text="Critique : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="90,57,0,0" TextWrapping="Wrap" Text="Multiplicateur : " VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="2,79,0,0" TextWrapping="Wrap" Text="Cout (mana) :" VerticalAlignment="Top"/>
+                                    <ListBox x:Name="CAC_Degat_type" HorizontalAlignment="Left" Height="90" Margin="338,0,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelCacdmgtype}">
                                         <System:String>Percusif</System:String>
                                         <System:String>Perforant</System:String>
                                         <System:String>Tranchant</System:String>
                                     </ListBox>
-                                    <ComboBox x:Name="CAC_weap_type" HorizontalAlignment="Left" Margin="239,10,0,0" Width="84" DisplayMemberPath="type" SelectedItem="{Binding SaveCac.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="type" SelectedValue="{Binding SaveCac.type}" Height="19" VerticalAlignment="Top" SelectionChanged="process_SelectionChanged">
+                                    <ComboBox x:Name="CAC_weap_type" HorizontalAlignment="Left" Margin="223,7,0,0" Width="84" DisplayMemberPath="type" SelectedItem="{Binding SaveCac.Weapon_type, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="type" SelectedValue="{Binding SaveCac.type}" SelectionChanged="process_SelectionChanged" Height="19" VerticalAlignment="Top">
                                         <ComboBox.Style>
                                             <Style TargetType="{x:Type ComboBox}">
                                                 <Style.Triggers>
@@ -416,12 +416,16 @@
                                             </CompositeCollection>
                                         </ComboBox.ItemsSource>
                                     </ComboBox>
-                                    <TextBox x:Name="Cac_precision" HorizontalAlignment="Left" Height="21" Margin="169,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.precision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="119,71,0,0" TextWrapping="Wrap" Text="Precision : " VerticalAlignment="Top"/>
-                                    <TextBox x:Name="Cac_speed" HorizontalAlignment="Left" Height="21" Margin="283,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.atk_speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="231,31,0,0" TextWrapping="Wrap" Text="Vitesse d'attaque : " VerticalAlignment="Top" Width="52"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="216,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (stamina):"/>
-                                    <TextBox x:Name="CAC_cout_stamina" HorizontalAlignment="Left" Height="21" Text="{Binding SaveCac.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="283,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="Cac_precision" HorizontalAlignment="Left" Height="18" Margin="161,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.precision, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="111,79,0,0" TextWrapping="Wrap" Text="Precision : " VerticalAlignment="Top"/>
+                                    <TextBox x:Name="Cac_speed" HorizontalAlignment="Left" Height="18" Margin="275,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.atk_speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="223,48,0,0" TextWrapping="Wrap" Text="Vitesse d'attaque : " VerticalAlignment="Top" Width="52"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="208,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (stamina):"/>
+                                    <TextBox x:Name="CAC_cout_stamina" HorizontalAlignment="Left" Height="18" Text="{Binding SaveCac.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="275,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                                    <TextBox x:Name="CAC_power_Copy" HorizontalAlignment="Left" Height="18" Margin="49,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="5,29,0,0" TextWrapping="Wrap" Text="Defence : " VerticalAlignment="Top"/>
+                                    <TextBox x:Name="CAC_power_Copy1" HorizontalAlignment="Left" Height="18" Margin="153,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="100,31,0,0" TextWrapping="Wrap" Text="Resistance : " VerticalAlignment="Top"/>
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="Item_distance_tab" Header="Distance">

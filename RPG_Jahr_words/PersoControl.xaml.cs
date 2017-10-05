@@ -125,37 +125,71 @@ namespace RPG_Jahr_words
 
         private bool FilterStuff(object obj)
         {
+            bool ret = true;
+            if (stuffsize.SelectedIndex > 0)
+                ret = ret && (obj as Items).Tailles == stuffsize.SelectedItem as Tailles;
+            if(stuffOri.SelectedIndex>0)
+                ret = ret && (obj as Items).Monde_w == stuffOri.SelectedItem as Monde_w;
             if (Stufftype.SelectedIndex > 0)
             {
                 switch ((Stufftype.SelectedItem as ComboBoxItem).Content as string)
                 {
-                    case "Armes": return (obj as Items).Weaponry != null;
-                    case "Armures": return (obj as Items).Armory != null;
+                    case "Armes":
+                        ret = ret && (obj as Items).Weaponry != null;
+                        break;
+                    case "Armures":
+                        ret = ret && (obj as Items).Armory != null;
+                        break;
                     case "Véhicule":
-                    case "Vehicule": return (obj as Items).Vehicule != null;
+                    case "Vehicule":
+                        ret = ret && (obj as Items).Vehicule != null;
+                        break;
                     case "Munition":
-                    case "Munitions": return (obj as Items).Munition != null;
-                    case "Alliages": return (obj as Items).Alliage != null;
-                    case "Bijoux": return (obj as Items).Bijoux != null;
-                    case "Consommable": return (obj as Items).Consommables != null;
-                    case "Loot": return (obj as Items).Loot != null;
-                    case "Livre": return (obj as Items).Livre != null;
-                    case "Métaux": return (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Métal";
-                    case "Parchemins": return (obj as Items).Parchemins != null;
+                    case "Munitions":
+                        ret = ret && (obj as Items).Munition != null;
+                        break;
+                    case "Alliages":
+                        ret = ret && (obj as Items).Alliage != null;
+                        break;
+                    case "Bijoux":
+                        ret = ret && (obj as Items).Bijoux != null;
+                        break;
+                    case "Consommable":
+                        ret = ret && (obj as Items).Consommables != null;
+                        break;
+                    case "Loot":
+                        ret = ret && (obj as Items).Loot != null;
+                        break;
+                    case "Livre":
+                        ret = ret && (obj as Items).Livre != null;
+                        break;
+                    case "Métaux":
+                        ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Métal";
+                        break;
+                    case "Parchemins":
+                        ret = ret && (obj as Items).Parchemins != null;
+                        break;
                     case "Pierres":
-                    case "Pierre": return (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Pierre";
-                    case "Végétaux": return (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Végétal";
-                    case "Conteneur": return (obj as Items).Conteneurs != null;
+                    case "Pierre":
+                        ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Pierre";
+                        break;
+                    case "Végétaux":
+                        ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Végétal";
+                        break;
+                    case "Conteneur":
+                        ret = ret && (obj as Items).Conteneurs != null;
+                        break;
                     case "Commun":
                     case "Communs":
-                        return (obj as Items).Armory == null && (obj as Items).Mineraux == null && (obj as Items).Bijoux == null &&
+                        ret = ret && (obj as Items).Armory == null && (obj as Items).Mineraux == null && (obj as Items).Bijoux == null &&
         (obj as Items).Weaponry == null && (obj as Items).Vehicule == null && (obj as Items).Loot == null && (obj as Items).Mineraux == null && (obj as Items).Munition == null && (obj as Items).Conteneurs == null && (obj as Items).Consommables
         == null && (obj as Items).Parchemins == null;
+                        break;
                     default:
-                        return true;
+                        break;
                 }
             }
-            return true;
+            return ret;
         }
 
         private void Generation(object sender, RoutedEventArgs e) { Perso_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol); }
