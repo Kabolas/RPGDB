@@ -342,15 +342,7 @@
                     <RadioButton Content="&lt;" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top"/>
                     <RadioButton Content="=" HorizontalAlignment="Left" Margin="37,59,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     <RadioButton Content=">" HorizontalAlignment="Left" Margin="64,59,0,0" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,102,0,0" TextWrapping="Wrap" Text="Te" Width="27"  VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="69,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="101,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="5,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="37,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <TextBox HorizontalAlignment="Left" Height="18" Margin="101,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="27"/>
-                    <ComboBox x:Name="stuffsize" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="59" DisplayMemberPath="categorie" SelectedIndex="0">
+                    <ComboBox x:Name="stuffsize" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="59" DisplayMemberPath="categorie" SelectedIndex="0" SelectionChanged="RefreshStuff">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Sizes" Source="{Binding CritSize}"/>
                         </ComboBox.Resources>
@@ -361,11 +353,70 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ComboBox x:Name="stuffOri" HorizontalAlignment="Left" Margin="69,32,0,0" VerticalAlignment="Top" Width="59" SelectedIndex="0" DisplayMemberPath="nom">
+                    <ComboBox x:Name="stuffOri" HorizontalAlignment="Left" Margin="69,32,0,0" VerticalAlignment="Top" Width="59" SelectedIndex="0" DisplayMemberPath="nom" SelectionChanged="RefreshStuff">
                         <ComboBox.ItemsSource>
                             <CompositeCollection>
                                 <local:Monde_w nom="~Origine~"/>
                                 <CollectionContainer Collection="{Binding Source={StaticResource Origine}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ComboBox x:Name="filterweaptype" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="RefreshStuff" IsEnabled="{Binding ElementName=StuffWeap, Path=IsSelected}" Visibility="{Binding ElementName=StuffWeap, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <System:String>~Type d'arme~</System:String>
+                        <System:String>Corps à corps</System:String>
+                        <System:String>Distance</System:String>
+                        <System:String>Magique</System:String>
+                    </ComboBox>
+                    <ComboBox x:Name="filterArmor" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="RefreshStuff" IsEnabled="{Binding ElementName=StuffArmor, Path=IsSelected}" Visibility="{Binding ElementName=StuffArmor, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <ComboBoxItem Content="~Categorie~"/>
+                        <System:String>Exosquelette</System:String>
+                        <System:String>Légère</System:String>
+                        <System:String>Intermediare</System:String>
+                        <System:String>Lourde</System:String>
+                    </ComboBox>
+                    <ComboBox x:Name="filterPiece" HorizontalAlignment="Left" Margin="5,86,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="RefreshStuff" DisplayMemberPath="emplacement" IsEnabled="{Binding ElementName=StuffArmor, Path=IsSelected}" Visibility="{Binding ElementName=StuffArmor, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Piece" Source="{Binding Path=Pieces}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Piece emplacement="~Piece~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Piece}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ComboBox x:Name="filterJew" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="place" IsEnabled="{Binding ElementName=StuffJew, Path=IsSelected}" Visibility="{Binding ElementName=StuffJew, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="emplacement" Source="{Binding Place}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Bijoux_place place="Type de bijoux"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource emplacement}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ComboBox x:Name="fiterConso" HorizontalAlignment="Left" Margin="5,86,0,0" VerticalAlignment="Top" Width="59" SelectedIndex="0" DisplayMemberPath="type" IsEnabled="{Binding ElementName=StuffCons, Path=IsSelected}" Visibility="{Binding ElementName=StuffCons, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Types" Source="{Binding Path=ConsoTypes}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Conso_type type="~Categorie~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Types}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <TextBox x:Name="filterUsesconso" HorizontalAlignment="Left" Height="18" Margin="69,112,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="38"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="5,113,0,0" TextWrapping="Wrap" Text="Utilisations :" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="filterEffects" HorizontalAlignment="Left" Margin="69,86,0,0" VerticalAlignment="Top" Width="59" DisplayMemberPath="effet" SelectedIndex="0" IsEnabled="{Binding ElementName=StuffCons, Path=IsSelected}" Visibility="{Binding ElementName=StuffCons, Path=IsSelected, Converter={StaticResource BooltoVisible}}">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Effects" Source="{Binding Path=Conso_effects}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Effets effet="~Effet~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Effects}}"/>
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>

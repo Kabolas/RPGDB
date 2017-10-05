@@ -31,6 +31,10 @@ namespace RPG_Jahr_words.ViewModel
         private List<ComboCat> _categoriescombo;
         private List<Sorts> _sort;
         private List<Combo> _combos;
+        private List<Piece> _pieces;
+        private List<Bijoux_place> _place;
+        private List<Conso_type> _consoTypes;
+        private List<Effets> _conso_effeects;
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
@@ -43,6 +47,7 @@ namespace RPG_Jahr_words.ViewModel
             Categoriescombo = Bd.ComboCat.ToList();
             NewPerso.Pers_stats = SaveStats;
             Magie = Bd.Magie_type.ToList();
+            Pieces = Bd.Piece.ToList();
             foreach (Mag_element elem in Bd.Mag_element)
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
@@ -118,6 +123,11 @@ namespace RPG_Jahr_words.ViewModel
 
         public RelayCommand Save { get => _save??( _save = new RelayCommand(Saving)); }
         public List<Tailles> CriSize { get => _criSize; set { _criSize = value; RaisePropertyChanged(); } }
+
+        public List<Piece> Pieces { get => _pieces; set => _pieces = value; }
+        public List<Bijoux_place> Place { get => _place; set => _place = value; }
+        public List<Conso_type> ConsoTypes { get => _consoTypes; set => _consoTypes = value; }
+        public List<Effets> Conso_effeects { get => _conso_effeects; set => _conso_effeects = value; }
 
         private void Saving()
         {

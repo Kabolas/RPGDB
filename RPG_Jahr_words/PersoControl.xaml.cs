@@ -128,7 +128,7 @@ namespace RPG_Jahr_words
             bool ret = true;
             if (stuffsize.SelectedIndex > 0)
                 ret = ret && (obj as Items).Tailles == stuffsize.SelectedItem as Tailles;
-            if(stuffOri.SelectedIndex>0)
+            if (stuffOri.SelectedIndex > 0)
                 ret = ret && (obj as Items).Monde_w == stuffOri.SelectedItem as Monde_w;
             if (Stufftype.SelectedIndex > 0)
             {
@@ -136,9 +136,33 @@ namespace RPG_Jahr_words
                 {
                     case "Armes":
                         ret = ret && (obj as Items).Weaponry != null;
+                        if (ret)
+                            switch (filterweaptype.SelectedItem as string)
+                            {
+                                case "Corps à corps":
+                                    ret = ret && (obj as Items).Weaponry.Armes_cac != null;
+                                    break;
+                                case "Distance":
+                                    ret = ret && (obj as Items).Weaponry.Arme_distance != null;
+                                    break;
+                                case "Magique":
+                                    ret = ret && (obj as Items).Weaponry.Armes_magique != null;
+                                    break;
+                                default:
+                                    ret = true;
+                                    break;
+                            }
                         break;
                     case "Armures":
                         ret = ret && (obj as Items).Armory != null;
+                        if (ret && filterArmor.SelectedIndex > 0)
+                            if (filterArmor.SelectedItem as string == "Exosquelette")
+                                ret = ret && (obj as Items).Armory.categorie == "Exosquelette";
+                            else
+                            {
+                                ret = ret && (obj as Items).Armory.categorie == filterArmor.SelectedItem as string;
+                                ret = ret && (filterPiece.SelectedIndex == 0 || (obj as Items).Armory.Piece1 == filterPiece.SelectedItem as Piece);
+                            }
                         break;
                     case "Véhicule":
                     case "Vehicule":
@@ -153,6 +177,8 @@ namespace RPG_Jahr_words
                         break;
                     case "Bijoux":
                         ret = ret && (obj as Items).Bijoux != null;
+                        if (ret)
+                            ret = ret && (filterJew.SelectedIndex == 0 || (obj as Items).Bijoux.Bijoux_place == filterJew.SelectedItem as Bijoux_place);
                         break;
                     case "Consommable":
                         ret = ret && (obj as Items).Consommables != null;

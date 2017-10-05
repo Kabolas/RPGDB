@@ -908,8 +908,8 @@
                         <TextBlock HorizontalAlignment="Left" Margin="155,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Puissance : "/>
                         <TextBlock HorizontalAlignment="Left" Margin="155,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Durée : "/>
                         <TextBlock HorizontalAlignment="Left" Margin="155,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Durée : "/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Nombre d'utilisation :" VerticalAlignment="Top"/>
-                        <TextBox HorizontalAlignment="Left" Height="23" Margin="110,4,0,0" TextWrapping="Wrap" Text="{Binding SaveConso.n_uses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,8,0,0" TextWrapping="Wrap" Text="Nombre d'utilisation :" VerticalAlignment="Top"/>
+                        <TextBox HorizontalAlignment="Left" Height="18" Margin="110,5,0,0" TextWrapping="Wrap" Text="{Binding SaveConso.n_uses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="Item_munition_tab" Header="Munition">
