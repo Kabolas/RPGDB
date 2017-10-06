@@ -82,7 +82,7 @@ namespace RPG_Jahr_words.ViewModel
             Races = Bd.Races.Where(r => !r.Race_Stat_Cap.evolved || r.nom == "Jahr").ToList();
             Cats = Bd.PersoCategorie.ToList();
             Origines = Bd.Monde_w.Where(m => m.nom != "Tous").ToList();
-            //NewPerso.Pers_stats.Ma
+            //NewPerso.origine
         }
 
         public RPGEntities15 Bd { get => _bd; set { _bd = value; RaisePropertyChanged(); } }
@@ -90,30 +90,8 @@ namespace RPG_Jahr_words.ViewModel
         public Pers_stats SaveStats { get => _saveStats; set { _saveStats = value; RaisePropertyChanged(); } }
         public List<Trais> Trais { get => _trais; set { _trais = value; RaisePropertyChanged(); } }
 
-        public List<Races> Races { get => _races; set => _races = value; }
+        public List<Races> Races { get => _races; set { _races = value; RaisePropertyChanged();} }
         public RelayCommand NewTrais { get => _newTrais ?? (_newTrais = new RelayCommand(MakeTrait)); }
-
-        private void MakeTrait()
-        {
-            AddTrait addTrait = new AddTrait();
-            addTrait.ShowDialog();
-            if (addTrait.Valid && addTrait.Maj)
-            {
-                try
-                {
-                    Bd.Trais.Add(addTrait.Nouveau);
-                    Bd.SaveChanges();
-                    PrintedText += "Nouveau trait enregistré.\n";
-                    Trais = Bd.Trais.ToList();
-                }
-                catch (Exception)
-                {
-                    PrintedText += "Nouveau trait non enregistré, format incorrect, champs manquants.\n";
-                }
-            }
-            else if (addTrait.Valid)
-                PrintedText += "Les trais doivent commencer par une majuscule.\n";
-        }
 
         public RelayCommand NewCat { get => _newCat ?? (_newCat = new RelayCommand(MakeCat)); }
         public List<Monde_w> Origines { get => _origines; set { _origines = value; RaisePropertyChanged(); } }
@@ -139,16 +117,16 @@ namespace RPG_Jahr_words.ViewModel
         public RelayCommand Save { get => _save??( _save = new RelayCommand(Saving)); }
         public List<Tailles> CriSize { get => _criSize; set { _criSize = value; RaisePropertyChanged(); } }
 
-        public List<Piece> Pieces { get => _pieces; set => _pieces = value; }
-        public List<Bijoux_place> Place { get => _place; set => _place = value; }
-        public List<Conso_type> ConsoTypes { get => _consoTypes; set => _consoTypes = value; }
-        public List<Effets> Conso_effects { get => _conso_effects; set => _conso_effects = value; }
-        public List<Munition_type> MunType { get => _munType; set => _munType = value; }
-        public List<Carburant> Carbus { get => _carbus; set => _carbus = value; }
-        public List<Voies> Voie { get => _voie; set => _voie = value; }
-        public List<Mode_deplacement> Deplacement { get => _deplacement; set => _deplacement = value; }
-        public List<Maniabilite> Maniabilities { get => _maniabilities; set => _maniabilities = value; }
-        public List<Usage> Uses { get => _uses; set => _uses = value; }
+        public List<Piece> Pieces { get => _pieces; set { _pieces = value; RaisePropertyChanged();} }
+        public List<Bijoux_place> Place { get => _place; set { _place = value; RaisePropertyChanged();} }
+        public List<Conso_type> ConsoTypes { get => _consoTypes; set { _consoTypes = value; RaisePropertyChanged();} }
+        public List<Effets> Conso_effects { get => _conso_effects; set { _conso_effects = value; RaisePropertyChanged();} }
+        public List<Munition_type> MunType { get => _munType; set { _munType = value; RaisePropertyChanged();} }
+        public List<Carburant> Carbus { get => _carbus; set { _carbus = value; RaisePropertyChanged();} }
+        public List<Voies> Voie { get => _voie; set { _voie = value; RaisePropertyChanged();} }
+        public List<Mode_deplacement> Deplacement { get => _deplacement; set { _deplacement = value; RaisePropertyChanged();} }
+        public List<Maniabilite> Maniabilities { get => _maniabilities; set { _maniabilities = value; RaisePropertyChanged();} }
+        public List<Usage> Uses { get => _uses; set { _uses = value; RaisePropertyChanged();} }
 
         private void Saving()
         {
@@ -176,7 +154,6 @@ namespace RPG_Jahr_words.ViewModel
                     PrintedText += "Nouvelle créature non ajoutée\n";
                 }
         }
-
         private void MakeCat()
         {
             AddSmthng add = new AddSmthng("Ajouter une catégorie.\nLe nom des catégories \ndoit commencer par une majuscule")
@@ -198,12 +175,32 @@ namespace RPG_Jahr_words.ViewModel
                     PrintedText += "Nouvealle catégorie non ajoutée\n";
                 }
         }
-
         public void ElementMasterCheck(string value)
         {
             foreach (Perso_elem master in NewPerso.Perso_elem)
                 if (master.maitrise > NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Element")).maitrise)
                     master.maitrise = NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Element")).maitrise;
+        }
+        private void MakeTrait()
+        {
+            AddTrait addTrait = new AddTrait();
+            addTrait.ShowDialog();
+            if (addTrait.Valid && addTrait.Maj)
+            {
+                try
+                {
+                    Bd.Trais.Add(addTrait.Nouveau);
+                    Bd.SaveChanges();
+                    PrintedText += "Nouveau trait enregistré.\n";
+                    Trais = Bd.Trais.ToList();
+                }
+                catch (Exception)
+                {
+                    PrintedText += "Nouveau trait non enregistré, format incorrect, champs manquants.\n";
+                }
+            }
+            else if (addTrait.Valid)
+                PrintedText += "Les trais doivent commencer par une majuscule.\n";
         }
     }
 }

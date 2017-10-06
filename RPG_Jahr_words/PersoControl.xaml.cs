@@ -422,13 +422,13 @@ namespace RPG_Jahr_words
 
         private void DelLoot(object sender, RoutedEventArgs e)
         {
-            while(PersoLoot.SelectedItems.Count > 0)
+            while (PersoLoot.SelectedItems.Count > 0)
                 PersoLoot.Items.Remove(PersoLoot.SelectedItems[0]);
         }
 
         private void DelSpell(object sender, RoutedEventArgs e)
         {
-            while(ChosenSpell.SelectedItems.Count > 0)
+            while (ChosenSpell.SelectedItems.Count > 0)
                 ChosenSpell.Items.Remove(ChosenSpell.SelectedItems[0]);
         }
 
@@ -436,6 +436,12 @@ namespace RPG_Jahr_words
         {
             while (ChosenCombos.SelectedItems.Count > 0)
                 ChosenCombos.Items.Remove(ChosenCombos.SelectedItems[0]);
+        }
+
+        private void Placeholder(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedItem == null)
+                (sender as ComboBox).SelectedIndex = 0;
         }
     }
 }

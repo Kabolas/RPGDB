@@ -25,7 +25,16 @@
     <Grid>
         <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
-        <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedIndex}">
+        <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedIndex}" SelectedValuePath="nom" SelectedValue="{Binding NewPerso.race,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Race, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <local:Races nom="~Race~"/>
@@ -33,7 +42,16 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <ComboBox x:Name="Perso_Origin" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="nom">
+        <ComboBox x:Name="Perso_Origin" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="nom" SelectedValuePath="nom" SelectedValue="{Binding NewPerso.origine,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Monde_w, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <local:Monde_w nom="~Origine~"/>
@@ -41,7 +59,16 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <ComboBox x:Name="Perso_Categ" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="106" SelectedIndex="0" DisplayMemberPath="type" SelectedValuePath="type">
+        <ComboBox x:Name="Perso_Categ" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="type" SelectedValuePath="type" SelectedValue="{Binding NewPerso.cat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.PersoCategorie, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <local:PersoCategorie type="~Categorie~"/>
@@ -49,9 +76,9 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,143,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringDifferent}, ConverterParameter=Jahr}"/>
-        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
-        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,165,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,154,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringDifferent}, ConverterParameter=Jahr}"/>
+        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,171,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
         <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="144" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
@@ -90,10 +117,8 @@
             <local:GenOptions x:Name="Perso"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="Peruso_Label" Text="{Binding PrintedText}"/>
-                </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="Peruso_Label" Text="{Binding PrintedText}"/>
             </ScrollViewer>
         </Border>
         <TabControl HorizontalAlignment="Left" Height="171" Margin="211,5,0,0" VerticalAlignment="Top" Width="480">
@@ -661,7 +686,7 @@
         </TabControl>
         <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
         <Button Content=" Categorie " HorizontalAlignment="Left" Margin="476,181,0,0" VerticalAlignment="Top" Command="{Binding NewCat}"/>
-        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
             </ComboBox.Resources>
@@ -684,5 +709,7 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="53,130,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.lvl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="58"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,133,0,0" TextWrapping="Wrap" Text="Niveau :" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
