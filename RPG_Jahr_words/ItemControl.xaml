@@ -379,7 +379,7 @@
                 <TabItem x:Name="Item_armes_tab" Header="Arme">
                     <Grid x:Name="armes_grid" IsEnabled="{Binding ElementName=Armes, Path=IsSelected}">
                         <TabControl x:Name="armes_control" Margin="0,0,0,29">
-                            <TabItem x:Name="Item_cac_tab" Header="Cac">
+                            <TabItem x:Name="Item_cac_tab" Header="Corps à corps">
                                 <Grid x:Name="cac_grid" IsEnabled="{Binding ElementName=Cac_weap, Path=IsChecked}">
                                     <TextBox x:Name="CAC_attaque" HorizontalAlignment="Left" Height="18" Margin="48,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.attaque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBox x:Name="CAC_power" HorizontalAlignment="Left" Height="18" Margin="159,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

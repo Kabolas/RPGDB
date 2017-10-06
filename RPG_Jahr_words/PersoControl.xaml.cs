@@ -167,10 +167,19 @@ namespace RPG_Jahr_words
                     case "Véhicule":
                     case "Vehicule":
                         ret = ret && (obj as Items).Vehicule != null;
+                        if (ret)
+                        {
+                            ret = ret && (filtercarbs.SelectedIndex == 0 || (obj as Items).Vehicule.carburant.Contains((filtercarbs.SelectedItem as Carburant).fuel));
+                            ret = ret && (filterway.SelectedIndex == 0 || (obj as Items).Vehicule.accessibilite.Contains((filterway.SelectedItem as Voies).voie));
+                            ret = ret && (filtermoove.SelectedIndex == 0 || (obj as Items).Vehicule.deplacement_mde.Contains((filtermoove.SelectedItem as Mode_deplacement).mode));
+                            ret = ret && (filtermania.SelectedIndex == 0 || (obj as Items).Vehicule.Maniabilite1 == filtermania.SelectedItem as Maniabilite);
+                        }
                         break;
                     case "Munition":
                     case "Munitions":
                         ret = ret && (obj as Items).Munition != null;
+                        if (ret)
+                            ret = ret && (filtermun.SelectedIndex == 0 || (obj as Items).Munition.Munition_type == filtermun.SelectedItem as Munition_type);
                         break;
                     case "Alliages":
                         ret = ret && (obj as Items).Alliage != null;
@@ -182,6 +191,17 @@ namespace RPG_Jahr_words
                         break;
                     case "Consommable":
                         ret = ret && (obj as Items).Consommables != null;
+                        if (ret)
+                        {
+                            ret = ret && (filterConso.SelectedIndex == 0 || (obj as Items).Consommables.Conso_type == filterConso.SelectedItem as Conso_type);
+                            ret = ret && (filterEffects.SelectedIndex == 0 || (obj as Items).Consommables.Effets == filterEffects.SelectedItem as Effets || (obj as Items).Consommables.Effets1 == filterConso.SelectedItem as Effets);
+                            if (int.TryParse(filterUsesconso.Text, out int res) && res > 0)
+                            {
+                                if ((bool)filterinf.IsChecked) ret = ret && (obj as Items).Consommables.n_uses < res;
+                                if ((bool)filtereql.IsChecked) ret = ret && (obj as Items).Consommables.n_uses == res;
+                                if ((bool)filtersup.IsChecked) ret = ret && (obj as Items).Consommables.n_uses > res;
+                            }
+                        }
                         break;
                     case "Loot":
                         ret = ret && (obj as Items).Loot != null;
@@ -194,6 +214,8 @@ namespace RPG_Jahr_words
                         break;
                     case "Parchemins":
                         ret = ret && (obj as Items).Parchemins != null;
+                        if (ret)
+                            ret = ret && (filterparc.SelectedIndex == 0 || (obj as Items).Parchemins.Sorts.Magie_type == filterparc.SelectedItem as Magie_type);
                         break;
                     case "Pierres":
                     case "Pierre":
@@ -204,6 +226,15 @@ namespace RPG_Jahr_words
                         break;
                     case "Conteneur":
                         ret = ret && (obj as Items).Conteneurs != null;
+                        if (ret)
+                        {
+                            ret = ret && (filtercont.SelectedIndex == 0 || (obj as Items).Conteneurs.Tailles == filtercont.SelectedItem as Tailles);
+                            if (int.TryParse(filtercontsiz.Text, out int res) && res > 0)
+                                if ((bool)filterinf.IsChecked) ret = ret && (obj as Items).Conteneurs.taille < res;
+                                else if ((bool)filtereql.IsChecked) ret = ret && (obj as Items).Conteneurs.taille == res;
+                                else if ((bool)filtersup.IsChecked) ret = ret && (obj as Items).Conteneurs.taille > res;
+
+                        }
                         break;
                     case "Commun":
                     case "Communs":
@@ -274,6 +305,12 @@ namespace RPG_Jahr_words
         {
             if (weapMaster != null && weapMaster.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(weapMaster.ItemsSource)).Refresh();
+        }
+
+        private void RefreshStuff(object sender, TextChangedEventArgs e)
+        {
+            if (StuffList != null && StuffList.ItemsSource != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
         }
     }
 }

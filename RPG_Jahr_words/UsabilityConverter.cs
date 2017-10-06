@@ -318,7 +318,9 @@ namespace RPG_Jahr_words
     {
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            return (int)value == int.Parse((string)parameter);
+            if (int.TryParse(value as string, out int val))
+                return val == int.Parse((string)parameter);
+            return false;
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)

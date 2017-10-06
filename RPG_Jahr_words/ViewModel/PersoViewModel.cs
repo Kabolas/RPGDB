@@ -34,7 +34,12 @@ namespace RPG_Jahr_words.ViewModel
         private List<Piece> _pieces;
         private List<Bijoux_place> _place;
         private List<Conso_type> _consoTypes;
-        private List<Effets> _conso_effeects;
+        private List<Effets> _conso_effects;
+        private List<Munition_type> _munType;
+        private List<Carburant> _carbus;
+        private List<Voies> _voie;
+        private List<Mode_deplacement> _deplacement;
+        private List<Maniabilite> _maniabilities;
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
@@ -48,6 +53,15 @@ namespace RPG_Jahr_words.ViewModel
             NewPerso.Pers_stats = SaveStats;
             Magie = Bd.Magie_type.ToList();
             Pieces = Bd.Piece.ToList();
+            Place = Bd.Bijoux_place.ToList();
+            ConsoTypes = Bd.Conso_type.ToList();
+            Conso_effects = Bd.Effets.ToList();
+            MunType = Bd.Munition_type.ToList();
+            Carbus = Bd.Carburant.ToList();
+            Voie = Bd.Voies.ToList();
+            Deplacement = Bd.Mode_deplacement.ToList();
+            Maniabilities = Bd.Maniabilite.ToList();
+
             foreach (Mag_element elem in Bd.Mag_element)
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
@@ -127,7 +141,12 @@ namespace RPG_Jahr_words.ViewModel
         public List<Piece> Pieces { get => _pieces; set => _pieces = value; }
         public List<Bijoux_place> Place { get => _place; set => _place = value; }
         public List<Conso_type> ConsoTypes { get => _consoTypes; set => _consoTypes = value; }
-        public List<Effets> Conso_effeects { get => _conso_effeects; set => _conso_effeects = value; }
+        public List<Effets> Conso_effects { get => _conso_effects; set => _conso_effects = value; }
+        public List<Munition_type> MunType { get => _munType; set => _munType = value; }
+        public List<Carburant> Carbus { get => _carbus; set => _carbus = value; }
+        public List<Voies> Voie { get => _voie; set => _voie = value; }
+        public List<Mode_deplacement> Deplacement { get => _deplacement; set => _deplacement = value; }
+        public List<Maniabilite> Maniabilities { get => _maniabilities; set => _maniabilities = value; }
 
         private void Saving()
         {
