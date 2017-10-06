@@ -413,5 +413,29 @@ namespace RPG_Jahr_words
                     break;
             }
         }
+
+        private void DelStuff(object sender, RoutedEventArgs e)
+        {
+            while (ChosenStuff.SelectedItems.Count > 0)
+                ChosenStuff.Items.Remove(ChosenStuff.SelectedItems[0]);
+        }
+
+        private void DelLoot(object sender, RoutedEventArgs e)
+        {
+            while(PersoLoot.SelectedItems.Count > 0)
+                PersoLoot.Items.Remove(PersoLoot.SelectedItems[0]);
+        }
+
+        private void DelSpell(object sender, RoutedEventArgs e)
+        {
+            while(ChosenSpell.SelectedItems.Count > 0)
+                ChosenSpell.Items.Remove(ChosenSpell.SelectedItems[0]);
+        }
+
+        private void DelCombos(object sender, RoutedEventArgs e)
+        {
+            while (ChosenCombos.SelectedItems.Count > 0)
+                ChosenCombos.Items.Remove(ChosenCombos.SelectedItems[0]);
+        }
     }
 }

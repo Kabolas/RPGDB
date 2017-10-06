@@ -220,7 +220,7 @@
             </TabItem>
             <TabItem Header="Sorts">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="133" Margin="223,5,0,0" VerticalAlignment="Top" Width="246">
+                    <ListView x:Name="ChosenSpell" HorizontalAlignment="Left" Height="133" Margin="223,5,0,0" VerticalAlignment="Top" Width="246">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -253,12 +253,13 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy2" Content="⇴" HorizontalAlignment="Left" Margin="193,59,0,0" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=SpellList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top"/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Margin="193,37,0,0" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=SpellList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top"/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="193,0,0,37" Width="25" Click="DelSpell" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenSpell}" Height="25" VerticalAlignment="Bottom"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Combo">
                 <Grid Background="#FFE5E5E5">
-                    <ListView Height="133" Margin="203,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="266" ItemsSource="{Binding Sort}">
+                    <ListView x:Name="ChosenCombos" Height="133" Margin="203,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="266" ItemsSource="{Binding Sort}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -293,7 +294,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy1" Content="⇴" HorizontalAlignment="Left" Margin="173,59,0,59" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=ComboList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Margin="173,37,0,0" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=ComboList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top"/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="173,0,0,37" Width="25" Click="DelCombos" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenCombos}" Height="25" VerticalAlignment="Bottom"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Stuff">
@@ -348,7 +350,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but_Copy" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,59,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="282,37,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=StuffList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
                     <RadioButton x:Name="filterinf" Content="&lt;" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top">
                         <RadioButton.IsEnabled>
                             <MultiBinding Converter="{StaticResource Or}">
@@ -548,6 +550,7 @@
                             </MultiBinding>
                         </ComboBox.IsEnabled>
                     </ComboBox>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="282,81,0,37" Width="25" Click="DelStuff" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenStuff}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Loot">
@@ -602,7 +605,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,59,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,37,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="156,81,0,37" Width="25" Click="DelLoot" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Trais">
