@@ -92,7 +92,7 @@
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="Perso_Label" Text="{Binding PrintedText}"/>
+                    <TextBlock x:Name="Peruso_Label" Text="{Binding PrintedText}"/>
                 </ScrollViewer>
             </ScrollViewer>
         </Border>
@@ -338,6 +338,13 @@
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
                                 <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
                                 <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding origine}"/>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Details" Tag="{Binding Id}" Click="StuffDetail"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -358,7 +365,7 @@
                             </MultiBinding>
                         </RadioButton.IsEnabled>
                     </RadioButton>
-                    <RadioButton x:Name="filtersup" Content=">" HorizontalAlignment="Left" Margin="64,59,0,0" VerticalAlignment="Top">
+                    <RadioButton x:Name="filtersup" HorizontalAlignment="Left" Margin="64,59,0,0" VerticalAlignment="Top" Content=">">
                         <RadioButton.IsEnabled>
                             <MultiBinding Converter="{StaticResource Or}">
                                 <Binding ElementName="filterUsesconso" Path="Text" Converter="{StaticResource intEquals}" ConverterParameter="0"/>
@@ -522,6 +529,24 @@
                                 <CollectionContainer Collection="{Binding Source={StaticResource Maniabilites}}"/>
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <ComboBox x:Name="filteruses" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="utilisation" Visibility="{Binding ElementName=filteruses, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+                        <ComboBox.Resources>
+                            <CollectionViewSource x:Key="Usages" Source="{Binding Uses}"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemsSource>
+                            <CompositeCollection>
+                                <local:Usage utilisation="~Utilisation~"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource Usages}}"/>
+                            </CompositeCollection>
+                        </ComboBox.ItemsSource>
+                        <ComboBox.IsEnabled>
+                            <MultiBinding Converter="{StaticResource Or}">
+                                <Binding ElementName="StuffVeg" Path="IsSelected"/>
+                                <Binding ElementName="StuffMetal" Path="IsSelected"/>
+                                <Binding ElementName="StuffPier" Path="IsSelected"/>
+                            </MultiBinding>
+                        </ComboBox.IsEnabled>
                     </ComboBox>
                 </Grid>
             </TabItem>

@@ -40,6 +40,7 @@ namespace RPG_Jahr_words.ViewModel
         private List<Voies> _voie;
         private List<Mode_deplacement> _deplacement;
         private List<Maniabilite> _maniabilities;
+        private List<Usage> _uses;
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
@@ -61,7 +62,7 @@ namespace RPG_Jahr_words.ViewModel
             Voie = Bd.Voies.ToList();
             Deplacement = Bd.Mode_deplacement.ToList();
             Maniabilities = Bd.Maniabilite.ToList();
-
+            Uses = Bd.Usage.ToList();
             foreach (Mag_element elem in Bd.Mag_element)
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
@@ -147,6 +148,7 @@ namespace RPG_Jahr_words.ViewModel
         public List<Voies> Voie { get => _voie; set => _voie = value; }
         public List<Mode_deplacement> Deplacement { get => _deplacement; set => _deplacement = value; }
         public List<Maniabilite> Maniabilities { get => _maniabilities; set => _maniabilities = value; }
+        public List<Usage> Uses { get => _uses; set => _uses = value; }
 
         private void Saving()
         {

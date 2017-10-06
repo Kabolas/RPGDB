@@ -211,6 +211,8 @@ namespace RPG_Jahr_words
                         break;
                     case "Métaux":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Métal";
+                        if (ret)
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
                         break;
                     case "Parchemins":
                         ret = ret && (obj as Items).Parchemins != null;
@@ -220,9 +222,13 @@ namespace RPG_Jahr_words
                     case "Pierres":
                     case "Pierre":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Pierre";
+                        if (ret)
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
                         break;
                     case "Végétaux":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Végétal";
+                        if (ret)
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
                         break;
                     case "Conteneur":
                         ret = ret && (obj as Items).Conteneurs != null;
@@ -311,6 +317,101 @@ namespace RPG_Jahr_words
         {
             if (StuffList != null && StuffList.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
+        }
+
+        private void StuffDetail(object sender, RoutedEventArgs e)
+        {
+            Items obj = Bdd.Items.First(i => i.Id == (int)(sender as Button).Tag);
+            switch ((Stufftype.SelectedItem as ComboBoxItem).Content as string)
+            {
+                case "Armes":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
+                        + " origine: " + obj.origine + " \n"
+                        + (obj.Weaponry.element_1 != null ? "Element " + obj.Weaponry.element_1 + ", avec une puissance de " + obj.Weaponry.puissance_1 + obj.Weaponry.chance_1 + "% de chances d'infliger " + obj.Weaponry.Mag_element.etat + ", durant " + obj.Weaponry.duree_1 + '\n'
+                        : "") + (obj.Weaponry.element_2 != null ? "Element " + obj.Weaponry.element_1 + ", avec une puissance de " + obj.Weaponry.puissance_1 + obj.Weaponry.chance_1 + "% de chances d'infliger " + obj.Weaponry.Mag_element.etat + ", durant " + obj.Weaponry.duree_1 : "");
+                    foreach (Armes_cac item in obj.Weaponry.Armes_cac)
+                        Peruso_Label.Text += "Attaque : " + item.attaque + ", Puissance :" + item.puissance + ", Cout d'utilisation :" + item.mana_cost + ", Precision :" + item.precision + ", " + item.type + "Chances de critique : " + item.critique + "%"
+                            + ", Multiplicateur de degats sur critique " + item.critmult + ", inflige des degats de type " + item.degats_type + '\n';
+                    foreach (Arme_distance item in obj.Weaponry.Arme_distance)
+                        Peruso_Label.Text += "Attaque : " + item.attaque + ", Puissance :" + item.puissance + ", Portée : " + item.range + ", Cout d'utilisation :" + item.mana_cost + ", Precision" + item.precision + ", " + item.type + "Chances de critique : " + item.critique + "%"
+                            + ", Multiplicateur de degats sur critique " + item.critmult + ", munitions : " + item.munition + ", Rechargement +" + item.reload_tps + "\n";
+                    foreach (Armes_magique item in obj.Weaponry.Armes_magique)
+                        Peruso_Label.Text += "Precision : " + item.precision + ", Puissance :" + item.puissance + ", Portée : " + item.range + ", Cout d'utilisation :" + item.manacost + ", " + item.type + "Chances de critique : " + item.critique + "%"
+                            + ", Multiplicateur de degats sur critique " + item.critmult + ", " + item.spells + "\n";
+                    Peruso_Label.Text += (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;
+                    break;
+                case "Armures":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
++ " origine: " + obj.origine + " \n"
++ "Attaque : " + obj.Armory.atk + ", Defense : " + obj.Armory.def + ", Puissance : " + obj.Armory.puissance + ", Resistance : " + obj.Armory.resistance + ", " + obj.Armory.categorie + '\n'
++ "Malus de Dexterité : " + obj.Armory.dex_malus + ", Malus de vitesse : " + obj.Armory.vit_malus
++ (obj.Armory.enchantable ? " Enchantable, " : "") + (obj.Armory.enchantement ?? " Aucun Enchantement, ") + obj.Armory.capacites;
+                    foreach (ElemResArmorAssoc er in obj.Armory.ElemResArmorAssoc)
+                        Peruso_Label.Text += (er.element != null ? "Elements resistants " + er.element + ", resistance de " + er.resValue : "") + '\n';
+                    Peruso_Label.Text += (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;
+                    break;
+                case "Véhicule":
+                case "Vehicule":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
++ " origine: " + obj.origine + " \n"
++ "Vitesse maximale : " + obj.Vehicule.vitesse_max + " " + obj.Vehicule.solidite + " Point de solidité, taille de reservoir" + obj.Vehicule.reservoir + ", peut progresser par voie " + obj.Vehicule.accessibilite + ", " + obj.Vehicule.maniabilite + ", carbure à" + obj.Vehicule.carburant
++ (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;
+                    break;
+                case "Munition":
+                case "Munitions":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
++ " origine: " + obj.origine + " \n"
++ obj.Munition.categorie + ": Degats : " + obj.Munition.degats + " de type " + obj.Munition.degats_type
++ (obj.Munition.element_1 != null ? "Element : " + obj.Munition.element_1 + ", " + obj.Munition.puissance_1 + " de Puissance, " + obj.Munition.chance_1 + "% de chances d'infliger " + obj.Munition.Mag_element.etat + " Pendant " + obj.Munition.duree_1 : "")
++ (obj.Munition.element_2 != null ? "Element : " + obj.Munition.element_2 + ", " + obj.Munition.puissance_2 + " de Puissance, " + obj.Munition.chance_2 + "% de chances d'infliger " + obj.Munition.Mag_element1.etat + " Pendant " + obj.Munition.duree_2 : "")
++ (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;
+                    break;
+
+                case "Bijoux":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
+                        + " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", " + (obj.Bijoux.enchantable ? ", Enchantable, " : "") + (obj.Bijoux.enchantements ?? " Auncun enchantement, ")
+                        + (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Consommable":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
++ " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", " + obj.Consommables.type + ", Premier Effet : " + obj.Consommables.effet_1 + ", dure " + obj.Consommables.duree1 + ", puissance : " + obj.Consommables.modulo_1 + ", minimum : " + obj.Consommables.minimum_1 + '\n'
++ (obj.Consommables.effet_2 != null ? ", Second Effet : " + obj.Consommables.effet_2 + ", dure " + obj.Consommables.duree2 + ", puissance : " + obj.Consommables.modulo_2 + ", minimum : " + obj.Consommables.minimum_2 : "")
++ (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Alliages":
+                case "Commun":
+                case "Communs":
+                case "Loot":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
++ " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", "
++ (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Livre":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
++ " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", "
++ (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Parchemins":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
++ " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", contient " + obj.Parchemins.Sorts.nom + "\n"
++ (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Métaux":
+                case "Pierres":
+                case "Pierre":
+                case "Végétaux":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "prix mago : " + obj.prix_mago + " " : "")
++ " origine: " + (obj.origine == "Tous" ? " Tout les mondes" : obj.origine) + ", " + obj.Mineraux.usage + '\n'
++ (!obj.craftable ? "non craftable; " : "craftable.\nRecette: " + (obj.recette.Replace("\n", "; "))) + '\n' + obj.description;
+                    break;
+                case "Conteneur":
+                    Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
++ " origine: " + obj.origine + ", peut contenir des objets de taille inferieure à " + obj.Conteneurs.Tailles.categorie + ", pour une capacité de " + obj.Conteneurs.taille + "Kg \n"
++ (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
