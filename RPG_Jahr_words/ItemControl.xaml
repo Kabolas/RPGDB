@@ -422,9 +422,9 @@
                                     <TextBlock HorizontalAlignment="Left" Margin="223,48,0,0" TextWrapping="Wrap" Text="Vitesse d'attaque : " VerticalAlignment="Top" Width="52"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="208,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Cout (stamina):"/>
                                     <TextBox x:Name="CAC_cout_stamina" HorizontalAlignment="Left" Height="18" Text="{Binding SaveCac.staminacost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="275,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
-                                    <TextBox x:Name="CAC_power_Copy" HorizontalAlignment="Left" Height="18" Margin="49,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_power_Copy" HorizontalAlignment="Left" Height="18" Margin="49,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.defence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="5,29,0,0" TextWrapping="Wrap" Text="Defence : " VerticalAlignment="Top"/>
-                                    <TextBox x:Name="CAC_power_Copy1" HorizontalAlignment="Left" Height="18" Margin="153,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox x:Name="CAC_power_Copy1" HorizontalAlignment="Left" Height="18" Margin="153,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Text="{Binding SaveCac.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <TextBlock HorizontalAlignment="Left" Margin="100,31,0,0" TextWrapping="Wrap" Text="Resistance : " VerticalAlignment="Top"/>
                                 </Grid>
                             </TabItem>

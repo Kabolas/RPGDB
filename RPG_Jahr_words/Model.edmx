@@ -38,6 +38,8 @@
           <Property Name="Id_weap" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_weapon" Type="int" Nullable="false" />
           <Property Name="attaque" Type="int" Nullable="false" />
+          <Property Name="resistance" Type="int" Nullable="false" />
+          <Property Name="defence" Type="int" Nullable="false" />
           <Property Name="puissance" Type="int" />
           <Property Name="critique" Type="int" Nullable="false" />
           <Property Name="critmult" Type="float" Nullable="false" />
@@ -653,6 +655,7 @@
           <Property Name="cat" Type="varchar" MaxLength="60" Nullable="false" />
           <Property Name="origine" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="loot" Type="varchar(max)" />
+          <Property Name="evol_nom" Type="varchar" MaxLength="60" />
           <Property Name="background" Type="varchar(max)" />
           <Property Name="lvl" Type="int" Nullable="false" />
         </EntityType>
@@ -2609,6 +2612,8 @@
           <Property Name="atk_speed" Type="Double" Nullable="false" />
           <Property Name="staminacost" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Weaponry" Relationship="RPGModel.FK_cac_weapon" FromRole="Armes_cac" ToRole="Weaponry" />
+          <Property Name="resistance" Type="Int32" Nullable="false" />
+          <Property Name="defence" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Armes_magique">
           <Key>
@@ -5178,6 +5183,7 @@
           <NavigationProperty Name="Perso_weap_Master" Relationship="RPGModel.FK_perso_weap" FromRole="Persos" ToRole="Perso_weap_Master" />
           <NavigationProperty Name="PersoCategorie" Relationship="RPGModel.FK_cat_Pers" FromRole="Persos" ToRole="PersoCategorie" />
           <NavigationProperty Name="Races" Relationship="RPGModel.Fk_perso_race" FromRole="Persos" ToRole="Races" />
+          <Property Name="evol_nom" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="Fk_perso_spece">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="0..1" />
@@ -5348,6 +5354,8 @@
           <EntitySetMapping Name="Armes_cac">
             <EntityTypeMapping TypeName="RPGModel.Armes_cac">
               <MappingFragment StoreEntitySet="Armes_cac">
+                <ScalarProperty Name="defence" ColumnName="defence" />
+                <ScalarProperty Name="resistance" ColumnName="resistance" />
                 <ScalarProperty Name="staminacost" ColumnName="staminacost" />
                 <ScalarProperty Name="atk_speed" ColumnName="atk_speed" />
                 <ScalarProperty Name="Id_weap" ColumnName="Id_weap" />
@@ -6253,6 +6261,7 @@
           <EntitySetMapping Name="Persos">
             <EntityTypeMapping TypeName="RPGModel.Persos">
               <MappingFragment StoreEntitySet="Persos">
+                <ScalarProperty Name="evol_nom" ColumnName="evol_nom" />
                 <ScalarProperty Name="lvl" ColumnName="lvl" />
                 <ScalarProperty Name="background" ColumnName="background" />
                 <ScalarProperty Name="loot" ColumnName="loot" />

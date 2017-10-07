@@ -77,7 +77,7 @@
             </ComboBox.ItemsSource>
         </ComboBox>
         <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,154,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringDifferent}, ConverterParameter=Jahr}"/>
-        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,171,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.evol_nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,171,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
         <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="144" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
@@ -161,7 +161,7 @@
                     <TextBlock HorizontalAlignment="Left" Margin="242,90,0,0" TextWrapping="Wrap" Text="Vitesse sol" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="163,90,0,0" TextWrapping="Wrap" Text="Charisme" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="84,90,0,0" TextWrapping="Wrap" Text="Sagesse" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,0,0,32" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Bottom"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Pv = Endurance * 10, Stamina = Endurance * 12, Fuel Magique = Puissance*10, Precision = (Intelligence + Sagesse)*0.4 + 0.66*Dexterite " VerticalAlignment="Top" Height="41" Width="454"/>
                 </Grid>
             </TabItem>
@@ -686,7 +686,16 @@
         </TabControl>
         <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
         <Button Content=" Categorie " HorizontalAlignment="Left" Margin="476,181,0,0" VerticalAlignment="Top" Command="{Binding NewCat}"/>
-        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="Id" SelectedValue="{Binding NewPerso.Id_Beast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Bestiaire_Beast, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
             </ComboBox.Resources>
@@ -698,7 +707,16 @@
             </ComboBox.ItemsSource>
         </ComboBox>
         <Button Content=" Creature " HorizontalAlignment="Left" Margin="381,181,0,0" VerticalAlignment="Top" Command="{Binding NewCreature}"/>
-        <ComboBox x:Name="PersCrea" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=PersCrea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+        <ComboBox x:Name="PersCrea" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="nom" SelectedValue="{Binding NewPerso.nom_crea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Perso_Creature, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=PersCrea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="Creatures" Source="{Binding Creature}"/>
             </ComboBox.Resources>

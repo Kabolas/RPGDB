@@ -26,6 +26,8 @@ namespace RPG_Jahr_words
         public string type { get; set; }
         public double atk_speed { get; set; }
         public int staminacost { get; set; }
+        public int resistance { get; set; }
+        public int defence { get; set; }
     
         public virtual Weapon_type Weapon_type { get; set; }
         public virtual Weaponry Weaponry { get; set; }

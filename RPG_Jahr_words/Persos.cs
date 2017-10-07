@@ -34,6 +34,7 @@ namespace RPG_Jahr_words
         public string loot { get; set; }
         public string background { get; set; }
         public int lvl { get; set; }
+        public string evol_nom { get; set; }
     
         public virtual Bestiaire_Beast Bestiaire_Beast { get; set; }
         public virtual Monde_w Monde_w { get; set; }
