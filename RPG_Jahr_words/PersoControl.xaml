@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RPG_Jahr_words"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
              mc:Ignorable="d" 
              d:DesignHeight="456" d:DesignWidth="701">
     <UserControl.Resources>
@@ -98,7 +99,29 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <CheckBox x:Name="Perso_show_evol" Content="evolue" HorizontalAlignment="Left" Height="18" Margin="104,40,0,0" VerticalAlignment="Top"/>
+                <ComboBox HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Bestiaire_Beast nom="~Bête~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Beasts_pets}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <ComboBox HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=PersCrea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                    <ComboBox.Resources>
+                        <CollectionViewSource x:Key="Creatures" Source="{Binding Creature}"/>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <local:Perso_Creature nom="~Creature~"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource Creatures}}"/>
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                <CheckBox x:Name="Perso_show_evol" Content="Evolue" HorizontalAlignment="Left" Height="18" Margin="115,40,0,0" VerticalAlignment="Top"/>
                 <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="114,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0" DisplayMemberPath="nom">
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
@@ -245,7 +268,7 @@
             </TabItem>
             <TabItem Header="Sorts">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="ChosenSpell" HorizontalAlignment="Left" Height="133" Margin="223,5,0,0" VerticalAlignment="Top" Width="246">
+                    <ListView x:Name="ChosenSpell" HorizontalAlignment="Left" Height="133" Margin="223,5,0,0" VerticalAlignment="Top" Width="246" ItemsSource="{Binding ChosenSort}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -267,7 +290,7 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ListView x:Name="SpellList" HorizontalAlignment="Left" Margin="5,32,0,0" Width="183" Height="106" VerticalAlignment="Top">
+                    <ListView x:Name="SpellList" HorizontalAlignment="Left" Margin="5,32,0,0" Width="183" Height="106" VerticalAlignment="Top" ItemsSource="{Binding Sort}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -284,7 +307,7 @@
             </TabItem>
             <TabItem Header="Combo">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="ChosenCombos" Height="133" Margin="203,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="266" ItemsSource="{Binding Sort}">
+                    <ListView x:Name="ChosenCombos" Height="133" Margin="203,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="266" ItemsSource="{Binding ChosenCombos}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -636,7 +659,7 @@
             </TabItem>
             <TabItem Header="Trais">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="Traits" HorizontalAlignment="Left" Height="133" Margin="61,5,0,0" VerticalAlignment="Top" Width="138" ItemsSource="{Binding Trais}" SelectionMode="Multiple">
+                    <ListView x:Name="Traits" HorizontalAlignment="Left" Height="133" Margin="61,5,0,0" VerticalAlignment="Top" Width="138" ItemsSource="{Binding Trais}" SelectionMode="Multiple" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedTrais}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>

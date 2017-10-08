@@ -332,6 +332,9 @@
     <Compile Include="Perso_weap_Master.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pers_carac.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Pers_mago.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

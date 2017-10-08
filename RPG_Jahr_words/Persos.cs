@@ -52,5 +52,6 @@ namespace RPG_Jahr_words
         public virtual ICollection<Perso_weap_Master> Perso_weap_Master { get; set; }
         public virtual PersoCategorie PersoCategorie { get; set; }
         public virtual Races Races { get; set; }
+        public virtual Pers_carac Pers_carac { get; set; }
     }
 }

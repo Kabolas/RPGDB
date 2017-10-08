@@ -565,6 +565,17 @@
           <Property Name="uses" Type="int" Nullable="false" />
           <Property Name="spell_id" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Pers_carac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="stuff" Type="varchar(max)" />
+          <Property Name="spells" Type="varchar(max)" />
+          <Property Name="loot" Type="varchar(max)" />
+          <Property Name="combos" Type="varchar(max)" />
+          <Property Name="trais" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="Pers_mago">
           <Key>
             <PropertyRef Name="Id" />
@@ -1732,6 +1743,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Perso_carats">
+          <End Role="Persos" Type="Self.Persos" Multiplicity="1" />
+          <End Role="Pers_carac" Type="Self.Pers_carac" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pers_carac">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Fk_perso_crea">
           <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="0..1" />
           <End Role="Persos" Type="Self.Persos" Multiplicity="*" />
@@ -2127,6 +2150,7 @@
           <EntitySet Name="Munition" EntityType="Self.Munition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Munition_type" EntityType="Self.Munition_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parchemins" EntityType="Self.Parchemins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pers_carac" EntityType="Self.Pers_carac" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pers_mago" EntityType="Self.Pers_mago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pers_magoRes" EntityType="Self.Pers_magoRes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pers_stats" EntityType="Self.Pers_stats" Schema="dbo" store:Type="Tables" />
@@ -2445,6 +2469,10 @@
           <AssociationSet Name="FK_Pers_stats" Association="Self.FK_Pers_stats">
             <End Role="Persos" EntitySet="Persos" />
             <End Role="Pers_stats" EntitySet="Pers_stats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perso_carats" Association="Self.FK_Perso_carats">
+            <End Role="Persos" EntitySet="Persos" />
+            <End Role="Pers_carac" EntitySet="Pers_carac" />
           </AssociationSet>
           <AssociationSet Name="Fk_perso_crea" Association="Self.Fk_perso_crea">
             <End Role="Perso_Creature" EntitySet="Perso_Creature" />
@@ -3747,6 +3775,11 @@
           <AssociationSet Name="Fk_perso_race" Association="RPGModel.Fk_perso_race">
             <End Role="Races" EntitySet="Races" />
             <End Role="Persos" EntitySet="Persos" />
+          </AssociationSet>
+          <EntitySet Name="Pers_carac" EntityType="RPGModel.Pers_carac" />
+          <AssociationSet Name="FK_Perso_carats" Association="RPGModel.FK_Perso_carats">
+            <End Role="Persos" EntitySet="Persos" />
+            <End Role="Pers_carac" EntitySet="Pers_carac" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Tailles">
@@ -5184,6 +5217,7 @@
           <NavigationProperty Name="PersoCategorie" Relationship="RPGModel.FK_cat_Pers" FromRole="Persos" ToRole="PersoCategorie" />
           <NavigationProperty Name="Races" Relationship="RPGModel.Fk_perso_race" FromRole="Persos" ToRole="Races" />
           <Property Name="evol_nom" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pers_carac" Relationship="RPGModel.FK_Perso_carats" FromRole="Persos" ToRole="Pers_carac" />
         </EntityType>
         <Association Name="Fk_perso_spece">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="0..1" />
@@ -5314,6 +5348,30 @@
             </Principal>
             <Dependent Role="Persos">
               <PropertyRef Name="race" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pers_carac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="stuff" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="spells" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="loot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="combos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="trais" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_Perso_carats" FromRole="Pers_carac" ToRole="Persos" />
+        </EntityType>
+        <Association Name="FK_Perso_carats">
+          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="1" />
+          <End Type="RPGModel.Pers_carac" Role="Pers_carac" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pers_carac">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6271,6 +6329,18 @@
                 <ScalarProperty Name="Id_Beast" ColumnName="Id_Beast" />
                 <ScalarProperty Name="race" ColumnName="race" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pers_carac">
+            <EntityTypeMapping TypeName="RPGModel.Pers_carac">
+              <MappingFragment StoreEntitySet="Pers_carac">
+                <ScalarProperty Name="trais" ColumnName="trais" />
+                <ScalarProperty Name="combos" ColumnName="combos" />
+                <ScalarProperty Name="loot" ColumnName="loot" />
+                <ScalarProperty Name="spells" ColumnName="spells" />
+                <ScalarProperty Name="stuff" ColumnName="stuff" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

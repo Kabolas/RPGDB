@@ -194,6 +194,8 @@
         <AssociationConnector Association="RPGModel.FK_perso_weap" />
         <AssociationConnector Association="RPGModel.FK_cat_Pers" />
         <AssociationConnector Association="RPGModel.Fk_perso_race" />
+        <EntityTypeShape EntityType="RPGModel.Pers_carac" Width="1.5" PointX="26.875" PointY="14.375" />
+        <AssociationConnector Association="RPGModel.FK_Perso_carats" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

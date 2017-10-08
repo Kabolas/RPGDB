@@ -18,6 +18,7 @@ namespace RPG_Jahr_words.ViewModel
         //Pers_mago _saveMago = new Pers_mago();
         //Pers_magoRes _saveMagoRes = new Pers_magoRes();
         private Pers_stats _saveStats = new Pers_stats();
+        private Pers_carac _saveCaracs = new Pers_carac();
         private List<Trais> _trais;
         private List<Races> _races;
         private List<Monde_w> _origines;
@@ -30,7 +31,9 @@ namespace RPG_Jahr_words.ViewModel
         private List<Magie_type> _magie;
         private List<ComboCat> _categoriescombo;
         private List<Sorts> _sort;
+        private List<Sorts> _chosenSort = new List<Sorts>();
         private List<Combo> _combos;
+        private List<Combo> _chosenCombos = new List<Combo>();
         private List<Piece> _pieces;
         private List<Bijoux_place> _place;
         private List<Conso_type> _consoTypes;
@@ -41,6 +44,7 @@ namespace RPG_Jahr_words.ViewModel
         private List<Mode_deplacement> _deplacement;
         private List<Maniabilite> _maniabilities;
         private List<Usage> _uses;
+        private List<Trais> _selectedTrais = new List<Trais>();
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
@@ -82,7 +86,7 @@ namespace RPG_Jahr_words.ViewModel
             Races = Bd.Races.Where(r => !r.Race_Stat_Cap.evolved || r.nom == "Jahr").ToList();
             Cats = Bd.PersoCategorie.ToList();
             Origines = Bd.Monde_w.Where(m => m.nom != "Tous").ToList();
-            //NewPerso.origine
+            SaveCaracs.Persos = NewPerso;
         }
 
         public RPGEntities15 Bd { get => _bd; set { _bd = value; RaisePropertyChanged(); } }
@@ -127,6 +131,13 @@ namespace RPG_Jahr_words.ViewModel
         public List<Mode_deplacement> Deplacement { get => _deplacement; set { _deplacement = value; RaisePropertyChanged();} }
         public List<Maniabilite> Maniabilities { get => _maniabilities; set { _maniabilities = value; RaisePropertyChanged();} }
         public List<Usage> Uses { get => _uses; set { _uses = value; RaisePropertyChanged();} }
+
+        public List<Sorts> ChosenSort { get => _chosenSort; set { _chosenSort = value; RaisePropertyChanged(); } }
+        public List<Combo> ChosenCombos { get => _chosenCombos; set { _chosenCombos = value; RaisePropertyChanged(); } }
+
+        public Pers_carac SaveCaracs { get => _saveCaracs; set { _saveCaracs = value; RaisePropertyChanged(); } }
+
+        public List<Trais> SelectedTrais { get => _selectedTrais; set { _selectedTrais = value; RaisePropertyChanged(); } }
 
         private void Saving()
         {
