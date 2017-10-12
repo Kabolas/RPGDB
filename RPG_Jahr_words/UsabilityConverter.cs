@@ -729,7 +729,7 @@ namespace RPG_Jahr_words
     {
         public object Convert(object[] values, System.Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return values[0];
         }
 
         public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, CultureInfo culture)
@@ -757,7 +757,7 @@ namespace RPG_Jahr_words
     {
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            return null;//(targetType == typeof(int) ? (int)value / (int)parameter : (double)value / (double)parameter);
+            return (targetType == typeof(int) ? (int)value / (int)parameter : (double)value / (double)parameter);
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)

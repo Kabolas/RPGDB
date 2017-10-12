@@ -20,6 +20,9 @@ namespace RPG_Jahr_words
         public string loot { get; set; }
         public string combos { get; set; }
         public string trais { get; set; }
+        public Nullable<int> age { get; set; }
+        public Nullable<int> masse { get; set; }
+        public Nullable<int> taille { get; set; }
     
         public virtual Persos Persos { get; set; }
     }

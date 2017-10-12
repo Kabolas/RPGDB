@@ -25,5 +25,7 @@ namespace RPG_Jahr_words
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
+        public virtual Creature_Specs Creature_Specs { get; set; }
+        public virtual Creature_Stats Creature_Stats { get; set; }
     }
 }

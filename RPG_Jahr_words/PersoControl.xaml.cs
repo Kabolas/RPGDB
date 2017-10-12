@@ -212,7 +212,7 @@ namespace RPG_Jahr_words
                     case "Métaux":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Métal";
                         if (ret)
-                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation) || (filteruses.SelectedItem as Usage).utilisation == "Tous" || (obj as Items).Mineraux.usage == "Tous");
                         break;
                     case "Parchemins":
                         ret = ret && (obj as Items).Parchemins != null;
@@ -223,12 +223,12 @@ namespace RPG_Jahr_words
                     case "Pierre":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Pierre";
                         if (ret)
-                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation) || (filteruses.SelectedItem as Usage).utilisation == "Tous" || (obj as Items).Mineraux.usage == "Tous");
                         break;
                     case "Végétaux":
                         ret = ret && (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Végétal";
                         if (ret)
-                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation));
+                            ret = ret && (filteruses.SelectedIndex == 0 || (obj as Items).Mineraux.usage.Contains((filteruses.SelectedItem as Usage).utilisation) || (filteruses.SelectedItem as Usage).utilisation == "Tous" || (obj as Items).Mineraux.usage == "Tous");
                         break;
                     case "Conteneur":
                         ret = ret && (obj as Items).Conteneurs != null;
@@ -439,6 +439,52 @@ namespace RPG_Jahr_words
         {
             if ((sender as ComboBox).SelectedItem == null)
                 (sender as ComboBox).SelectedIndex = 0;
+        }
+
+        private void RaceChoice(object sender, SelectionChangedEventArgs e)
+        {
+            Placeholder(sender, e);
+            Races value = (sender as ComboBox).SelectedItem as Races;
+            if (DataContext is ViewModel.PersoViewModel)
+                if (value != null && value.Race_Stat_Cap != null)
+                {
+                    (DataContext as ViewModel.PersoViewModel).IsPers();
+                    Beast_cha.Text = "" + (int)value.Race_Stat_Cap.charisme;
+                    Beast_def.Text = "" + (int)value.Race_Stat_Cap.defense;
+                    Beast_dex.Text = "" + (int)value.Race_Stat_Cap.dexterité;
+                    Beast_str.Text = "" + (int)value.Race_Stat_Cap.force;
+                    Beast_int.Text = "" + (int)value.Race_Stat_Cap.intelligence;
+                    Beast_pwr.Text = "" + (int)value.Race_Stat_Cap.puissance;
+                    Beast_res.Text = "" + value.Race_Stat_Cap.resistance;
+                    Beast_wis.Text = "" + (int)value.Race_Stat_Cap.sagesse;
+                    Beast_end.Text = "" + (int)value.Race_Stat_Cap.endurance;
+                    Beast_vow.Text = "" + (int)value.Race_Stat_Cap.vitesse_eau;
+                    Beast_vog.Text = "" + (int)value.Race_Stat_Cap.vitesse_sol;
+                    Beast_voa.Text = "" + (int)value.Race_Stat_Cap.vitesse_vol;
+                }
+        }
+
+        private void PetChoice(object sender, SelectionChangedEventArgs e)
+        {
+            Placeholder(sender, e);
+            Bestiaire_Beast value = (sender as ComboBox).SelectedItem as Bestiaire_Beast;
+            if (DataContext is ViewModel.PersoViewModel)
+                if (value != null && value.Best_stats != null)
+                {
+                    (DataContext as ViewModel.PersoViewModel).IsPet();
+                    Beast_cha.Text = "" + (int)value.Best_stats.charisme;
+                    Beast_def.Text = "" + (int)value.Best_stats.defense;
+                    Beast_dex.Text = "" + (int)value.Best_stats.dexterite;
+                    Beast_str.Text = "" + (int)value.Best_stats.force;
+                    Beast_int.Text = "" + (int)value.Best_stats.intelligence;
+                    Beast_pwr.Text = "" + (int)value.Best_stats.puissance;
+                    Beast_res.Text = "" + value.Best_stats.resistance;
+                    Beast_wis.Text = "" + (int)value.Best_stats.sagesse;
+                    Beast_end.Text = "" + (int)value.Best_stats.pv/10;
+                    Beast_vow.Text = "" + (int)value.Best_stats.vitesse_eau;
+                    Beast_vog.Text = "" + (int)value.Best_stats.vitesse_sol;
+                    Beast_voa.Text = "" + (int)value.Best_stats.vitesse_vol;
+                }
         }
     }
 }

@@ -144,6 +144,9 @@
     <Compile Include="Beast_magoRes.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Beast_Specs.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bestiaire_Beast.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -217,6 +220,12 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Continent.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Creature_Specs.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Creature_Stats.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Crowd_control.cs">
@@ -363,6 +372,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Race_Magie.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Race_Specs.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Race_Stat_Cap.cs">

@@ -24,9 +24,9 @@
         <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
     </UserControl.Resources>
     <Grid>
-        <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106"/>
+        <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay}" VerticalAlignment="Top" Width="106"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
-        <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedIndex}" SelectedValuePath="nom" SelectedValue="{Binding NewPerso.race,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Race, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+        <ComboBox x:Name="Perso_Race" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedIndex}" SelectedValuePath="nom" SelectedValue="{Binding NewPerso.race,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Races, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="RaceChoice">
             <ComboBox.Style>
                 <Style TargetType="{x:Type ComboBox}">
                     <Style.Triggers>
@@ -78,12 +78,12 @@
             </ComboBox.ItemsSource>
         </ComboBox>
         <CheckBox x:Name="Perso_evolved" Content="Evolue" HorizontalAlignment="Left" Height="17" Margin="10,154,0,0" VerticalAlignment="Top" Width="96" IsEnabled="{Binding ElementName=Perso_Race, Path=SelectedValue, Converter={StaticResource StringDifferent}, ConverterParameter=Jahr}"/>
-        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,171,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.evol_nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
-        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,171,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <TextBox x:Name="Perso_evolved_name" HorizontalAlignment="Left" Height="25" Margin="10,176,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.evol_nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="106" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,176,0,0" VerticalAlignment="Top" Click="Evol_Generation" FontSize="24" Padding="1,-7,1,1" IsEnabled="{Binding ElementName=Perso_evolved, Path=IsChecked}"/>
         <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
-        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="144" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
+        <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="134" Margin="10,206,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
-                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,10,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="type">
+                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,10,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="type" SelectedValuePath="type">
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
                             <local:PersoCategorie type="~Categorie~"/>
@@ -99,7 +99,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                <ComboBox x:Name="Perso_show_Pet" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perso_show_Pet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
                     </ComboBox.Resources>
@@ -110,7 +110,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=PersCrea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                <ComboBox x:Name="Perso_show_crea" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=Perso_show_crea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Creatures" Source="{Binding Creature}"/>
                     </ComboBox.Resources>
@@ -130,9 +130,9 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="195,97,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="84,97,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="5,78,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="190,78,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="79,78,0,0" VerticalAlignment="Top"/>
 
             </Grid>
         </GroupBox>
@@ -147,32 +147,18 @@
         <TabControl HorizontalAlignment="Left" Height="171" Margin="211,5,0,0" VerticalAlignment="Top" Width="480">
             <TabItem Header="Stats">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.force, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39">
-                        <TextBox.Text>
-                            <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
-                                <Binding Path="NewPerso.Pers_stats.puissance"/>
-                                <Binding Path="NewPerso.Pers_stats.magie_fuel" Converter="{StaticResource By}" ConverterParameter="10" Mode="OneWayToSource"/>
-                            </MultiBinding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39">
-                        <TextBox.Text>
-                            <MultiBinding Converter="{StaticResource Both}" Mode="OneWayToSource">
-                                <Binding Path="NewPerso.Pers_stats.pv" Converter="{StaticResource By}" ConverterParameter="10" Mode="OneWayToSource"/>
-                                <Binding Path="NewPerso.Pers_stats.stamina" Converter="{StaticResource By}" ConverterParameter="12" Mode="OneWayToSource"/>
-                            </MultiBinding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.dexterite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.defense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_vol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.vitesse_sol,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.charisme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.sagesse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.Pers_stats.intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.force, Mode=TwoWay}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Endurance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.dexterite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.defense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_vol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_sol,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.charisme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.sagesse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
                     <TextBlock HorizontalAlignment="Left" Margin="10,5,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="404,5,0,0" TextWrapping="Wrap" Text="Dexterité" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="320,5,0,0" TextWrapping="Wrap" Text="Résistance" VerticalAlignment="Top"/>
@@ -580,7 +566,7 @@
                             </CompositeCollection>
                         </ComboBox.ItemsSource>
                     </ComboBox>
-                    <ComboBox x:Name="filteruses" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="utilisation" Visibility="{Binding ElementName=filteruses, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
+                    <ComboBox x:Name="filteruses" HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="utilisation" Visibility="{Binding ElementName=filteruses, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="RefreshStuff">
                         <ComboBox.Resources>
                             <CollectionViewSource x:Key="Usages" Source="{Binding Uses}"/>
                         </ComboBox.Resources>
@@ -709,7 +695,7 @@
         </TabControl>
         <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
         <Button Content=" Categorie " HorizontalAlignment="Left" Margin="476,181,0,0" VerticalAlignment="Top" Command="{Binding NewCat}"/>
-        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="Id" SelectedValue="{Binding NewPerso.Id_Beast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Bestiaire_Beast, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+        <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="Id" SelectedValue="{Binding NewPerso.Id_Beast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Bestiaire_Beast, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="PetChoice">
             <ComboBox.Style>
                 <Style TargetType="{x:Type ComboBox}">
                     <Style.Triggers>
@@ -752,5 +738,11 @@
         </ComboBox>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="53,130,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.lvl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="58"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,133,0,0" TextWrapping="Wrap" Text="Niveau :" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,148,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,40,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,86,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

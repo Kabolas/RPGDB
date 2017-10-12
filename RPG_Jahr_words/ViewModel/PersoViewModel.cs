@@ -56,6 +56,7 @@ namespace RPG_Jahr_words.ViewModel
             Bd = entities15;
             Categoriescombo = Bd.ComboCat.ToList();
             NewPerso.Pers_stats = SaveStats;
+            SaveStats.Persos = NewPerso;
             Magie = Bd.Magie_type.ToList();
             Pieces = Bd.Piece.ToList();
             Place = Bd.Bijoux_place.ToList();
@@ -77,7 +78,7 @@ namespace RPG_Jahr_words.ViewModel
                 NewPerso.Pers_magoRes.Add(new Pers_magoRes { Magie_type = mag, Persos = NewPerso, maitrise = 0 });
                 NewPerso.Pers_mago.Add(new Pers_mago { Magie_type = mag, Persos = NewPerso, maitrise = 0 });
             }
-            foreach(Weapon_type weapon in Bd.Weapon_type)
+            foreach (Weapon_type weapon in Bd.Weapon_type)
                 NewPerso.Perso_weap_Master.Add(new Perso_weap_Master { Persos = NewPerso, Weapon_type = weapon, maitrise = 0 });
             Trais = Bd.Trais.ToList();
             CriSize = Bd.Tailles.ToList();
@@ -90,11 +91,18 @@ namespace RPG_Jahr_words.ViewModel
         }
 
         public RPGEntities15 Bd { get => _bd; set { _bd = value; RaisePropertyChanged(); } }
-        public Persos NewPerso { get => _newPerso; set { _newPerso = value; RaisePropertyChanged(); } }
+        public Persos NewPerso
+        {
+            get => _newPerso; set
+            {
+                _newPerso = value;
+                RaisePropertyChanged();
+            }
+        }
         public Pers_stats SaveStats { get => _saveStats; set { _saveStats = value; RaisePropertyChanged(); } }
         public List<Trais> Trais { get => _trais; set { _trais = value; RaisePropertyChanged(); } }
 
-        public List<Races> Races { get => _races; set { _races = value; RaisePropertyChanged();} }
+        public List<Races> Races { get => _races; set { _races = value; RaisePropertyChanged(); } }
         public RelayCommand NewTrais { get => _newTrais ?? (_newTrais = new RelayCommand(MakeTrait)); }
 
         public RelayCommand NewCat { get => _newCat ?? (_newCat = new RelayCommand(MakeCat)); }
@@ -118,19 +126,19 @@ namespace RPG_Jahr_words.ViewModel
         public List<Sorts> Sort { get => _sort; set { _sort = value; RaisePropertyChanged(); } }
         public List<Combo> Combos { get => _combos; set { _combos = value; RaisePropertyChanged(); } }
 
-        public RelayCommand Save { get => _save??( _save = new RelayCommand(Saving)); }
+        public RelayCommand Save { get => _save ?? (_save = new RelayCommand(Saving)); }
         public List<Tailles> CriSize { get => _criSize; set { _criSize = value; RaisePropertyChanged(); } }
 
-        public List<Piece> Pieces { get => _pieces; set { _pieces = value; RaisePropertyChanged();} }
-        public List<Bijoux_place> Place { get => _place; set { _place = value; RaisePropertyChanged();} }
-        public List<Conso_type> ConsoTypes { get => _consoTypes; set { _consoTypes = value; RaisePropertyChanged();} }
-        public List<Effets> Conso_effects { get => _conso_effects; set { _conso_effects = value; RaisePropertyChanged();} }
-        public List<Munition_type> MunType { get => _munType; set { _munType = value; RaisePropertyChanged();} }
-        public List<Carburant> Carbus { get => _carbus; set { _carbus = value; RaisePropertyChanged();} }
-        public List<Voies> Voie { get => _voie; set { _voie = value; RaisePropertyChanged();} }
-        public List<Mode_deplacement> Deplacement { get => _deplacement; set { _deplacement = value; RaisePropertyChanged();} }
-        public List<Maniabilite> Maniabilities { get => _maniabilities; set { _maniabilities = value; RaisePropertyChanged();} }
-        public List<Usage> Uses { get => _uses; set { _uses = value; RaisePropertyChanged();} }
+        public List<Piece> Pieces { get => _pieces; set { _pieces = value; RaisePropertyChanged(); } }
+        public List<Bijoux_place> Place { get => _place; set { _place = value; RaisePropertyChanged(); } }
+        public List<Conso_type> ConsoTypes { get => _consoTypes; set { _consoTypes = value; RaisePropertyChanged(); } }
+        public List<Effets> Conso_effects { get => _conso_effects; set { _conso_effects = value; RaisePropertyChanged(); } }
+        public List<Munition_type> MunType { get => _munType; set { _munType = value; RaisePropertyChanged(); } }
+        public List<Carburant> Carbus { get => _carbus; set { _carbus = value; RaisePropertyChanged(); } }
+        public List<Voies> Voie { get => _voie; set { _voie = value; RaisePropertyChanged(); } }
+        public List<Mode_deplacement> Deplacement { get => _deplacement; set { _deplacement = value; RaisePropertyChanged(); } }
+        public List<Maniabilite> Maniabilities { get => _maniabilities; set { _maniabilities = value; RaisePropertyChanged(); } }
+        public List<Usage> Uses { get => _uses; set { _uses = value; RaisePropertyChanged(); } }
 
         public List<Sorts> ChosenSort { get => _chosenSort; set { _chosenSort = value; RaisePropertyChanged(); } }
         public List<Combo> ChosenCombos { get => _chosenCombos; set { _chosenCombos = value; RaisePropertyChanged(); } }
@@ -139,9 +147,30 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Trais> SelectedTrais { get => _selectedTrais; set { _selectedTrais = value; RaisePropertyChanged(); } }
 
+        public void IsPers()
+        {
+            NewPerso.Bestiaire_Beast = null;
+            NewPerso.Id_Beast = null;
+            NewPerso.nom_crea = null;
+            NewPerso.Perso_Creature = null;
+        }
+        public void IsCrea()
+        {
+            NewPerso.Bestiaire_Beast = null;
+            NewPerso.Id_Beast = null;
+            NewPerso.race = null;
+            NewPerso.Races = null;
+        }
+        public void IsPet()
+        {
+            NewPerso.Races = null;
+            NewPerso.race = null;
+            NewPerso.nom_crea = null;
+            NewPerso.Perso_Creature = null;
+        }
         private void Saving()
         {
-
+            NewPerso.nom += "1";
         }
 
         private void MakeCreature()

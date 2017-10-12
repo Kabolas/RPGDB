@@ -115,5 +115,9 @@ namespace RPG_Jahr_words
         public virtual DbSet<Perso_weap_Master> Perso_weap_Master { get; set; }
         public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Pers_carac> Pers_carac { get; set; }
+        public virtual DbSet<Creature_Specs> Creature_Specs { get; set; }
+        public virtual DbSet<Creature_Stats> Creature_Stats { get; set; }
+        public virtual DbSet<Race_Specs> Race_Specs { get; set; }
+        public virtual DbSet<Beast_Specs> Beast_Specs { get; set; }
     }
 }

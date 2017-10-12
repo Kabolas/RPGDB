@@ -196,6 +196,14 @@
         <AssociationConnector Association="RPGModel.Fk_perso_race" />
         <EntityTypeShape EntityType="RPGModel.Pers_carac" Width="1.5" PointX="26.875" PointY="14.375" />
         <AssociationConnector Association="RPGModel.FK_Perso_carats" />
+        <EntityTypeShape EntityType="RPGModel.Creature_Specs" Width="1.5" PointX="24.625" PointY="31.5" />
+        <EntityTypeShape EntityType="RPGModel.Creature_Stats" Width="1.5" PointX="24.625" PointY="35.625" />
+        <EntityTypeShape EntityType="RPGModel.Race_Specs" Width="1.5" PointX="24.625" PointY="11.25" />
+        <AssociationConnector Association="RPGModel.Fk_creatureSpecs" />
+        <AssociationConnector Association="RPGModel.Fk_creatureStats" />
+        <AssociationConnector Association="RPGModel.Fk_RaceSpecs" />
+        <EntityTypeShape EntityType="RPGModel.Beast_Specs" Width="1.5" PointX="5.25" PointY="39.625" />
+        <AssociationConnector Association="RPGModel.Fk_BeastSpecs" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
