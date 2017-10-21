@@ -17,15 +17,27 @@ namespace RPG_Jahr_words
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Perso_Creature()
         {
+            this.Creature_elem = new HashSet<Creature_elem>();
+            this.Creature_elemRes = new HashSet<Creature_elemRes>();
+            this.Creature_mago = new HashSet<Creature_mago>();
+            this.Creature_magoRes = new HashSet<Creature_magoRes>();
             this.Persos = new HashSet<Persos>();
         }
     
         public string nom { get; set; }
         public string description { get; set; }
     
+        public virtual Creature_Specs Creature_Specs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_elem> Creature_elem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_elemRes> Creature_elemRes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_mago> Creature_mago { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_magoRes> Creature_magoRes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
-        public virtual Creature_Specs Creature_Specs { get; set; }
         public virtual Creature_Stats Creature_Stats { get; set; }
     }
 }

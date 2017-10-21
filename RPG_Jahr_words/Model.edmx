@@ -174,6 +174,9 @@
           <Property Name="sagesse" Type="int" Nullable="false" />
           <Property Name="intelligence" Type="int" Nullable="false" />
           <Property Name="charisme" Type="int" Nullable="false" />
+          <Property Name="discretion" Type="int" Nullable="false" />
+          <Property Name="detection" Type="int" Nullable="false" />
+          <Property Name="agressivite" Type="int" Nullable="false" />
           <Property Name="vitesse_sol" Type="int" Nullable="false" />
           <Property Name="vitesse_eau" Type="int" Nullable="false" />
           <Property Name="vitesse_vol" Type="int" />
@@ -379,6 +382,42 @@
           <Property Name="monde" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="biomes" Type="text" Nullable="false" />
         </EntityType>
+        <EntityType Name="Creature_elem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="crea" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="element" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="maitrise" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Creature_elemRes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="crea" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="element" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="maitrise" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Creature_mago">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="crea" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="magie" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="maitrise" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Creature_magoRes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="crea" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="magie" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="maitrise" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Creature_Specs">
           <Key>
             <PropertyRef Name="creature" />
@@ -411,6 +450,9 @@
           <Property Name="sagesse" Type="int" Nullable="false" />
           <Property Name="intelligence" Type="int" Nullable="false" />
           <Property Name="charisme" Type="int" Nullable="false" />
+          <Property Name="discretion" Type="int" Nullable="false" />
+          <Property Name="detection" Type="int" Nullable="false" />
+          <Property Name="agressivite" Type="int" Nullable="false" />
           <Property Name="vitesse_sol" Type="int" Nullable="false" />
           <Property Name="vitesse_eau" Type="int" Nullable="false" />
           <Property Name="vitesse_vol" Type="int" />
@@ -665,6 +707,9 @@
           <Property Name="sagesse" Type="int" Nullable="false" />
           <Property Name="intelligence" Type="int" Nullable="false" />
           <Property Name="charisme" Type="int" Nullable="false" />
+          <Property Name="discretion" Type="int" Nullable="false" />
+          <Property Name="detection" Type="int" Nullable="false" />
+          <Property Name="agressivite" Type="int" />
           <Property Name="vitesse_sol" Type="int" Nullable="false" />
           <Property Name="vitesse_eau" Type="int" Nullable="false" />
           <Property Name="vitesse_vol" Type="int" />
@@ -721,6 +766,7 @@
           <Property Name="cat" Type="varchar" MaxLength="60" Nullable="false" />
           <Property Name="origine" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="loot" Type="varchar(max)" />
+          <Property Name="evolve" Type="bit" Nullable="false" />
           <Property Name="evol_nom" Type="varchar" MaxLength="60" />
           <Property Name="background" Type="varchar(max)" />
           <Property Name="lvl" Type="int" Nullable="false" />
@@ -767,7 +813,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="magie" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="race" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="maitrise" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="maitrise" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Race_Specs">
           <Key>
@@ -1382,6 +1428,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_creat_elem">
+          <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="1" />
+          <End Role="Creature_elem" Type="Self.Creature_elem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_elem">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_elemRes">
+          <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="1" />
+          <End Role="Creature_elemRes" Type="Self.Creature_elemRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_elemRes">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_mago">
+          <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="1" />
+          <End Role="Creature_mago" Type="Self.Creature_mago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_mago">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_magores">
+          <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="1" />
+          <End Role="Creature_magoRes" Type="Self.Creature_magoRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_magoRes">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Fk_creatureSpecs">
           <End Role="Perso_Creature" Type="Self.Perso_Creature" Multiplicity="1" />
           <End Role="Creature_Specs" Type="Self.Creature_Specs" Multiplicity="0..1" />
@@ -1478,6 +1572,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_elem_creat">
+          <End Role="Mag_element" Type="Self.Mag_element" Multiplicity="1" />
+          <End Role="Creature_elem" Type="Self.Creature_elem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mag_element">
+              <PropertyRef Name="element" />
+            </Principal>
+            <Dependent Role="Creature_elem">
+              <PropertyRef Name="element" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_elem_pers">
           <End Role="Mag_element" Type="Self.Mag_element" Multiplicity="1" />
           <End Role="Perso_elem" Type="Self.Perso_elem" Multiplicity="*" />
@@ -1498,6 +1604,18 @@
               <PropertyRef Name="element" />
             </Principal>
             <Dependent Role="Race_ElemMaster">
+              <PropertyRef Name="element" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_elemRes_creat">
+          <End Role="Mag_element" Type="Self.Mag_element" Multiplicity="1" />
+          <End Role="Creature_elemRes" Type="Self.Creature_elemRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mag_element">
+              <PropertyRef Name="element" />
+            </Principal>
+            <Dependent Role="Creature_elemRes">
               <PropertyRef Name="element" />
             </Dependent>
           </ReferentialConstraint>
@@ -1703,6 +1821,30 @@
             </Principal>
             <Dependent Role="Pers_magoRes">
               <PropertyRef Name="school" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mago_creat">
+          <End Role="Magie_type" Type="Self.Magie_type" Multiplicity="1" />
+          <End Role="Creature_mago" Type="Self.Creature_mago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magie_type">
+              <PropertyRef Name="ecole" />
+            </Principal>
+            <Dependent Role="Creature_mago">
+              <PropertyRef Name="magie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_magores_creat">
+          <End Role="Magie_type" Type="Self.Magie_type" Multiplicity="1" />
+          <End Role="Creature_magoRes" Type="Self.Creature_magoRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magie_type">
+              <PropertyRef Name="ecole" />
+            </Principal>
+            <Dependent Role="Creature_magoRes">
+              <PropertyRef Name="magie" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2247,6 +2389,10 @@
           <EntitySet Name="Consommables" EntityType="Self.Consommables" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conteneurs" EntityType="Self.Conteneurs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Continent" EntityType="Self.Continent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Creature_elem" EntityType="Self.Creature_elem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Creature_elemRes" EntityType="Self.Creature_elemRes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Creature_mago" EntityType="Self.Creature_mago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Creature_magoRes" EntityType="Self.Creature_magoRes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Creature_Specs" EntityType="Self.Creature_Specs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Creature_Stats" EntityType="Self.Creature_Stats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Crowd_control" EntityType="Self.Crowd_control" Schema="dbo" store:Type="Tables" />
@@ -2449,6 +2595,22 @@
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Continent" EntitySet="Continent" />
           </AssociationSet>
+          <AssociationSet Name="FK_creat_elem" Association="Self.FK_creat_elem">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_elem" EntitySet="Creature_elem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_elemRes" Association="Self.FK_creat_elemRes">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_mago" Association="Self.FK_creat_mago">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_mago" EntitySet="Creature_mago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_magores" Association="Self.FK_creat_magores">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_magoRes" EntitySet="Creature_magoRes" />
+          </AssociationSet>
           <AssociationSet Name="Fk_creatureSpecs" Association="Self.Fk_creatureSpecs">
             <End Role="Perso_Creature" EntitySet="Perso_Creature" />
             <End Role="Creature_Specs" EntitySet="Creature_Specs" />
@@ -2481,6 +2643,10 @@
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Beast_elem" EntitySet="Beast_elem" />
           </AssociationSet>
+          <AssociationSet Name="FK_elem_creat" Association="Self.FK_elem_creat">
+            <End Role="Mag_element" EntitySet="Mag_element" />
+            <End Role="Creature_elem" EntitySet="Creature_elem" />
+          </AssociationSet>
           <AssociationSet Name="FK_elem_pers" Association="Self.FK_elem_pers">
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Perso_elem" EntitySet="Perso_elem" />
@@ -2488,6 +2654,10 @@
           <AssociationSet Name="Fk_elem_race" Association="Self.Fk_elem_race">
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Race_ElemMaster" EntitySet="Race_ElemMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_elemRes_creat" Association="Self.FK_elemRes_creat">
+            <End Role="Mag_element" EntitySet="Mag_element" />
+            <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
           </AssociationSet>
           <AssociationSet Name="FK_enchant_efect" Association="Self.FK_enchant_efect">
             <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
@@ -2556,6 +2726,14 @@
           <AssociationSet Name="FK_magieres_pers" Association="Self.FK_magieres_pers">
             <End Role="Magie_type" EntitySet="Magie_type" />
             <End Role="Pers_magoRes" EntitySet="Pers_magoRes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mago_creat" Association="Self.FK_mago_creat">
+            <End Role="Magie_type" EntitySet="Magie_type" />
+            <End Role="Creature_mago" EntitySet="Creature_mago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_magores_creat" Association="Self.FK_magores_creat">
+            <End Role="Magie_type" EntitySet="Magie_type" />
+            <End Role="Creature_magoRes" EntitySet="Creature_magoRes" />
           </AssociationSet>
           <AssociationSet Name="fk_maniabilite" Association="Self.fk_maniabilite">
             <End Role="Maniabilite" EntitySet="Maniabilite" />
@@ -2814,27 +2992,6 @@
           <Property Name="categorie" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_cat_beast" FromRole="Best_cat" ToRole="Bestiaire_Beast" />
         </EntityType>
-        <EntityType Name="Best_stats">
-          <Key>
-            <PropertyRef Name="Id_beast" />
-          </Key>
-          <Property Name="Id_beast" Type="Int32" Nullable="false" />
-          <Property Name="pv" Type="Int32" Nullable="false" />
-          <Property Name="stamina" Type="Int32" Nullable="false" />
-          <Property Name="magie_fuel" Type="Int32" Nullable="false" />
-          <Property Name="force" Type="Int32" Nullable="false" />
-          <Property Name="puissance" Type="Int32" Nullable="false" />
-          <Property Name="defense" Type="Int32" Nullable="false" />
-          <Property Name="resistance" Type="Int32" Nullable="false" />
-          <Property Name="dexterite" Type="Int32" Nullable="false" />
-          <Property Name="sagesse" Type="Int32" Nullable="false" />
-          <Property Name="intelligence" Type="Int32" Nullable="false" />
-          <Property Name="charisme" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_sol" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_eau" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_vol" Type="Int32" />
-          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_beast_stats" FromRole="Best_stats" ToRole="Bestiaire_Beast" />
-        </EntityType>
         <EntityType Name="Bijoux">
           <Key>
             <PropertyRef Name="Id" />
@@ -3013,6 +3170,8 @@
           <NavigationProperty Name="Perso_elemRes" Relationship="RPGModel.FK_reselem_pers" FromRole="Mag_element" ToRole="Perso_elemRes" />
           <NavigationProperty Name="Weaponry" Relationship="RPGModel.FK_weap_elem1" FromRole="Mag_element" ToRole="Weaponry" />
           <NavigationProperty Name="Weaponry1" Relationship="RPGModel.FK_weap_elem2" FromRole="Mag_element" ToRole="Weaponry" />
+          <NavigationProperty Name="Creature_elem" Relationship="RPGModel.FK_elem_creat" FromRole="Mag_element" ToRole="Creature_elem" />
+          <NavigationProperty Name="Creature_elemRes" Relationship="RPGModel.FK_elemRes_creat" FromRole="Mag_element" ToRole="Creature_elemRes" />
         </EntityType>
         <EntityType Name="Magie_type">
           <Key>
@@ -3023,10 +3182,12 @@
           <NavigationProperty Name="Sorts" Relationship="RPGModel.FK_spell_ecole" FromRole="Magie_type" ToRole="Sorts" />
           <NavigationProperty Name="Beast_mago" Relationship="RPGModel.FK_magie_beast" FromRole="Magie_type" ToRole="Beast_mago" />
           <NavigationProperty Name="Beast_magoRes" Relationship="RPGModel.FK_magieres_beast" FromRole="Magie_type" ToRole="Beast_magoRes" />
-          <NavigationProperty Name="Race_Magie" Relationship="RPGModel.FK_magie_maitrise" FromRole="Magie_type" ToRole="Race_Magie" />
           <NavigationProperty Name="Pers_mago" Relationship="RPGModel.FK_magie_pers" FromRole="Magie_type" ToRole="Pers_mago" />
           <NavigationProperty Name="Pers_magoRes" Relationship="RPGModel.FK_magieres_pers" FromRole="Magie_type" ToRole="Pers_magoRes" />
           <NavigationProperty Name="Livre" Relationship="RPGModel.FK_bookraiset1" FromRole="Magie_type" ToRole="Livre" />
+          <NavigationProperty Name="Race_Magie" Relationship="RPGModel.FK_magie_maitrise" FromRole="Magie_type" ToRole="Race_Magie" />
+          <NavigationProperty Name="Creature_mago" Relationship="RPGModel.FK_mago_creat" FromRole="Magie_type" ToRole="Creature_mago" />
+          <NavigationProperty Name="Creature_magoRes" Relationship="RPGModel.FK_magores_creat" FromRole="Magie_type" ToRole="Creature_magoRes" />
         </EntityType>
         <EntityType Name="Maniabilite">
           <Key>
@@ -3432,7 +3593,6 @@
           <EntitySet Name="Armes_magique" EntityType="Self.Armes_magique" />
           <EntitySet Name="Armor_cat" EntityType="Self.Armor_cat" />
           <EntitySet Name="Best_cat" EntityType="Self.Best_cat" />
-          <EntitySet Name="Best_stats" EntityType="Self.Best_stats" />
           <EntitySet Name="Bijoux" EntityType="Self.Bijoux" />
           <EntitySet Name="Bijoux_place" EntityType="Self.Bijoux_place" />
           <EntitySet Name="Biomes" EntityType="Self.Biomes" />
@@ -3617,10 +3777,6 @@
             <End Role="Best_cat" EntitySet="Best_cat" />
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
           </AssociationSet>
-          <AssociationSet Name="FK_beast_stats" Association="RPGModel.FK_beast_stats">
-            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
-            <End Role="Best_stats" EntitySet="Best_stats" />
-          </AssociationSet>
           <AssociationSet Name="FK_evolution" Association="RPGModel.FK_evolution">
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
             <End Role="Bestiaire_Beast1" EntitySet="Bestiaire_Beast" />
@@ -3664,12 +3820,10 @@
           <EntitySet Name="Beast_magoRes" EntityType="RPGModel.Beast_magoRes" />
           <EntitySet Name="Pers_mago" EntityType="RPGModel.Pers_mago" />
           <EntitySet Name="Pers_magoRes" EntityType="RPGModel.Pers_magoRes" />
-          <EntitySet Name="Pers_stats" EntityType="RPGModel.Pers_stats" />
           <EntitySet Name="Perso_elem" EntityType="RPGModel.Perso_elem" />
           <EntitySet Name="Perso_elemRes" EntityType="RPGModel.Perso_elemRes" />
           <EntitySet Name="PersoCategorie" EntityType="RPGModel.PersoCategorie" />
           <EntitySet Name="Race_ElemMaster" EntityType="RPGModel.Race_ElemMaster" />
-          <EntitySet Name="Race_Magie" EntityType="RPGModel.Race_Magie" />
           <EntitySet Name="Race_Stat_Cap" EntityType="RPGModel.Race_Stat_Cap" />
           <EntitySet Name="Races" EntityType="RPGModel.Races" />
           <EntitySet Name="Trais" EntityType="RPGModel.Trais" />
@@ -3717,10 +3871,6 @@
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Perso_elemRes" EntitySet="Perso_elemRes" />
           </AssociationSet>
-          <AssociationSet Name="FK_magie_maitrise" Association="RPGModel.FK_magie_maitrise">
-            <End Role="Magie_type" EntitySet="Magie_type" />
-            <End Role="Race_Magie" EntitySet="Race_Magie" />
-          </AssociationSet>
           <AssociationSet Name="FK_magie_pers" Association="RPGModel.FK_magie_pers">
             <End Role="Magie_type" EntitySet="Magie_type" />
             <End Role="Pers_mago" EntitySet="Pers_mago" />
@@ -3732,10 +3882,6 @@
           <AssociationSet Name="Fk_race_elem" Association="RPGModel.Fk_race_elem">
             <End Role="Races" EntitySet="Races" />
             <End Role="Race_ElemMaster" EntitySet="Race_ElemMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Race_magie_stat" Association="RPGModel.FK_Race_magie_stat">
-            <End Role="Races" EntitySet="Races" />
-            <End Role="Race_Magie" EntitySet="Race_Magie" />
           </AssociationSet>
           <AssociationSet Name="FK_Race_stat" Association="RPGModel.FK_Race_stat">
             <End Role="Races" EntitySet="Races" />
@@ -3870,14 +4016,79 @@
             <End Role="Weapon_type" EntitySet="Weapon_type" />
             <End Role="Perso_weap_Master" EntitySet="Perso_weap_Master" />
           </AssociationSet>
+          <EntitySet Name="Pers_carac" EntityType="RPGModel.Pers_carac" />
+          <EntitySet Name="Creature_Specs" EntityType="RPGModel.Creature_Specs" />
+          <EntitySet Name="Race_Specs" EntityType="RPGModel.Race_Specs" />
+          <AssociationSet Name="Fk_creatureSpecs" Association="RPGModel.Fk_creatureSpecs">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_Specs" EntitySet="Creature_Specs" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_RaceSpecs" Association="RPGModel.Fk_RaceSpecs">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Race_Specs" EntitySet="Race_Specs" />
+          </AssociationSet>
+          <EntitySet Name="Beast_Specs" EntityType="RPGModel.Beast_Specs" />
+          <AssociationSet Name="Fk_BeastSpecs" Association="RPGModel.Fk_BeastSpecs">
+            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
+            <End Role="Beast_Specs" EntitySet="Beast_Specs" />
+          </AssociationSet>
+          <EntitySet Name="Race_Magie" EntityType="RPGModel.Race_Magie" />
+          <AssociationSet Name="FK_magie_maitrise" Association="RPGModel.FK_magie_maitrise">
+            <End Role="Magie_type" EntitySet="Magie_type" />
+            <End Role="Race_Magie" EntitySet="Race_Magie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Race_magie_stat" Association="RPGModel.FK_Race_magie_stat">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Race_Magie" EntitySet="Race_Magie" />
+          </AssociationSet>
+          <EntitySet Name="Creature_elem" EntityType="RPGModel.Creature_elem" />
+          <EntitySet Name="Creature_elemRes" EntityType="RPGModel.Creature_elemRes" />
+          <EntitySet Name="Creature_mago" EntityType="RPGModel.Creature_mago" />
+          <EntitySet Name="Creature_magoRes" EntityType="RPGModel.Creature_magoRes" />
           <EntitySet Name="Persos" EntityType="RPGModel.Persos" />
           <AssociationSet Name="Fk_perso_spece" Association="RPGModel.Fk_perso_spece">
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
+          <AssociationSet Name="FK_creat_elem" Association="RPGModel.FK_creat_elem">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_elem" EntitySet="Creature_elem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_elem_creat" Association="RPGModel.FK_elem_creat">
+            <End Role="Mag_element" EntitySet="Mag_element" />
+            <End Role="Creature_elem" EntitySet="Creature_elem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_elemRes" Association="RPGModel.FK_creat_elemRes">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_elemRes_creat" Association="RPGModel.FK_elemRes_creat">
+            <End Role="Mag_element" EntitySet="Mag_element" />
+            <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_mago" Association="RPGModel.FK_creat_mago">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_mago" EntitySet="Creature_mago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mago_creat" Association="RPGModel.FK_mago_creat">
+            <End Role="Magie_type" EntitySet="Magie_type" />
+            <End Role="Creature_mago" EntitySet="Creature_mago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_creat_magores" Association="RPGModel.FK_creat_magores">
+            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
+            <End Role="Creature_magoRes" EntitySet="Creature_magoRes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_magores_creat" Association="RPGModel.FK_magores_creat">
+            <End Role="Magie_type" EntitySet="Magie_type" />
+            <End Role="Creature_magoRes" EntitySet="Creature_magoRes" />
+          </AssociationSet>
           <AssociationSet Name="FK_origin_Pers" Association="RPGModel.FK_origin_Pers">
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Persos" EntitySet="Persos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perso_carats" Association="RPGModel.FK_Perso_carats">
+            <End Role="Persos" EntitySet="Persos" />
+            <End Role="Pers_carac" EntitySet="Pers_carac" />
           </AssociationSet>
           <AssociationSet Name="FK_pers_magie" Association="RPGModel.FK_pers_magie">
             <End Role="Persos" EntitySet="Persos" />
@@ -3886,10 +4097,6 @@
           <AssociationSet Name="FK_pers_magieres" Association="RPGModel.FK_pers_magieres">
             <End Role="Persos" EntitySet="Persos" />
             <End Role="Pers_magoRes" EntitySet="Pers_magoRes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Pers_stats" Association="RPGModel.FK_Pers_stats">
-            <End Role="Persos" EntitySet="Persos" />
-            <End Role="Pers_stats" EntitySet="Pers_stats" />
           </AssociationSet>
           <AssociationSet Name="Fk_perso_crea" Association="RPGModel.Fk_perso_crea">
             <End Role="Perso_Creature" EntitySet="Perso_Creature" />
@@ -3915,30 +4122,20 @@
             <End Role="Races" EntitySet="Races" />
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
-          <EntitySet Name="Pers_carac" EntityType="RPGModel.Pers_carac" />
-          <AssociationSet Name="FK_Perso_carats" Association="RPGModel.FK_Perso_carats">
-            <End Role="Persos" EntitySet="Persos" />
-            <End Role="Pers_carac" EntitySet="Pers_carac" />
-          </AssociationSet>
-          <EntitySet Name="Creature_Specs" EntityType="RPGModel.Creature_Specs" />
+          <EntitySet Name="Best_stats" EntityType="RPGModel.Best_stats" />
           <EntitySet Name="Creature_Stats" EntityType="RPGModel.Creature_Stats" />
-          <EntitySet Name="Race_Specs" EntityType="RPGModel.Race_Specs" />
-          <AssociationSet Name="Fk_creatureSpecs" Association="RPGModel.Fk_creatureSpecs">
-            <End Role="Perso_Creature" EntitySet="Perso_Creature" />
-            <End Role="Creature_Specs" EntitySet="Creature_Specs" />
+          <EntitySet Name="Pers_stats" EntityType="RPGModel.Pers_stats" />
+          <AssociationSet Name="FK_beast_stats" Association="RPGModel.FK_beast_stats">
+            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
+            <End Role="Best_stats" EntitySet="Best_stats" />
           </AssociationSet>
           <AssociationSet Name="Fk_creatureStats" Association="RPGModel.Fk_creatureStats">
             <End Role="Perso_Creature" EntitySet="Perso_Creature" />
             <End Role="Creature_Stats" EntitySet="Creature_Stats" />
           </AssociationSet>
-          <AssociationSet Name="Fk_RaceSpecs" Association="RPGModel.Fk_RaceSpecs">
-            <End Role="Races" EntitySet="Races" />
-            <End Role="Race_Specs" EntitySet="Race_Specs" />
-          </AssociationSet>
-          <EntitySet Name="Beast_Specs" EntityType="RPGModel.Beast_Specs" />
-          <AssociationSet Name="Fk_BeastSpecs" Association="RPGModel.Fk_BeastSpecs">
-            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
-            <End Role="Beast_Specs" EntitySet="Beast_Specs" />
+          <AssociationSet Name="FK_Pers_stats" Association="RPGModel.FK_Pers_stats">
+            <End Role="Persos" EntitySet="Persos" />
+            <End Role="Pers_stats" EntitySet="Pers_stats" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Tailles">
@@ -4258,7 +4455,6 @@
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Beast_cap_Assoc" Relationship="RPGModel.FK_beast_caps" FromRole="Bestiaire_Beast" ToRole="Beast_cap_Assoc" />
           <NavigationProperty Name="Best_cat" Relationship="RPGModel.FK_cat_beast" FromRole="Bestiaire_Beast" ToRole="Best_cat" />
-          <NavigationProperty Name="Best_stats" Relationship="RPGModel.FK_beast_stats" FromRole="Bestiaire_Beast" ToRole="Best_stats" />
           <NavigationProperty Name="Bestiaire_Beast1" Relationship="RPGModel.FK_evolution" FromRole="Bestiaire_Beast" ToRole="Bestiaire_Beast1" />
           <NavigationProperty Name="Bestiaire_Beast2" Relationship="RPGModel.FK_evolution" FromRole="Bestiaire_Beast1" ToRole="Bestiaire_Beast" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Beast" FromRole="Bestiaire_Beast" ToRole="Monde_w" />
@@ -4266,8 +4462,9 @@
           <NavigationProperty Name="Beast_elemRes" Relationship="RPGModel.FK_beast_reselem" FromRole="Bestiaire_Beast" ToRole="Beast_elemRes" />
           <NavigationProperty Name="Beast_mago" Relationship="RPGModel.FK_beast_magie" FromRole="Bestiaire_Beast" ToRole="Beast_mago" />
           <NavigationProperty Name="Beast_magoRes" Relationship="RPGModel.FK_beast_magieres" FromRole="Bestiaire_Beast" ToRole="Beast_magoRes" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_spece" FromRole="Bestiaire_Beast" ToRole="Persos" />
           <NavigationProperty Name="Beast_Specs" Relationship="RPGModel.Fk_BeastSpecs" FromRole="Bestiaire_Beast" ToRole="Beast_Specs" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_spece" FromRole="Bestiaire_Beast" ToRole="Persos" />
+          <NavigationProperty Name="Best_stats" Relationship="RPGModel.FK_beast_stats" FromRole="Bestiaire_Beast" ToRole="Best_stats" />
         </EntityType>
         <Association Name="FK_beast_caps">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
@@ -4290,18 +4487,6 @@
             </Principal>
             <Dependent Role="Bestiaire_Beast">
               <PropertyRef Name="cat" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_beast_stats">
-          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
-          <End Type="RPGModel.Best_stats" Role="Best_stats" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Bestiaire_Beast">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Best_stats">
-              <PropertyRef Name="Id_beast" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4520,27 +4705,6 @@
           <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_magieres_pers" FromRole="Pers_magoRes" ToRole="Magie_type" />
           <NavigationProperty Name="Persos" Relationship="RPGModel.FK_pers_magieres" FromRole="Pers_magoRes" ToRole="Persos" />
         </EntityType>
-        <EntityType Name="Pers_stats">
-          <Key>
-            <PropertyRef Name="Id_pers" />
-          </Key>
-          <Property Name="Id_pers" Type="Int32" Nullable="false" />
-          <Property Name="pv" Type="Int32" Nullable="false" />
-          <Property Name="stamina" Type="Int32" Nullable="false" />
-          <Property Name="magie_fuel" Type="Int32" Nullable="false" />
-          <Property Name="force" Type="Int32" Nullable="false" />
-          <Property Name="puissance" Type="Int32" Nullable="false" />
-          <Property Name="defense" Type="Int32" Nullable="false" />
-          <Property Name="resistance" Type="Int32" Nullable="false" />
-          <Property Name="dexterite" Type="Int32" Nullable="false" />
-          <Property Name="sagesse" Type="Int32" Nullable="false" />
-          <Property Name="intelligence" Type="Int32" Nullable="false" />
-          <Property Name="charisme" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_sol" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_eau" Type="Int32" Nullable="false" />
-          <Property Name="vitesse_vol" Type="Int32" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_Pers_stats" FromRole="Pers_stats" ToRole="Persos" />
-        </EntityType>
         <EntityType Name="Perso_elem">
           <Key>
             <PropertyRef Name="Id" />
@@ -4581,17 +4745,6 @@
           <NavigationProperty Name="Mag_element" Relationship="RPGModel.Fk_elem_race" FromRole="Race_ElemMaster" ToRole="Mag_element" />
           <NavigationProperty Name="Races" Relationship="RPGModel.Fk_race_elem" FromRole="Race_ElemMaster" ToRole="Races" />
         </EntityType>
-        <EntityType Name="Race_Magie">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="magie" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="race" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="maitrise" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_magie_maitrise" FromRole="Race_Magie" ToRole="Magie_type" />
-          <NavigationProperty Name="Races" Relationship="RPGModel.FK_Race_magie_stat" FromRole="Race_Magie" ToRole="Races" />
-        </EntityType>
         <EntityType Name="Race_Stat_Cap">
           <Key>
             <PropertyRef Name="Race_nom" />
@@ -4623,10 +4776,10 @@
           </Key>
           <Property Name="nom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Race_ElemMaster" Relationship="RPGModel.Fk_race_elem" FromRole="Races" ToRole="Race_ElemMaster" />
-          <NavigationProperty Name="Race_Magie" Relationship="RPGModel.FK_Race_magie_stat" FromRole="Races" ToRole="Race_Magie" />
           <NavigationProperty Name="Race_Stat_Cap" Relationship="RPGModel.FK_Race_stat" FromRole="Races" ToRole="Race_Stat_Cap" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_race" FromRole="Races" ToRole="Persos" />
           <NavigationProperty Name="Race_Specs" Relationship="RPGModel.Fk_RaceSpecs" FromRole="Races" ToRole="Race_Specs" />
+          <NavigationProperty Name="Race_Magie" Relationship="RPGModel.FK_Race_magie_stat" FromRole="Races" ToRole="Race_Magie" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_race" FromRole="Races" ToRole="Persos" />
         </EntityType>
         <EntityType Name="Trais">
           <Key>
@@ -4768,18 +4921,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_magie_maitrise">
-          <End Type="RPGModel.Magie_type" Role="Magie_type" Multiplicity="1" />
-          <End Type="RPGModel.Race_Magie" Role="Race_Magie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Magie_type">
-              <PropertyRef Name="ecole" />
-            </Principal>
-            <Dependent Role="Race_Magie">
-              <PropertyRef Name="magie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_magie_pers">
           <End Type="RPGModel.Magie_type" Role="Magie_type" Multiplicity="1" />
           <End Type="RPGModel.Pers_mago" Role="Pers_mago" Multiplicity="*" />
@@ -4813,18 +4954,6 @@
             </Principal>
             <Dependent Role="Race_ElemMaster">
               <PropertyRef Name="race_nom" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Race_magie_stat">
-          <End Type="RPGModel.Races" Role="Races" Multiplicity="1" />
-          <End Type="RPGModel.Race_Magie" Role="Race_Magie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Race_Magie">
-              <PropertyRef Name="race" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5327,8 +5456,12 @@
           </Key>
           <Property Name="nom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_crea" FromRole="Perso_Creature" ToRole="Persos" />
           <NavigationProperty Name="Creature_Specs" Relationship="RPGModel.Fk_creatureSpecs" FromRole="Perso_Creature" ToRole="Creature_Specs" />
+          <NavigationProperty Name="Creature_elem" Relationship="RPGModel.FK_creat_elem" FromRole="Perso_Creature" ToRole="Creature_elem" />
+          <NavigationProperty Name="Creature_elemRes" Relationship="RPGModel.FK_creat_elemRes" FromRole="Perso_Creature" ToRole="Creature_elemRes" />
+          <NavigationProperty Name="Creature_mago" Relationship="RPGModel.FK_creat_mago" FromRole="Perso_Creature" ToRole="Creature_mago" />
+          <NavigationProperty Name="Creature_magoRes" Relationship="RPGModel.FK_creat_magores" FromRole="Perso_Creature" ToRole="Creature_magoRes" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_crea" FromRole="Perso_Creature" ToRole="Persos" />
           <NavigationProperty Name="Creature_Stats" Relationship="RPGModel.Fk_creatureStats" FromRole="Perso_Creature" ToRole="Creature_Stats" />
         </EntityType>
         <EntityType Name="Perso_weap_Master">
@@ -5354,6 +5487,187 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pers_carac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="stuff" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="spells" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="loot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="combos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="trais" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="masse" Type="Int32" />
+          <Property Name="taille" Type="Int32" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_Perso_carats" FromRole="Pers_carac" ToRole="Persos" />
+        </EntityType>
+        <EntityType Name="Creature_Specs">
+          <Key>
+            <PropertyRef Name="creature" />
+          </Key>
+          <Property Name="creature" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
+          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
+          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
+          <Property Name="enfant" Type="Int32" Nullable="false" />
+          <Property Name="jeune" Type="Int32" Nullable="false" />
+          <Property Name="adulte" Type="Int32" Nullable="false" />
+          <Property Name="mur" Type="Int32" Nullable="false" />
+          <Property Name="grand_age" Type="Int32" Nullable="false" />
+          <Property Name="venerable" Type="Int32" Nullable="false" />
+          <Property Name="maximum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.Fk_creatureSpecs" FromRole="Creature_Specs" ToRole="Perso_Creature" />
+        </EntityType>
+        <EntityType Name="Race_Specs">
+          <Key>
+            <PropertyRef Name="race" />
+          </Key>
+          <Property Name="race" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
+          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
+          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
+          <Property Name="enfant" Type="Int32" Nullable="false" />
+          <Property Name="jeune" Type="Int32" Nullable="false" />
+          <Property Name="adulte" Type="Int32" Nullable="false" />
+          <Property Name="mur" Type="Int32" Nullable="false" />
+          <Property Name="grand_age" Type="Int32" Nullable="false" />
+          <Property Name="venerable" Type="Int32" Nullable="false" />
+          <Property Name="maximum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Races" Relationship="RPGModel.Fk_RaceSpecs" FromRole="Race_Specs" ToRole="Races" />
+        </EntityType>
+        <Association Name="Fk_creatureSpecs">
+          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
+          <End Type="RPGModel.Creature_Specs" Role="Creature_Specs" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_Specs">
+              <PropertyRef Name="creature" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_RaceSpecs">
+          <End Type="RPGModel.Races" Role="Races" Multiplicity="1" />
+          <End Type="RPGModel.Race_Specs" Role="Race_Specs" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Race_Specs">
+              <PropertyRef Name="race" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Beast_Specs">
+          <Key>
+            <PropertyRef Name="Id_beast" />
+          </Key>
+          <Property Name="Id_beast" Type="Int32" Nullable="false" />
+          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
+          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
+          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
+          <Property Name="enfant" Type="Int32" Nullable="false" />
+          <Property Name="jeune" Type="Int32" Nullable="false" />
+          <Property Name="adulte" Type="Int32" Nullable="false" />
+          <Property Name="mur" Type="Int32" Nullable="false" />
+          <Property Name="grand_age" Type="Int32" Nullable="false" />
+          <Property Name="venerable" Type="Int32" Nullable="false" />
+          <Property Name="maximum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.Fk_BeastSpecs" FromRole="Beast_Specs" ToRole="Bestiaire_Beast" />
+        </EntityType>
+        <Association Name="Fk_BeastSpecs">
+          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
+          <End Type="RPGModel.Beast_Specs" Role="Beast_Specs" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Bestiaire_Beast">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Beast_Specs">
+              <PropertyRef Name="Id_beast" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Race_Magie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="magie" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="race" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="maitrise" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_magie_maitrise" FromRole="Race_Magie" ToRole="Magie_type" />
+          <NavigationProperty Name="Races" Relationship="RPGModel.FK_Race_magie_stat" FromRole="Race_Magie" ToRole="Races" />
+        </EntityType>
+        <Association Name="FK_magie_maitrise">
+          <End Type="RPGModel.Magie_type" Role="Magie_type" Multiplicity="1" />
+          <End Type="RPGModel.Race_Magie" Role="Race_Magie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magie_type">
+              <PropertyRef Name="ecole" />
+            </Principal>
+            <Dependent Role="Race_Magie">
+              <PropertyRef Name="magie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Race_magie_stat">
+          <End Type="RPGModel.Races" Role="Races" Multiplicity="1" />
+          <End Type="RPGModel.Race_Magie" Role="Race_Magie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Race_Magie">
+              <PropertyRef Name="race" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Creature_elem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="crea" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="element" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="maitrise" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.FK_creat_elem" FromRole="Creature_elem" ToRole="Perso_Creature" />
+          <NavigationProperty Name="Mag_element" Relationship="RPGModel.FK_elem_creat" FromRole="Creature_elem" ToRole="Mag_element" />
+        </EntityType>
+        <EntityType Name="Creature_elemRes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="crea" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="element" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="maitrise" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.FK_creat_elemRes" FromRole="Creature_elemRes" ToRole="Perso_Creature" />
+          <NavigationProperty Name="Mag_element" Relationship="RPGModel.FK_elemRes_creat" FromRole="Creature_elemRes" ToRole="Mag_element" />
+        </EntityType>
+        <EntityType Name="Creature_mago">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="crea" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="magie" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="maitrise" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.FK_creat_mago" FromRole="Creature_mago" ToRole="Perso_Creature" />
+          <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_mago_creat" FromRole="Creature_mago" ToRole="Magie_type" />
+        </EntityType>
+        <EntityType Name="Creature_magoRes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="crea" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="magie" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="maitrise" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.FK_creat_magores" FromRole="Creature_magoRes" ToRole="Perso_Creature" />
+          <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_magores_creat" FromRole="Creature_magoRes" ToRole="Magie_type" />
+        </EntityType>
         <EntityType Name="Persos">
           <Key>
             <PropertyRef Name="Id" />
@@ -5366,21 +5680,22 @@
           <Property Name="cat" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
           <Property Name="origine" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="loot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="evolve" Type="Boolean" Nullable="false" />
+          <Property Name="evol_nom" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
           <Property Name="background" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="lvl" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.Fk_perso_spece" FromRole="Persos" ToRole="Bestiaire_Beast" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Pers" FromRole="Persos" ToRole="Monde_w" />
+          <NavigationProperty Name="Pers_carac" Relationship="RPGModel.FK_Perso_carats" FromRole="Persos" ToRole="Pers_carac" />
           <NavigationProperty Name="Pers_mago" Relationship="RPGModel.FK_pers_magie" FromRole="Persos" ToRole="Pers_mago" />
           <NavigationProperty Name="Pers_magoRes" Relationship="RPGModel.FK_pers_magieres" FromRole="Persos" ToRole="Pers_magoRes" />
-          <NavigationProperty Name="Pers_stats" Relationship="RPGModel.FK_Pers_stats" FromRole="Persos" ToRole="Pers_stats" />
           <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.Fk_perso_crea" FromRole="Persos" ToRole="Perso_Creature" />
           <NavigationProperty Name="Perso_elem" Relationship="RPGModel.FK_pers_elem" FromRole="Persos" ToRole="Perso_elem" />
           <NavigationProperty Name="Perso_elemRes" Relationship="RPGModel.FK_pers_reselem" FromRole="Persos" ToRole="Perso_elemRes" />
           <NavigationProperty Name="Perso_weap_Master" Relationship="RPGModel.FK_perso_weap" FromRole="Persos" ToRole="Perso_weap_Master" />
           <NavigationProperty Name="PersoCategorie" Relationship="RPGModel.FK_cat_Pers" FromRole="Persos" ToRole="PersoCategorie" />
           <NavigationProperty Name="Races" Relationship="RPGModel.Fk_perso_race" FromRole="Persos" ToRole="Races" />
-          <Property Name="evol_nom" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Pers_carac" Relationship="RPGModel.FK_Perso_carats" FromRole="Persos" ToRole="Pers_carac" />
+          <NavigationProperty Name="Pers_stats" Relationship="RPGModel.FK_Pers_stats" FromRole="Persos" ToRole="Pers_stats" />
         </EntityType>
         <Association Name="Fk_perso_spece">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="0..1" />
@@ -5394,6 +5709,102 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_creat_elem">
+          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
+          <End Type="RPGModel.Creature_elem" Role="Creature_elem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_elem">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_elem_creat">
+          <End Type="RPGModel.Mag_element" Role="Mag_element" Multiplicity="1" />
+          <End Type="RPGModel.Creature_elem" Role="Creature_elem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mag_element">
+              <PropertyRef Name="element" />
+            </Principal>
+            <Dependent Role="Creature_elem">
+              <PropertyRef Name="element" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_elemRes">
+          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
+          <End Type="RPGModel.Creature_elemRes" Role="Creature_elemRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_elemRes">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_elemRes_creat">
+          <End Type="RPGModel.Mag_element" Role="Mag_element" Multiplicity="1" />
+          <End Type="RPGModel.Creature_elemRes" Role="Creature_elemRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mag_element">
+              <PropertyRef Name="element" />
+            </Principal>
+            <Dependent Role="Creature_elemRes">
+              <PropertyRef Name="element" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_mago">
+          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
+          <End Type="RPGModel.Creature_mago" Role="Creature_mago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_mago">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mago_creat">
+          <End Type="RPGModel.Magie_type" Role="Magie_type" Multiplicity="1" />
+          <End Type="RPGModel.Creature_mago" Role="Creature_mago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magie_type">
+              <PropertyRef Name="ecole" />
+            </Principal>
+            <Dependent Role="Creature_mago">
+              <PropertyRef Name="magie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_creat_magores">
+          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
+          <End Type="RPGModel.Creature_magoRes" Role="Creature_magoRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perso_Creature">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Creature_magoRes">
+              <PropertyRef Name="crea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_magores_creat">
+          <End Type="RPGModel.Magie_type" Role="Magie_type" Multiplicity="1" />
+          <End Type="RPGModel.Creature_magoRes" Role="Creature_magoRes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Magie_type">
+              <PropertyRef Name="ecole" />
+            </Principal>
+            <Dependent Role="Creature_magoRes">
+              <PropertyRef Name="magie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_origin_Pers">
           <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
           <End Type="RPGModel.Persos" Role="Persos" Multiplicity="*" />
@@ -5403,6 +5814,18 @@
             </Principal>
             <Dependent Role="Persos">
               <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perso_carats">
+          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="1" />
+          <End Type="RPGModel.Pers_carac" Role="Pers_carac" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pers_carac">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5426,18 +5849,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Pers_magoRes">
-              <PropertyRef Name="Id_pers" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Pers_stats">
-          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="1" />
-          <End Type="RPGModel.Pers_stats" Role="Pers_stats" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Persos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Pers_stats">
               <PropertyRef Name="Id_pers" />
             </Dependent>
           </ReferentialConstraint>
@@ -5514,49 +5925,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Pers_carac">
+        <EntityType Name="Best_stats">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_beast" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="stuff" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="spells" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="loot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="combos" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="trais" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_Perso_carats" FromRole="Pers_carac" ToRole="Persos" />
-          <Property Name="age" Type="Int32" />
-          <Property Name="masse" Type="Int32" />
-          <Property Name="taille" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_Perso_carats">
-          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="1" />
-          <End Type="RPGModel.Pers_carac" Role="Pers_carac" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Persos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Pers_carac">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Creature_Specs">
-          <Key>
-            <PropertyRef Name="creature" />
-          </Key>
-          <Property Name="creature" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
-          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
-          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
-          <Property Name="enfant" Type="Int32" Nullable="false" />
-          <Property Name="jeune" Type="Int32" Nullable="false" />
-          <Property Name="adulte" Type="Int32" Nullable="false" />
-          <Property Name="mur" Type="Int32" Nullable="false" />
-          <Property Name="grand_age" Type="Int32" Nullable="false" />
-          <Property Name="venerable" Type="Int32" Nullable="false" />
-          <Property Name="maximum" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.Fk_creatureSpecs" FromRole="Creature_Specs" ToRole="Perso_Creature" />
+          <Property Name="Id_beast" Type="Int32" Nullable="false" />
+          <Property Name="pv" Type="Int32" Nullable="false" />
+          <Property Name="stamina" Type="Int32" Nullable="false" />
+          <Property Name="magie_fuel" Type="Int32" Nullable="false" />
+          <Property Name="force" Type="Int32" Nullable="false" />
+          <Property Name="puissance" Type="Int32" Nullable="false" />
+          <Property Name="defense" Type="Int32" Nullable="false" />
+          <Property Name="resistance" Type="Int32" Nullable="false" />
+          <Property Name="dexterite" Type="Int32" Nullable="false" />
+          <Property Name="sagesse" Type="Int32" Nullable="false" />
+          <Property Name="intelligence" Type="Int32" Nullable="false" />
+          <Property Name="charisme" Type="Int32" Nullable="false" />
+          <Property Name="discretion" Type="Int32" Nullable="false" />
+          <Property Name="detection" Type="Int32" Nullable="false" />
+          <Property Name="agressivite" Type="Int32" Nullable="false" />
+          <Property Name="vitesse_sol" Type="Int32" Nullable="false" />
+          <Property Name="vitesse_eau" Type="Int32" Nullable="false" />
+          <Property Name="vitesse_vol" Type="Int32" />
+          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_beast_stats" FromRole="Best_stats" ToRole="Bestiaire_Beast" />
         </EntityType>
         <EntityType Name="Creature_Stats">
           <Key>
@@ -5574,37 +5965,47 @@
           <Property Name="sagesse" Type="Int32" Nullable="false" />
           <Property Name="intelligence" Type="Int32" Nullable="false" />
           <Property Name="charisme" Type="Int32" Nullable="false" />
+          <Property Name="discretion" Type="Int32" Nullable="false" />
+          <Property Name="detection" Type="Int32" Nullable="false" />
+          <Property Name="agressivite" Type="Int32" Nullable="false" />
           <Property Name="vitesse_sol" Type="Int32" Nullable="false" />
           <Property Name="vitesse_eau" Type="Int32" Nullable="false" />
           <Property Name="vitesse_vol" Type="Int32" />
           <NavigationProperty Name="Perso_Creature" Relationship="RPGModel.Fk_creatureStats" FromRole="Creature_Stats" ToRole="Perso_Creature" />
         </EntityType>
-        <EntityType Name="Race_Specs">
+        <EntityType Name="Pers_stats">
           <Key>
-            <PropertyRef Name="race" />
+            <PropertyRef Name="Id_pers" />
           </Key>
-          <Property Name="race" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
-          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
-          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
-          <Property Name="enfant" Type="Int32" Nullable="false" />
-          <Property Name="jeune" Type="Int32" Nullable="false" />
-          <Property Name="adulte" Type="Int32" Nullable="false" />
-          <Property Name="mur" Type="Int32" Nullable="false" />
-          <Property Name="grand_age" Type="Int32" Nullable="false" />
-          <Property Name="venerable" Type="Int32" Nullable="false" />
-          <Property Name="maximum" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Races" Relationship="RPGModel.Fk_RaceSpecs" FromRole="Race_Specs" ToRole="Races" />
+          <Property Name="Id_pers" Type="Int32" Nullable="false" />
+          <Property Name="pv" Type="Int32" Nullable="false" />
+          <Property Name="stamina" Type="Int32" Nullable="false" />
+          <Property Name="magie_fuel" Type="Int32" Nullable="false" />
+          <Property Name="force" Type="Int32" Nullable="false" />
+          <Property Name="puissance" Type="Int32" Nullable="false" />
+          <Property Name="defense" Type="Int32" Nullable="false" />
+          <Property Name="resistance" Type="Int32" Nullable="false" />
+          <Property Name="dexterite" Type="Int32" Nullable="false" />
+          <Property Name="sagesse" Type="Int32" Nullable="false" />
+          <Property Name="intelligence" Type="Int32" Nullable="false" />
+          <Property Name="charisme" Type="Int32" Nullable="false" />
+          <Property Name="discretion" Type="Int32" Nullable="false" />
+          <Property Name="detection" Type="Int32" Nullable="false" />
+          <Property Name="agressivite" Type="Int32" />
+          <Property Name="vitesse_sol" Type="Int32" Nullable="false" />
+          <Property Name="vitesse_eau" Type="Int32" Nullable="false" />
+          <Property Name="vitesse_vol" Type="Int32" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_Pers_stats" FromRole="Pers_stats" ToRole="Persos" />
         </EntityType>
-        <Association Name="Fk_creatureSpecs">
-          <End Type="RPGModel.Perso_Creature" Role="Perso_Creature" Multiplicity="1" />
-          <End Type="RPGModel.Creature_Specs" Role="Creature_Specs" Multiplicity="0..1" />
+        <Association Name="FK_beast_stats">
+          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
+          <End Type="RPGModel.Best_stats" Role="Best_stats" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Perso_Creature">
-              <PropertyRef Name="nom" />
+            <Principal Role="Bestiaire_Beast">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Creature_Specs">
-              <PropertyRef Name="creature" />
+            <Dependent Role="Best_stats">
+              <PropertyRef Name="Id_beast" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5620,44 +6021,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Fk_RaceSpecs">
-          <End Type="RPGModel.Races" Role="Races" Multiplicity="1" />
-          <End Type="RPGModel.Race_Specs" Role="Race_Specs" Multiplicity="0..1" />
+        <Association Name="FK_Pers_stats">
+          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="1" />
+          <End Type="RPGModel.Pers_stats" Role="Pers_stats" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Race_Specs">
-              <PropertyRef Name="race" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Beast_Specs">
-          <Key>
-            <PropertyRef Name="Id_beast" />
-          </Key>
-          <Property Name="Id_beast" Type="Int32" Nullable="false" />
-          <Property Name="taille_moyenne" Type="Double" Nullable="false" />
-          <Property Name="masse_moyenne" Type="Double" Nullable="false" />
-          <Property Name="esperance_de_vie" Type="Int32" Nullable="false" />
-          <Property Name="enfant" Type="Int32" Nullable="false" />
-          <Property Name="jeune" Type="Int32" Nullable="false" />
-          <Property Name="adulte" Type="Int32" Nullable="false" />
-          <Property Name="mur" Type="Int32" Nullable="false" />
-          <Property Name="grand_age" Type="Int32" Nullable="false" />
-          <Property Name="venerable" Type="Int32" Nullable="false" />
-          <Property Name="maximum" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.Fk_BeastSpecs" FromRole="Beast_Specs" ToRole="Bestiaire_Beast" />
-        </EntityType>
-        <Association Name="Fk_BeastSpecs">
-          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
-          <End Type="RPGModel.Beast_Specs" Role="Beast_Specs" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Bestiaire_Beast">
+            <Principal Role="Persos">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Beast_Specs">
-              <PropertyRef Name="Id_beast" />
+            <Dependent Role="Pers_stats">
+              <PropertyRef Name="Id_pers" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5743,27 +6115,6 @@
             <EntityTypeMapping TypeName="RPGModel.Best_cat">
               <MappingFragment StoreEntitySet="Best_cat">
                 <ScalarProperty Name="categorie" ColumnName="categorie" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Best_stats">
-            <EntityTypeMapping TypeName="RPGModel.Best_stats">
-              <MappingFragment StoreEntitySet="Best_stats">
-                <ScalarProperty Name="Id_beast" ColumnName="Id_beast" />
-                <ScalarProperty Name="pv" ColumnName="pv" />
-                <ScalarProperty Name="stamina" ColumnName="stamina" />
-                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
-                <ScalarProperty Name="force" ColumnName="force" />
-                <ScalarProperty Name="puissance" ColumnName="puissance" />
-                <ScalarProperty Name="defense" ColumnName="defense" />
-                <ScalarProperty Name="resistance" ColumnName="resistance" />
-                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
-                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
-                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
-                <ScalarProperty Name="charisme" ColumnName="charisme" />
-                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
-                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
-                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6370,27 +6721,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Pers_stats">
-            <EntityTypeMapping TypeName="RPGModel.Pers_stats">
-              <MappingFragment StoreEntitySet="Pers_stats">
-                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
-                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
-                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
-                <ScalarProperty Name="charisme" ColumnName="charisme" />
-                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
-                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
-                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
-                <ScalarProperty Name="resistance" ColumnName="resistance" />
-                <ScalarProperty Name="defense" ColumnName="defense" />
-                <ScalarProperty Name="puissance" ColumnName="puissance" />
-                <ScalarProperty Name="force" ColumnName="force" />
-                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
-                <ScalarProperty Name="stamina" ColumnName="stamina" />
-                <ScalarProperty Name="pv" ColumnName="pv" />
-                <ScalarProperty Name="Id_pers" ColumnName="Id_pers" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Perso_elem">
             <EntityTypeMapping TypeName="RPGModel.Perso_elem">
               <MappingFragment StoreEntitySet="Perso_elem">
@@ -6424,16 +6754,6 @@
                 <ScalarProperty Name="maitrise" ColumnName="maitrise" />
                 <ScalarProperty Name="element" ColumnName="element" />
                 <ScalarProperty Name="race_nom" ColumnName="race_nom" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Race_Magie">
-            <EntityTypeMapping TypeName="RPGModel.Race_Magie">
-              <MappingFragment StoreEntitySet="Race_Magie">
-                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
-                <ScalarProperty Name="race" ColumnName="race" />
-                <ScalarProperty Name="magie" ColumnName="magie" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6602,23 +6922,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Persos">
-            <EntityTypeMapping TypeName="RPGModel.Persos">
-              <MappingFragment StoreEntitySet="Persos">
-                <ScalarProperty Name="evol_nom" ColumnName="evol_nom" />
-                <ScalarProperty Name="lvl" ColumnName="lvl" />
-                <ScalarProperty Name="background" ColumnName="background" />
-                <ScalarProperty Name="loot" ColumnName="loot" />
-                <ScalarProperty Name="origine" ColumnName="origine" />
-                <ScalarProperty Name="cat" ColumnName="cat" />
-                <ScalarProperty Name="nom_crea" ColumnName="nom_crea" />
-                <ScalarProperty Name="Id_Beast" ColumnName="Id_Beast" />
-                <ScalarProperty Name="race" ColumnName="race" />
-                <ScalarProperty Name="nom" ColumnName="nom" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pers_carac">
             <EntityTypeMapping TypeName="RPGModel.Pers_carac">
               <MappingFragment StoreEntitySet="Pers_carac">
@@ -6647,27 +6950,6 @@
                 <ScalarProperty Name="esperance_de_vie" ColumnName="esperance_de_vie" />
                 <ScalarProperty Name="masse_moyenne" ColumnName="masse_moyenne" />
                 <ScalarProperty Name="taille_moyenne" ColumnName="taille_moyenne" />
-                <ScalarProperty Name="creature" ColumnName="creature" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Creature_Stats">
-            <EntityTypeMapping TypeName="RPGModel.Creature_Stats">
-              <MappingFragment StoreEntitySet="Creature_Stats">
-                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
-                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
-                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
-                <ScalarProperty Name="charisme" ColumnName="charisme" />
-                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
-                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
-                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
-                <ScalarProperty Name="resistance" ColumnName="resistance" />
-                <ScalarProperty Name="defense" ColumnName="defense" />
-                <ScalarProperty Name="puissance" ColumnName="puissance" />
-                <ScalarProperty Name="force" ColumnName="force" />
-                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
-                <ScalarProperty Name="stamina" ColumnName="stamina" />
-                <ScalarProperty Name="pv" ColumnName="pv" />
                 <ScalarProperty Name="creature" ColumnName="creature" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6703,6 +6985,146 @@
                 <ScalarProperty Name="masse_moyenne" ColumnName="masse_moyenne" />
                 <ScalarProperty Name="taille_moyenne" ColumnName="taille_moyenne" />
                 <ScalarProperty Name="Id_beast" ColumnName="Id_beast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Race_Magie">
+            <EntityTypeMapping TypeName="RPGModel.Race_Magie">
+              <MappingFragment StoreEntitySet="Race_Magie">
+                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
+                <ScalarProperty Name="race" ColumnName="race" />
+                <ScalarProperty Name="magie" ColumnName="magie" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creature_elem">
+            <EntityTypeMapping TypeName="RPGModel.Creature_elem">
+              <MappingFragment StoreEntitySet="Creature_elem">
+                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
+                <ScalarProperty Name="element" ColumnName="element" />
+                <ScalarProperty Name="crea" ColumnName="crea" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creature_elemRes">
+            <EntityTypeMapping TypeName="RPGModel.Creature_elemRes">
+              <MappingFragment StoreEntitySet="Creature_elemRes">
+                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
+                <ScalarProperty Name="element" ColumnName="element" />
+                <ScalarProperty Name="crea" ColumnName="crea" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creature_mago">
+            <EntityTypeMapping TypeName="RPGModel.Creature_mago">
+              <MappingFragment StoreEntitySet="Creature_mago">
+                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
+                <ScalarProperty Name="magie" ColumnName="magie" />
+                <ScalarProperty Name="crea" ColumnName="crea" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creature_magoRes">
+            <EntityTypeMapping TypeName="RPGModel.Creature_magoRes">
+              <MappingFragment StoreEntitySet="Creature_magoRes">
+                <ScalarProperty Name="maitrise" ColumnName="maitrise" />
+                <ScalarProperty Name="magie" ColumnName="magie" />
+                <ScalarProperty Name="crea" ColumnName="crea" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persos">
+            <EntityTypeMapping TypeName="RPGModel.Persos">
+              <MappingFragment StoreEntitySet="Persos">
+                <ScalarProperty Name="lvl" ColumnName="lvl" />
+                <ScalarProperty Name="background" ColumnName="background" />
+                <ScalarProperty Name="evol_nom" ColumnName="evol_nom" />
+                <ScalarProperty Name="evolve" ColumnName="evolve" />
+                <ScalarProperty Name="loot" ColumnName="loot" />
+                <ScalarProperty Name="origine" ColumnName="origine" />
+                <ScalarProperty Name="cat" ColumnName="cat" />
+                <ScalarProperty Name="nom_crea" ColumnName="nom_crea" />
+                <ScalarProperty Name="Id_Beast" ColumnName="Id_Beast" />
+                <ScalarProperty Name="race" ColumnName="race" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Best_stats">
+            <EntityTypeMapping TypeName="RPGModel.Best_stats">
+              <MappingFragment StoreEntitySet="Best_stats">
+                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
+                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
+                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
+                <ScalarProperty Name="agressivite" ColumnName="agressivite" />
+                <ScalarProperty Name="detection" ColumnName="detection" />
+                <ScalarProperty Name="discretion" ColumnName="discretion" />
+                <ScalarProperty Name="charisme" ColumnName="charisme" />
+                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
+                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
+                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
+                <ScalarProperty Name="resistance" ColumnName="resistance" />
+                <ScalarProperty Name="defense" ColumnName="defense" />
+                <ScalarProperty Name="puissance" ColumnName="puissance" />
+                <ScalarProperty Name="force" ColumnName="force" />
+                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
+                <ScalarProperty Name="stamina" ColumnName="stamina" />
+                <ScalarProperty Name="pv" ColumnName="pv" />
+                <ScalarProperty Name="Id_beast" ColumnName="Id_beast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Creature_Stats">
+            <EntityTypeMapping TypeName="RPGModel.Creature_Stats">
+              <MappingFragment StoreEntitySet="Creature_Stats">
+                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
+                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
+                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
+                <ScalarProperty Name="agressivite" ColumnName="agressivite" />
+                <ScalarProperty Name="detection" ColumnName="detection" />
+                <ScalarProperty Name="discretion" ColumnName="discretion" />
+                <ScalarProperty Name="charisme" ColumnName="charisme" />
+                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
+                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
+                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
+                <ScalarProperty Name="resistance" ColumnName="resistance" />
+                <ScalarProperty Name="defense" ColumnName="defense" />
+                <ScalarProperty Name="puissance" ColumnName="puissance" />
+                <ScalarProperty Name="force" ColumnName="force" />
+                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
+                <ScalarProperty Name="stamina" ColumnName="stamina" />
+                <ScalarProperty Name="pv" ColumnName="pv" />
+                <ScalarProperty Name="creature" ColumnName="creature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pers_stats">
+            <EntityTypeMapping TypeName="RPGModel.Pers_stats">
+              <MappingFragment StoreEntitySet="Pers_stats">
+                <ScalarProperty Name="vitesse_vol" ColumnName="vitesse_vol" />
+                <ScalarProperty Name="vitesse_eau" ColumnName="vitesse_eau" />
+                <ScalarProperty Name="vitesse_sol" ColumnName="vitesse_sol" />
+                <ScalarProperty Name="agressivite" ColumnName="agressivite" />
+                <ScalarProperty Name="detection" ColumnName="detection" />
+                <ScalarProperty Name="discretion" ColumnName="discretion" />
+                <ScalarProperty Name="charisme" ColumnName="charisme" />
+                <ScalarProperty Name="intelligence" ColumnName="intelligence" />
+                <ScalarProperty Name="sagesse" ColumnName="sagesse" />
+                <ScalarProperty Name="dexterite" ColumnName="dexterite" />
+                <ScalarProperty Name="resistance" ColumnName="resistance" />
+                <ScalarProperty Name="defense" ColumnName="defense" />
+                <ScalarProperty Name="puissance" ColumnName="puissance" />
+                <ScalarProperty Name="force" ColumnName="force" />
+                <ScalarProperty Name="magie_fuel" ColumnName="magie_fuel" />
+                <ScalarProperty Name="stamina" ColumnName="stamina" />
+                <ScalarProperty Name="pv" ColumnName="pv" />
+                <ScalarProperty Name="Id_pers" ColumnName="Id_pers" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

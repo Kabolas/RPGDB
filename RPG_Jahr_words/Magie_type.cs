@@ -20,10 +20,12 @@ namespace RPG_Jahr_words
             this.Sorts = new HashSet<Sorts>();
             this.Beast_mago = new HashSet<Beast_mago>();
             this.Beast_magoRes = new HashSet<Beast_magoRes>();
-            this.Race_Magie = new HashSet<Race_Magie>();
             this.Pers_mago = new HashSet<Pers_mago>();
             this.Pers_magoRes = new HashSet<Pers_magoRes>();
             this.Livre = new HashSet<Livre>();
+            this.Race_Magie = new HashSet<Race_Magie>();
+            this.Creature_mago = new HashSet<Creature_mago>();
+            this.Creature_magoRes = new HashSet<Creature_magoRes>();
         }
     
         public string ecole { get; set; }
@@ -36,12 +38,16 @@ namespace RPG_Jahr_words
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Beast_magoRes> Beast_magoRes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Race_Magie> Race_Magie { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pers_mago> Pers_mago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pers_magoRes> Pers_magoRes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Livre> Livre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Race_Magie> Race_Magie { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_mago> Creature_mago { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_magoRes> Creature_magoRes { get; set; }
     }
 }

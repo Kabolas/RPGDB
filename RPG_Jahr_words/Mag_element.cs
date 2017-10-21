@@ -28,6 +28,8 @@ namespace RPG_Jahr_words
             this.Perso_elemRes = new HashSet<Perso_elemRes>();
             this.Weaponry = new HashSet<Weaponry>();
             this.Weaponry1 = new HashSet<Weaponry>();
+            this.Creature_elem = new HashSet<Creature_elem>();
+            this.Creature_elemRes = new HashSet<Creature_elemRes>();
         }
     
         public string element { get; set; }
@@ -56,5 +58,9 @@ namespace RPG_Jahr_words
         public virtual ICollection<Weaponry> Weaponry { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Weaponry> Weaponry1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_elem> Creature_elem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Creature_elemRes> Creature_elemRes { get; set; }
     }
 }

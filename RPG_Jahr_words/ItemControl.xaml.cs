@@ -50,7 +50,6 @@ namespace RPG_Jahr_words
         public ItemControl()
         {
             InitializeComponent();
-            //DataContext = new ItemViewModel(Bdd);
             CollectionView spells = (CollectionView)CollectionViewSource.GetDefaultView(Weap_Spel_list.Items);
             CollectionView compo = (CollectionView)CollectionViewSource.GetDefaultView(Component.Items);
             CollectionView links = (CollectionView)CollectionViewSource.GetDefaultView(Bijoux_link.Items);
@@ -238,18 +237,16 @@ namespace RPG_Jahr_words
         }
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
-            if (Component.SelectedItem != null && componentqtity.Value > 0)
+            if (Component.SelectedItem != null)
             {
                 RecipeItem b = new RecipeItem
                 {
                     N_recette = (int)recipeId.SelectedItem,
-                    Id = (Component.SelectedItem as Items).Id,
-                    Nom = (Component.SelectedItem as Items).nom,
-                    Origine = (Component.SelectedItem as Items).origine,
-                    Quantite = componentqtity.Value
+                    Component = (Component.SelectedItem as Items),
+                    Quantite = 0
                 };
                 (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(b);
-                componentqtity.Value = Component_type.SelectedIndex = 0;
+                Component_type.SelectedIndex = 0;
                 Component.SelectedItem = null;
                 Item_rec.ItemsSource = new System.Collections.ObjectModel.ObservableCollection<RecipeItem>((Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette));
             }
@@ -552,9 +549,9 @@ namespace RPG_Jahr_words
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Item_rec_manacost.Text != "" && int.TryParse(Item_rec_manacost.Text, out int ncost))
-                if ((Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Any(r => r.N_recette == (int)recipeId.SelectedItem && r.Id == 0))
-                    (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).First(r => r.N_recette == (int)recipeId.SelectedItem && r.Id == 0).Quantite = ncost;
-                else (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(new RecipeItem { Id = 0, Quantite = ncost, Nom = "Mana", N_recette = (int)recipeId.SelectedItem, Origine = "Originel" });
+                if ((Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Any(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0))
+                    (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).First(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0).Quantite = ncost;
+                else (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(new RecipeItem { Component = new Items { Id=0, nom = "Mana", origine = "Originel" }, Quantite = ncost, N_recette = (int)recipeId.SelectedItem });
             else Itemu_Label.Text += "Veuillez entrer un nombre entier valide.\n";
             (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette);
         }
@@ -589,6 +586,12 @@ namespace RPG_Jahr_words
                 filename.Text = charge.SafeFileName;
                 bookcontent.Text = File.ReadAllText(charge.FileName);
             }
+        }
+
+        private void ProcessToRecipe(object sender, RoutedEventArgs e)
+        {
+            (Results.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = procRecipe.SelectedItem as Procede;
+            (Results.Items as CollectionView).Refresh();
         }
     }
 }

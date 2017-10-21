@@ -26,11 +26,11 @@ namespace RPG_Jahr_words
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Race_ElemMaster> Race_ElemMaster { get; set; }
+        public virtual Race_Stat_Cap Race_Stat_Cap { get; set; }
+        public virtual Race_Specs Race_Specs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Race_Magie> Race_Magie { get; set; }
-        public virtual Race_Stat_Cap Race_Stat_Cap { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
-        public virtual Race_Specs Race_Specs { get; set; }
     }
 }

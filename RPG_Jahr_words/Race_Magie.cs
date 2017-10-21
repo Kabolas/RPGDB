@@ -17,7 +17,7 @@ namespace RPG_Jahr_words
         public int Id { get; set; }
         public string magie { get; set; }
         public string race { get; set; }
-        public string maitrise { get; set; }
+        public int maitrise { get; set; }
     
         public virtual Magie_type Magie_type { get; set; }
         public virtual Races Races { get; set; }

@@ -68,7 +68,7 @@ namespace RPG_Jahr_words.ViewModel
             Deplacement = Bd.Mode_deplacement.ToList();
             Maniabilities = Bd.Maniabilite.ToList();
             Uses = Bd.Usage.ToList();
-            foreach (Mag_element elem in Bd.Mag_element)
+            foreach (Mag_element elem in Bd.Mag_element.Where(e=>!e.element.Contains("Tous")))
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
                 NewPerso.Perso_elem.Add(new Perso_elem { Mag_element = elem, Persos = NewPerso, maitrise = 0 });
@@ -147,6 +147,8 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Trais> SelectedTrais { get => _selectedTrais; set { _selectedTrais = value; RaisePropertyChanged(); } }
 
+        public event EventHandler PersoAdded;
+
         public void IsPers()
         {
             NewPerso.Bestiaire_Beast = null;
@@ -170,7 +172,7 @@ namespace RPG_Jahr_words.ViewModel
         }
         private void Saving()
         {
-            NewPerso.nom += "1";
+            PersoAdded?.Invoke(this, new EventArgs());
         }
 
         private void MakeCreature()
@@ -215,11 +217,15 @@ namespace RPG_Jahr_words.ViewModel
                     PrintedText += "Nouvealle catégorie non ajoutée\n";
                 }
         }
-        public void ElementMasterCheck(string value)
+        public int ElementMasterCheck(int value)
         {
             foreach (Perso_elem master in NewPerso.Perso_elem)
-                if (master.maitrise > NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Element")).maitrise)
-                    master.maitrise = NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Element")).maitrise;
+                if (value > NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Elémentaire")).maitrise)
+                {
+                    PrintedText += "La maitrise d'un élément ne peut pas être supérieure à la maitrise de la magie élémentaire.\n";
+                    return NewPerso.Pers_mago.First(m => m.Magie_type.ecole.Contains("Elémentaire")).maitrise;
+                }
+            return value;
         }
         private void MakeTrait()
         {

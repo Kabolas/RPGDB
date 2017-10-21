@@ -83,7 +83,7 @@
         <Button Content=" Sauvegarder " HorizontalAlignment="Left" Margin="614,181,0,0" VerticalAlignment="Top" Command="{Binding Save}"/>
         <GroupBox Header="Affichage" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="134" Margin="10,206,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
-                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="9,10,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="type" SelectedValuePath="type">
+                <ComboBox x:Name="Perso_show_Cat" HorizontalAlignment="Left" Height="25" Margin="5,10,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="type" SelectedValuePath="type">
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
                             <local:PersoCategorie type="~Categorie~"/>
@@ -91,7 +91,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox x:Name="Perso_show_Race" HorizontalAlignment="Left" Height="25" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="nom">
+                <ComboBox x:Name="Perso_show_Race" HorizontalAlignment="Left" Height="25" Margin="5,38,0,0" VerticalAlignment="Top" Width="92" SelectedIndex="0" DisplayMemberPath="nom">
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
                             <local:Races nom="~Race~"/>
@@ -121,8 +121,10 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <CheckBox x:Name="Perso_show_evol" Content="Evolue" HorizontalAlignment="Left" Height="18" Margin="115,40,0,0" VerticalAlignment="Top"/>
-                <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="114,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0" DisplayMemberPath="nom">
+                <RadioButton x:Name="Perso_show_all" Content="Tous" HorizontalAlignment="Left" Height="18" Margin="195,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="Perso_show_notevol" Content="Evolue pas" Height="18" Margin="195,28,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <RadioButton x:Name="Perso_show_evol" Content="Evolue" HorizontalAlignment="Left" Height="18" Margin="195,46,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="Perso_show_origin" HorizontalAlignment="Left" Height="25" Margin="102,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0" DisplayMemberPath="nom">
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
                             <local:Monde_w nom="~Origine~"/>
@@ -130,9 +132,9 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="5,78,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Personnages " HorizontalAlignment="Left" Margin="190,78,0,0" VerticalAlignment="Top"/>
-                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="79,78,0,0" VerticalAlignment="Top"/>
+                <Button Content=" Races Stats " HorizontalAlignment="Left" Margin="5,87,0,0" VerticalAlignment="Top" Click="ShowStatsRace"/>
+                <Button Content=" Show " HorizontalAlignment="Left" Margin="229,87,0,0" VerticalAlignment="Top" Click="ShowPersos"/>
+                <Button Content=" Races Specs " HorizontalAlignment="Left" Margin="79,87,0,0" VerticalAlignment="Top" Click="ShowSpecsPerso"/>
 
             </Grid>
         </GroupBox>
@@ -147,31 +149,35 @@
         <TabControl HorizontalAlignment="Left" Height="171" Margin="211,5,0,0" VerticalAlignment="Top" Width="480">
             <TabItem Header="Stats">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="23" Margin="84,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.force, Mode=TwoWay}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="23" Margin="163,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="23" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Endurance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="23" Margin="404,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.dexterite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="23" Margin="320,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="23" Margin="242,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.defense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="23" Margin="404,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="23" Margin="320,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_vol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="23" Margin="242,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_sol,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="23" Margin="163,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.charisme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="23" Margin="84,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.sagesse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="23" Margin="10,106,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_end" HorizontalAlignment="Left" Height="18" Margin="10,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Endurance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="Beast_str" HorizontalAlignment="Left" Height="18" Margin="84,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.force, Mode=TwoWay}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_pwr" HorizontalAlignment="Left" Height="18" Margin="163,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Text="{Binding SaveStats.Puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="Beast_def" HorizontalAlignment="Left" Height="18" Margin="242,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.defense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_res" HorizontalAlignment="Left" Height="18" Margin="320,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.resistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_dex" HorizontalAlignment="Left" Height="18" Margin="404,21,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.dexterite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_int" HorizontalAlignment="Left" Height="18" Margin="10,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_wis" HorizontalAlignment="Left" Height="18" Margin="84,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.sagesse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_cha" HorizontalAlignment="Left" Height="18" Margin="163,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.charisme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vog" HorizontalAlignment="Left" Height="18" Margin="242,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_sol,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_voa" HorizontalAlignment="Left" Height="18" Margin="320,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_vol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_vow" HorizontalAlignment="Left" Height="18" Margin="404,86,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
                     <TextBlock HorizontalAlignment="Left" Margin="10,5,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="404,5,0,0" TextWrapping="Wrap" Text="Dexterité" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="320,5,0,0" TextWrapping="Wrap" Text="Résistance" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="242,5,0,0" TextWrapping="Wrap" Text="Défense" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="163,5,0,0" TextWrapping="Wrap" Text="Puissance" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="84,5,0,0" TextWrapping="Wrap" Text="Force" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="404,90,0,0" TextWrapping="Wrap" Text="Vitesse eau" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="320,90,0,0" TextWrapping="Wrap" Text="Vitesse vol" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="242,90,0,0" TextWrapping="Wrap" Text="Vitesse sol" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="163,90,0,0" TextWrapping="Wrap" Text="Charisme" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="84,90,0,0" TextWrapping="Wrap" Text="Sagesse" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Pv = Endurance * 10, Stamina = Endurance * 12, Fuel Magique = Puissance*10, Precision = (Intelligence + Sagesse)*0.4 + 0.66*Dexterite " VerticalAlignment="Top" Height="41" Width="454"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="404,70,0,0" TextWrapping="Wrap" Text="Vitesse eau" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="320,70,0,0" TextWrapping="Wrap" Text="Vitesse vol" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="242,70,0,0" TextWrapping="Wrap" Text="Vitesse sol" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="163,70,0,0" TextWrapping="Wrap" Text="Charisme" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="84,70,0,0" TextWrapping="Wrap" Text="Sagesse" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,39,0,0" TextWrapping="Wrap" Text="Pv = Endurance * 10, Stamina = Endurance * 12, Fuel Magique = Puissance*10, Precision = (Intelligence + Sagesse)*0.4 + 0.66*Dexterite " VerticalAlignment="Top" Height="31" Width="454"/>
+                    <TextBox x:Name="Beast_det" HorizontalAlignment="Left" Height="18" Margin="113,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_dis" HorizontalAlignment="Left" Height="18" Margin="225,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_agr" HorizontalAlignment="Left" Margin="336,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="39" Height="18" VerticalAlignment="Top" />
+                    <TextBlock HorizontalAlignment="Left" Margin="47,115,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Elements">
@@ -184,7 +190,7 @@
                                 <GridViewColumn Header="Resistance" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Width="20" Text="{Binding maitrise}" TextChanged="ElemCheck"/>
+                                            <TextBox Width="20" Text="{Binding maitrise}" Tag="{Binding Mag_element}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -198,7 +204,7 @@
                                 <GridViewColumn Header="Maitrise" Width="Auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Width="20" Text="{Binding maitrise}"/>
+                                            <TextBox Width="20" Text="{Binding Maitrise, Mode=TwoWay}" TextChanged="ElemCheck"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -736,11 +742,11 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="53,130,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.lvl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="58"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="58,130,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.lvl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="58"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,133,0,0" TextWrapping="Wrap" Text="Niveau :" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="133,148,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="Taille" HorizontalAlignment="Left" Height="23" Margin="133,102,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.taille, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="23" Margin="133,56,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="Masse" HorizontalAlignment="Left" Height="23" Margin="133,148,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.masse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,40,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,86,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse" VerticalAlignment="Top"/>

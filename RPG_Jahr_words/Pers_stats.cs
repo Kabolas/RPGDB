@@ -26,6 +26,9 @@ namespace RPG_Jahr_words
         public int sagesse { get; set; }
         public int intelligence { get; set; }
         public int charisme { get; set; }
+        public int discretion { get; set; }
+        public int detection { get; set; }
+        public Nullable<int> agressivite { get; set; }
         public int vitesse_sol { get; set; }
         public int vitesse_eau { get; set; }
         public Nullable<int> vitesse_vol { get; set; }

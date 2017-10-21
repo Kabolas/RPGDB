@@ -31,17 +31,36 @@ namespace RPG_Jahr_words
                 typeof(RPGEntities15),
                 typeof(PersoControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
 
-        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e) { (d as PersoControl).DataContext = new ViewModel.PersoViewModel(e.NewValue as RPGEntities15); }
+        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ViewModel.PersoViewModel model = new ViewModel.PersoViewModel(e.NewValue as RPGEntities15);
+            model.PersoAdded += (d as PersoControl).UpdatePersosList;
+            (d as PersoControl).DataContext = model;
+            (d as PersoControl).Show = (d as PersoControl).Bdd.Persos.ToList();
+        }
+
+        private void UpdatePersosList(object sender, EventArgs e)
+        {
+            Show = Bdd.Persos.ToList();
+            if (Perso_show_evol.IsChecked == true)
+                Show = Show.Where(p => p.evolve).ToList();
+            else if(Perso_show_notevol.IsChecked == true)
+                Show = Show.Where(p => !p.evolve).ToList();
+            if (ignore) ignore = false;
+        }
+
+        private List<Persos> Show;
         public NameGen Gen
         {
             get => (NameGen)GetValue(GenProperty);
             set => SetValue(GenProperty, value);
         }
+
         public static readonly DependencyProperty GenProperty =
             DependencyProperty.Register("Gen",
                 typeof(NameGen),
                 typeof(PersoControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
-
+        private bool ignore = false;
         public PersoControl()
         {
             InitializeComponent();
@@ -280,7 +299,7 @@ namespace RPG_Jahr_words
         private void ElemCheck(object sender, TextChangedEventArgs e)
         {
             if (int.TryParse((sender as TextBox).Text, out int inutil))
-                (DataContext as ViewModel.PersoViewModel).ElementMasterCheck((sender as TextBox).Text);
+                (sender as TextBox).Text = "" + (DataContext as ViewModel.PersoViewModel).ElementMasterCheck(inutil);
         }
 
         private void RefreshSpell(object sender, SelectionChangedEventArgs e)
@@ -461,6 +480,11 @@ namespace RPG_Jahr_words
                     Beast_vow.Text = "" + (int)value.Race_Stat_Cap.vitesse_eau;
                     Beast_vog.Text = "" + (int)value.Race_Stat_Cap.vitesse_sol;
                     Beast_voa.Text = "" + (int)value.Race_Stat_Cap.vitesse_vol;
+                    Masse.Text = "" + value.Race_Specs.masse_moyenne;
+                    foreach (Race_Magie master in value.Race_Magie)
+                        (DataContext as ViewModel.PersoViewModel).NewPerso.Pers_mago.First(m => m.Magie_type == master.Magie_type).Maitrise = master.maitrise;
+                    foreach (Race_ElemMaster master in value.Race_ElemMaster)
+                        (DataContext as ViewModel.PersoViewModel).NewPerso.Perso_elem.First(el => el.Mag_element.element == master.element).Maitrise = master.maitrise;
                 }
         }
 
@@ -480,11 +504,29 @@ namespace RPG_Jahr_words
                     Beast_pwr.Text = "" + (int)value.Best_stats.puissance;
                     Beast_res.Text = "" + value.Best_stats.resistance;
                     Beast_wis.Text = "" + (int)value.Best_stats.sagesse;
-                    Beast_end.Text = "" + (int)value.Best_stats.pv/10;
+                    Beast_end.Text = "" + (int)value.Best_stats.pv / 10;
                     Beast_vow.Text = "" + (int)value.Best_stats.vitesse_eau;
                     Beast_vog.Text = "" + (int)value.Best_stats.vitesse_sol;
                     Beast_voa.Text = "" + (int)value.Best_stats.vitesse_vol;
                 }
+        }
+
+        private void ShowPersos(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowStatsRace(object sender, RoutedEventArgs e)
+        {
+            foreach(Races race in Bdd.Races)
+            {
+                Peruso_Label.Text += race.nom + " : \n\tForce : "+race.Race_Stat_Cap.force+", Defense : "+race.Race_Stat_Cap.defense;
+            }
+        }
+
+        private void ShowSpecsPerso(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

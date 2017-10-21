@@ -217,8 +217,7 @@
                                 <Binding ElementName="Jewel_link" Path="IsChecked" Converter="{StaticResource NOT}"/>
                             </MultiBinding>
                         </Grid.IsEnabled>
-                        <ComboBox x:Name="Component" HorizontalAlignment="Left" Height="25" Margin="5,63,0,0" VerticalAlignment="Top" Text="~Composant~" IsTextSearchEnabled="True" IsReadOnly="True" Width="113" ItemsSource="{Binding Components}" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Component_type, Path=SelectedIndex}"/>
-                        <ComboBox x:Name="Component_type" HorizontalAlignment="Left" Height="25" Margin="5,10,0,0" VerticalAlignment="Top" Width="113" SelectedIndex="0" SelectionChanged="RefreshCompo">
+                        <ComboBox x:Name="Component_type" HorizontalAlignment="Left" Height="25" Margin="5,5,0,0" VerticalAlignment="Top" Width="113" SelectedIndex="0" SelectionChanged="RefreshCompo">
                             <System:String>~Type de composant~</System:String>
                             <System:String>Alliages</System:String>
                             <System:String>Armes</System:String>
@@ -236,30 +235,43 @@
                             <System:String>Communs</System:String>
                             <System:String>Conteneur</System:String>
                         </ComboBox>
-
-                        <TextBlock HorizontalAlignment="Left" Margin="108,40,0,0" TextWrapping="Wrap" Text="{Binding ElementName=componentqtity, Path=Value}" VerticalAlignment="Top" IsEnabled="False"/>
-                        <Slider x:Name="componentqtity" HorizontalAlignment="Left" Height="23" Margin="5,40,0,0" VerticalAlignment="Top" Width="98" Minimum="0" Maximum="10"
-							TickFrequency="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" />
-                        <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="5,93,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding ElementName=Component, Path=ItemsSource, Converter={StaticResource NullFalse}}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-
-                        <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="32,93,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding ElementName=Item_rec, Path=SelectedItems.Count}"/>
-                        <TextBox x:Name="Item_rec_manacost" Text="{Binding ManaCraftCost,Mode=TwoWay}" HorizontalAlignment="Left" Height="22" Margin="38,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37"/>
-                        <TextBlock HorizontalAlignment="Left" Height="16" Margin="5,129,0,0" TextWrapping="Wrap" Text="Magie" VerticalAlignment="Top" />
-                        <ListView x:Name="Item_rec" HorizontalAlignment="Left" Margin="123,10,0,7" Width="227" SelectionMode="Multiple" ItemsSource="{Binding Recipe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBox x:Name="Component" HorizontalAlignment="Left" Height="25" Margin="5,35,0,0" VerticalAlignment="Top" Text="~Composant~" IsTextSearchEnabled="True" IsReadOnly="True" Width="113" ItemsSource="{Binding Components}" DisplayMemberPath="nom" IsEnabled="{Binding ElementName=Component_type, Path=SelectedIndex}"/>
+                        <ComboBox x:Name="procRecipe" HorizontalAlignment="Left" Margin="5,65,0,0" VerticalAlignment="Top" Width="77" Height="23" DisplayMemberPath="process" SelectedIndex="0">
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Obtentions" Source="{Binding SelectedObtentions}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Procede process="~Procede~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Obtentions}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="3,101,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding ElementName=Component, Path=ItemsSource, Converter={StaticResource NullFalse}}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                        <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="30,101,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding ElementName=Item_rec, Path=SelectedItems.Count}"/>
+                        <Button Content="+" HorizontalAlignment="Left" Margin="57,101,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1"/>
+                        <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="84,101,0,0" VerticalAlignment="Top" Width="34" Height="25" SelectedIndex="0" ItemsSource="{Binding RecipeCount}"/>
+                        <TextBox x:Name="Item_rec_manacost" Text="{Binding ManaCraftCost,Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="38,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37"/>
+                        <Button Content="⇀" HorizontalAlignment="Left" Margin="80,131,0,0" Width="23" FontSize="24" Padding="0,-8,1,1" Click="Button_Click" IsEnabled="{Binding ElementName=Item_rec_manacost, Path=Text.Length}" Height="18" VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="5,131,0,0" TextWrapping="Wrap" Text="Magie" Height="16" VerticalAlignment="Top" />
+                        <ListView x:Name="Item_rec" HorizontalAlignment="Left" Margin="123,5,0,5" Width="227" SelectionMode="Multiple" ItemsSource="{Binding Recipe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding N_recette}"/>
-                                    <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Id}"/>
-                                    <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Nom}"/>
-                                    <GridViewColumn Header="Origine" Width="60" DisplayMemberBinding="{Binding Origine}"/>
-                                    <GridViewColumn Header="Nombre" Width="45" DisplayMemberBinding="{Binding Quantite}"/>
+                                    <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Component.Id}"/>
+                                    <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Component.nom}"/>
+                                    <GridViewColumn Header="Origine" Width="60" DisplayMemberBinding="{Binding Component.origine}"/>
+                                    <GridViewColumn Header="Nombre" Width="45">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Text="{Binding Quantite}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Button Content="+" HorizontalAlignment="Left" Margin="59,93,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1"/>
-                        <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="86,93,0,0" VerticalAlignment="Top" Width="34" Height="25" SelectedIndex="0" ItemsSource="{Binding RecipeCount}"/>
-                        <Button Content="⇀" HorizontalAlignment="Left" Margin="80,123,0,0" VerticalAlignment="Top" Width="23" Height="22" FontSize="24" Padding="0,-8,1,1" Click="Button_Click" IsEnabled="{Binding ElementName=Item_rec_manacost, Path=Text.Length}"/>
-                        <ListView Margin="355,10,10,7" ItemsSource="{Binding RecipeResults}">
+                        <ListView x:Name="Results" Margin="355,5,10,5" ItemsSource="{Binding RecipeResults}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding IdRecipe}"/>
@@ -270,9 +282,11 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <GridViewColumn Header="Procede" Width="Auto" DisplayMemberBinding="{Binding Process.process}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <Button Content="⇀" HorizontalAlignment="Left" Margin="87,70,0,0" Width="23" FontSize="24" Padding="0,-8,1,1" Click="ProcessToRecipe" IsEnabled="{Binding ElementName=procRecipe, Path=SelectedIndex}" Height="18" VerticalAlignment="Top"/>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="Item_enchant_tab" Header="Enchant/livre" FontSize="7.5">
@@ -1051,7 +1065,7 @@
                     <Grid>
                         <TextBox x:Name="Item_descr" AcceptsTab="True" AcceptsReturn="True" TextWrapping="WrapWithOverflow" MaxLength="8000" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="{Binding Path=Saving.description,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Linked, Converter={StaticResource NOT}}" Margin="240,0,0,0"/>
                         <GroupBox Header="Obtention" FontSize="10" HorizontalAlignment="Left" Height="134" Margin="10,10,0,0" VerticalAlignment="Top" Width="174" IsEnabled="{Binding IsChecked, Converter={StaticResource NOT}, ElementName=jewel_linked}">
-                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding Processes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedObtentions}" DisplayMemberPath="process"/>
+                            <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding Processes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedObtentions}" DisplayMemberPath="process" SelectionMode="Multiple"/>
                         </GroupBox>
                     </Grid>
                 </TabItem>
@@ -1145,7 +1159,7 @@
             <ComboBoxItem x:Name="Loot" Content="Loot" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Loot'}"/>
             <ComboBoxItem x:Name="Vehicule" Content="Vehicule" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource TypeToBool}, ConverterParameter='Vehicule'}"/>
             <ComboBoxItem x:Name="Livre" Content="Livre" IsEnabled="{Binding Saving, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TypeToBool}, ConverterParameter='Livre'}"/>
-            <ComboBoxItem x:Name="Common" Content="Communs" IsEnabled="{Binding ElementName=Bijoux_link, Path=SelectedIndex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource Equals}, ConverterParameter=-1}"/>
+            <ComboBoxItem x:Name="Common" Content="Communs" IsEnabled="{Binding ElementName=jewel_linked, Path=IsChecked, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NOT}}"/>
         </ComboBox>
         <Button Content=" Tailles " HorizontalAlignment="Left" Margin="192,170,0,0" VerticalAlignment="Top" Click="SizeShow"/>
     </Grid>

@@ -31,7 +31,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Armes_magique> Armes_magique { get; set; }
         public virtual DbSet<Armor_cat> Armor_cat { get; set; }
         public virtual DbSet<Best_cat> Best_cat { get; set; }
-        public virtual DbSet<Best_stats> Best_stats { get; set; }
         public virtual DbSet<Bijoux> Bijoux { get; set; }
         public virtual DbSet<Bijoux_place> Bijoux_place { get; set; }
         public virtual DbSet<Biomes> Biomes { get; set; }
@@ -95,12 +94,10 @@ namespace RPG_Jahr_words
         public virtual DbSet<Beast_magoRes> Beast_magoRes { get; set; }
         public virtual DbSet<Pers_mago> Pers_mago { get; set; }
         public virtual DbSet<Pers_magoRes> Pers_magoRes { get; set; }
-        public virtual DbSet<Pers_stats> Pers_stats { get; set; }
         public virtual DbSet<Perso_elem> Perso_elem { get; set; }
         public virtual DbSet<Perso_elemRes> Perso_elemRes { get; set; }
         public virtual DbSet<PersoCategorie> PersoCategorie { get; set; }
         public virtual DbSet<Race_ElemMaster> Race_ElemMaster { get; set; }
-        public virtual DbSet<Race_Magie> Race_Magie { get; set; }
         public virtual DbSet<Race_Stat_Cap> Race_Stat_Cap { get; set; }
         public virtual DbSet<Races> Races { get; set; }
         public virtual DbSet<Trais> Trais { get; set; }
@@ -113,11 +110,18 @@ namespace RPG_Jahr_words
         public virtual DbSet<Livre> Livre { get; set; }
         public virtual DbSet<Perso_Creature> Perso_Creature { get; set; }
         public virtual DbSet<Perso_weap_Master> Perso_weap_Master { get; set; }
-        public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Pers_carac> Pers_carac { get; set; }
         public virtual DbSet<Creature_Specs> Creature_Specs { get; set; }
-        public virtual DbSet<Creature_Stats> Creature_Stats { get; set; }
         public virtual DbSet<Race_Specs> Race_Specs { get; set; }
         public virtual DbSet<Beast_Specs> Beast_Specs { get; set; }
+        public virtual DbSet<Race_Magie> Race_Magie { get; set; }
+        public virtual DbSet<Creature_elem> Creature_elem { get; set; }
+        public virtual DbSet<Creature_elemRes> Creature_elemRes { get; set; }
+        public virtual DbSet<Creature_mago> Creature_mago { get; set; }
+        public virtual DbSet<Creature_magoRes> Creature_magoRes { get; set; }
+        public virtual DbSet<Persos> Persos { get; set; }
+        public virtual DbSet<Best_stats> Best_stats { get; set; }
+        public virtual DbSet<Creature_Stats> Creature_Stats { get; set; }
+        public virtual DbSet<Pers_stats> Pers_stats { get; set; }
     }
 }

@@ -157,8 +157,6 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <Slider x:Name="alliageqtity" HorizontalAlignment="Left" Margin="5,46,0,0" VerticalAlignment="Top" Width="94" Minimum="1" Maximum="5"
-							TickFrequency="0.1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
                 <ListBox x:Name="ShowThing" Margin="132,5,5,5" SelectionMode="{Binding ElementName=Ville, Path=IsSelected, Converter={StaticResource Single}}" DisplayMemberPath="nom" SelectionChanged="Showthingselection">
                     <ListBox.ItemsSource>
                         <MultiBinding Converter="{StaticResource WorldWrite}" Mode="OneWay">
@@ -184,14 +182,20 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding N_recette}"/>
-                            <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Id}"/>
-                            <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Nom}"/>
-                            <GridViewColumn Header="Origine" Width="50" DisplayMemberBinding="{Binding Origine}"/>
-                            <GridViewColumn Header="Nombre" Width="45" DisplayMemberBinding="{Binding Quantite}"/>
+                            <GridViewColumn Header="Id" Width="20" DisplayMemberBinding="{Binding Component.Id}"/>
+                            <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding Component.nom}"/>
+                            <GridViewColumn Header="Origine" Width="50" DisplayMemberBinding="{Binding Component.origine}"/>
+                            <GridViewColumn Header="Nombre" Width="45">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="20" Text="{Binding Quantite}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Margin="339,5,5,5" ItemsSource="{Binding Results}" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                <ListView x:Name="Results" Margin="339,5,5,5" ItemsSource="{Binding Results}" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Recette" Width="Auto" DisplayMemberBinding="{Binding IdRecipe}"/>
@@ -202,11 +206,11 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridViewColumn Header="Procede" Width="Auto" DisplayMemberBinding="{Binding Process.process}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <TextBlock x:Name="allqtity" HorizontalAlignment="Left" Margin="104,48,0,0" TextWrapping="Wrap" Text="{Binding ElementName=alliageqtity, Path=Value}" VerticalAlignment="Top" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
-                <ComboBox x:Name="allprocess" HorizontalAlignment="Left" Margin="5,71,0,0" VerticalAlignment="Top" Width="99" SelectedIndex="0" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                <ComboBox x:Name="allprocess" HorizontalAlignment="Left" Margin="5,50,0,0" VerticalAlignment="Top" Width="77" SelectedIndex="0" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}" Height="18">
                     <System:String>~Procédé~</System:String>
                     <CheckBox x:Name="fromFor" Content="Forge" Checked="FromFor_Checked" Unchecked="FromFor_Unchecked"/>
                     <CheckBox x:Name="fromAlc" Content="Alchimie" Checked="FromAlc_Checked" Unchecked="FromAlc_Unchecked"/>
@@ -255,12 +259,12 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button Content="+" HorizontalAlignment="Left" Margin="57,91,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
+                <Button x:Name="test" Content="+" HorizontalAlignment="Left" Margin="57,91,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
                 <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="83,91,0,28" Width="34" SelectedIndex="0" ItemsSource="{Binding RecipeCount}" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}"/>
                 <ComboBox x:Name="Materials" Margin="5,26,302,99" IsEnabled="{Binding ElementName=Alliage, Path=IsSelected}" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}" ItemsSource="{Binding Materiau}" DisplayMemberPath="nom"/>
-                <TextBox x:Name="Item_rec_manacost" Text="{Binding AlcManacost, Mode=TwoWay}" HorizontalAlignment="Left" Margin="44,119,0,5" TextWrapping="Wrap" Width="37" IsEnabled="{Binding ElementName=fromAlc, Path=IsChecked}" Visibility="{Binding ElementName=Item_rec_manacost, Path=IsEnabled, Converter={StaticResource BoolToVisible}}"/>
+                <TextBox x:Name="Item_rec_manacost" Text="{Binding AlcManacost, Mode=TwoWay}" HorizontalAlignment="Left" Margin="44,0,0,5" TextWrapping="Wrap" Width="37" IsEnabled="{Binding ElementName=fromAlc, Path=IsChecked}" Visibility="{Binding ElementName=Item_rec_manacost, Path=IsEnabled, Converter={StaticResource BoolToVisible}}" Height="18" VerticalAlignment="Bottom"/>
                 <TextBlock HorizontalAlignment="Left" Height="16" Margin="5,122,0,0" TextWrapping="Wrap" Text="Magie" VerticalAlignment="Top" Visibility="{Binding ElementName=Item_rec_manacost, Path=IsEnabled, Converter={StaticResource BoolToVisible}}"/>
-                <Button Content="⇀" HorizontalAlignment="Left" Margin="86,119,0,5" Width="23" FontSize="24" Padding="0,-8,1,1" Visibility="{Binding ElementName=Item_rec_manacost, Path=Visibility}">
+                <Button Content="⇀" HorizontalAlignment="Left" Margin="86,0,0,5" Width="23" FontSize="24" Padding="0,-8,1,1" Visibility="{Binding ElementName=Item_rec_manacost, Path=Visibility}" Height="18" VerticalAlignment="Bottom" Click="AddMana">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource And}">
                             <Binding Path="Text.Length" ElementName="Item_rec_manacost" Converter="{StaticResource EmptyBool}"/>
@@ -268,6 +272,24 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
+                <Button Content="⇀" HorizontalAlignment="Left" Margin="29,0,0,58" Width="23" FontSize="24" Padding="0,-9,1,1" Height="16" VerticalAlignment="Bottom" Click="ChangeProcess" Visibility="{Binding ElementName=fromFor, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="recipeId" Path="SelectedItem" Converter="{StaticResource NullFalse}"/>
+                            <Binding ElementName="fromFor" Path="IsChecked"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button Content="⇀" HorizontalAlignment="Left" Margin="94,0,0,58" Width="23" FontSize="24" Padding="0,-9,1,1" Height="16" VerticalAlignment="Bottom" Click="ChangeProcess" Visibility="{Binding ElementName=fromAlc, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource And}">
+                            <Binding ElementName="recipeId" Path="SelectedItem" Converter="{StaticResource NullFalse}"/>
+                            <Binding Path="IsChecked" ElementName="fromAlc"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <TextBlock HorizontalAlignment="Left" Margin="57,73,0,0" TextWrapping="Wrap" Text="Alchimie" VerticalAlignment="Top" Visibility="{Binding ElementName=fromAlc, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="0,73,0,0" TextWrapping="Wrap" Text="Forge" VerticalAlignment="Top" Visibility="{Binding ElementName=fromFor, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
             </Grid>
         </GroupBox>
         <Button x:Name="new_biome" Content=" Biome " HorizontalAlignment="Left" Margin="464,179,0,0" VerticalAlignment="Top" Command="{Binding NewBiome}"/>
@@ -298,7 +320,7 @@
                     <System:String>Biomes</System:String>
                     <System:String>Regions</System:String>
                 </ComboBox>
-                    <ComboBox x:Name="World_show_OptCont" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Cont_show, Path=IsSelected}" Visibility="{Binding ElementName=Cont_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
+                <ComboBox x:Name="World_show_OptCont" SelectedIndex="0" HorizontalAlignment="Left" Margin="5,47,0,47" Width="101" IsEnabled="{Binding ElementName=Cont_show, Path=IsSelected}" Visibility="{Binding ElementName=Cont_show, Path=IsSelected, Converter={StaticResource BoolToVisible}}" SelectionChanged="FilterCriterias">
                     <System:String>~Option~</System:String>
                     <System:String>Biomes</System:String>
                     <System:String>Villes</System:String>

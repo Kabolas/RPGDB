@@ -73,7 +73,7 @@ namespace RPG_Jahr_words
                         World_show_more.DisplayMemberPath = "nom";
                         if (World_show_OptCont.SelectedItem as string == "Origine")
                             World_show_more.ItemsSource = (DataContext as ViewModel.WorldViewModel).Worlds;
-                        else if(World_show_OptCont.SelectedIndex!=0)
+                        else if (World_show_OptCont.SelectedIndex != 0)
                             World_show_more.ItemsSource = Bdd.Continent.ToList();
                         break;
                     case ViewModel.WorldType.Ville:
@@ -137,7 +137,7 @@ namespace RPG_Jahr_words
                         }
                         break;
                     case ViewModel.WorldType.Phenomene:
-                                World_show_more.DisplayMemberPath = "nom";
+                        World_show_more.DisplayMemberPath = "nom";
                         switch (World_show_OptVille.SelectedItem as string)
                         {
                             case "Region":
@@ -185,7 +185,7 @@ namespace RPG_Jahr_words
                     switch (World_show_OptCont.SelectedItem as string)
                     {
                         case "Origine":
-                            foreach (Continent showCont in Bdd.Continent.Where(c=>c.monde == World_show_more.SelectedItem as string))
+                            foreach (Continent showCont in Bdd.Continent.Where(c => c.monde == World_show_more.SelectedItem as string))
                                 Worldo_Label.Text += showCont.nom + " du " + showCont.monde + ".\nBiomes : " + showCont.biomes + "\n";
                             break;
                         case "Biomes":
@@ -200,7 +200,7 @@ namespace RPG_Jahr_words
                             foreach (Region showReg in (World_show_more.SelectedItem as Continent).Region)
                                 Worldo_Label.Text += showReg.nom + "\n";
                             break;
-                                default:
+                        default:
                             foreach (Continent showCont in Bdd.Continent)
                                 Worldo_Label.Text += showCont.nom + " du " + showCont.monde + ".\nBiomes : " + showCont.biomes + "\n";
                             break;
@@ -230,59 +230,59 @@ namespace RPG_Jahr_words
                         Worldo_Label.Text += (World_show_more.SelectedItem as Region).biomes + '\n';
                     break;
                 case ViewModel.WorldType.Mineraux:
-                        switch (World_show_OptMiner.SelectedItem as string)
-                        {
-                            case "Type":
+                    switch (World_show_OptMiner.SelectedItem as string)
+                    {
+                        case "Type":
                             foreach (Mineraux min in Bdd.Mineraux.Where(m => m.Minerai_type == World_show_more.SelectedItem as Minerai_type))
-                                Worldo_Label.Text += min.Items.nom + '\n'; 
-                                break;
-                            case "Utilisation":
-                                foreach(Mineraux min in Bdd.Mineraux.Where(m=>m.usage.Contains((World_show_more.SelectedItem as Usage).utilisation)))
                                 Worldo_Label.Text += min.Items.nom + '\n';
                             break;
-                            case "Origine":
-                               foreach(Mineraux min in Bdd.Mineraux.Where(m=>m.Items.nom == (World_show_more.SelectedItem as Monde_w).nom))
+                        case "Utilisation":
+                            foreach (Mineraux min in Bdd.Mineraux.Where(m => m.usage.Contains((World_show_more.SelectedItem as Usage).utilisation)))
                                 Worldo_Label.Text += min.Items.nom + '\n';
                             break;
-                            default:
+                        case "Origine":
+                            foreach (Mineraux min in Bdd.Mineraux.Where(m => m.Items.nom == (World_show_more.SelectedItem as Monde_w).nom))
+                                Worldo_Label.Text += min.Items.nom + '\n';
+                            break;
+                        default:
                             foreach (Mineraux min in Bdd.Mineraux)
-                            Worldo_Label.Text += min.Items.nom + '\n';
+                                Worldo_Label.Text += min.Items.nom + '\n';
                             break;
-                        }
+                    }
                     break;
                 case ViewModel.WorldType.Alliage:
-                        switch (World_show_OptAlliage.SelectedItem as string)
-                        {
-                            case "Procede":
-                               foreach(Alliage all in Bdd.Alliage.Where(a=>a.Items.obtention.Contains((World_show_more.SelectedItem as Procede).process)))
-                                Worldo_Label.Text += all.Items.nom+'\n';
-                                break;
-                            case "Materiaux":
-                               foreach(Alliage all in Bdd.Alliage.Where(a=>a.Items.recette.Contains((World_show_more.SelectedItem  as Items).nom)))
+                    switch (World_show_OptAlliage.SelectedItem as string)
+                    {
+                        case "Procede":
+                            foreach (Alliage all in Bdd.Alliage.Where(a => a.Items.obtention.Contains((World_show_more.SelectedItem as Procede).process)))
                                 Worldo_Label.Text += all.Items.nom + '\n';
                             break;
-                            default:
+                        case "Materiaux":
+                            foreach (Alliage all in Bdd.Alliage.Where(a => a.Items.recette.Contains((World_show_more.SelectedItem as Items).nom)))
+                                Worldo_Label.Text += all.Items.nom + '\n';
+                            break;
+                        default:
                             foreach (Alliage all in Bdd.Alliage)
                                 Worldo_Label.Text += all.Items.nom + '\n';
                             break;
-                        }
+                    }
                     break;
                 case ViewModel.WorldType.Phenomene:
-                        switch (World_show_OptVille.SelectedItem as string)
-                        {
-                            case "Region":
+                    switch (World_show_OptVille.SelectedItem as string)
+                    {
+                        case "Region":
                             foreach (Phenomene phen in Bdd.Phenomene.Where(p => p.location.Contains((World_show_more.SelectedItem as Region).nom)))
                                 Worldo_Label.Text += phen.nom + '\n';
-                                break;
-                            case "Biomes":
+                            break;
+                        case "Biomes":
                             foreach (Phenomene phen in Bdd.Phenomene.Where(p => p.location.Contains((World_show_more.SelectedItem as Biomes).nom)))
                                 Worldo_Label.Text += phen.nom + '\n';
                             break;
-                            default:
+                        default:
                             foreach (Phenomene phen in Bdd.Phenomene)
                                 Worldo_Label.Text += phen.nom + '\n';
                             break;
-                        }
+                    }
                     break;
                 default:
                     break;
@@ -291,18 +291,15 @@ namespace RPG_Jahr_words
 
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
-            if (Materials.SelectedItem != null && alliageqtity.Value > 0)
+            if (Materials.SelectedItem != null)
             {
                 RecipeItem b = new RecipeItem
                 {
                     N_recette = (int)recipeId.SelectedItem,
-                    Id = (Materials.SelectedItem as Items).Id,
-                    Nom = (Materials.SelectedItem as Items).nom,
-                    Origine = (Materials.SelectedItem as Items).origine,
-                    Quantite = alliageqtity.Value
+                    Component = (Materials.SelectedItem as Items),
+                    Quantite = 0
                 };
                 (AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(b);
-                alliageqtity.Value = Mat_type.SelectedIndex = 0;
                 Materials.SelectedItem = null;
                 AlliageRecipe.ItemsSource = new System.Collections.ObjectModel.ObservableCollection<RecipeItem>((AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette));
             }
@@ -510,7 +507,7 @@ namespace RPG_Jahr_words
                     if ((DataContext as ViewModel.WorldViewModel).MinerSave.usage.Contains("Tous") && (sender as ListBox).SelectedItems.Count > 1) (sender as ListBox).SelectedItems.Remove(e.AddedItems[0]);
 
                 }
-                if (e.RemovedItems.Count > 0 && e.RemovedItems[0] is Usage && (sender as ListBox).Items.Count>0)
+                if (e.RemovedItems.Count > 0 && e.RemovedItems[0] is Usage && (sender as ListBox).Items.Count > 0)
                 {
                     foreach (Usage use in e.RemovedItems)
                         (DataContext as ViewModel.WorldViewModel).MinerSave.usage = (DataContext as ViewModel.WorldViewModel).MinerSave.usage.Replace(use.utilisation + ((DataContext as ViewModel.WorldViewModel).MinerSave.usage.Contains("\n") ? "\n" : ""), "");
@@ -520,19 +517,32 @@ namespace RPG_Jahr_words
 
         private void FromFor_Checked(object sender, RoutedEventArgs e)
         {
-            (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Forge\n";
+            if (recipeId.Items.Contains(2) || fromAlc.IsChecked == false)
+                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Forge\n";
+            else (sender as CheckBox).IsChecked = false;
         }
 
-        private void FromFor_Unchecked(object sender, RoutedEventArgs e)
-        {
-            (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n", "");
-        }
+        private void FromFor_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n", ""); }
 
         private void FromAlc_Checked(object sender, RoutedEventArgs e)
         {
-            (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Alchimie\n";
+            if (recipeId.Items.Contains(2) || fromFor.IsChecked == false)
+                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Alchimie\n";
+            else (sender as CheckBox).IsChecked = false;
         }
 
-        private void FromAlc_Unchecked(object sender, RoutedEventArgs e)        {            (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n","");        }
+        private void FromAlc_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n", ""); }
+
+        private void AddMana(object sender, RoutedEventArgs e)
+        {
+            if (Item_rec_manacost.Text != "" && int.TryParse(Item_rec_manacost.Text, out int ncost))
+                if ((AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Any(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0))
+                    (AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).First(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0).Quantite = ncost;
+                else (AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(new RecipeItem { Component = new Items { Id = 0, nom = "Mana", origine = "Originel" }, Quantite = ncost, N_recette = (int)recipeId.SelectedItem });
+            else Worldo_Label.Text += "Veuillez entrer un nombre entier valide.\n";
+            (AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette);
+        }
+
+        private void ChangeProcess(object sender, RoutedEventArgs e) { (Results.ItemsSource as ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = Bdd.Procede.First(p => p.process == ((bool)fromAlc.IsChecked ? "Alchimie" : "Forge")); (Results.Items as CollectionView).Refresh(); }
     }
 }

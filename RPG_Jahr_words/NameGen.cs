@@ -18,18 +18,14 @@ namespace RPG_Jahr_words
     public class RecipeItem
     {
         private int n_recette;
-        private int _id;
+        private Items _component;
         private double _quantite;
-        private string _origine, _nom;
 
-        public string Origine { get => _origine; set => _origine = value; }
-        public string Nom { get => _nom; set => _nom = value; }
         public double Quantite { get => _quantite; set => _quantite = value; }
-        public int Id { get => _id; set => _id = value; }
         public int N_recette { get => n_recette; set => n_recette = value; }
+        public Items Component { get => _component; set => _component = value; }
 
-
-        override public string ToString() { return Id + "|" + Nom + ":" + Quantite; }
+        override public string ToString() { return Component.Id + "|" + Component.nom + ":" + Quantite; }
     }
 
     public class LootItem
@@ -47,9 +43,11 @@ namespace RPG_Jahr_words
     {
         private int _nombre;
         private int _idRecipe;
+        private Procede _process;
 
         public int Nombre { get => _nombre; set => _nombre = value > 0 ? value : 1; }
         public int IdRecipe { get => _idRecipe; set => _idRecipe = value; }
+        public Procede Process { get => _process; set => _process = value; }
 
         public override string ToString() { return "" + Nombre; }
     }

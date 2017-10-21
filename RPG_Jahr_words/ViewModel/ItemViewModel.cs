@@ -99,7 +99,7 @@ namespace RPG_Jahr_words.ViewModel
         #region SelectLists
         private List<string> _selCacdmgtype = new List<string>(), _selMundmgtype = new List<string>();
         private List<Sorts> _selectedSpells = new List<Sorts>();
-        private List<Procede> _selectedObtentions = new List<Procede>();
+        private ObservableCollection<Procede> _selectedObtentions = new ObservableCollection<Procede>();
         private List<Capacites_armor> _selectedCaps = new List<Capacites_armor>();
         private List<Mode_deplacement> _selectedMode = new List<Mode_deplacement>();
         private List<Carburant> _selectedCarbu = new List<Carburant>();
@@ -182,7 +182,7 @@ namespace RPG_Jahr_words.ViewModel
 
         public ObservableCollection<RecipeResult> RecipeResults { get => _recipeResults; set { _recipeResults = value; RaisePropertyChanged(); } }
 
-        public List<Procede> SelectedObtentions { get => _selectedObtentions; set => _selectedObtentions = value; }
+        public ObservableCollection<Procede> SelectedObtentions { get => _selectedObtentions; set => _selectedObtentions = value; }
         public List<Sorts> Sorts { get => _sorts; set { _sorts = value; RaisePropertyChanged(); } }
         public List<Items> Components { get => _components; set { _components = value; RaisePropertyChanged(); } }
         public List<Items> LinkList { get => _linkList; set { _linkList = value; RaisePropertyChanged(); } }
