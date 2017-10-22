@@ -361,10 +361,10 @@ namespace RPG_Jahr_words
                     break;
                 case "Armures":
                     Peruso_Label.Text += obj.nom + ": pèse " + obj.masse + " Kg, obtensible par " + obj.obtention + ", " + ((obj.origine != "Magocosme") ? "Prix tech : " + obj.prix_tech + " " : "") + ((obj.origine != "Technocosme") ? "Prix tech : " + obj.prix_tech + " " : "")
-+ " origine: " + obj.origine + " \n"
-+ "Attaque : " + obj.Armory.atk + ", Defense : " + obj.Armory.def + ", Puissance : " + obj.Armory.puissance + ", Resistance : " + obj.Armory.resistance + ", " + obj.Armory.categorie + '\n'
-+ "Malus de Dexterité : " + obj.Armory.dex_malus + ", Malus de vitesse : " + obj.Armory.vit_malus
-+ (obj.Armory.enchantable ? " Enchantable, " : "") + (obj.Armory.enchantement ?? " Aucun Enchantement, ") + obj.Armory.capacites;
+                    + " origine: " + obj.origine + " \n"
+                    + "Attaque : " + obj.Armory.atk + ", Defense : " + obj.Armory.def + ", Puissance : " + obj.Armory.puissance + ", Resistance : " + obj.Armory.resistance + ", " + obj.Armory.categorie + '\n'
+                    + "Malus de Dexterité : " + obj.Armory.dex_malus + ", Malus de vitesse : " + obj.Armory.vit_malus
+                    + (obj.Armory.enchantable ? " Enchantable, " : "") + (obj.Armory.enchantement ?? " Aucun Enchantement, ") + obj.Armory.capacites;
                     foreach (ElemResArmorAssoc er in obj.Armory.ElemResArmorAssoc)
                         Peruso_Label.Text += (er.element != null ? "Elements resistants " + er.element + ", resistance de " + er.resValue : "") + '\n';
                     Peruso_Label.Text += (!obj.craftable ? "non craftable; " : "craftable " + obj.recette) + '\n' + obj.description;

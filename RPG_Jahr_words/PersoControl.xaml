@@ -174,10 +174,12 @@
                     <TextBlock HorizontalAlignment="Left" Margin="84,70,0,0" TextWrapping="Wrap" Text="Sagesse" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,39,0,0" TextWrapping="Wrap" Text="Pv = Endurance * 10, Stamina = Endurance * 12, Fuel Magique = Puissance*10, Precision = (Intelligence + Sagesse)*0.4 + 0.66*Dexterite " VerticalAlignment="Top" Height="31" Width="454"/>
-                    <TextBox x:Name="Beast_det" HorizontalAlignment="Left" Height="18" Margin="113,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_dis" HorizontalAlignment="Left" Height="18" Margin="225,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
-                    <TextBox x:Name="Beast_agr" HorizontalAlignment="Left" Margin="336,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.vitesse_eau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="39" Height="18" VerticalAlignment="Top" />
-                    <TextBlock HorizontalAlignment="Left" Margin="47,115,0,0" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Beast_det" HorizontalAlignment="Left" Height="18" Margin="113,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.detection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_dis" HorizontalAlignment="Left" Height="18" Margin="225,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.discretion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="39" />
+                    <TextBox x:Name="Beast_agr" HorizontalAlignment="Left" Margin="347,115,0,0" TextWrapping="Wrap" Text="{Binding SaveStats.agressivite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="39" Height="18" VerticalAlignment="Top" />
+                    <TextBlock HorizontalAlignment="Left" Margin="51,115,0,0" TextWrapping="Wrap" Text="Detection :" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="161,115,0,0" TextWrapping="Wrap" Text="Discretion :" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="279,115,0,0" TextWrapping="Wrap" Text="Agressivité :" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Elements">
