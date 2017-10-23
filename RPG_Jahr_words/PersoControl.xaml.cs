@@ -44,7 +44,7 @@ namespace RPG_Jahr_words
             Show = Bdd.Persos.ToList();
             if (Perso_show_evol.IsChecked == true)
                 Show = Show.Where(p => p.evolve).ToList();
-            else if(Perso_show_notevol.IsChecked == true)
+            else if (Perso_show_notevol.IsChecked == true)
                 Show = Show.Where(p => !p.evolve).ToList();
             if (ignore) ignore = false;
         }
@@ -334,8 +334,8 @@ namespace RPG_Jahr_words
 
         private void RefreshStuff(object sender, TextChangedEventArgs e)
         {
-            if (StuffList != null && StuffList.ItemsSource != null)
-                ((CollectionView)CollectionViewSource.GetDefaultView(StuffList.ItemsSource)).Refresh();
+            if (StuffList.ItemsSource != null)
+                ((CollectionView)CollectionViewSource.GetDefaultView(StuffList?.ItemsSource)).Refresh();
         }
 
         private void StuffDetail(object sender, RoutedEventArgs e)
@@ -518,9 +518,13 @@ namespace RPG_Jahr_words
 
         private void ShowStatsRace(object sender, RoutedEventArgs e)
         {
-            foreach(Races race in Bdd.Races)
+            foreach (Races race in Bdd.Races)
             {
-                Peruso_Label.Text += race.nom + " : \n\tForce : "+race.Race_Stat_Cap.force+", Defense : "+race.Race_Stat_Cap.defense;
+                Peruso_Label.Text += race.nom + " : \n\tForce : " + race.Race_Stat_Cap.force + ", Defense : " + race.Race_Stat_Cap.defense + ", Endurance : " + race.Race_Stat_Cap.endurance
+                    + "\n\tPuissance : " + race.Race_Stat_Cap.puissance + ", Resistance : " + race.Race_Stat_Cap.resistance
+                    + "\n\tIntelligence : " + race.Race_Stat_Cap.intelligence + ", Sagesse : " + race.Race_Stat_Cap.sagesse + ", Charisme : " + race.Race_Stat_Cap.charisme +
+                    "\n\tDextérité : " + race.Race_Stat_Cap.dexterité + ", Vitesse au sol : " + race.Race_Stat_Cap.vitesse_sol + ", Vitesse sous l'eau : " + race.Race_Stat_Cap.vitesse_eau + ", Vitesse en vol : " + race.Race_Stat_Cap.vitesse_vol +
+                    "\n\tRespiration Aquatique : " + race.Race_Stat_Cap.respiration_aquatique + ", Détection : " + race.Race_Stat_Cap.detection + ", Discretion : " + race.Race_Stat_Cap.discretion + ", Argressivite : " + race.Race_Stat_Cap.agressivité + ".\n\n";
             }
         }
 

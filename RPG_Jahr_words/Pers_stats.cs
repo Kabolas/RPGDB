@@ -11,7 +11,7 @@ namespace RPG_Jahr_words
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Pers_stats
     {
         public int Id_pers { get; set; }
@@ -32,7 +32,9 @@ namespace RPG_Jahr_words
         public int vitesse_sol { get; set; }
         public int vitesse_eau { get; set; }
         public Nullable<int> vitesse_vol { get; set; }
-    
+
+        public int Endurance { get => pv / 10; set { stamina = value * 12; pv = value * 10; } }
+        public int Puissance { get => puissance; set { puissance = value; magie_fuel = value * 10; } }
         public virtual Persos Persos { get; set; }
     }
 }

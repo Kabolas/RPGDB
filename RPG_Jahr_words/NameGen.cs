@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Alphabet = System.Collections.Generic.Dictionary<int, string>;
+using Alphabet = System.Collections.Generic.Dictionary<string, int>;
 
 namespace RPG_Jahr_words
 {
@@ -49,21 +49,17 @@ namespace RPG_Jahr_words
         public int IdRecipe { get => _idRecipe; set => _idRecipe = value; }
         public Procede Process { get => _process; set => _process = value; }
 
-        public override string ToString() { return "" + Nombre; }
+        public override string ToString() { return "" + Nombre + "(" + Process.process + ")"; }
     }
 
     public class NameGen
     {
-        //private String alphabet_cons = "bcdfghjklmnpqrstvwxz";
-        //private String alphabet_voy = "aeiouy";
-        private String signes = "- ";
+        private String signes = "-' ";
         private String ret;
         private Alphabet voyelles;
         private Alphabet consonnes;
         private Alphabet RPG_cons;
         private Alphabet RPG_voy;
-
-        private Dictionary<string, int> Alpha;
 
         public bool triphtongue_flag = false;
         public bool symbol = false;
@@ -77,13 +73,6 @@ namespace RPG_Jahr_words
         public static bool objets = false;
         public static bool verbes = true;
         public static bool RPG = true;
-        //public static bool son_cons = false;
-        //public static bool sou_cons = false;
-        //public static bool oc_cons = false;
-        //public static bool fr_cons = false;
-        //public static bool alv_cons = false;
-        //public static bool before_word = true;
-        //public static string word_in_word = "";
 
         public NameGen()
         {
@@ -100,87 +89,88 @@ namespace RPG_Jahr_words
 
         private void RPGen()
         {
-            RPG_voy.Add(00, "a");
-            RPG_voy.Add(01, "e");
-            RPG_voy.Add(02, "i");
-            RPG_voy.Add(03, "o");
-            RPG_voy.Add(04, "u");
-            RPG_voy.Add(05, "Q");//ou
-            RPG_voy.Add(06, "ê");//en
-            RPG_voy.Add(07, "é");
-            RPG_voy.Add(08, "è");
-            RPG_voy.Add(09, "ë");//eu
-            RPG_voy.Add(10, "ö");//on
-            RPG_voy.Add(11, "î");//in
-            RPG_voy.Add(12, "ò");//ò
-            RPG_voy.Add(13, "ù");//ouo
+            RPG_voy.Add("a", 0);
+            RPG_voy.Add("e", 1);
+            RPG_voy.Add("i", 2);
+            RPG_voy.Add("o", 3);
+            RPG_voy.Add("u", 4);
+            RPG_voy.Add("Q", 5);//ou
+            RPG_voy.Add("ê", 6);//en
+            RPG_voy.Add("é", 7);
+            RPG_voy.Add("è", 8);
+            RPG_voy.Add("ë", 9);//eu
+            RPG_voy.Add("ö", 10);//on
+            RPG_voy.Add("î", 11);//in
+            RPG_voy.Add("ò", 12);//ò
+            RPG_voy.Add("ù", 13);//ouo
 
-            RPG_cons.Add(00, "b");
-            RPG_cons.Add(01, "c");
-            RPG_cons.Add(02, "d");
-            RPG_cons.Add(03, "f");
-            RPG_cons.Add(04, "g");
-            RPG_cons.Add(05, "h");
-            RPG_cons.Add(06, "j");
-            RPG_cons.Add(07, "l");
-            RPG_cons.Add(08, "m");
-            RPG_cons.Add(09, "n");
-            RPG_cons.Add(10, "p");
-            RPG_cons.Add(11, "r");
-            RPG_cons.Add(12, "q");//r roulé
-            RPG_cons.Add(13, "s");
-            RPG_cons.Add(14, "t");
-            RPG_cons.Add(15, "v");
-            RPG_cons.Add(16, "w");
-            RPG_cons.Add(17, "y");
-            RPG_cons.Add(18, "z");
-            RPG_cons.Add(19, "x");//ch
-            RPG_cons.Add(20, "K");//hr
-            RPG_cons.Add(21, "ç");//th
-            RPG_cons.Add(22, "k");//r anglais
+            RPG_cons.Add("b", 0);
+            RPG_cons.Add("c", 1);
+            RPG_cons.Add("d", 2);
+            RPG_cons.Add("f", 3);
+            RPG_cons.Add("g", 4);
+            RPG_cons.Add("h", 5);
+            RPG_cons.Add("j", 6);
+            RPG_cons.Add("l", 7);
+            RPG_cons.Add("m", 8);
+            RPG_cons.Add("n", 9);
+            RPG_cons.Add("p", 10);
+            RPG_cons.Add("r", 11);
+            RPG_cons.Add("q", 12);//r roulé
+            RPG_cons.Add("s", 13);
+            RPG_cons.Add("t", 14);
+            RPG_cons.Add("v", 15);
+            RPG_cons.Add("w", 16);
+            RPG_cons.Add("y", 17);
+            RPG_cons.Add("z", 18);
+            RPG_cons.Add("x", 19);//ch
+            RPG_cons.Add("K", 20);//hr
+            RPG_cons.Add("ç", 21);//th
+            RPG_cons.Add("k", 22);//r anglais
+
         }
 
         private void C_Alpha()
         {
-            voyelles.Add(0, "a");
-            voyelles.Add(1, "e");
-            voyelles.Add(2, "i");
-            voyelles.Add(3, "o");
-            voyelles.Add(04, "u");
-            voyelles.Add(05, "[ou]");
-            voyelles.Add(06, "[an]");
-            voyelles.Add(07, "é");
-            voyelles.Add(08, "è");
-            voyelles.Add(09, "[eu]");
-            voyelles.Add(10, "[on]");
-            voyelles.Add(11, "[in]");
-            voyelles.Add(12, "ò");
-            voyelles.Add(13, "[ouo]");
+            voyelles.Add("a", 0);
+            voyelles.Add("e", 1);
+            voyelles.Add("i", 2);
+            voyelles.Add("o", 3);
+            voyelles.Add("u", 4);
+            voyelles.Add("[ou]", 5);
+            voyelles.Add("[an]", 6);
+            voyelles.Add("é", 7);
+            voyelles.Add("è", 8);
+            voyelles.Add("[eu]", 9);
+            voyelles.Add("[on]", 10);
+            voyelles.Add("[in]", 11);
+            voyelles.Add("ò", 12);
+            voyelles.Add("[ouo]", 13);
 
-            consonnes.Add(0, "b");
-            consonnes.Add(1, "k");
-            consonnes.Add(2, "d");
-            consonnes.Add(3, "f");
-            consonnes.Add(4, "g");
-            consonnes.Add(5, "h");
-            consonnes.Add(6, "j");
-            consonnes.Add(7, "l");
-            consonnes.Add(8, "m");
-            consonnes.Add(9, "n");
-            consonnes.Add(10, "p");
-            consonnes.Add(11, "r");
-            consonnes.Add(12, "[rr]");
-            consonnes.Add(13, "s");
-            consonnes.Add(14, "t");
-            consonnes.Add(15, "v");
-            consonnes.Add(16, "w");
-            consonnes.Add(17, "y");
-            consonnes.Add(18, "z");
-            consonnes.Add(19, "[ch]");
-            consonnes.Add(20, "[hr]");
-            consonnes.Add(21, "[th]");
-            consonnes.Add(22, "[rw]");
-            consonnes.Add(23, "[gn]");
+            consonnes.Add("b", 0);
+            consonnes.Add("k", 1);
+            consonnes.Add("d", 2);
+            consonnes.Add("f", 3);
+            consonnes.Add("g", 4);
+            consonnes.Add("h", 5);
+            consonnes.Add("j", 6);
+            consonnes.Add("l", 7);
+            consonnes.Add("m", 8);
+            consonnes.Add("n", 9);
+            consonnes.Add("p", 10);
+            consonnes.Add("r", 11);
+            consonnes.Add("[rr]", 12);
+            consonnes.Add("s", 13);
+            consonnes.Add("t", 14);
+            consonnes.Add("v", 15);
+            consonnes.Add("w", 16);
+            consonnes.Add("y", 17);
+            consonnes.Add("z", 18);
+            consonnes.Add("[ch]", 19);
+            consonnes.Add("[hr]", 20);
+            consonnes.Add("[th]", 21);
+            consonnes.Add("[rw]", 22);
+            consonnes.Add("[gn]", 23);
         }
 
         public string default_Generation_Sons(int taille, string wantedword = "", bool before = true, bool tripht = false, bool symb = false)
@@ -197,7 +187,7 @@ namespace RPG_Jahr_words
                 else choix = k.Next(2);
                 if (choix == 0)
                 {
-                    ret += voyelles[k.Next(voyelles.Count)];
+                    ret += voyelles.First(v => v.Value == k.Next(voyelles.Count)).Key;
                     comp_voy++;
                     comp_cons = 0;
                     if (symbol && !sign_flag && k.Next(2) == 0 && i >= 1)
@@ -209,7 +199,7 @@ namespace RPG_Jahr_words
                 else if (choix == 1)
                 {
                     comp_voy = 0;
-                    ret += consonnes[k.Next(consonnes.Count - 1)];
+                    ret += consonnes.First(c => c.Value == k.Next(consonnes.Count - 1));
                     comp_cons++;
                 }
             }
@@ -229,7 +219,7 @@ namespace RPG_Jahr_words
                 else choix = k.Next(2);
                 if (choix == 0)
                 {
-                    ret += voyelles[k.Next(voyelles.Count)];
+                    ret += voyelles.First(v => v.Value == k.Next(voyelles.Count));
                     comp_voy++;
                     comp_cons = 0;
                     if (symbol && !sign_flag && k.Next(2) == 0 && i >= 1)
@@ -241,7 +231,7 @@ namespace RPG_Jahr_words
                 else if (choix == 1)
                 {
                     comp_voy = 0;
-                    ret += consonnes[k.Next(consonnes.Count)];
+                    ret += consonnes.First(c => c.Value == k.Next(consonnes.Count));
                     comp_cons++;
                 }
 
@@ -278,10 +268,10 @@ namespace RPG_Jahr_words
                     confnd = false;
                     voyfnd = false;
 
-                    if (voyfnd = voyelles.ContainsValue(rec))
-                        ret += RPG_voy[voyelles.First(v=>v.Value==rec).Key];
-                    if (confnd = consonnes.ContainsValue(rec))
-                        ret += RPG_cons[consonnes.First(v => v.Value == rec).Key];
+                    if (voyfnd = voyelles.ContainsKey(rec))
+                        ret += RPG_voy.First(v => v.Value == voyelles[rec]);
+                    if (confnd = consonnes.ContainsKey(rec))
+                        ret += RPG_cons.First(v => v.Value == voyelles[rec]);
                     if (signes.Contains(word[i]))
                         ret += word[i];
                 }

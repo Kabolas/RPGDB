@@ -142,7 +142,7 @@
             <local:GenOptions x:Name="Perso"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <TextBlock x:Name="Peruso_Label" Text="{Binding PrintedText}"/>
             </ScrollViewer>
         </Border>
