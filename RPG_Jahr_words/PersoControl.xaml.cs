@@ -46,7 +46,23 @@ namespace RPG_Jahr_words
                 Show = Show.Where(p => p.evolve).ToList();
             else if (Perso_show_notevol.IsChecked == true)
                 Show = Show.Where(p => !p.evolve).ToList();
-            if (ignore) ignore = false;
+            if (Perso_show_Cat.SelectedIndex > 0)
+                Show = Show.Where(p => p.PersoCategorie == Perso_show_Cat.SelectedItem).ToList();
+            switch ((Perso_show_Cat.SelectedItem as PersoCategorie).type)
+            {
+                case "Familier":
+                    if (Perso_show_Pet.SelectedIndex > 0)
+                        Show = Show.Where(p => p.Bestiaire_Beast == (Perso_show_Pet.SelectedItem as Bestiaire_Beast)).ToList();
+                    break;
+                case "Créature":
+                    if (Perso_show_crea.SelectedIndex > 0)
+                        Show = Show.Where(p => p.nom_crea == (Perso_show_crea.SelectedItem as Perso_Creature).nom).ToList();
+                    break;
+                default:
+                    if (Perso_show_Race.SelectedIndex > 0)
+                        Show = Show.Where(p => p.race == (Perso_show_Race.SelectedItem as Races).nom).ToList();
+                    break;
+            }
         }
 
         private List<Persos> Show;
@@ -457,7 +473,7 @@ namespace RPG_Jahr_words
         private void Placeholder(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ComboBox).SelectedItem == null)
-                (sender as ComboBox).SelectedIndex = 0;
+            { (sender as ComboBox).SelectedIndex = 0; ignore = true; }
         }
 
         private void RaceChoice(object sender, SelectionChangedEventArgs e)
@@ -465,7 +481,7 @@ namespace RPG_Jahr_words
             Placeholder(sender, e);
             Races value = (sender as ComboBox).SelectedItem as Races;
             if (DataContext is ViewModel.PersoViewModel)
-                if (value != null && value.Race_Stat_Cap != null)
+                if (value?.Race_Stat_Cap != null)
                 {
                     (DataContext as ViewModel.PersoViewModel).IsPers();
                     Beast_cha.Text = "" + (int)value.Race_Stat_Cap.charisme;
@@ -480,6 +496,9 @@ namespace RPG_Jahr_words
                     Beast_vow.Text = "" + (int)value.Race_Stat_Cap.vitesse_eau;
                     Beast_vog.Text = "" + (int)value.Race_Stat_Cap.vitesse_sol;
                     Beast_voa.Text = "" + (int)value.Race_Stat_Cap.vitesse_vol;
+                    Beast_det.Text = "" + (int)value.Race_Stat_Cap.detection;
+                    Beast_dis.Text = "" + (int)value.Race_Stat_Cap.discretion;
+                    Beast_agr.Text = "" + (int)value.Race_Stat_Cap.agressivité;
                     Masse.Text = "" + value.Race_Specs.masse_moyenne;
                     foreach (Race_Magie master in value.Race_Magie)
                         (DataContext as ViewModel.PersoViewModel).NewPerso.Pers_mago.First(m => m.Magie_type == master.Magie_type).Maitrise = master.maitrise;
@@ -493,7 +512,7 @@ namespace RPG_Jahr_words
             Placeholder(sender, e);
             Bestiaire_Beast value = (sender as ComboBox).SelectedItem as Bestiaire_Beast;
             if (DataContext is ViewModel.PersoViewModel)
-                if (value != null && value.Best_stats != null)
+                if (value?.Best_stats != null)
                 {
                     (DataContext as ViewModel.PersoViewModel).IsPet();
                     Beast_cha.Text = "" + (int)value.Best_stats.charisme;
@@ -508,29 +527,44 @@ namespace RPG_Jahr_words
                     Beast_vow.Text = "" + (int)value.Best_stats.vitesse_eau;
                     Beast_vog.Text = "" + (int)value.Best_stats.vitesse_sol;
                     Beast_voa.Text = "" + (int)value.Best_stats.vitesse_vol;
+                    Beast_det.Text = "" + (int)value.Best_stats.detection;
+                    Beast_dis.Text = "" + (int)value.Best_stats.discretion;
+                    Beast_agr.Text = "" + (int)value.Best_stats.agressivite;
                 }
         }
 
         private void ShowPersos(object sender, RoutedEventArgs e)
         {
-
+            UpdatePersosList(sender, e);
+            foreach (Persos perso in Show)
+            {
+                Peruso_Label.Text += perso.nom + " : " +
+                      "\n\t" + perso.race ?? perso.nom_crea ?? perso.Bestiaire_Beast.nom;
+                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine;
+            }
         }
 
         private void ShowStatsRace(object sender, RoutedEventArgs e)
         {
             foreach (Races race in Bdd.Races)
             {
-                Peruso_Label.Text += race.nom + " : \n\tForce : " + race.Race_Stat_Cap.force + ", Defense : " + race.Race_Stat_Cap.defense + ", Endurance : " + race.Race_Stat_Cap.endurance
-                    + "\n\tPuissance : " + race.Race_Stat_Cap.puissance + ", Resistance : " + race.Race_Stat_Cap.resistance
-                    + "\n\tIntelligence : " + race.Race_Stat_Cap.intelligence + ", Sagesse : " + race.Race_Stat_Cap.sagesse + ", Charisme : " + race.Race_Stat_Cap.charisme +
-                    "\n\tDextérité : " + race.Race_Stat_Cap.dexterité + ", Vitesse au sol : " + race.Race_Stat_Cap.vitesse_sol + ", Vitesse sous l'eau : " + race.Race_Stat_Cap.vitesse_eau + ", Vitesse en vol : " + race.Race_Stat_Cap.vitesse_vol +
-                    "\n\tRespiration Aquatique : " + race.Race_Stat_Cap.respiration_aquatique + ", Détection : " + race.Race_Stat_Cap.detection + ", Discretion : " + race.Race_Stat_Cap.discretion + ", Argressivite : " + race.Race_Stat_Cap.agressivité + ".\n\n";
+                Peruso_Label.Text += race.nom + " : " +
+                      "\n\tForce : " + race.Race_Stat_Cap.force + ", Defense : " + race.Race_Stat_Cap.defense + ", Endurance : " + race.Race_Stat_Cap.endurance +
+                      "\n\tPuissance : " + race.Race_Stat_Cap.puissance + ", Resistance : " + race.Race_Stat_Cap.resistance +
+                      "\n\tIntelligence : " + race.Race_Stat_Cap.intelligence + ", Sagesse : " + race.Race_Stat_Cap.sagesse + ", Charisme : " + race.Race_Stat_Cap.charisme +
+                      "\n\tDextérité : " + race.Race_Stat_Cap.dexterité + ", Vitesse au sol : " + race.Race_Stat_Cap.vitesse_sol + ", Vitesse sous l'eau : " + race.Race_Stat_Cap.vitesse_eau + ", Vitesse en vol : " + race.Race_Stat_Cap.vitesse_vol ?? "Neutre";
+                Peruso_Label.Text += "\n\tRespiration Aquatique : " + race.Race_Stat_Cap.respiration_aquatique + ", Détection : " + race.Race_Stat_Cap.detection + ", Discretion : " + race.Race_Stat_Cap.discretion + ", Argressivite : " + race.Race_Stat_Cap.agressivité + ".\n\n";
             }
         }
 
         private void ShowSpecsPerso(object sender, RoutedEventArgs e)
         {
-
+            foreach (Races race in Bdd.Races)
+                Peruso_Label.Text += race.nom + " : " +
+                    "\n\tTaille moyenne : " + race.Race_Specs.taille_moyenne + "m, Masse moyenne : " + race.Race_Specs.masse_moyenne + "Kg" +
+                    "\n\tEsperance de vie : environ " + race.Race_Specs.esperance_de_vie + " ans." +
+                    "\n\tTranches d'age : " +
+                    "\n\t\tEnfant : " + race.Race_Specs.enfant + "ans, Jeune : " + race.Race_Specs.jeune + " ans, Adulte : " + race.Race_Specs.adulte + " ans, Mûr : " + race.Race_Specs.mur + " ans, Grand Âge : " + race.Race_Specs.grand_age + " ans, Vénérable : " + race.Race_Specs.venerable + " ans, Maximum : environ " + race.Race_Specs.maximum + " ans.\n\n";
         }
     }
 }

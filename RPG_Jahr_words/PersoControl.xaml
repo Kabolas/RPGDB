@@ -53,6 +53,13 @@
                     </Style.Triggers>
                 </Style>
             </ComboBox.Style>
+            <ComboBox.IsEnabled>
+                <MultiBinding Converter="{StaticResource Or}">
+                    <Binding ElementName="Perso_Race" Path="SelectedValue" Converter="{StaticResource StringEquals}" ConverterParameter="Humain"/>
+                    <Binding ElementName="PersCrea" Path="IsEnabled"/>
+                    <Binding ElementName="Perspet" Path="IsEnabled"/>
+                </MultiBinding>
+            </ComboBox.IsEnabled>
             <ComboBox.ItemsSource>
                 <CompositeCollection>
                     <local:Monde_w nom="~Origine~"/>
@@ -99,7 +106,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox x:Name="Perso_show_Pet" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perso_show_Pet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                <ComboBox x:Name="Perso_show_Pet" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perso_show_Pet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Beasts_pets" Source="{Binding Beasts}"/>
                     </ComboBox.Resources>
@@ -110,7 +117,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox x:Name="Perso_show_crea" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=Perso_show_crea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="Placeholder">
+                <ComboBox x:Name="Perso_show_crea" HorizontalAlignment="Left" Margin="9,38,0,0" VerticalAlignment="Top" Width="92" Height="25" DisplayMemberPath="nom" SelectedIndex="0" IsEnabled="{Binding ElementName=Perso_show_Cat, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Créature}" Visibility="{Binding ElementName=Perso_show_crea, Path=IsEnabled, Converter={StaticResource BooltoVisible}}">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Creatures" Source="{Binding Creature}"/>
                     </ComboBox.Resources>

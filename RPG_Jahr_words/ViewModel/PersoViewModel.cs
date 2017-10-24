@@ -68,7 +68,7 @@ namespace RPG_Jahr_words.ViewModel
             Deplacement = Bd.Mode_deplacement.ToList();
             Maniabilities = Bd.Maniabilite.ToList();
             Uses = Bd.Usage.ToList();
-            foreach (Mag_element elem in Bd.Mag_element.Where(e=>!e.element.Contains("Tous")))
+            foreach (Mag_element elem in Bd.Mag_element.Where(e => !e.element.Contains("Tous")))
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
                 NewPerso.Perso_elem.Add(new Perso_elem { Mag_element = elem, Persos = NewPerso, maitrise = 0 });
@@ -172,6 +172,29 @@ namespace RPG_Jahr_words.ViewModel
         }
         private void Saving()
         {
+            if (NewPerso.Races?.nom != "Humain")
+            {
+                NewPerso.Monde_w = null;
+                NewPerso.Bestiaire_Beast = null;
+                NewPerso.nom_crea = null;
+                NewPerso.Id_Beast = null;
+                NewPerso.nom_crea = null;
+                NewPerso.origine = "Magocosme";
+            }
+            else if(NewPerso.Bestiaire_Beast != null)
+            {
+                NewPerso.Races = null;
+                NewPerso.nom_crea = null;
+                NewPerso.race = null;
+                NewPerso.Perso_Creature = null;
+            }
+            else if(NewPerso.Perso_Creature!= null)
+            {
+                NewPerso.Races = null;
+                NewPerso.Id_Beast = null;
+                NewPerso.race = null;
+                NewPerso.Bestiaire_Beast = null;
+            }
             PersoAdded?.Invoke(this, new EventArgs());
         }
 
