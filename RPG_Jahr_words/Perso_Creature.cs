@@ -36,8 +36,8 @@ namespace RPG_Jahr_words
         public virtual ICollection<Creature_mago> Creature_mago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Creature_magoRes> Creature_magoRes { get; set; }
+        public virtual Creature_Stats Creature_Stats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
-        public virtual Creature_Stats Creature_Stats { get; set; }
     }
 }

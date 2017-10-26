@@ -119,9 +119,9 @@ namespace RPG_Jahr_words
         public virtual DbSet<Creature_elemRes> Creature_elemRes { get; set; }
         public virtual DbSet<Creature_mago> Creature_mago { get; set; }
         public virtual DbSet<Creature_magoRes> Creature_magoRes { get; set; }
-        public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Best_stats> Best_stats { get; set; }
         public virtual DbSet<Creature_Stats> Creature_Stats { get; set; }
         public virtual DbSet<Pers_stats> Pers_stats { get; set; }
+        public virtual DbSet<Persos> Persos { get; set; }
     }
 }

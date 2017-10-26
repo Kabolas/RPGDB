@@ -55,8 +55,8 @@ namespace RPG_Jahr_words
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Beast_magoRes> Beast_magoRes { get; set; }
         public virtual Beast_Specs Beast_Specs { get; set; }
+        public virtual Best_stats Best_stats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
-        public virtual Best_stats Best_stats { get; set; }
     }
 }

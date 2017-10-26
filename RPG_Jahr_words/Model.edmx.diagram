@@ -190,8 +190,6 @@
         <EntityTypeShape EntityType="RPGModel.Creature_elemRes" Width="1.5" PointX="24.625" PointY="25.375" />
         <EntityTypeShape EntityType="RPGModel.Creature_mago" Width="1.5" PointX="30.625" PointY="16" />
         <EntityTypeShape EntityType="RPGModel.Creature_magoRes" Width="1.5" PointX="32.625" PointY="23" />
-        <EntityTypeShape EntityType="RPGModel.Persos" Width="1.5" PointX="29.625" PointY="29.75" />
-        <AssociationConnector Association="RPGModel.Fk_perso_spece" />
         <AssociationConnector Association="RPGModel.FK_creat_elem" />
         <AssociationConnector Association="RPGModel.FK_elem_creat" />
         <AssociationConnector Association="RPGModel.FK_creat_elemRes" />
@@ -200,22 +198,24 @@
         <AssociationConnector Association="RPGModel.FK_mago_creat" />
         <AssociationConnector Association="RPGModel.FK_creat_magores" />
         <AssociationConnector Association="RPGModel.FK_magores_creat" />
+        <EntityTypeShape EntityType="RPGModel.Best_stats" Width="1.5" PointX="5.25" PointY="60" />
+        <EntityTypeShape EntityType="RPGModel.Creature_Stats" Width="1.5" PointX="24.625" PointY="35.625" />
+        <EntityTypeShape EntityType="RPGModel.Pers_stats" Width="1.5" PointX="31.875" PointY="30.25" />
+        <AssociationConnector Association="RPGModel.FK_beast_stats" />
+        <AssociationConnector Association="RPGModel.Fk_creatureStats" />
+        <EntityTypeShape EntityType="RPGModel.Persos" Width="1.5" PointX="29.625" PointY="29.75" />
+        <AssociationConnector Association="RPGModel.Fk_perso_spece" />
         <AssociationConnector Association="RPGModel.FK_origin_Pers" />
         <AssociationConnector Association="RPGModel.FK_Perso_carats" />
         <AssociationConnector Association="RPGModel.FK_pers_magie" />
         <AssociationConnector Association="RPGModel.FK_pers_magieres" />
+        <AssociationConnector Association="RPGModel.FK_Pers_stats" />
         <AssociationConnector Association="RPGModel.Fk_perso_crea" />
         <AssociationConnector Association="RPGModel.FK_pers_elem" />
         <AssociationConnector Association="RPGModel.FK_pers_reselem" />
         <AssociationConnector Association="RPGModel.FK_perso_weap" />
         <AssociationConnector Association="RPGModel.FK_cat_Pers" />
         <AssociationConnector Association="RPGModel.Fk_perso_race" />
-        <EntityTypeShape EntityType="RPGModel.Best_stats" Width="1.5" PointX="5.25" PointY="60" />
-        <EntityTypeShape EntityType="RPGModel.Creature_Stats" Width="1.5" PointX="24.625" PointY="35.625" />
-        <EntityTypeShape EntityType="RPGModel.Pers_stats" Width="1.5" PointX="31.875" PointY="30.25" />
-        <AssociationConnector Association="RPGModel.FK_beast_stats" />
-        <AssociationConnector Association="RPGModel.Fk_creatureStats" />
-        <AssociationConnector Association="RPGModel.FK_Pers_stats" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

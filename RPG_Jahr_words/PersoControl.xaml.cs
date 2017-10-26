@@ -540,7 +540,7 @@ namespace RPG_Jahr_words
             {
                 Peruso_Label.Text += perso.nom + " : " +
                       "\n\t" + perso.race ?? perso.nom_crea ?? perso.Bestiaire_Beast.nom;
-                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine;
+                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine + ", mesurant "+perso.Pers_carac.taille+"m";
             }
         }
 
