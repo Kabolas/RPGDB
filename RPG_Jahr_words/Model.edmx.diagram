@@ -216,6 +216,7 @@
         <AssociationConnector Association="RPGModel.FK_perso_weap" />
         <AssociationConnector Association="RPGModel.FK_cat_Pers" />
         <AssociationConnector Association="RPGModel.Fk_perso_race" />
+        <EntityTypeShape EntityType="RPGModel.Condition" Width="1.5" PointX="12.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

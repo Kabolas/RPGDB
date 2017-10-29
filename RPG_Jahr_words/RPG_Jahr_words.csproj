@@ -207,6 +207,9 @@
     <Compile Include="Comportements.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Condition.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="confirm.xaml.cs">
       <DependentUpon>confirm.xaml</DependentUpon>
     </Compile>

@@ -500,6 +500,7 @@ namespace RPG_Jahr_words
                     Beast_dis.Text = "" + (int)value.Race_Stat_Cap.discretion;
                     Beast_agr.Text = "" + (int)value.Race_Stat_Cap.agressivité;
                     Masse.Text = "" + value.Race_Specs.masse_moyenne;
+                    Taille.Text = "" + value.Race_Specs.taille_moyenne;
                     foreach (Race_Magie master in value.Race_Magie)
                         (DataContext as ViewModel.PersoViewModel).NewPerso.Pers_mago.First(m => m.Magie_type == master.Magie_type).Maitrise = master.maitrise;
                     foreach (Race_ElemMaster master in value.Race_ElemMaster)

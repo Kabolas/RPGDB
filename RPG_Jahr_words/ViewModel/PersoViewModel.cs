@@ -45,11 +45,12 @@ namespace RPG_Jahr_words.ViewModel
         private List<Maniabilite> _maniabilities;
         private List<Usage> _uses;
         private List<Trais> _selectedTrais = new List<Trais>();
+        private List<Condition> _conditions;
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
         private RelayCommand _newTrais, _newCat, _newCreature, _save;
-
+        private RelayCommand _newCondition;
         private string _printedText;
         public PersoViewModel(RPGEntities15 entities15)
         {
@@ -146,6 +147,26 @@ namespace RPG_Jahr_words.ViewModel
         public Pers_carac SaveCaracs { get => _saveCaracs; set { _saveCaracs = value; RaisePropertyChanged(); } }
 
         public List<Trais> SelectedTrais { get => _selectedTrais; set { _selectedTrais = value; RaisePropertyChanged(); } }
+
+        public RelayCommand NewCondition { get => _newCondition??( _newCondition = new RelayCommand(MakeCondition)); }
+        public List<Condition> Conditions { get => _conditions; set { _conditions = value; RaisePropertyChanged(); } }
+
+        private void MakeCondition()
+        {
+            Add2Chps fntre = new Add2Chps("Ajouter une créature.\nLe nom des créatures \ndoit commencer par une majuscule", false) {
+            Title = "Nouvelle condition de loot"};
+            if (fntre.Validate && fntre.Maj)
+                try
+                {
+                    Bd.Condition.Add(new Condition { facon = fntre.Ch1, description = fntre.Ch2 });
+                    Bd.SaveChanges();
+                    PrintedText += "Nouvelle condition ajoutée.\n";
+                    Conditions = Bd.Condition.ToList();
+                }
+                catch { PrintedText += "Nouvelle condition non ajouée.\n"; }
+            else if (!fntre.Maj)
+                PrintedText += "Les conditions doivent commencer par une majuscule.\n";
+        }
 
         public event EventHandler PersoAdded;
 

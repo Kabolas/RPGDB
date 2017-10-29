@@ -32,6 +32,8 @@ namespace RPG_Jahr_words
         public int vitesse_sol { get; set; }
         public int vitesse_eau { get; set; }
         public Nullable<int> vitesse_vol { get; set; }
+        public int Endurance { get =>pv/10; set { pv = value * 10; stamina = 12 * value; } }
+        public int Puissance { get => puissance; set { puissance = value; magie_fuel = 10 * value; } }
     
         public virtual Persos Persos { get; set; }
     }

@@ -339,6 +339,13 @@
           <Property Name="behaviour" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="descr" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="facon" />
+          </Key>
+          <Property Name="facon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="Conso_type">
           <Key>
             <PropertyRef Name="type" />
@@ -2384,6 +2391,7 @@
           <EntitySet Name="Combo" EntityType="Self.Combo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboCat" EntityType="Self.ComboCat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comportements" EntityType="Self.Comportements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conso_type" EntityType="Self.Conso_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Consommables" EntityType="Self.Consommables" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conteneurs" EntityType="Self.Conteneurs" Schema="dbo" store:Type="Tables" />
@@ -4136,6 +4144,7 @@
             <End Role="Races" EntitySet="Races" />
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
+          <EntitySet Name="Condition" EntityType="RPGModel.Condition" />
           </EntityContainer>
         <EntityType Name="Tailles">
           <Key>
@@ -6031,6 +6040,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="facon" />
+          </Key>
+          <Property Name="facon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7122,6 +7138,14 @@
                 <ScalarProperty Name="race" ColumnName="race" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Condition">
+            <EntityTypeMapping TypeName="RPGModel.Condition">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="facon" ColumnName="facon" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -33,10 +33,12 @@ namespace RPG_Jahr_words
         private int _chance;
         private Items _loot;
         private double _quantite;
+        private Condition _condition;
 
         public double Quantite { get => _quantite; set => _quantite = value; }
         public Items Loot { get => _loot; set => _loot = value; }
         public int Chance { get => _chance; set => _chance = value; }
+        public Condition Condition { get => _condition; set => _condition = value; }
     }
 
     public class RecipeResult
