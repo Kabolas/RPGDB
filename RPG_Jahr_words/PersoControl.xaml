@@ -22,6 +22,7 @@
         <CollectionViewSource x:Key="Origine" Source="{Binding Origines}"/>
         <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
         <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
+        <CollectionViewSource x:Key="Conds" Source="{Binding Conditions}"/>
     </UserControl.Resources>
     <Grid>
         <TextBox x:Name="Perso_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.nom, Mode=TwoWay}" VerticalAlignment="Top" Width="106"/>
@@ -58,6 +59,8 @@
                     <Binding ElementName="Perso_Race" Path="SelectedValue" Converter="{StaticResource StringEquals}" ConverterParameter="Humain"/>
                     <Binding ElementName="PersCrea" Path="IsEnabled"/>
                     <Binding ElementName="Perspet" Path="IsEnabled"/>
+                    <Binding ElementName="PersPet" Path="SelectedItem.origine" Converter="{StaticResource StringEquals}" ConverterParameter="Originel"/>
+                    <Binding ElementName="PersPet" Path="SelectedItem.origine" Converter="{StaticResource StringEquals}" ConverterParameter="Tous"/>
                 </MultiBinding>
             </ComboBox.IsEnabled>
             <ComboBox.ItemsSource>
@@ -622,7 +625,7 @@
                         <System:String>Communs</System:String>
                         <System:String>Conteneur</System:String>
                     </ComboBox>
-                    <ListView x:Name="PersoLoot" Height="133" Margin="186,5,5,0" VerticalAlignment="Top" ItemsSource="{Binding Loots}">
+                    <ListView x:Name="PersoLoot" Height="133" Margin="231,5,5,0" VerticalAlignment="Top" ItemsSource="{Binding Loots}" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Loot.Id}"/>
@@ -645,14 +648,14 @@
                                 <GridViewColumn Width="Auto" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ComboBox Width="25" SelectedItem="{Binding Condition}" ItemsSource="{Binding Conditions}" SelectedIndex="0"/>
+                                            <ComboBox Width="50" SelectedItem="{Binding Condition, Mode=OneWayToSource}" SelectedIndex="0" ItemsSource="{Binding Source={StaticResource Conds}}" DisplayMemberPath="facon"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ListLoot" Margin="5,32,323,5" ItemsSource="{Binding LootList}" SelectionMode="Multiple">
+                    <ListView x:Name="ListLoot" Margin="80,32,248,5" ItemsSource="{Binding LootList}" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -661,8 +664,12 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="156,37,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-                    <Button Content="✗" HorizontalAlignment="Left" Margin="156,81,0,37" Width="25" Click="DelLoot" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="150,5,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="201,5,0,113" Width="25" Click="DelLoot" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
+                    <ComboBox x:Name="CondList" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Conditions}" DisplayMemberPath="facon" SelectedIndex="0"/>
+                    <ScrollViewer HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="70" Height="79" VerticalScrollBarVisibility="Auto">
+                        <TextBlock TextWrapping="WrapWithOverflow" FontSize="9.5" Text="{Binding ElementName=CondList, Path=SelectedItem.description, StringFormat=Description: {0}}"/>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="Trais">
@@ -766,6 +773,6 @@
         <TextBlock HorizontalAlignment="Left" Margin="133,40,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,86,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse" VerticalAlignment="Top"/>
-        <Button Content=" Condition " HorizontalAlignment="Left" Margin="301,181,0,0" VerticalAlignment="Top"/>
+        <Button Content=" Condition " Command="{Binding NewCondition}" HorizontalAlignment="Left" Margin="313,181,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

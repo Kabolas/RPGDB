@@ -484,6 +484,8 @@ namespace RPG_Jahr_words
                 if (value?.Race_Stat_Cap != null)
                 {
                     (DataContext as ViewModel.PersoViewModel).IsPers();
+                    if (Perso_Race.SelectedValue as string != "Humain")
+                        Perso_Origin.SelectedValue = "Magocosme";
                     Beast_cha.Text = "" + (int)value.Race_Stat_Cap.charisme;
                     Beast_def.Text = "" + (int)value.Race_Stat_Cap.defense;
                     Beast_dex.Text = "" + (int)value.Race_Stat_Cap.dexterité;
@@ -516,6 +518,8 @@ namespace RPG_Jahr_words
                 if (value?.Best_stats != null)
                 {
                     (DataContext as ViewModel.PersoViewModel).IsPet();
+                    if ((Perspet.SelectedItem as Bestiaire_Beast).origine == "Technocosme" || (Perspet.SelectedItem as Bestiaire_Beast).origine == "Magocosme")
+                        Perso_Origin.SelectedValue = (Perspet.SelectedItem as Bestiaire_Beast).origine;
                     Beast_cha.Text = "" + (int)value.Best_stats.charisme;
                     Beast_def.Text = "" + (int)value.Best_stats.defense;
                     Beast_dex.Text = "" + (int)value.Best_stats.dexterite;
@@ -541,7 +545,8 @@ namespace RPG_Jahr_words
             {
                 Peruso_Label.Text += perso.nom + " : " +
                       "\n\t" + perso.race ?? perso.nom_crea ?? perso.Bestiaire_Beast.nom;
-                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine + ", mesurant "+perso.Pers_carac.taille+"m";
+                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine + ", mesure "+perso.Pers_carac.taille+"m, pèese "+perso.Pers_carac.masse+"kg\n" +
+                    ""+perso.background;
             }
         }
 

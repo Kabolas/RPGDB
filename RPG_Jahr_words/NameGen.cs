@@ -14,6 +14,7 @@ namespace RPG_Jahr_words
 
         public int Nombre { get => _nombre; set => _nombre = value; }
         public Items Stuff { get => _stuff; set => _stuff = value; }
+        public override string ToString() { return Stuff.nom + "|" + Stuff.Id + "~" + Nombre; }
     }
     public class RecipeItem
     {
@@ -39,6 +40,7 @@ namespace RPG_Jahr_words
         public Items Loot { get => _loot; set => _loot = value; }
         public int Chance { get => _chance; set => _chance = value; }
         public Condition Condition { get => _condition; set => _condition = value; }
+        public override string ToString() { return Loot.nom + "|" + Loot.Id + "~" + Chance + "%~" + Condition.facon + "=>" + Quantite; }
     }
 
     public class RecipeResult

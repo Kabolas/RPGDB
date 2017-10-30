@@ -59,7 +59,7 @@ namespace RPG_Jahr_words
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             using (bdd = new RPGEntities15())
-                if (value is string && bdd.Monde_w.ToList().Find(m => m.nom == (string)value) != null)
+                if (bdd.Monde_w.Any(m => m.nom == (string)value))
                     return (string)value != "Technocosme";
                 else return false;
         }
@@ -75,7 +75,7 @@ namespace RPG_Jahr_words
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             using (bdd = new RPGEntities15())
-                if (value is string && bdd.Monde_w.ToList().Find(m => m.nom == (string)value) != null)
+                if (bdd.Monde_w.Any(m => m.nom == (string)value))
                     return (string)value != "Technocosme" ? Visibility.Visible : Visibility.Hidden;
                 else return Visibility.Hidden;
         }
@@ -91,7 +91,7 @@ namespace RPG_Jahr_words
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             using (bdd = new RPGEntities15())
-                if (value is string && bdd.Monde_w.ToList().Find(m => m.nom == (string)value) != null)
+                if (bdd.Monde_w.Any(m => m.nom == (string)value))
                     return (string)value != "Magocosme";
                 else return false;
         }
@@ -107,7 +107,7 @@ namespace RPG_Jahr_words
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             using (bdd = new RPGEntities15())
-                if (value is string && bdd.Monde_w.ToList().Find(m => m.nom == (string)value) != null)
+                if (bdd.Monde_w.Any(m => m.nom == (string)value))
                     return (string)value != "Magocosme" ? Visibility.Visible : Visibility.Hidden;
                 else return Visibility.Hidden;
         }

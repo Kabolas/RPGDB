@@ -55,6 +55,7 @@ namespace RPG_Jahr_words.ViewModel
         public PersoViewModel(RPGEntities15 entities15)
         {
             Bd = entities15;
+            Conditions = Bd.Condition.ToList();
             Categoriescombo = Bd.ComboCat.ToList();
             NewPerso.Pers_stats = SaveStats;
             SaveStats.Persos = NewPerso;
@@ -148,13 +149,16 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Trais> SelectedTrais { get => _selectedTrais; set { _selectedTrais = value; RaisePropertyChanged(); } }
 
-        public RelayCommand NewCondition { get => _newCondition??( _newCondition = new RelayCommand(MakeCondition)); }
+        public RelayCommand NewCondition { get => _newCondition ?? (_newCondition = new RelayCommand(MakeCondition)); }
         public List<Condition> Conditions { get => _conditions; set { _conditions = value; RaisePropertyChanged(); } }
 
         private void MakeCondition()
         {
-            Add2Chps fntre = new Add2Chps("Ajouter une créature.\nLe nom des créatures \ndoit commencer par une majuscule", false) {
-            Title = "Nouvelle condition de loot"};
+            Add2Chps fntre = new Add2Chps("Ajouter une créature.\nLe nom des créatures \ndoit commencer par une majuscule", false)
+            {
+                Title = "Nouvelle condition de loot"
+            };
+            fntre.ShowDialog();
             if (fntre.Validate && fntre.Maj)
                 try
                 {
@@ -176,6 +180,8 @@ namespace RPG_Jahr_words.ViewModel
             NewPerso.Id_Beast = null;
             NewPerso.nom_crea = null;
             NewPerso.Perso_Creature = null;
+            if (NewPerso.nom != "Humain")
+                NewPerso.origine = "Magocosme";
         }
         public void IsCrea()
         {
@@ -193,30 +199,21 @@ namespace RPG_Jahr_words.ViewModel
         }
         private void Saving()
         {
-            if (NewPerso.Races?.nom != "Humain")
+            if (NewPerso.Races != null)
+                IsPers();
+            else if (NewPerso.Bestiaire_Beast != null)
+                IsPet();
+            else if (NewPerso.Perso_Creature != null)
+                IsCrea();
+            try
             {
-                NewPerso.Monde_w = null;
-                NewPerso.Bestiaire_Beast = null;
-                NewPerso.nom_crea = null;
-                NewPerso.Id_Beast = null;
-                NewPerso.nom_crea = null;
-                NewPerso.origine = "Magocosme";
+                PrintedText = "Création du personnage.\n";
+                PersoAdded?.Invoke(this, new EventArgs());
             }
-            else if(NewPerso.Bestiaire_Beast != null)
+            catch
             {
-                NewPerso.Races = null;
-                NewPerso.nom_crea = null;
-                NewPerso.race = null;
-                NewPerso.Perso_Creature = null;
+
             }
-            else if(NewPerso.Perso_Creature!= null)
-            {
-                NewPerso.Races = null;
-                NewPerso.Id_Beast = null;
-                NewPerso.race = null;
-                NewPerso.Bestiaire_Beast = null;
-            }
-            PersoAdded?.Invoke(this, new EventArgs());
         }
 
         private void MakeCreature()

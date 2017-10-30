@@ -79,13 +79,12 @@ namespace RPG_Jahr_words.ViewModel
                         SaveCombo.magie_use = schools;
                     }
                     else
-                    {
                         SaveCombo.magie_use = SaveCombo.weapons = null;
-                    }
                     PrintedText += "Sauvegarde du combo.\n";
                     Bd.Combo.Add(SaveCombo);
                     Bd.SaveChanges();
                     PrintedText += "Combo " + SaveCombo.nom + " sauvegardé.\n";
+                    SpellAdded?.Invoke(this, new EventArgs());
                     SaveCombo = new Combo();
                     SelectedWeapons = new List<Weapon_type>();
                     SelectedEcole = new List<Magie_type>();
@@ -172,12 +171,15 @@ namespace RPG_Jahr_words.ViewModel
         public List<Magie_type> SelectedEcole { get => _selectedEcole; set { _selectedEcole = value; RaisePropertyChanged(); } }
         public bool FromOri { get => _fromOri; set { _fromOri = value; RaisePropertyChanged(); } }
         public bool FromMago { get => _fromMago; set { _fromMago = value; RaisePropertyChanged(); } }
+        public event EventHandler SpellAdded;
 
         private void CreateCible()
         {
             AddSmthng fntre = new AddSmthng("Entrer votre nouveau type de ciblage .\n"
-                + "Les noms des types de ciblage doivent commencer par des Majuscules.\n");
-            fntre.Title = "Nouveau Type de ciblage";
+                + "Les noms des types de ciblage doivent commencer par des Majuscules.\n")
+            {
+                Title = "Nouveau Type de ciblage"
+            };
             fntre.ShowDialog();
             if (fntre.Validate)
                 if (fntre.Maj)
