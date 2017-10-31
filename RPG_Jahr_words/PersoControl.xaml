@@ -772,7 +772,7 @@
         <TextBox x:Name="Masse" HorizontalAlignment="Left" Height="23" Margin="133,148,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.masse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,40,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="133,86,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse (kg)" VerticalAlignment="Top"/>
         <Button Content=" Condition " Command="{Binding NewCondition}" HorizontalAlignment="Left" Margin="313,181,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

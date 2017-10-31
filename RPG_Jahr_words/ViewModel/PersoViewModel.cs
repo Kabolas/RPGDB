@@ -90,17 +90,11 @@ namespace RPG_Jahr_words.ViewModel
             Cats = Bd.PersoCategorie.ToList();
             Origines = Bd.Monde_w.Where(m => m.nom != "Tous").ToList();
             SaveCaracs.Persos = NewPerso;
+            NewPerso.Pers_carac = SaveCaracs;
         }
 
         public RPGEntities15 Bd { get => _bd; set { _bd = value; RaisePropertyChanged(); } }
-        public Persos NewPerso
-        {
-            get => _newPerso; set
-            {
-                _newPerso = value;
-                RaisePropertyChanged();
-            }
-        }
+        public Persos NewPerso { get => _newPerso; set { _newPerso = value; RaisePropertyChanged(); } }
         public Pers_stats SaveStats { get => _saveStats; set { _saveStats = value; RaisePropertyChanged(); } }
         public List<Trais> Trais { get => _trais; set { _trais = value; RaisePropertyChanged(); } }
 
@@ -199,20 +193,53 @@ namespace RPG_Jahr_words.ViewModel
         }
         private void Saving()
         {
-            if (NewPerso.Races != null)
-                IsPers();
-            else if (NewPerso.Bestiaire_Beast != null)
-                IsPet();
-            else if (NewPerso.Perso_Creature != null)
-                IsCrea();
+            //if (NewPerso.Races != null)
+            //    IsPers();
+            //else if (NewPerso.Bestiaire_Beast != null)
+            //    IsPet();
+            //else if (NewPerso.Perso_Creature != null)
+            //    IsCrea();
             try
             {
-                PrintedText = "Création du personnage.\n";
+                PrintedText += "Création du personnage.\n";
+                PrintedText += "Personnage créé.\n";
+                PrintedText += "Sauvegarde du personnage.\n";
+                Bd.Persos.Add(NewPerso);
+                Bd.Pers_stats.Add(SaveStats);
+                Bd.Pers_carac.Add(SaveCaracs);
+                foreach (Perso_weap_Master master in NewPerso.Perso_weap_Master)
+                    Bd.Perso_weap_Master.Add(master);
+                foreach (Perso_elem master in NewPerso.Perso_elem)
+                    Bd.Perso_elem.Add(master);
+                foreach (Perso_elemRes master in NewPerso.Perso_elemRes)
+                    Bd.Perso_elemRes.Add(master);
+                foreach (Pers_mago master in NewPerso.Pers_mago)
+                    Bd.Pers_mago.Add(master);
+                foreach (Pers_magoRes master in NewPerso.Pers_magoRes)
+                    Bd.Pers_magoRes.Add(master);
+                Bd.SaveChanges();
+                PrintedText += "Personnage Sauvegardé.\n";
+                NewPerso = new Persos();
+                SaveCaracs = new Pers_carac { Persos = NewPerso };
+                SaveStats = new Pers_stats { Persos = NewPerso };
+                foreach (Mag_element elem in Bd.Mag_element.Where(e => !e.element.Contains("Tous")))
+                {
+                    NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });
+                    NewPerso.Perso_elem.Add(new Perso_elem { Mag_element = elem, Persos = NewPerso, maitrise = 0 });
+                }
+                foreach (Magie_type mag in Bd.Magie_type)
+                {
+                    NewPerso.Pers_magoRes.Add(new Pers_magoRes { Magie_type = mag, Persos = NewPerso, maitrise = 0 });
+                    NewPerso.Pers_mago.Add(new Pers_mago { Magie_type = mag, Persos = NewPerso, maitrise = 0 });
+                }
+                foreach (Weapon_type weapon in Bd.Weapon_type)
+                    NewPerso.Perso_weap_Master.Add(new Perso_weap_Master { Persos = NewPerso, Weapon_type = weapon, maitrise = 0 });
+
                 PersoAdded?.Invoke(this, new EventArgs());
             }
             catch
             {
-
+                PrintedText += "Personnage non Sauvegardé.\n";
             }
         }
 
