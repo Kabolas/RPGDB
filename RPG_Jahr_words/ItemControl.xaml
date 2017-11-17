@@ -1089,7 +1089,7 @@
                 <TextBox x:Name="Item_prix_mag" HorizontalAlignment="Left" Height="23" Margin="172,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding SelectedItem, Converter={StaticResource MagoToBool}, ElementName=Origin}" Visibility="{Binding SelectedItem, Converter={StaticResource MagoToVisible}, ElementName=Origin}">
                     <Binding Path="Saving.prix_mago" Mode="TwoWay"/>
                 </TextBox>
-                <TextBox x:Name="Item_prix_tech" HorizontalAlignment="Left" Height="23" Margin="172,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding SelectedITem, Converter={StaticResource TechToBool}, ElementName=Origin}" Visibility="{Binding SelectedItem, Converter={StaticResource TechToVisible}, ElementName=Origin}">
+                <TextBox x:Name="Item_prix_tech" HorizontalAlignment="Left" Height="23" Margin="172,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" IsEnabled="{Binding SelectedItem, Converter={StaticResource TechToBool}, ElementName=Origin}" Visibility="{Binding SelectedItem, Converter={StaticResource TechToVisible}, ElementName=Origin}">
                     <Binding Path="Saving.prix_tech" Mode="TwoWay"/>
                 </TextBox>
                 <TextBox x:Name="Item_masse" HorizontalAlignment="Left" Height="23" Margin="172,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" >

@@ -255,6 +255,9 @@
     <Compile Include="ElemResArmorAssoc.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="EnchantControl.xaml.cs">
+      <DependentUpon>EnchantControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enchantements.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -263,6 +266,9 @@
     </Compile>
     <Compile Include="Etat.cs">
       <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GodControl.xaml.cs">
+      <DependentUpon>GodControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Idiome.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -468,7 +474,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EnchantControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GenOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GodControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

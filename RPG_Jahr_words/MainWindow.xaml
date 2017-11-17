@@ -287,16 +287,18 @@
                 <CheckBox x:Name="Stuffable" Content="Equipable" HorizontalAlignment="Left" Margin="125,68,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
-        <TabItem x:Name="Enchantements" Header="Enchantements"/>
+        <TabItem x:Name="Enchantements" Header="Enchantements">
+            <local:EnchantControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+        </TabItem>
         <TabItem x:Name="Sorts" Header="Sorts">
             <local:SpellControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Monde" Header="Monde">
-            <Grid>
                 <local:WorldControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
-            </Grid>
         </TabItem>
-        <TabItem x:Name="Panth" Header="Panthéon"/>
+        <TabItem x:Name="Panth" Header="Panthéon">
+            <local:GodControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+        </TabItem>
         <TabItem x:Name="Dico_Jahr" Header="Dico Jahr">
             <local:JahrWordsControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
