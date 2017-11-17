@@ -29,7 +29,7 @@ namespace RPG_Jahr_words
         public static readonly DependencyProperty GenProperty =
             DependencyProperty.Register("Gen",
                 typeof(NameGen),
-                typeof(PersoControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+                typeof(EnchantControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public RPGEntities15 Bdd
         {
@@ -39,7 +39,7 @@ namespace RPG_Jahr_words
         public static readonly DependencyProperty BddProperty =
             DependencyProperty.Register("Bdd",
                 typeof(RPGEntities15),
-                typeof(PersoControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
+                typeof(EnchantControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
 
         private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
