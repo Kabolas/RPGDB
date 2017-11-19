@@ -12,8 +12,18 @@ namespace RPG_Jahr_words
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class Enchant_Type
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Enchant_Type()
+        {
+            this.Enchantements = new HashSet<Enchantements>();
+        }
+    
+        public string type { get; set; }
+        public string descr { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Enchantements> Enchantements { get; set; }
     }
 }

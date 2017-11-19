@@ -45,7 +45,6 @@ namespace RPG_Jahr_words
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bestiaire_Beast> Bestiaire_Beast1 { get; set; }
         public virtual Bestiaire_Beast Bestiaire_Beast2 { get; set; }
-        public virtual Monde_w Monde_w { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Beast_elem> Beast_elem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,5 +57,6 @@ namespace RPG_Jahr_words
         public virtual Best_stats Best_stats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Persos> Persos { get; set; }
+        public virtual Monde_w Monde_w { get; set; }
     }
 }

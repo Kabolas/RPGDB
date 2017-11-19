@@ -21,6 +21,7 @@ namespace RPG_Jahr_words
         }
     
         public string effet { get; set; }
+        public string descr { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Enchantements> Enchantements { get; set; }

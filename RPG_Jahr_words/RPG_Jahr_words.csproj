@@ -264,6 +264,9 @@
     <Compile Include="Enchant_Effets.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enchant_Type.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Etat.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -414,6 +417,9 @@
       <DependentUpon>SpellControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stat.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Table.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Tailles.cs">

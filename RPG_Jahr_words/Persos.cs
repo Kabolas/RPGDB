@@ -37,7 +37,6 @@ namespace RPG_Jahr_words
         public int lvl { get; set; }
     
         public virtual Bestiaire_Beast Bestiaire_Beast { get; set; }
-        public virtual Monde_w Monde_w { get; set; }
         public virtual Pers_carac Pers_carac { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pers_mago> Pers_mago { get; set; }
@@ -53,5 +52,6 @@ namespace RPG_Jahr_words
         public virtual ICollection<Perso_weap_Master> Perso_weap_Master { get; set; }
         public virtual PersoCategorie PersoCategorie { get; set; }
         public virtual Races Races { get; set; }
+        public virtual Monde_w Monde_w { get; set; }
     }
 }

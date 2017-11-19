@@ -17,9 +17,21 @@ namespace RPG_Jahr_words
         public int Id { get; set; }
         public string nom { get; set; }
         public string effet { get; set; }
-        public int puissance { get; set; }
-        public string element { get; set; }
+        public string type { get; set; }
+        public bool power_on_craft { get; set; }
+        public bool unlockable { get; set; }
+        public bool expert { get; set; }
+        public bool lengendary { get; set; }
+        public string origine { get; set; }
+        public Nullable<decimal> prix_pose { get; set; }
+        public Nullable<decimal> prix_aj { get; set; }
+        public Nullable<int> puissance { get; set; }
+        public Nullable<int> rapport { get; set; }
+        public int niveau { get; set; }
+        public string descr { get; set; }
     
         public virtual Enchant_Effets Enchant_Effets { get; set; }
+        public virtual Enchant_Type Enchant_Type { get; set; }
+        public virtual Monde_w Monde_w { get; set; }
     }
 }

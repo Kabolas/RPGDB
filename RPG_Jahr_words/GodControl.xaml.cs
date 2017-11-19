@@ -43,7 +43,6 @@ namespace RPG_Jahr_words
 
         private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         public GodControl()
