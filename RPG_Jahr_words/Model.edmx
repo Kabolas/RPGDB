@@ -497,6 +497,14 @@
             <PropertyRef Name="effet" />
           </Key>
           <Property Name="effet" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="descr" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Enchant_Type">
+          <Key>
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="descr" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Enchantements">
           <Key>
@@ -505,8 +513,18 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="effet" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="puissance" Type="int" Nullable="false" />
-          <Property Name="element" Type="text" />
+          <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="power_on_craft" Type="bit" Nullable="false" />
+          <Property Name="unlockable" Type="bit" Nullable="false" />
+          <Property Name="expert" Type="bit" Nullable="false" />
+          <Property Name="lengendary" Type="bit" Nullable="false" />
+          <Property Name="origine" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="prix_pose" Type="money" />
+          <Property Name="prix_aj" Type="money" />
+          <Property Name="puissance" Type="int" />
+          <Property Name="rapport" Type="int" />
+          <Property Name="niveau" Type="int" Nullable="false" />
+          <Property Name="descr" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Etat">
           <Key>
@@ -913,6 +931,12 @@
             <PropertyRef Name="valeur" />
           </Key>
           <Property Name="valeur" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Tailles">
           <Key>
@@ -1635,6 +1659,30 @@
             </Principal>
             <Dependent Role="Enchantements">
               <PropertyRef Name="effet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enchant_origin">
+          <End Role="Monde_w" Type="Self.Monde_w" Multiplicity="1" />
+          <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Enchantements">
+              <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enchant_type">
+          <End Role="Enchant_Type" Type="Self.Enchant_Type" Multiplicity="1" />
+          <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enchant_Type">
+              <PropertyRef Name="type" />
+            </Principal>
+            <Dependent Role="Enchantements">
+              <PropertyRef Name="type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2407,6 +2455,7 @@
           <EntitySet Name="Effets" EntityType="Self.Effets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ElemResArmorAssoc" EntityType="Self.ElemResArmorAssoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Enchant_Effets" EntityType="Self.Enchant_Effets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enchant_Type" EntityType="Self.Enchant_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Enchantements" EntityType="Self.Enchantements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Etat" EntityType="Self.Etat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Idiome" EntityType="Self.Idiome" Schema="dbo" store:Type="Tables" />
@@ -2448,6 +2497,7 @@
           <EntitySet Name="Reload_cat" EntityType="Self.Reload_cat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sorts" EntityType="Self.Sorts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stat" EntityType="Self.Stat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tailles" EntityType="Self.Tailles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trais" EntityType="Self.Trais" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
@@ -2668,6 +2718,14 @@
           </AssociationSet>
           <AssociationSet Name="FK_enchant_efect" Association="Self.FK_enchant_efect">
             <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
+            <End Role="Enchantements" EntitySet="Enchantements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enchant_origin" Association="Self.FK_enchant_origin">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Enchantements" EntitySet="Enchantements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enchant_type" Association="Self.FK_enchant_type">
+            <End Role="Enchant_Type" EntitySet="Enchant_Type" />
             <End Role="Enchantements" EntitySet="Enchantements" />
           </AssociationSet>
           <AssociationSet Name="FK_evolution" Association="Self.FK_evolution">
@@ -3099,8 +3157,8 @@
           <Property Name="identification" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monde" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="biomes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Monde_w" Relationship="Self.FK_Continent_Monde" FromRole="Continent" ToRole="Monde_w" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Region_Continent" FromRole="Continent" ToRole="Region" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_Continent_Monde" FromRole="Continent" ToRole="Monde_w" />
         </EntityType>
         <EntityType Name="Crowd_control">
           <Key>
@@ -3130,18 +3188,8 @@
             <PropertyRef Name="effet" />
           </Key>
           <Property Name="effet" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Enchantements" Relationship="Self.FK_enchant_efect" FromRole="Enchant_Effets" ToRole="Enchantements" />
-        </EntityType>
-        <EntityType Name="Enchantements">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="nom" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="effet" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="puissance" Type="Int32" Nullable="false" />
-          <Property Name="element" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Enchant_Effets" Relationship="Self.FK_enchant_efect" FromRole="Enchantements" ToRole="Enchant_Effets" />
+          <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchant_Effets" ToRole="Enchantements" />
         </EntityType>
         <EntityType Name="Etat">
           <Key>
@@ -3226,16 +3274,6 @@
             <PropertyRef Name="mode" />
           </Key>
           <Property Name="mode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Monde_w">
-          <Key>
-            <PropertyRef Name="nom" />
-          </Key>
-          <Property Name="nom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Continent" Relationship="Self.FK_Continent_Monde" FromRole="Monde_w" ToRole="Continent" />
-          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_origin_Beast" FromRole="Monde_w" ToRole="Bestiaire_Beast" />
-          <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_Origin" FromRole="Monde_w" ToRole="Items" />
-          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_origin_Pers" FromRole="Monde_w" ToRole="Persos" />
         </EntityType>
         <EntityType Name="Munition">
           <Key>
@@ -3473,18 +3511,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Continent_Monde">
-          <End Role="Monde_w" Type="Self.Monde_w" Multiplicity="1" />
-          <End Role="Continent" Type="Self.Continent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Monde_w">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Continent">
-              <PropertyRef Name="monde" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Region_Continent">
           <End Role="Continent" Type="Self.Continent" Multiplicity="1" />
           <End Role="Region" Type="Self.Region" Multiplicity="*" />
@@ -3494,18 +3520,6 @@
             </Principal>
             <Dependent Role="Region">
               <PropertyRef Name="continent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_enchant_efect">
-          <End Role="Enchant_Effets" Type="Self.Enchant_Effets" Multiplicity="1" />
-          <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Enchant_Effets">
-              <PropertyRef Name="effet" />
-            </Principal>
-            <Dependent Role="Enchantements">
-              <PropertyRef Name="effet" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3617,7 +3631,6 @@
           <EntitySet Name="Degat_type" EntityType="Self.Degat_type" />
           <EntitySet Name="Effets" EntityType="Self.Effets" />
           <EntitySet Name="Enchant_Effets" EntityType="Self.Enchant_Effets" />
-          <EntitySet Name="Enchantements" EntityType="Self.Enchantements" />
           <EntitySet Name="Etat" EntityType="Self.Etat" />
           <EntitySet Name="Loot" EntityType="Self.Loot" />
           <EntitySet Name="Mag_element" EntityType="Self.Mag_element" />
@@ -3626,7 +3639,6 @@
           <EntitySet Name="Minerai_type" EntityType="Self.Minerai_type" />
           <EntitySet Name="Mineraux" EntityType="Self.Mineraux" />
           <EntitySet Name="Mode_deplacement" EntityType="Self.Mode_deplacement" />
-          <EntitySet Name="Monde_w" EntityType="Self.Monde_w" />
           <EntitySet Name="Munition" EntityType="Self.Munition" />
           <EntitySet Name="Munition_type" EntityType="Self.Munition_type" />
           <EntitySet Name="Parchemins" EntityType="Self.Parchemins" />
@@ -3668,17 +3680,9 @@
             <End Role="Bijoux_place" EntitySet="Bijoux_place" />
             <End Role="Bijoux" EntitySet="Bijoux" />
           </AssociationSet>
-          <AssociationSet Name="FK_Continent_Monde" Association="Self.FK_Continent_Monde">
-            <End Role="Monde_w" EntitySet="Monde_w" />
-            <End Role="Continent" EntitySet="Continent" />
-          </AssociationSet>
           <AssociationSet Name="FK_Region_Continent" Association="Self.FK_Region_Continent">
             <End Role="Continent" EntitySet="Continent" />
             <End Role="Region" EntitySet="Region" />
-          </AssociationSet>
-          <AssociationSet Name="FK_enchant_efect" Association="Self.FK_enchant_efect">
-            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
-            <End Role="Enchantements" EntitySet="Enchantements" />
           </AssociationSet>
           <AssociationSet Name="FK_elem_1_mun" Association="Self.FK_elem_1_mun">
             <End Role="Mag_element" EntitySet="Mag_element" />
@@ -3787,10 +3791,6 @@
           <AssociationSet Name="FK_evolution" Association="RPGModel.FK_evolution">
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
             <End Role="Bestiaire_Beast1" EntitySet="Bestiaire_Beast" />
-          </AssociationSet>
-          <AssociationSet Name="FK_origin_Beast" Association="RPGModel.FK_origin_Beast">
-            <End Role="Monde_w" EntitySet="Monde_w" />
-            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
           </AssociationSet>
           <EntitySet Name="CatWorldAssoc" EntityType="RPGModel.CatWorldAssoc" />
           <EntitySet Name="ChampLexicAssoc" EntityType="RPGModel.ChampLexicAssoc" />
@@ -3918,10 +3918,6 @@
           <AssociationSet Name="FK_item_munition" Association="RPGModel.FK_item_munition">
             <End Role="Items" EntitySet="Items" />
             <End Role="Munition" EntitySet="Munition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_item_Origin" Association="RPGModel.FK_item_Origin">
-            <End Role="Monde_w" EntitySet="Monde_w" />
-            <End Role="Items" EntitySet="Items" />
           </AssociationSet>
           <AssociationSet Name="FK_item_parchemin" Association="RPGModel.FK_item_parchemin">
             <End Role="Items" EntitySet="Items" />
@@ -4100,10 +4096,6 @@
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
-          <AssociationSet Name="FK_origin_Pers" Association="RPGModel.FK_origin_Pers">
-            <End Role="Monde_w" EntitySet="Monde_w" />
-            <End Role="Persos" EntitySet="Persos" />
-          </AssociationSet>
           <AssociationSet Name="FK_Perso_carats" Association="RPGModel.FK_Perso_carats">
             <End Role="Persos" EntitySet="Persos" />
             <End Role="Pers_carac" EntitySet="Pers_carac" />
@@ -4145,6 +4137,38 @@
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
           <EntitySet Name="Condition" EntityType="RPGModel.Condition" />
+          <EntitySet Name="Enchant_Type" EntityType="RPGModel.Enchant_Type" />
+          <EntitySet Name="Table" EntityType="RPGModel.Table" />
+          <EntitySet Name="Monde_w" EntityType="RPGModel.Monde_w" />
+          <AssociationSet Name="FK_origin_Beast" Association="RPGModel.FK_origin_Beast">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Continent_Monde" Association="RPGModel.FK_Continent_Monde">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Continent" EntitySet="Continent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_item_Origin" Association="RPGModel.FK_item_Origin">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_origin_Pers" Association="RPGModel.FK_origin_Pers">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Persos" EntitySet="Persos" />
+          </AssociationSet>
+          <EntitySet Name="Enchantements" EntityType="RPGModel.Enchantements" />
+          <AssociationSet Name="FK_enchant_efect" Association="RPGModel.FK_enchant_efect">
+            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
+            <End Role="Enchantements" EntitySet="Enchantements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enchant_type" Association="RPGModel.FK_enchant_type">
+            <End Role="Enchant_Type" EntitySet="Enchant_Type" />
+            <End Role="Enchantements" EntitySet="Enchantements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_enchant_origin" Association="RPGModel.FK_enchant_origin">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Enchantements" EntitySet="Enchantements" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Tailles">
           <Key>
@@ -4465,7 +4489,6 @@
           <NavigationProperty Name="Best_cat" Relationship="RPGModel.FK_cat_beast" FromRole="Bestiaire_Beast" ToRole="Best_cat" />
           <NavigationProperty Name="Bestiaire_Beast1" Relationship="RPGModel.FK_evolution" FromRole="Bestiaire_Beast" ToRole="Bestiaire_Beast1" />
           <NavigationProperty Name="Bestiaire_Beast2" Relationship="RPGModel.FK_evolution" FromRole="Bestiaire_Beast1" ToRole="Bestiaire_Beast" />
-          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Beast" FromRole="Bestiaire_Beast" ToRole="Monde_w" />
           <NavigationProperty Name="Beast_elem" Relationship="RPGModel.FK_beast_elem" FromRole="Bestiaire_Beast" ToRole="Beast_elem" />
           <NavigationProperty Name="Beast_elemRes" Relationship="RPGModel.FK_beast_reselem" FromRole="Bestiaire_Beast" ToRole="Beast_elemRes" />
           <NavigationProperty Name="Beast_mago" Relationship="RPGModel.FK_beast_magie" FromRole="Bestiaire_Beast" ToRole="Beast_mago" />
@@ -4473,6 +4496,7 @@
           <NavigationProperty Name="Beast_Specs" Relationship="RPGModel.Fk_BeastSpecs" FromRole="Bestiaire_Beast" ToRole="Beast_Specs" />
           <NavigationProperty Name="Best_stats" Relationship="RPGModel.FK_beast_stats" FromRole="Bestiaire_Beast" ToRole="Best_stats" />
           <NavigationProperty Name="Persos" Relationship="RPGModel.Fk_perso_spece" FromRole="Bestiaire_Beast" ToRole="Persos" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Beast" FromRole="Bestiaire_Beast" ToRole="Monde_w" />
         </EntityType>
         <Association Name="FK_beast_caps">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="1" />
@@ -4507,18 +4531,6 @@
             </Principal>
             <Dependent Role="Bestiaire_Beast1">
               <PropertyRef Name="sub_beast" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_origin_Beast">
-          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
-          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Monde_w">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Bestiaire_Beast">
-              <PropertyRef Name="origine" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5000,7 +5012,6 @@
           <NavigationProperty Name="Loot" Relationship="RPGModel.FK_Item_loot" FromRole="Items" ToRole="Loot" />
           <NavigationProperty Name="Mineraux" Relationship="RPGModel.FK_item_miner" FromRole="Items" ToRole="Mineraux" />
           <NavigationProperty Name="Munition" Relationship="RPGModel.FK_item_munition" FromRole="Items" ToRole="Munition" />
-          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_item_Origin" FromRole="Items" ToRole="Monde_w" />
           <NavigationProperty Name="Parchemins" Relationship="RPGModel.FK_item_parchemin" FromRole="Items" ToRole="Parchemins" />
           <NavigationProperty Name="Tailles" Relationship="RPGModel.FK_size_cat" FromRole="Items" ToRole="Tailles" />
           <NavigationProperty Name="Vehicule" Relationship="RPGModel.fk_vehicule_item" FromRole="Items" ToRole="Vehicule" />
@@ -5008,6 +5019,7 @@
           <NavigationProperty Name="Consommables" Relationship="RPGModel.FK_conId" FromRole="Items" ToRole="Consommables" />
           <NavigationProperty Name="Weaponry" Relationship="RPGModel.FK_item_weapon" FromRole="Items" ToRole="Weaponry" />
           <NavigationProperty Name="Livre" Relationship="RPGModel.FK_bookId" FromRole="Items" ToRole="Livre" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_item_Origin" FromRole="Items" ToRole="Monde_w" />
         </EntityType>
         <Association Name="FK_all_item">
           <End Type="RPGModel.Items" Role="Items" Multiplicity="1" />
@@ -5078,18 +5090,6 @@
             </Principal>
             <Dependent Role="Munition">
               <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_item_Origin">
-          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="0..1" />
-          <End Type="RPGModel.Items" Role="Items" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Monde_w">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Items">
-              <PropertyRef Name="origine" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5884,7 +5884,6 @@
           <Property Name="background" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="lvl" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.Fk_perso_spece" FromRole="Persos" ToRole="Bestiaire_Beast" />
-          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Pers" FromRole="Persos" ToRole="Monde_w" />
           <NavigationProperty Name="Pers_carac" Relationship="RPGModel.FK_Perso_carats" FromRole="Persos" ToRole="Pers_carac" />
           <NavigationProperty Name="Pers_mago" Relationship="RPGModel.FK_pers_magie" FromRole="Persos" ToRole="Pers_mago" />
           <NavigationProperty Name="Pers_magoRes" Relationship="RPGModel.FK_pers_magieres" FromRole="Persos" ToRole="Pers_magoRes" />
@@ -5895,6 +5894,7 @@
           <NavigationProperty Name="Perso_weap_Master" Relationship="RPGModel.FK_perso_weap" FromRole="Persos" ToRole="Perso_weap_Master" />
           <NavigationProperty Name="PersoCategorie" Relationship="RPGModel.FK_cat_Pers" FromRole="Persos" ToRole="PersoCategorie" />
           <NavigationProperty Name="Races" Relationship="RPGModel.Fk_perso_race" FromRole="Persos" ToRole="Races" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_origin_Pers" FromRole="Persos" ToRole="Monde_w" />
         </EntityType>
         <Association Name="Fk_perso_spece">
           <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="0..1" />
@@ -5905,18 +5905,6 @@
             </Principal>
             <Dependent Role="Persos">
               <PropertyRef Name="Id_Beast" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_origin_Pers">
-          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
-          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Monde_w">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Persos">
-              <PropertyRef Name="origine" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6047,6 +6035,138 @@
           <Property Name="facon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Enchant_Type">
+          <Key>
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_type" FromRole="Enchant_Type" ToRole="Enchantements" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monde_w">
+          <Key>
+            <PropertyRef Name="nom" />
+          </Key>
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_origin_Beast" FromRole="Monde_w" ToRole="Bestiaire_Beast" />
+          <NavigationProperty Name="Continent" Relationship="RPGModel.FK_Continent_Monde" FromRole="Monde_w" ToRole="Continent" />
+          <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_Origin" FromRole="Monde_w" ToRole="Items" />
+          <NavigationProperty Name="Persos" Relationship="RPGModel.FK_origin_Pers" FromRole="Monde_w" ToRole="Persos" />
+          <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_origin" FromRole="Monde_w" ToRole="Enchantements" />
+        </EntityType>
+        <Association Name="FK_origin_Beast">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
+          <End Type="RPGModel.Bestiaire_Beast" Role="Bestiaire_Beast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Bestiaire_Beast">
+              <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Continent_Monde">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
+          <End Type="RPGModel.Continent" Role="Continent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Continent">
+              <PropertyRef Name="monde" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_item_Origin">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="0..1" />
+          <End Type="RPGModel.Items" Role="Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_origin_Pers">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
+          <End Type="RPGModel.Persos" Role="Persos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Persos">
+              <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Enchantements">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="effet" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="power_on_craft" Type="Boolean" Nullable="false" />
+          <Property Name="unlockable" Type="Boolean" Nullable="false" />
+          <Property Name="expert" Type="Boolean" Nullable="false" />
+          <Property Name="lengendary" Type="Boolean" Nullable="false" />
+          <Property Name="origine" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="prix_pose" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="prix_aj" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="puissance" Type="Int32" />
+          <Property Name="rapport" Type="Int32" />
+          <Property Name="niveau" Type="Int32" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Enchant_Effets" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchantements" ToRole="Enchant_Effets" />
+          <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
+        </EntityType>
+        <Association Name="FK_enchant_efect">
+          <End Type="RPGModel.Enchant_Effets" Role="Enchant_Effets" Multiplicity="1" />
+          <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enchant_Effets">
+              <PropertyRef Name="effet" />
+            </Principal>
+            <Dependent Role="Enchantements">
+              <PropertyRef Name="effet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enchant_type">
+          <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
+          <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enchant_Type">
+              <PropertyRef Name="type" />
+            </Principal>
+            <Dependent Role="Enchantements">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_enchant_origin">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
+          <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Enchantements">
+              <PropertyRef Name="origine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6261,18 +6381,8 @@
           <EntitySetMapping Name="Enchant_Effets">
             <EntityTypeMapping TypeName="RPGModel.Enchant_Effets">
               <MappingFragment StoreEntitySet="Enchant_Effets">
+                <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="effet" ColumnName="effet" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Enchantements">
-            <EntityTypeMapping TypeName="RPGModel.Enchantements">
-              <MappingFragment StoreEntitySet="Enchantements">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="nom" ColumnName="nom" />
-                <ScalarProperty Name="effet" ColumnName="effet" />
-                <ScalarProperty Name="puissance" ColumnName="puissance" />
-                <ScalarProperty Name="element" ColumnName="element" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6337,13 +6447,6 @@
             <EntityTypeMapping TypeName="RPGModel.Mode_deplacement">
               <MappingFragment StoreEntitySet="Mode_deplacement">
                 <ScalarProperty Name="mode" ColumnName="mode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Monde_w">
-            <EntityTypeMapping TypeName="RPGModel.Monde_w">
-              <MappingFragment StoreEntitySet="Monde_w">
-                <ScalarProperty Name="nom" ColumnName="nom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7146,6 +7249,49 @@
               <MappingFragment StoreEntitySet="Condition">
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="facon" ColumnName="facon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enchant_Type">
+            <EntityTypeMapping TypeName="RPGModel.Enchant_Type">
+              <MappingFragment StoreEntitySet="Enchant_Type">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table">
+            <EntityTypeMapping TypeName="RPGModel.Table">
+              <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Monde_w">
+            <EntityTypeMapping TypeName="RPGModel.Monde_w">
+              <MappingFragment StoreEntitySet="Monde_w">
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enchantements">
+            <EntityTypeMapping TypeName="RPGModel.Enchantements">
+              <MappingFragment StoreEntitySet="Enchantements">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="niveau" ColumnName="niveau" />
+                <ScalarProperty Name="rapport" ColumnName="rapport" />
+                <ScalarProperty Name="puissance" ColumnName="puissance" />
+                <ScalarProperty Name="prix_aj" ColumnName="prix_aj" />
+                <ScalarProperty Name="prix_pose" ColumnName="prix_pose" />
+                <ScalarProperty Name="origine" ColumnName="origine" />
+                <ScalarProperty Name="lengendary" ColumnName="lengendary" />
+                <ScalarProperty Name="expert" ColumnName="expert" />
+                <ScalarProperty Name="unlockable" ColumnName="unlockable" />
+                <ScalarProperty Name="power_on_craft" ColumnName="power_on_craft" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="effet" ColumnName="effet" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

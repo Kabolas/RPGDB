@@ -48,7 +48,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Degat_type> Degat_type { get; set; }
         public virtual DbSet<Effets> Effets { get; set; }
         public virtual DbSet<Enchant_Effets> Enchant_Effets { get; set; }
-        public virtual DbSet<Enchantements> Enchantements { get; set; }
         public virtual DbSet<Etat> Etat { get; set; }
         public virtual DbSet<Loot> Loot { get; set; }
         public virtual DbSet<Mag_element> Mag_element { get; set; }
@@ -57,7 +56,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Minerai_type> Minerai_type { get; set; }
         public virtual DbSet<Mineraux> Mineraux { get; set; }
         public virtual DbSet<Mode_deplacement> Mode_deplacement { get; set; }
-        public virtual DbSet<Monde_w> Monde_w { get; set; }
         public virtual DbSet<Munition> Munition { get; set; }
         public virtual DbSet<Munition_type> Munition_type { get; set; }
         public virtual DbSet<Parchemins> Parchemins { get; set; }
@@ -124,5 +122,9 @@ namespace RPG_Jahr_words
         public virtual DbSet<Pers_stats> Pers_stats { get; set; }
         public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Condition> Condition { get; set; }
+        public virtual DbSet<Enchant_Type> Enchant_Type { get; set; }
+        public virtual DbSet<Table> Table { get; set; }
+        public virtual DbSet<Monde_w> Monde_w { get; set; }
+        public virtual DbSet<Enchantements> Enchantements { get; set; }
     }
 }

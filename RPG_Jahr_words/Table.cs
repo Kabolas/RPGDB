@@ -14,6 +14,6 @@ namespace RPG_Jahr_words
     
     public partial class Table
     {
-        public byte[] Id { get; set; }
+        public int Id { get; set; }
     }
 }
