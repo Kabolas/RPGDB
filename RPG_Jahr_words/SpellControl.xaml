@@ -338,10 +338,10 @@
                 <ListBox x:Name="Combo_ecole" HorizontalAlignment="Left" Height="111" Margin="322,19,0,0" VerticalAlignment="Top" Width="100" SelectionMode="Multiple" ItemsSource="{Binding Schools}" DisplayMemberPath="ecole" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedEcole}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Display" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="123" Margin="10,213,0,0" VerticalAlignment="Top" Width="290">
+        <GroupBox Header="Display" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="104" Margin="10,232,0,0" VerticalAlignment="Top" Width="290">
             <Grid Margin="0,-1,0,0">
-                <ListBox x:Name="Spell_critere" HorizontalAlignment="Left" Margin="178,5,0,28" Width="100"/>
-                <ComboBox x:Name="Spell_criter" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="CriterChange">
+                <ListBox x:Name="Spell_critere" HorizontalAlignment="Left" Margin="178,5,0,0" Width="100" Height="57" VerticalAlignment="Top"/>
+                <ComboBox x:Name="Spell_criter" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="CriterChange">
                     <ComboBoxItem Content="~Critère~"/>
                     <ComboBoxItem x:Name="sp_crt_pwr" Content="Puissance"/>
                     <ComboBoxItem x:Name="sp_crt_atk" Content="Attaque" IsEnabled="{Binding ElementName=combo_show, Path=IsChecked}"/>
@@ -359,7 +359,7 @@
                     <ComboBoxItem x:Name="sp_crt_cib" Content="Ciblage"/>
                     <ComboBoxItem x:Name="sp_crt_cat" Content="Categorie" IsEnabled="{Binding ElementName=combo_show, Path=IsChecked}"/>
                 </ComboBox>
-                <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="45" Margin="0,57,0,0" VerticalAlignment="Top" Width="149">
+                <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="45" Margin="0,0,0,-3" VerticalAlignment="Bottom" Width="149">
                     <Border.IsEnabled>
                         <MultiBinding Converter="{StaticResource Or}">
                             <Binding ElementName="sp_crt_lvl" Path="IsSelected"/>
@@ -377,9 +377,9 @@
                         <TextBox x:Name="spel_cri_val" HorizontalAlignment="Left" Height="23" Margin="12,12,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="52"/>
                     </Grid>
                 </Border>
-                <Button x:Name="Spell_show" Content="Montrer" HorizontalAlignment="Left" Margin="178,79,0,0" VerticalAlignment="Top" Width="75" Click="Display"/>
-                <RadioButton x:Name="sort_show" Content="Sort" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <RadioButton x:Name="combo_show" Content="Combo" HorizontalAlignment="Left" Margin="72,10,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="Spell_show" Content="Montrer" HorizontalAlignment="Left" Margin="178,0,0,1" Width="75" Click="Display" Height="19" VerticalAlignment="Bottom"/>
+                <RadioButton x:Name="sort_show" Content="Sort" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <RadioButton x:Name="combo_show" Content="Combo" HorizontalAlignment="Left" Margin="72,5,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
@@ -430,12 +430,12 @@
         <TextBlock x:Name="use_txt" HorizontalAlignment="Left" Margin="80,49,0,0" TextWrapping="Wrap" Text="Niveau utilisation" VerticalAlignment="Top" Width="53" Visibility="{Binding ElementName=Combo_check, Path=IsChecked, Converter={StaticResource BoolToVisibility}}"/>
         <TextBlock x:Name="txt_lvl" HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Niveau Sort" VerticalAlignment="Top" Width="48"/>
         <ListBox x:Name="Combo_type" HorizontalAlignment="Left" Height="64" Margin="133,40,0,0" VerticalAlignment="Top" Width="122" SelectionMode="Multiple" ItemsSource="{Binding Weapons}" DisplayMemberPath="type" IsEnabled="{Binding ElementName=Combo_check, Path=IsChecked}" Visibility="{Binding ElementName=Combo_type, Path=IsEnabled, Converter={StaticResource BoolToVisibility}}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedWeapons}"/>
-        <Button x:Name="show_etat" Content=" Etats " HorizontalAlignment="Left" Margin="66,196,0,0" VerticalAlignment="Top" Click="ShowState"/>
-        <Button x:Name="show_Cc" Content=" Crowd Control " HorizontalAlignment="Left" Margin="104,196,0,0" VerticalAlignment="Top" Click="ShowCc"/>
-        <Button x:Name="show_Statut" Content=" Elements " HorizontalAlignment="Left" Margin="193,196,0,0" VerticalAlignment="Top" Click="ShowElement"/>
+        <Button x:Name="show_etat" Content=" Etats " HorizontalAlignment="Left" Margin="66,212,0,0" VerticalAlignment="Top" Click="ShowState"/>
+        <Button x:Name="show_Cc" Content=" Crowd Control " HorizontalAlignment="Left" Margin="104,212,0,0" VerticalAlignment="Top" Click="ShowCc"/>
+        <Button x:Name="show_Statut" Content=" Elements " HorizontalAlignment="Left" Margin="193,212,0,0" VerticalAlignment="Top" Click="ShowElement"/>
         <Button x:Name="newBuff" Content=" (De)Buff " HorizontalAlignment="Left" Margin="414,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NBuff}"/>
-        <Button x:Name="show_Debuff" Content=" (De)Buff " HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Click="ShowBuf"/>
-        <Button x:Name="show_Ecole" Content=" Ecoles " HorizontalAlignment="Left" Margin="253,196,0,0" VerticalAlignment="Top" Click="ShowEcole"/>
+        <Button x:Name="show_Debuff" Content=" (De)Buff " HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top" Click="ShowBuf"/>
+        <Button x:Name="show_Ecole" Content=" Ecoles " HorizontalAlignment="Left" Margin="253,212,0,0" VerticalAlignment="Top" Click="ShowEcole"/>
         <Button x:Name="new_cible" Content=" Ciblage " HorizontalAlignment="Left" Margin="364,196,0,0" VerticalAlignment="Top" Height="22" Command="{Binding NCible}"/>
         <TextBox x:Name="Spell_lvl" HorizontalAlignment="Left" Height="23" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48">
             <TextBox.Resources>
@@ -542,5 +542,11 @@
             </ComboBox.ItemsSource>
         </ComboBox>
         <RadioButton x:Name="Combo_check" Content="Combo" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" IsChecked="{Binding IsCombo, Mode=TwoWay}" Checked="Combo_check_Checked" Unchecked="Combo_check_Unchecked"/>
+        <CheckBox Content="Perso" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Bete" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Creature" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="multibras" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Ailes" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Queue" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

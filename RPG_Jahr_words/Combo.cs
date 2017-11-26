@@ -40,6 +40,12 @@ namespace RPG_Jahr_words
         public Nullable<int> lvl_use { get; set; }
         public double cooldown { get; set; }
         public string descr { get; set; }
+        public bool perso_combo { get; set; }
+        public bool beast_combo { get; set; }
+        public bool creat_combo { get; set; }
+        public bool multibras { get; set; }
+        public bool ailes { get; set; }
+        public bool queue { get; set; }
     
         public virtual Buff Buff1 { get; set; }
         public virtual Ciblage Ciblage1 { get; set; }

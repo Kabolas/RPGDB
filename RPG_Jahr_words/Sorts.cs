@@ -42,6 +42,9 @@ namespace RPG_Jahr_words
         public string ecole { get; set; }
         public double cooldown { get; set; }
         public string descr { get; set; }
+        public bool perso_spell { get; set; }
+        public bool beast_spell { get; set; }
+        public bool creat_spell { get; set; }
     
         public virtual Buff Buff1 { get; set; }
         public virtual Ciblage Ciblage1 { get; set; }

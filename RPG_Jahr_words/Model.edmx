@@ -307,6 +307,12 @@
           <Property Name="stamina_cout" Type="int" Nullable="false" />
           <Property Name="mana_cout" Type="int" />
           <Property Name="stat" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perso_combo" Type="bit" Nullable="false" />
+          <Property Name="beast_combo" Type="bit" Nullable="false" />
+          <Property Name="creat_combo" Type="bit" Nullable="false" />
+          <Property Name="multibras" Type="bit" Nullable="false" />
+          <Property Name="ailes" Type="bit" Nullable="false" />
+          <Property Name="queue" Type="bit" Nullable="false" />
           <Property Name="niveau" Type="int" Nullable="false" />
           <Property Name="Cc" Type="varchar" MaxLength="15" />
           <Property Name="Cc_chance" Type="int" />
@@ -917,6 +923,9 @@
           <Property Name="stamina_cout" Type="int" />
           <Property Name="niveau" Type="int" Nullable="false" />
           <Property Name="stat" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perso_spell" Type="bit" Nullable="false" />
+          <Property Name="beast_spell" Type="bit" Nullable="false" />
+          <Property Name="creat_spell" Type="bit" Nullable="false" />
           <Property Name="Cc" Type="varchar" MaxLength="15" />
           <Property Name="Cc_chance" Type="int" />
           <Property Name="Cc_duree" Type="float" />
@@ -4231,6 +4240,12 @@
           <NavigationProperty Name="Crowd_control" Relationship="RPGModel.FK_combo_cc" FromRole="Combo" ToRole="Crowd_control" />
           <NavigationProperty Name="Etat1" Relationship="RPGModel.FK_combo_etat" FromRole="Combo" ToRole="Etat" />
           <NavigationProperty Name="Stat1" Relationship="RPGModel.fk_combo_stat" FromRole="Combo" ToRole="Stat" />
+          <Property Name="perso_combo" Type="Boolean" Nullable="false" />
+          <Property Name="beast_combo" Type="Boolean" Nullable="false" />
+          <Property Name="creat_combo" Type="Boolean" Nullable="false" />
+          <Property Name="multibras" Type="Boolean" Nullable="false" />
+          <Property Name="ailes" Type="Boolean" Nullable="false" />
+          <Property Name="queue" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Sorts">
           <Key>
@@ -4265,6 +4280,9 @@
           <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_spell_ecole" FromRole="Sorts" ToRole="Magie_type" />
           <NavigationProperty Name="Parchemins" Relationship="RPGModel.FK_spell_parchemin" FromRole="Sorts" ToRole="Parchemins" />
           <NavigationProperty Name="Stat1" Relationship="RPGModel.fk_spell_stat" FromRole="Sorts" ToRole="Stat" />
+          <Property Name="perso_spell" Type="Boolean" Nullable="false" />
+          <Property Name="beast_spell" Type="Boolean" Nullable="false" />
+          <Property Name="creat_spell" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_combo_buff">
           <End Type="RPGModel.Buff" Role="Buff" Multiplicity="0..1" />
@@ -6614,6 +6632,12 @@
           <EntitySetMapping Name="Combo">
             <EntityTypeMapping TypeName="RPGModel.Combo">
               <MappingFragment StoreEntitySet="Combo">
+                <ScalarProperty Name="queue" ColumnName="queue" />
+                <ScalarProperty Name="ailes" ColumnName="ailes" />
+                <ScalarProperty Name="multibras" ColumnName="multibras" />
+                <ScalarProperty Name="creat_combo" ColumnName="creat_combo" />
+                <ScalarProperty Name="beast_combo" ColumnName="beast_combo" />
+                <ScalarProperty Name="perso_combo" ColumnName="perso_combo" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="cooldown" ColumnName="cooldown" />
                 <ScalarProperty Name="lvl_use" ColumnName="lvl_use" />
@@ -6646,6 +6670,9 @@
           <EntitySetMapping Name="Sorts">
             <EntityTypeMapping TypeName="RPGModel.Sorts">
               <MappingFragment StoreEntitySet="Sorts">
+                <ScalarProperty Name="creat_spell" ColumnName="creat_spell" />
+                <ScalarProperty Name="beast_spell" ColumnName="beast_spell" />
+                <ScalarProperty Name="perso_spell" ColumnName="perso_spell" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="cooldown" ColumnName="cooldown" />
                 <ScalarProperty Name="ecole" ColumnName="ecole" />
