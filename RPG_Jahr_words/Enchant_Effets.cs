@@ -14,16 +14,7 @@ namespace RPG_Jahr_words
     
     public partial class Enchant_Effets
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Enchant_Effets()
-        {
-            this.Enchantements = new HashSet<Enchantements>();
-        }
-    
         public string effet { get; set; }
         public string descr { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Enchantements> Enchantements { get; set; }
     }
 }

@@ -512,9 +512,16 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="effet" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="effects" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="cout_mana" Type="int" Nullable="false" />
           <Property Name="power_on_craft" Type="bit" Nullable="false" />
+          <Property Name="on_weap" Type="bit" Nullable="false" />
+          <Property Name="weapons" Type="varchar" MaxLength="200" />
+          <Property Name="on_armor" Type="bit" Nullable="false" />
+          <Property Name="armors" Type="varchar" MaxLength="200" />
+          <Property Name="on_jewel" Type="bit" Nullable="false" />
+          <Property Name="jewels" Type="varchar" MaxLength="200" />
           <Property Name="unlockable" Type="bit" Nullable="false" />
           <Property Name="expert" Type="bit" Nullable="false" />
           <Property Name="lengendary" Type="bit" Nullable="false" />
@@ -1650,18 +1657,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_enchant_efect">
-          <End Role="Enchant_Effets" Type="Self.Enchant_Effets" Multiplicity="1" />
-          <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Enchant_Effets">
-              <PropertyRef Name="effet" />
-            </Principal>
-            <Dependent Role="Enchantements">
-              <PropertyRef Name="effet" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_enchant_origin">
           <End Role="Monde_w" Type="Self.Monde_w" Multiplicity="1" />
           <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
@@ -2716,10 +2711,6 @@
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
           </AssociationSet>
-          <AssociationSet Name="FK_enchant_efect" Association="Self.FK_enchant_efect">
-            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
-            <End Role="Enchantements" EntitySet="Enchantements" />
-          </AssociationSet>
           <AssociationSet Name="FK_enchant_origin" Association="Self.FK_enchant_origin">
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Enchantements" EntitySet="Enchantements" />
@@ -3189,7 +3180,6 @@
           </Key>
           <Property Name="effet" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchant_Effets" ToRole="Enchantements" />
         </EntityType>
         <EntityType Name="Etat">
           <Key>
@@ -4157,10 +4147,6 @@
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
           <EntitySet Name="Enchantements" EntityType="RPGModel.Enchantements" />
-          <AssociationSet Name="FK_enchant_efect" Association="RPGModel.FK_enchant_efect">
-            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
-            <End Role="Enchantements" EntitySet="Enchantements" />
-          </AssociationSet>
           <AssociationSet Name="FK_enchant_type" Association="RPGModel.FK_enchant_type">
             <End Role="Enchant_Type" EntitySet="Enchant_Type" />
             <End Role="Enchantements" EntitySet="Enchantements" />
@@ -6114,9 +6100,15 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="nom" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="effet" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="effects" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="power_on_craft" Type="Boolean" Nullable="false" />
+          <Property Name="on_weap" Type="Boolean" Nullable="false" />
+          <Property Name="weapons" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="on_armor" Type="Boolean" Nullable="false" />
+          <Property Name="armors" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="on_jewel" Type="Boolean" Nullable="false" />
+          <Property Name="jewels" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="unlockable" Type="Boolean" Nullable="false" />
           <Property Name="expert" Type="Boolean" Nullable="false" />
           <Property Name="lengendary" Type="Boolean" Nullable="false" />
@@ -6127,22 +6119,10 @@
           <Property Name="rapport" Type="Int32" />
           <Property Name="niveau" Type="Int32" Nullable="false" />
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Enchant_Effets" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchantements" ToRole="Enchant_Effets" />
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
+          <Property Name="cout_mana" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="FK_enchant_efect">
-          <End Type="RPGModel.Enchant_Effets" Role="Enchant_Effets" Multiplicity="1" />
-          <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Enchant_Effets">
-              <PropertyRef Name="effet" />
-            </Principal>
-            <Dependent Role="Enchantements">
-              <PropertyRef Name="effet" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
           <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
@@ -7277,6 +7257,7 @@
           <EntitySetMapping Name="Enchantements">
             <EntityTypeMapping TypeName="RPGModel.Enchantements">
               <MappingFragment StoreEntitySet="Enchantements">
+                <ScalarProperty Name="cout_mana" ColumnName="cout_mana" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="niveau" ColumnName="niveau" />
                 <ScalarProperty Name="rapport" ColumnName="rapport" />
@@ -7287,9 +7268,15 @@
                 <ScalarProperty Name="lengendary" ColumnName="lengendary" />
                 <ScalarProperty Name="expert" ColumnName="expert" />
                 <ScalarProperty Name="unlockable" ColumnName="unlockable" />
+                <ScalarProperty Name="jewels" ColumnName="jewels" />
+                <ScalarProperty Name="on_jewel" ColumnName="on_jewel" />
+                <ScalarProperty Name="armors" ColumnName="armors" />
+                <ScalarProperty Name="on_armor" ColumnName="on_armor" />
+                <ScalarProperty Name="weapons" ColumnName="weapons" />
+                <ScalarProperty Name="on_weap" ColumnName="on_weap" />
                 <ScalarProperty Name="power_on_craft" ColumnName="power_on_craft" />
                 <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="effet" ColumnName="effet" />
+                <ScalarProperty Name="effects" ColumnName="effects" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
