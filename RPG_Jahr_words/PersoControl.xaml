@@ -272,7 +272,11 @@
             </TabItem>
             <TabItem Header="Sorts">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="ChosenSpell" HorizontalAlignment="Left" Height="133" Margin="223,5,0,0" VerticalAlignment="Top" Width="246" ItemsSource="{Binding ChosenSort}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="41*"/>
+                        <ColumnDefinition Width="54*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="ChosenSpell" HorizontalAlignment="Left" Height="133" Margin="18.2,5,0,0" VerticalAlignment="Top" Width="246" ItemsSource="{Binding ChosenSort}" Grid.Column="1">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
@@ -305,8 +309,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button Content="⇴" HorizontalAlignment="Left" Margin="193,37,0,0" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=SpellList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top"/>
-                    <Button Content="✗" HorizontalAlignment="Left" Margin="193,0,0,37" Width="25" Click="DelSpell" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenSpell}" Height="25" VerticalAlignment="Bottom"/>
+                    <Button Content="⇴" HorizontalAlignment="Left" Margin="193,37,0,0" Width="25" Click="AjoutClickStuff" IsEnabled="{Binding SelectedItems.Count, ElementName=SpellList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="193,0,0,37.2" Width="25" Click="DelSpell" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenSpell}" Height="25" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Combo">
@@ -722,7 +726,7 @@
                 <TextBox AcceptsReturn="True" AcceptsTab="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" MaxLength="8000" Background="#FFE5E5E5" Text="{Binding NewPerso.background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </TabItem>
         </TabControl>
-        <Button Content=" Trai " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
+        <Button Content=" Trait " HorizontalAlignment="Left" Margin="442,181,0,0" VerticalAlignment="Top" Command="{Binding NewTrais}"/>
         <Button Content=" Categorie " HorizontalAlignment="Left" Margin="476,181,0,0" VerticalAlignment="Top" Command="{Binding NewCat}"/>
         <ComboBox x:Name="Perspet" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="106" Height="25" DisplayMemberPath="nom" SelectedValuePath="Id" SelectedValue="{Binding NewPerso.Id_Beast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Bestiaire_Beast, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=Perso_Categ, Path=SelectedValue, Converter={StaticResource StringEquals}, ConverterParameter=Familier}" Visibility="{Binding ElementName=Perspet, Path=IsEnabled, Converter={StaticResource BooltoVisible}}" SelectionChanged="PetChoice">
             <ComboBox.Style>
