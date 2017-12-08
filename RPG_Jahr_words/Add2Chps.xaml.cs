@@ -37,10 +37,13 @@ namespace RPG_Jahr_words
             Maj = char.IsUpper(Ch1[0]);
             if (Both) Valid = Maj && Ch2 != "";
             else Valid = true;
-            this.Close();
+            Close();
         }
 
         public string Ch2 { get => ch2; set => ch2 = value; }
+
+        private void Close(object sender, RoutedEventArgs e) { Close(); }
+
         public bool Validate { get => _validate; set => _validate = value; }
         public bool Maj { get => _maj; set => _maj = value; }
         public bool Both { get => _both; set => _both = value; }

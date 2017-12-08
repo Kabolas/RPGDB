@@ -522,8 +522,12 @@
           <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="cout_mana" Type="int" Nullable="false" />
           <Property Name="power_on_craft" Type="bit" Nullable="false" />
-          <Property Name="on_weap" Type="bit" Nullable="false" />
-          <Property Name="weapons" Type="varchar" MaxLength="200" />
+          <Property Name="on_cac" Type="bit" Nullable="false" />
+          <Property Name="on_dist" Type="bit" Nullable="false" />
+          <Property Name="on_mag" Type="bit" Nullable="false" />
+          <Property Name="weapons_cac" Type="varchar" MaxLength="200" />
+          <Property Name="weapons_dist" Type="varchar" MaxLength="200" />
+          <Property Name="weapons_mag" Type="varchar" MaxLength="200" />
           <Property Name="on_armor" Type="bit" Nullable="false" />
           <Property Name="armors" Type="varchar" MaxLength="200" />
           <Property Name="on_jewel" Type="bit" Nullable="false" />
@@ -6120,9 +6124,14 @@
           <Property Name="nom" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="effects" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cout_mana" Type="Int32" Nullable="false" />
           <Property Name="power_on_craft" Type="Boolean" Nullable="false" />
-          <Property Name="on_weap" Type="Boolean" Nullable="false" />
-          <Property Name="weapons" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="on_cac" Type="Boolean" Nullable="false" />
+          <Property Name="on_dist" Type="Boolean" Nullable="false" />
+          <Property Name="on_mag" Type="Boolean" Nullable="false" />
+          <Property Name="weapons_cac" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="weapons_dist" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="weapons_mag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="on_armor" Type="Boolean" Nullable="false" />
           <Property Name="armors" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="on_jewel" Type="Boolean" Nullable="false" />
@@ -6139,7 +6148,6 @@
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
-          <Property Name="cout_mana" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
@@ -7284,7 +7292,6 @@
           <EntitySetMapping Name="Enchantements">
             <EntityTypeMapping TypeName="RPGModel.Enchantements">
               <MappingFragment StoreEntitySet="Enchantements">
-                <ScalarProperty Name="cout_mana" ColumnName="cout_mana" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="niveau" ColumnName="niveau" />
                 <ScalarProperty Name="rapport" ColumnName="rapport" />
@@ -7299,9 +7306,14 @@
                 <ScalarProperty Name="on_jewel" ColumnName="on_jewel" />
                 <ScalarProperty Name="armors" ColumnName="armors" />
                 <ScalarProperty Name="on_armor" ColumnName="on_armor" />
-                <ScalarProperty Name="weapons" ColumnName="weapons" />
-                <ScalarProperty Name="on_weap" ColumnName="on_weap" />
+                <ScalarProperty Name="weapons_mag" ColumnName="weapons_mag" />
+                <ScalarProperty Name="weapons_dist" ColumnName="weapons_dist" />
+                <ScalarProperty Name="weapons_cac" ColumnName="weapons_cac" />
+                <ScalarProperty Name="on_mag" ColumnName="on_mag" />
+                <ScalarProperty Name="on_dist" ColumnName="on_dist" />
+                <ScalarProperty Name="on_cac" ColumnName="on_cac" />
                 <ScalarProperty Name="power_on_craft" ColumnName="power_on_craft" />
+                <ScalarProperty Name="cout_mana" ColumnName="cout_mana" />
                 <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="effects" ColumnName="effects" />
                 <ScalarProperty Name="nom" ColumnName="nom" />

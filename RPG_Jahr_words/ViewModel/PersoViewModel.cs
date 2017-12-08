@@ -70,6 +70,8 @@ namespace RPG_Jahr_words.ViewModel
             Deplacement = Bd.Mode_deplacement.ToList();
             Maniabilities = Bd.Maniabilite.ToList();
             Uses = Bd.Usage.ToList();
+            Sort = Bd.Sorts.ToList();
+            Combos = Bd.Combo.ToList();
             foreach (Mag_element elem in Bd.Mag_element.Where(e => !e.element.Contains("Tous")))
             {
                 NewPerso.Perso_elemRes.Add(new Perso_elemRes { Mag_element = elem, Persos = NewPerso, maitrise = 0, });

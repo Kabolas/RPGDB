@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RPG_Jahr_words"
+            xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="RPG_Jahr_words.EnchantControl"
              mc:Ignorable="d" 
              d:DesignHeight="456" d:DesignWidth="701">
@@ -12,7 +13,6 @@
         <local:NullToFalse x:Key="NullFalse"/>
     </UserControl.Resources>
     <Grid>
-
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
             <TextBlock x:Name="Enchantu_Label" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" Text="{Binding PrintedText, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Border>
@@ -43,8 +43,8 @@
         <TextBlock HorizontalAlignment="Left" Margin="5,87,0,0" TextWrapping="Wrap" Text="Puissance :" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="67,86,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.puissance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="48"/>
         <TabControl HorizontalAlignment="Left" Height="186" Margin="305,10,0,0" VerticalAlignment="Top" Width="386">
-            <TabItem Header="Requirements">
-                <Grid Background="#FFE5E5E5">
+            <TabItem Header="Pré requis">
+                <Grid Background="#FFE5E5E5" IsEnabled="{Binding ElementName=canDo, Path=IsChecked}">
                     <ListView x:Name="Item_rec" Margin="148,5,5,5" SelectionMode="Multiple" ItemsSource="{Binding Requirement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <ListView.View>
                             <GridView>
@@ -80,8 +80,8 @@
                         <System:String>Communs</System:String>
                         <System:String>Conteneur</System:String>
                     </ComboBox>
-                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="118,33,0,0" VerticalAlignment="Top" Width="25" IsEnabled="{Binding ElementName=Item_list, Path=SelectedItems.Count}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-                    <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="118,63,0,0" VerticalAlignment="Top" Width="25" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=Item_rec}"/>
+                    <Button x:Name="add_item_but" Content="⇴" HorizontalAlignment="Left" Height="25" Margin="118,33,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding ElementName=Item_list, Path=SelectedItems.Count}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                    <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="118,63,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=Item_rec}"/>
                     <Button Content="+" HorizontalAlignment="Left" Margin="118,93,0,0" VerticalAlignment="Top" Width="25" Height="25" Command="{Binding MoreRecipe}" FontSize="36" Padding="-1,-16,1,1"/>
                     <ListView x:Name="Item_list" Margin="5,35,267,5" SelectionMode="Multiple" ItemsSource="{Binding Items}">
                         <ListView.View>
@@ -95,18 +95,26 @@
                     <ComboBox x:Name="recipeId" HorizontalAlignment="Left" Margin="113,123,0,0" VerticalAlignment="Top" Width="34" Height="25" SelectedIndex="0" ItemsSource="{Binding RecipeCount}"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Répart équipement">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="putonArmor" Content="Armure" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox x:Name="putonJewel" Content="Bijoux" HorizontalAlignment="Left" Margin="248,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_jewel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox Height="118" Margin="248,30,10,0" VerticalAlignment="Top" ItemsSource="{Binding Bijoux}" DisplayMemberPath="place" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedJewels}" IsEnabled="{Binding ElementName=putonJewel, Path=IsChecked}"/>
+                    <ListBox Height="118" Margin="10,30,248,0" VerticalAlignment="Top" ItemsSource="{Binding Armors}" DisplayMemberPath="emplacement" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedArmors}" IsEnabled="{Binding ElementName=putonArmor, Path=IsChecked}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Répart armes">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="putonWeapcac" Content="Armes C-a-C" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_cac, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox Height="118" Margin="10,30,270,0" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=putonWeapcac}"/>
+                    <CheckBox x:Name="putonWeapdist" Content="Armes à Distance" HorizontalAlignment="Left" Margin="139,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_dist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox Height="118" Margin="140,30,140,0" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=putonWeap}"/>
+                    <CheckBox x:Name="putonWeap_Copy1" Content="Armes Magiques" HorizontalAlignment="Left" Margin="270,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_mag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ListBox Height="118" Margin="270,30,10,0" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=putonWeap}"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Description">
                 <TextBox Margin="0" Background="#FFE5E5E5" TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Visible" Text="" AcceptsReturn="True" AcceptsTab="True"/>
-            </TabItem>
-            <TabItem Header="Répartition">
-                <Grid>
-                    <CheckBox x:Name="putonWeap" Content="Armes" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_weap, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox x:Name="putonArmor" Content="Armure" HorizontalAlignment="Left" Margin="140,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox x:Name="putonJewel" Content="Bijoux" HorizontalAlignment="Left" Margin="275,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_jewel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <ListBox Height="100" Margin="275,48,5,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=putonJewel, Path=IsChecked}"/>
-                    <ListBox Height="100" Margin="140,48,140,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=putonArmor, Path=IsChecked}"/>
-                    <ListBox Height="100" Margin="5,48,275,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=putonWeap, Path=IsChecked}"/>
-                </Grid>
             </TabItem>
         </TabControl>
         <CheckBox x:Name="pow_var" Content="Variable" HorizontalAlignment="Left" Margin="5,109,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.power_on_craft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -115,15 +123,15 @@
         <ComboBox HorizontalAlignment="Left" Margin="120,87,0,0" VerticalAlignment="Top" Width="98"/>
         <TextBox HorizontalAlignment="Left" Margin="53,156,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.niveau, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="48"/>
         <Button Content=" Save " HorizontalAlignment="Left" Margin="649,201,0,0" VerticalAlignment="Top" Width="42"/>
-        <Button Content=" Type " HorizontalAlignment="Left" Margin="371,200,0,0" VerticalAlignment="Top"/>
+        <Button Content=" Type " HorizontalAlignment="Left" Margin="371,200,0,0" VerticalAlignment="Top" Command="{Binding MakeType}"/>
         <Button Content=" Effet " HorizontalAlignment="Left" Margin="411,200,0,0" VerticalAlignment="Top" />
         <TextBlock HorizontalAlignment="Left" Margin="305,201,0,0" TextWrapping="Wrap" Text="Nouveau : " VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="141,147,0,0" TextWrapping="Wrap" Text="Prix de la pose" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="138,164,0,0" TextWrapping="Wrap" Text="valeur ajoutée a la vente" VerticalAlignment="Top" Width="77"/>
-        <TextBox HorizontalAlignment="Left" Margin="223,168,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.prix_aj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="51"/>
-        <TextBox HorizontalAlignment="Left" Margin="223,145,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.prix_pose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="51"/>
+        <TextBox x:Name="sellPlus" HorizontalAlignment="Left" Margin="223,168,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.prix_aj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="51" TextChanged="MinsellPrice"/>
+        <TextBox x:Name="posePrise" HorizontalAlignment="Left" Margin="223,145,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.prix_pose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="51" TextChanged="MinposePrice"/>
         <TextBlock HorizontalAlignment="Left" Margin="5,175,0,0" TextWrapping="Wrap" Text="Cout en Mana" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="18" Margin="90,177,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="43"/>
-        <ListBox HorizontalAlignment="Left" Height="72" Margin="163,10,0,0" VerticalAlignment="Top" Width="135" ItemsSource="{Binding Effects}" DisplayMemberPath="effet"/>
+        <TextBox HorizontalAlignment="Left" Height="18" Margin="90,177,0,0" TextWrapping="Wrap" Text="{Binding SaveEnchant.cout_mana, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="43"/>
+        <ListBox HorizontalAlignment="Left" Height="72" Margin="163,10,0,0" VerticalAlignment="Top" Width="135" ItemsSource="{Binding Effects}" DisplayMemberPath="effet" SelectionMode="Multiple" SelectionChanged="Effect_limits"/>
     </Grid>
 </UserControl>

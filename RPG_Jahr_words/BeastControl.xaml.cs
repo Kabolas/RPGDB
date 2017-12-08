@@ -20,6 +20,20 @@ namespace RPG_Jahr_words
     /// </summary>
     public partial class BeastControl : UserControl
     {
+        public RPGEntities15 Bdd
+        {
+            get => (RPGEntities15)GetValue(BddProperty);
+            set => SetValue(BddProperty, value);
+        }
+        public static readonly DependencyProperty BddProperty =
+            DependencyProperty.Register("Bdd",
+                typeof(RPGEntities15),
+                typeof(BeastControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
+
+        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
         public BeastControl()
         {
             InitializeComponent();
