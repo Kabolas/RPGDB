@@ -12,7 +12,7 @@
             <TextBlock x:Name="instructions" Margin="10,0,12,109" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="TextBlock"/>
             <TextBox Margin="156,77,0,0" TextWrapping="Wrap" Text="{Binding Ch2, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True"/>
             <Button Content="Valider" Margin="76,0,0,10" VerticalAlignment="Bottom" Click="Validation" HorizontalAlignment="Left" Width="75"/>
-            <Button Content="Annuler" HorizontalAlignment="Left" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="75"/>
+            <Button Content="Annuler" HorizontalAlignment="Left" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="75" Click="Close"/>
         </Grid>
     </Border>
 </Window>

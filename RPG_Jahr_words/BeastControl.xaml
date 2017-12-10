@@ -136,7 +136,7 @@
                         </ListView.View>
                     </ListView>
                     <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="139,5,0,0" VerticalAlignment="Top" Width="25" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-                    <Button Content="✗" HorizontalAlignment="Left" Margin="181,5,0,113" Width="25"  FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
+                    <Button Content="✗" HorizontalAlignment="Left" Margin="181,5,0,113" Width="25" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
                     <ComboBox x:Name="CondList" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Conditions}" DisplayMemberPath="facon" SelectedIndex="0"/>
                     <ScrollViewer HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="70" Height="79" VerticalScrollBarVisibility="Auto">
                         <TextBlock TextWrapping="WrapWithOverflow" FontSize="9.5" Text="{Binding SelectedItem.description, ElementName=CondList, StringFormat=Description: \{0\}}"/>
@@ -243,7 +243,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ComboBox x:Name="ComboType" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0">
+                        <ComboBox x:Name="ComboType" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="129" DisplayMemberPath="categorie" SelectedIndex="0" >
                             <ComboBox.Resources>
                                 <CollectionViewSource x:Key="Combocats" Source="{Binding Categoriescombo}"/>
                             </ComboBox.Resources>
@@ -267,7 +267,7 @@
                             </ListView.View>
                         </ListView>
                         <Button Content="⇴" HorizontalAlignment="Left" Margin="173,37,0,0" Width="25" IsEnabled="{Binding SelectedItems.Count, ElementName=ComboList}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette." Height="25" VerticalAlignment="Top"/>
-                        <Button Content="✗" HorizontalAlignment="Left" Margin="173,0,0,37" Width="25" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenCombos}" Height="25" VerticalAlignment="Bottom"/>
+                        <Button Content="✗" HorizontalAlignment="Left" Margin="173,0,0,37" Width="25"  FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenCombos}" Height="25" VerticalAlignment="Bottom"/>
                     </Grid>
                 </Grid>
             </TabItem>

@@ -16,9 +16,20 @@ namespace RPG_Jahr_words
     {
         public int Id { get; set; }
         public string nom { get; set; }
-        public string effet { get; set; }
+        public string effects { get; set; }
         public string type { get; set; }
+        public int cout_mana { get; set; }
         public bool power_on_craft { get; set; }
+        public bool on_cac { get; set; }
+        public bool on_dist { get; set; }
+        public bool on_mag { get; set; }
+        public string weapons_cac { get; set; }
+        public string weapons_dist { get; set; }
+        public string weapons_mag { get; set; }
+        public bool on_armor { get; set; }
+        public string armors { get; set; }
+        public bool on_jewel { get; set; }
+        public string jewels { get; set; }
         public bool unlockable { get; set; }
         public bool expert { get; set; }
         public bool lengendary { get; set; }
@@ -30,7 +41,6 @@ namespace RPG_Jahr_words
         public int niveau { get; set; }
         public string descr { get; set; }
     
-        public virtual Enchant_Effets Enchant_Effets { get; set; }
         public virtual Enchant_Type Enchant_Type { get; set; }
         public virtual Monde_w Monde_w { get; set; }
     }

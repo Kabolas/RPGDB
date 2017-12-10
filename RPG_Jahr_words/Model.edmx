@@ -307,6 +307,12 @@
           <Property Name="stamina_cout" Type="int" Nullable="false" />
           <Property Name="mana_cout" Type="int" />
           <Property Name="stat" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perso_combo" Type="bit" Nullable="false" />
+          <Property Name="beast_combo" Type="bit" Nullable="false" />
+          <Property Name="creat_combo" Type="bit" Nullable="false" />
+          <Property Name="multibras" Type="bit" Nullable="false" />
+          <Property Name="ailes" Type="bit" Nullable="false" />
+          <Property Name="queue" Type="bit" Nullable="false" />
           <Property Name="niveau" Type="int" Nullable="false" />
           <Property Name="Cc" Type="varchar" MaxLength="15" />
           <Property Name="Cc_chance" Type="int" />
@@ -512,9 +518,20 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="effet" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="effects" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="cout_mana" Type="int" Nullable="false" />
           <Property Name="power_on_craft" Type="bit" Nullable="false" />
+          <Property Name="on_cac" Type="bit" Nullable="false" />
+          <Property Name="on_dist" Type="bit" Nullable="false" />
+          <Property Name="on_mag" Type="bit" Nullable="false" />
+          <Property Name="weapons_cac" Type="varchar" MaxLength="200" />
+          <Property Name="weapons_dist" Type="varchar" MaxLength="200" />
+          <Property Name="weapons_mag" Type="varchar" MaxLength="200" />
+          <Property Name="on_armor" Type="bit" Nullable="false" />
+          <Property Name="armors" Type="varchar" MaxLength="200" />
+          <Property Name="on_jewel" Type="bit" Nullable="false" />
+          <Property Name="jewels" Type="varchar" MaxLength="200" />
           <Property Name="unlockable" Type="bit" Nullable="false" />
           <Property Name="expert" Type="bit" Nullable="false" />
           <Property Name="lengendary" Type="bit" Nullable="false" />
@@ -910,6 +927,9 @@
           <Property Name="stamina_cout" Type="int" />
           <Property Name="niveau" Type="int" Nullable="false" />
           <Property Name="stat" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="perso_spell" Type="bit" Nullable="false" />
+          <Property Name="beast_spell" Type="bit" Nullable="false" />
+          <Property Name="creat_spell" Type="bit" Nullable="false" />
           <Property Name="Cc" Type="varchar" MaxLength="15" />
           <Property Name="Cc_chance" Type="int" />
           <Property Name="Cc_duree" Type="float" />
@@ -1647,18 +1667,6 @@
             </Principal>
             <Dependent Role="Creature_elemRes">
               <PropertyRef Name="element" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_enchant_efect">
-          <End Role="Enchant_Effets" Type="Self.Enchant_Effets" Multiplicity="1" />
-          <End Role="Enchantements" Type="Self.Enchantements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Enchant_Effets">
-              <PropertyRef Name="effet" />
-            </Principal>
-            <Dependent Role="Enchantements">
-              <PropertyRef Name="effet" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2716,10 +2724,6 @@
             <End Role="Mag_element" EntitySet="Mag_element" />
             <End Role="Creature_elemRes" EntitySet="Creature_elemRes" />
           </AssociationSet>
-          <AssociationSet Name="FK_enchant_efect" Association="Self.FK_enchant_efect">
-            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
-            <End Role="Enchantements" EntitySet="Enchantements" />
-          </AssociationSet>
           <AssociationSet Name="FK_enchant_origin" Association="Self.FK_enchant_origin">
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Enchantements" EntitySet="Enchantements" />
@@ -3189,7 +3193,6 @@
           </Key>
           <Property Name="effet" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchant_Effets" ToRole="Enchantements" />
         </EntityType>
         <EntityType Name="Etat">
           <Key>
@@ -4157,10 +4160,6 @@
             <End Role="Persos" EntitySet="Persos" />
           </AssociationSet>
           <EntitySet Name="Enchantements" EntityType="RPGModel.Enchantements" />
-          <AssociationSet Name="FK_enchant_efect" Association="RPGModel.FK_enchant_efect">
-            <End Role="Enchant_Effets" EntitySet="Enchant_Effets" />
-            <End Role="Enchantements" EntitySet="Enchantements" />
-          </AssociationSet>
           <AssociationSet Name="FK_enchant_type" Association="RPGModel.FK_enchant_type">
             <End Role="Enchant_Type" EntitySet="Enchant_Type" />
             <End Role="Enchantements" EntitySet="Enchantements" />
@@ -4245,6 +4244,12 @@
           <NavigationProperty Name="Crowd_control" Relationship="RPGModel.FK_combo_cc" FromRole="Combo" ToRole="Crowd_control" />
           <NavigationProperty Name="Etat1" Relationship="RPGModel.FK_combo_etat" FromRole="Combo" ToRole="Etat" />
           <NavigationProperty Name="Stat1" Relationship="RPGModel.fk_combo_stat" FromRole="Combo" ToRole="Stat" />
+          <Property Name="perso_combo" Type="Boolean" Nullable="false" />
+          <Property Name="beast_combo" Type="Boolean" Nullable="false" />
+          <Property Name="creat_combo" Type="Boolean" Nullable="false" />
+          <Property Name="multibras" Type="Boolean" Nullable="false" />
+          <Property Name="ailes" Type="Boolean" Nullable="false" />
+          <Property Name="queue" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Sorts">
           <Key>
@@ -4279,6 +4284,9 @@
           <NavigationProperty Name="Magie_type" Relationship="RPGModel.FK_spell_ecole" FromRole="Sorts" ToRole="Magie_type" />
           <NavigationProperty Name="Parchemins" Relationship="RPGModel.FK_spell_parchemin" FromRole="Sorts" ToRole="Parchemins" />
           <NavigationProperty Name="Stat1" Relationship="RPGModel.fk_spell_stat" FromRole="Sorts" ToRole="Stat" />
+          <Property Name="perso_spell" Type="Boolean" Nullable="false" />
+          <Property Name="beast_spell" Type="Boolean" Nullable="false" />
+          <Property Name="creat_spell" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_combo_buff">
           <End Type="RPGModel.Buff" Role="Buff" Multiplicity="0..1" />
@@ -6114,9 +6122,20 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="nom" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="effet" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="effects" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cout_mana" Type="Int32" Nullable="false" />
           <Property Name="power_on_craft" Type="Boolean" Nullable="false" />
+          <Property Name="on_cac" Type="Boolean" Nullable="false" />
+          <Property Name="on_dist" Type="Boolean" Nullable="false" />
+          <Property Name="on_mag" Type="Boolean" Nullable="false" />
+          <Property Name="weapons_cac" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="weapons_dist" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="weapons_mag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="on_armor" Type="Boolean" Nullable="false" />
+          <Property Name="armors" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="on_jewel" Type="Boolean" Nullable="false" />
+          <Property Name="jewels" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="unlockable" Type="Boolean" Nullable="false" />
           <Property Name="expert" Type="Boolean" Nullable="false" />
           <Property Name="lengendary" Type="Boolean" Nullable="false" />
@@ -6127,22 +6146,9 @@
           <Property Name="rapport" Type="Int32" />
           <Property Name="niveau" Type="Int32" Nullable="false" />
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Enchant_Effets" Relationship="RPGModel.FK_enchant_efect" FromRole="Enchantements" ToRole="Enchant_Effets" />
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
         </EntityType>
-        <Association Name="FK_enchant_efect">
-          <End Type="RPGModel.Enchant_Effets" Role="Enchant_Effets" Multiplicity="1" />
-          <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Enchant_Effets">
-              <PropertyRef Name="effet" />
-            </Principal>
-            <Dependent Role="Enchantements">
-              <PropertyRef Name="effet" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
           <End Type="RPGModel.Enchantements" Role="Enchantements" Multiplicity="*" />
@@ -6634,6 +6640,12 @@
           <EntitySetMapping Name="Combo">
             <EntityTypeMapping TypeName="RPGModel.Combo">
               <MappingFragment StoreEntitySet="Combo">
+                <ScalarProperty Name="queue" ColumnName="queue" />
+                <ScalarProperty Name="ailes" ColumnName="ailes" />
+                <ScalarProperty Name="multibras" ColumnName="multibras" />
+                <ScalarProperty Name="creat_combo" ColumnName="creat_combo" />
+                <ScalarProperty Name="beast_combo" ColumnName="beast_combo" />
+                <ScalarProperty Name="perso_combo" ColumnName="perso_combo" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="cooldown" ColumnName="cooldown" />
                 <ScalarProperty Name="lvl_use" ColumnName="lvl_use" />
@@ -6666,6 +6678,9 @@
           <EntitySetMapping Name="Sorts">
             <EntityTypeMapping TypeName="RPGModel.Sorts">
               <MappingFragment StoreEntitySet="Sorts">
+                <ScalarProperty Name="creat_spell" ColumnName="creat_spell" />
+                <ScalarProperty Name="beast_spell" ColumnName="beast_spell" />
+                <ScalarProperty Name="perso_spell" ColumnName="perso_spell" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="cooldown" ColumnName="cooldown" />
                 <ScalarProperty Name="ecole" ColumnName="ecole" />
@@ -7287,9 +7302,20 @@
                 <ScalarProperty Name="lengendary" ColumnName="lengendary" />
                 <ScalarProperty Name="expert" ColumnName="expert" />
                 <ScalarProperty Name="unlockable" ColumnName="unlockable" />
+                <ScalarProperty Name="jewels" ColumnName="jewels" />
+                <ScalarProperty Name="on_jewel" ColumnName="on_jewel" />
+                <ScalarProperty Name="armors" ColumnName="armors" />
+                <ScalarProperty Name="on_armor" ColumnName="on_armor" />
+                <ScalarProperty Name="weapons_mag" ColumnName="weapons_mag" />
+                <ScalarProperty Name="weapons_dist" ColumnName="weapons_dist" />
+                <ScalarProperty Name="weapons_cac" ColumnName="weapons_cac" />
+                <ScalarProperty Name="on_mag" ColumnName="on_mag" />
+                <ScalarProperty Name="on_dist" ColumnName="on_dist" />
+                <ScalarProperty Name="on_cac" ColumnName="on_cac" />
                 <ScalarProperty Name="power_on_craft" ColumnName="power_on_craft" />
+                <ScalarProperty Name="cout_mana" ColumnName="cout_mana" />
                 <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="effet" ColumnName="effet" />
+                <ScalarProperty Name="effects" ColumnName="effects" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -94,6 +94,9 @@ namespace RPG_Jahr_words
 
         private bool FilterSpells(object obj)
         {
+            if (Perso_Categ.SelectedValue as string == "Familier" && !(obj as Sorts).beast_spell) return false;
+            else if (Perso_Categ.SelectedValue as string == "Créature" && !(obj as Sorts).creat_spell) return false;
+            else if (Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Familier"!(obj as Sorts).perso_spell) return false;
             if (SpellSchool.SelectedIndex > 0)
                 return (obj as Sorts).Magie_type == SpellSchool.SelectedItem as Magie_type;
             return true;
@@ -101,6 +104,22 @@ namespace RPG_Jahr_words
 
         private bool FilterCombs(object obj)
         {
+            if (Perso_Categ.SelectedValue as string == "Familier" && !(obj as Combo).beast_combo) return false;
+            else if (Perso_Categ.SelectedValue as string == "Créature" && !(obj as Combo).creat_combo) return false;
+            else if (!(obj as Combo).perso_combo) return false;
+            else if(Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Créature")
+            {
+                if ((obj as Combo).multibras && Perso_Race.SelectedValue as string != "Agrabe") return false;
+                if ((obj as Combo).queue &&
+                    (Perso_Race.SelectedValue as string != "Varatac"
+                    || Perso_Race.SelectedValue as string != "Agrabe"
+                    || Perso_Race.SelectedValue as string != "Jahr"
+                    || Perso_Race.SelectedValue as string != "Vouivre")) return false;
+                if ((obj as Combo).ailes &&
+                    (Perso_Race.SelectedValue as string != "Eaglyte" 
+                    || Perso_Race.SelectedValue as string != "Letermaus-Myshite" 
+                    || Perso_Race.SelectedValue as string != "Jahr")) return false;
+            }
             if (ComboType.SelectedIndex > 0)
                 return (obj as Combo).ComboCat == ComboType.SelectedItem as ComboCat;
             return true;
