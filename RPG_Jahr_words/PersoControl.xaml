@@ -70,7 +70,7 @@
                 </CompositeCollection>
             </ComboBox.ItemsSource>
         </ComboBox>
-        <ComboBox x:Name="Perso_Categ" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="type" SelectedValuePath="type" SelectedValue="{Binding NewPerso.cat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.PersoCategorie, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+        <ComboBox x:Name="Perso_Categ" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="106" DisplayMemberPath="type" SelectedValuePath="type" SelectedValue="{Binding NewPerso.cat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.PersoCategorie, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CatChange">
             <ComboBox.Style>
                 <Style TargetType="{x:Type ComboBox}">
                     <Style.Triggers>

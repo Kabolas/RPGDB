@@ -96,7 +96,7 @@ namespace RPG_Jahr_words
         {
             if (Perso_Categ.SelectedValue as string == "Familier" && !(obj as Sorts).beast_spell) return false;
             else if (Perso_Categ.SelectedValue as string == "Créature" && !(obj as Sorts).creat_spell) return false;
-            else if (Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Familier"!(obj as Sorts).perso_spell) return false;
+            else if (Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Familier" && !(obj as Sorts).perso_spell) return false;
             if (SpellSchool.SelectedIndex > 0)
                 return (obj as Sorts).Magie_type == SpellSchool.SelectedItem as Magie_type;
             return true;
@@ -107,7 +107,7 @@ namespace RPG_Jahr_words
             if (Perso_Categ.SelectedValue as string == "Familier" && !(obj as Combo).beast_combo) return false;
             else if (Perso_Categ.SelectedValue as string == "Créature" && !(obj as Combo).creat_combo) return false;
             else if (!(obj as Combo).perso_combo) return false;
-            else if(Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Créature")
+            else if (Perso_Categ.SelectedValue as string != "Familier" && Perso_Categ.SelectedValue as string != "Créature")
             {
                 if ((obj as Combo).multibras && Perso_Race.SelectedValue as string != "Agrabe") return false;
                 if ((obj as Combo).queue &&
@@ -116,8 +116,8 @@ namespace RPG_Jahr_words
                     || Perso_Race.SelectedValue as string != "Jahr"
                     || Perso_Race.SelectedValue as string != "Vouivre")) return false;
                 if ((obj as Combo).ailes &&
-                    (Perso_Race.SelectedValue as string != "Eaglyte" 
-                    || Perso_Race.SelectedValue as string != "Letermaus-Myshite" 
+                    (Perso_Race.SelectedValue as string != "Eaglyte"
+                    || Perso_Race.SelectedValue as string != "Letermaus-Myshite"
                     || Perso_Race.SelectedValue as string != "Jahr")) return false;
             }
             if (ComboType.SelectedIndex > 0)
@@ -339,7 +339,7 @@ namespace RPG_Jahr_words
 
         private void RefreshSpell(object sender, SelectionChangedEventArgs e)
         {
-            if (SpellList != null)
+            if (SpellList != null && SpellList.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(SpellList.ItemsSource)).Refresh();
         }
 
@@ -357,7 +357,7 @@ namespace RPG_Jahr_words
 
         private void RefreshCombo(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboList != null)
+            if (ComboList != null && ComboList.ItemsSource != null)
                 ((CollectionView)CollectionViewSource.GetDefaultView(ComboList.ItemsSource)).Refresh();
         }
 
@@ -498,6 +498,7 @@ namespace RPG_Jahr_words
         private void RaceChoice(object sender, SelectionChangedEventArgs e)
         {
             Placeholder(sender, e);
+            RefreshCombo(sender, e);
             Races value = (sender as ComboBox).SelectedItem as Races;
             if (DataContext is ViewModel.PersoViewModel)
                 if (value?.Race_Stat_Cap != null)
@@ -564,8 +565,8 @@ namespace RPG_Jahr_words
             {
                 Peruso_Label.Text += perso.nom + " : " +
                       "\n\t" + perso.race ?? perso.nom_crea ?? perso.Bestiaire_Beast.nom;
-                Peruso_Label.Text += ", Originaire du "+perso.origine == "Originel"?"monde ":""+ perso.origine + ", mesure "+perso.Pers_carac.taille+"m, pèese "+perso.Pers_carac.masse+"kg\n" +
-                    ""+perso.background;
+                Peruso_Label.Text += ", Originaire du " + perso.origine == "Originel" ? "monde " : "" + perso.origine + ", mesure " + perso.Pers_carac.taille + "m, pèese " + perso.Pers_carac.masse + "kg\n" +
+                    "" + perso.background;
             }
         }
 
@@ -590,6 +591,13 @@ namespace RPG_Jahr_words
                     "\n\tEsperance de vie : environ " + race.Race_Specs.esperance_de_vie + " ans." +
                     "\n\tTranches d'age : " +
                     "\n\t\tEnfant : " + race.Race_Specs.enfant + "ans, Jeune : " + race.Race_Specs.jeune + " ans, Adulte : " + race.Race_Specs.adulte + " ans, Mûr : " + race.Race_Specs.mur + " ans, Grand Âge : " + race.Race_Specs.grand_age + " ans, Vénérable : " + race.Race_Specs.venerable + " ans, Maximum : environ " + race.Race_Specs.maximum + " ans.\n\n";
+        }
+
+        private void CatChange(object sender, SelectionChangedEventArgs e)
+        {
+            Placeholder(sender, e);
+            RefreshCombo(sender, e);
+            RefreshStuff(sender, e);
         }
     }
 }

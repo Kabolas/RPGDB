@@ -40,6 +40,7 @@ namespace RPG_Jahr_words
         public Nullable<int> rapport { get; set; }
         public int niveau { get; set; }
         public string descr { get; set; }
+        public string armors_cats { get; set; }
     
         public virtual Enchant_Type Enchant_Type { get; set; }
         public virtual Monde_w Monde_w { get; set; }

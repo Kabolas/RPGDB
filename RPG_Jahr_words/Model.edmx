@@ -529,6 +529,7 @@
           <Property Name="weapons_dist" Type="varchar" MaxLength="200" />
           <Property Name="weapons_mag" Type="varchar" MaxLength="200" />
           <Property Name="on_armor" Type="bit" Nullable="false" />
+          <Property Name="armors_cats" Type="varchar" MaxLength="200" />
           <Property Name="armors" Type="varchar" MaxLength="200" />
           <Property Name="on_jewel" Type="bit" Nullable="false" />
           <Property Name="jewels" Type="varchar" MaxLength="200" />
@@ -6148,6 +6149,7 @@
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
+          <Property Name="armors_cats" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
@@ -7292,6 +7294,7 @@
           <EntitySetMapping Name="Enchantements">
             <EntityTypeMapping TypeName="RPGModel.Enchantements">
               <MappingFragment StoreEntitySet="Enchantements">
+                <ScalarProperty Name="armors_cats" ColumnName="armors_cats" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="niveau" ColumnName="niveau" />
                 <ScalarProperty Name="rapport" ColumnName="rapport" />

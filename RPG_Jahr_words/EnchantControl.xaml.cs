@@ -56,7 +56,7 @@ namespace RPG_Jahr_words
 
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
-            if (Item_list.SelectedItems.Count>0)
+            if (Item_list.SelectedItems.Count > 0)
             {
                 foreach (Items item in Item_list.SelectedItems)
                 {
@@ -70,8 +70,17 @@ namespace RPG_Jahr_words
                     Component_type.SelectedIndex = 0;
                     Item_rec.ItemsSource = new System.Collections.ObjectModel.ObservableCollection<RecipeItem>((Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette));
                     minpricepose += (decimal)(b).Component.prix_mago;
-                    minpricesell += (decimal)(b).Component.prix_mago;
-                    sellPlus.Text = "" + (decimal.Parse(sellPlus.Text) + (decimal)(b).Component.prix_mago);
+                    minpricesell += (decimal)(b).Component.prix_mago / 2;
+                    if (sellPlus.Text != "")
+                    {
+                        sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace(".", ",")) + (decimal)(b).Component.prix_mago / 2)).Replace(",", ".");
+                        posePrice.Text = ("" + (decimal.Parse(posePrice.Text.Replace(".", ",")) + (decimal)(b).Component.prix_mago)).Replace(",", ".");
+                    }
+                    else
+                    {
+                        sellPlus.Text = ("" + ((decimal)(b).Component.prix_mago / 2)).Replace(",", ".");
+                        posePrice.Text = ("" + ((decimal)(b).Component.prix_mago)).Replace(",", ".");
+                    }
                 }
                 Item_list.SelectedItems.Clear();
             }
@@ -87,8 +96,9 @@ namespace RPG_Jahr_words
                 while (Item_rec.SelectedItems.Count > 0)
                 {
                     minpricepose -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago;
-                    minpricesell -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago;
-                    sellPlus.Text = "" + (decimal.Parse(sellPlus.Text) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago);
+                    minpricesell -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago/2;
+                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.',',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago/2)).Replace(',','.');
+                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.',',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago)).Replace(',','.');
                     (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Remove(Item_rec.SelectedItems[0] as RecipeItem);
                 }
             }
@@ -97,7 +107,7 @@ namespace RPG_Jahr_words
 
         private void MinposePrice(object sender, TextChangedEventArgs e)
         {
-            if(decimal.TryParse((sender as TextBox).Text, out decimal prix))
+            if (decimal.TryParse((sender as TextBox).Text, out decimal prix))
             {
                 if (prix < minpricepose) (sender as TextBox).Text = "" + minpricepose;
             }
