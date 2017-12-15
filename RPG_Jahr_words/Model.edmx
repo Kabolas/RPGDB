@@ -542,6 +542,7 @@
           <Property Name="puissance" Type="int" />
           <Property Name="rapport" Type="int" />
           <Property Name="niveau" Type="int" Nullable="false" />
+          <Property Name="requirements" Type="varchar(max)" />
           <Property Name="descr" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Etat">
@@ -6150,6 +6151,7 @@
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
           <Property Name="armors_cats" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="requirements" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
@@ -7294,6 +7296,7 @@
           <EntitySetMapping Name="Enchantements">
             <EntityTypeMapping TypeName="RPGModel.Enchantements">
               <MappingFragment StoreEntitySet="Enchantements">
+                <ScalarProperty Name="requirements" ColumnName="requirements" />
                 <ScalarProperty Name="armors_cats" ColumnName="armors_cats" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="niveau" ColumnName="niveau" />

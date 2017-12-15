@@ -137,7 +137,7 @@ namespace RPG_Jahr_words
             return false;
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { Item_name.Text = Gen.Generation_gn_Sons(Item.Value, Item.Word, (bool)Item.Before, Item.Triphtongue, Item.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { Item_name.Text = Item.Generation_gn(); }
         private void Selecion_with_all(object sender, SelectionChangedEventArgs e)
         {
             ListBox lys = (ListBox)sender;

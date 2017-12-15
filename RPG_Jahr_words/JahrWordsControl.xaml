@@ -114,7 +114,7 @@
             </Grid>
         </GroupBox>
         <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="104" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="290">
-            <local:GenOptions x:Name="Jahr_dic"/>
+            <local:GenOptions x:Name="Jahr_dic" Gen="{Binding Gen, RelativeSource={RelativeSource AncestorType={x:Type local:JahrWordsControl}}}"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="1" Margin="322,0,10,10" Height="274" VerticalAlignment="Bottom">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

@@ -56,7 +56,7 @@ namespace RPG_Jahr_words
 
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { genwordnorm.Text = Gen.default_Generation_Sons(Jahr_dic.Value, Jahr_dic.Word, Jahr_dic.Before, Jahr_dic.Triphtongue, Jahr_dic.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { genwordnorm.Text = Jahr_dic.Generation(); }
 
         private void Display(object sender, RoutedEventArgs e)
         {

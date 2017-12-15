@@ -149,7 +149,7 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Generation Option" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="101" Margin="10,345,0,0" VerticalAlignment="Top" Width="290">
-            <local:GenOptions x:Name="Perso"/>
+            <local:GenOptions x:Name="Perso" Gen="{Binding Gen, RelativeSource={RelativeSource AncestorType={x:Type local:PersoControl}}}"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="240" Margin="305,206,0,0" VerticalAlignment="Top" Width="386">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

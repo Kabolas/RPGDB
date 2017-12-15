@@ -157,7 +157,7 @@ namespace RPG_Jahr_words
             }
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { Spell_name.Text = Gen.Generation_gn_Sons(Spell.Value, Spell.Word, (bool)Spell.Before, Spell.Triphtongue, Spell.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { Spell_name.Text = Spell.Generation_gn(); }
 
         private void Selecion_with_all(object sender, SelectionChangedEventArgs e)
         {

@@ -12,7 +12,7 @@ namespace RPG_Jahr_words.ViewModel
     {
         private RPGEntities15 _bdd;
         private Enchantements _saveEnchant;
-        private List<Enchant_Effets> _effects;
+        private List<Enchant_Effets> _effects, _selectedEffects = new List<Enchant_Effets>();
         private List<Enchant_Type> _types;
         private List<Monde_w> _origines;
         private List<Armor_cat> _armorCats, _selectedCats = new List<Armor_cat>();
@@ -128,21 +128,123 @@ namespace RPG_Jahr_words.ViewModel
 
         private void Saving()
         {
-
+            PrintedText += "Sauvegarde du ouvel enchantement." +
+                "\nCréation de l'enchantement.\n";
+            if (SaveEnchant.unlockable)
+                if (Requirements.Count > 0)
+                    foreach (RecipeItem step in Requirements)
+                    {
+                        if (Requirements.First() == step)
+                            SaveEnchant.requirements += step.N_recette + "[" + step + '\n';
+                        else if (Requirements.Last() == step)
+                            SaveEnchant.requirements += "" + step + "]";
+                        else if (Requirements.IndexOf(step) != Requirements[Requirements.IndexOf(step) + 1].N_recette)
+                            SaveEnchant.requirements += "" + step + "]";
+                        else SaveEnchant.requirements += "" + step + '\n';
+                    }
+            if (SelectedEffects.Count == 0) { PrintedText += "Un Enchantement ne peut pas etre dépourvu d'effet.\n"; return; }
+            else
+                foreach (Enchant_Effets effet in SelectedEffects)
+                    SaveEnchant.effects += effet.effet + (effet != SelectedEffects[0] ? "\n" : "");
+            PrintedText += "Effets d'enchantement ajoutés.\n";
+            if (SaveEnchant.on_armor)
+            {
+                if (SelectedCats.Count == 0) { PrintedText += "Choisir au moins une categorie d'armure sur laquelle l'enchantement peut etre placé.\n"; return; }
+                else
+                {
+                    foreach (Armor_cat categorie in SelectedCats)
+                        SaveEnchant.armors_cats += categorie.categorie + (categorie != SelectedCats[0] ? "\n" : "");
+                    PrintedText += "Categories d'armure ajoutées.\n";
+                }
+                if (SelectedArmors.Count == 0 && SaveEnchant.armors_cats != "Exosquelette") { PrintedText += "Choisir au moins une piece d'armure sur laquelle l'enchantement est applicable.\n"; return; }
+                else
+                {
+                    foreach (Piece piece in SelectedArmors)
+                        SaveEnchant.armors += piece.emplacement + (piece == SelectedArmors[0] ? "\n" : "");
+                    PrintedText += "Pieces d'armures ajoutées.\n";
+                }
+            }
+            if (SaveEnchant.on_jewel)
+            {
+                if (SelectedJewels.Count == 0) { PrintedText += "Choisir au moins un type de bijous sur lequel cet enchantement peut etre appliqué.\n"; return; }
+                else
+                {
+                    foreach (Bijoux_place place in SelectedJewels)
+                        SaveEnchant.jewels += place.place += (place == SelectedJewels[0] ? "\n" : "");
+                    PrintedText += "Bijoux ajoutés.\n";
+                }
+            }
+            if (SaveEnchant.on_cac)
+            {
+                if (SelectedCac.Count == 0) { PrintedText += "Choisir au moins une arme de corps à corps sur laquelle cet enchantement peut etre appliqué.\n"; return; }
+                else
+                {
+                    foreach (Weapon_type type in SelectedCac)
+                        SaveEnchant.weapons_cac += type.type + (type == SelectedCac[0] ? "\n" : "");
+                    PrintedText += "Armes de corps à corps ajoutées.\n";
+                }
+            }
+            if (SaveEnchant.on_dist)
+            {
+                if (Selecteddist.Count == 0) { PrintedText += "Choisir au moins une arme a distance sur laquelle l'enchantement est applicable.\n"; return; }
+                else
+                {
+                    foreach (Weapon_type type in Selecteddist)
+                        SaveEnchant.weapons_dist += type.type + (type == SelectedCac[0] ? "\n" : "");
+                    PrintedText += "Armes à distance ajoutées.\n";
+                }
+            }
+            if (SaveEnchant.on_mag)
+            {
+                if (Selectedmag.Count == 0) { PrintedText += "Choisir au moins une arme magique sur laquelle l'enchantement est applicable.\n"; return; }
+                else
+                {
+                    foreach (Weapon_type type in Selectedmag)
+                        SaveEnchant.weapons_mag += type.type + (type == SelectedCac[0] ? "\n" : "");
+                    PrintedText += "Armes magiques ajoutées.\n";
+                }
+            }
+            try
+            {
+                PrintedText += "Enchantement créé.\n" +
+                    "Sauvegarde de l'enchantement.\n";
+                Bdd.Enchantements.Add(SaveEnchant);
+                if (Bdd.SaveChanges() > 0)
+                {
+                    PrintedText += "Enchantement Sauvegardé.\n";
+                    Selectedmag = new List<Weapon_type>();
+                    Selecteddist = new List<Weapon_type>();
+                    SelectedCac = new List<Weapon_type>();
+                    SaveEnchant = new Enchantements();
+                    SelectedEffects = new List<Enchant_Effets>();
+                    SelectedJewels = new List<Bijoux_place>();
+                    SelectedCats = new List<Armor_cat>();
+                    SelectedArmors = new List<Piece>();
+                    Requirements = new System.Collections.ObjectModel.ObservableCollection<RecipeItem>();
+                    RecipeCount = new List<int> { 1 };
+                }
+            }
+            catch
+            {
+                PrintedText += "Enchantement non enregistré.\n";
+            }
         }
 
         public RelayCommand ShowEffects { get => _showEffects ?? (_showEffects = new RelayCommand(EffectsDisplay)); }
 
         private void EffectsDisplay()
         {
+            PrintedText += "Effets d'enchantements : \n";
             foreach (Enchant_Effets effet in Bdd.Enchant_Effets)
                 PrintedText += effet.effet + " : " + effet.descr + "\n";
         }
 
         public RelayCommand ShowTypes { get => _showTypes ?? (_showTypes = new RelayCommand(TypesDisplay)); }
+        public List<Enchant_Effets> SelectedEffects { get => _selectedEffects; set { _selectedEffects = value; RaisePropertyChanged(); } }
 
         private void TypesDisplay()
         {
+            PrintedText += "Types d'enchantements : \n";
             foreach (Enchant_Type type in Bdd.Enchant_Type)
                 PrintedText += type.type + " : " + type.descr + "\n";
         }

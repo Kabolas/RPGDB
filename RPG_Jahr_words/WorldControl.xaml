@@ -410,7 +410,7 @@
             </ScrollViewer>
         </Border>
         <GroupBox Header="Generation" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="119" Margin="10,327,0,0" VerticalAlignment="Top" Width="290">
-            <local:GenOptions x:Name="World"/>
+            <local:GenOptions x:Name="World" Gen="{Binding Gen, RelativeSource={RelativeSource AncestorType={x:Type local:WorldControl}}}"/>
         </GroupBox>
         <TextBox x:Name="min_All_Prix_mag" HorizontalAlignment="Left" Height="21" Margin="204,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" IsEnabled="{Binding ElementName=prix_mag, Path=IsEnabled}" Visibility="{Binding ElementName=prix_mag, Path=Visibility}">
             <TextBox.Resources>

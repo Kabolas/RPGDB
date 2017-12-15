@@ -17,7 +17,7 @@
             <TextBlock x:Name="Enchantu_Label" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" Text="{Binding PrintedText, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Border>
         <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="96" Margin="10,350,0,0" VerticalAlignment="Top" Width="290">
-            <local:GenOptions x:Name="Ench"/>
+            <local:GenOptions x:Name="Ench" Gen="{Binding Gen, RelativeSource={RelativeSource AncestorType={x:Type local:EnchantControl}}}"/>
         </GroupBox>
         <GroupBox BorderBrush="Black" Header="Affichage" BorderThickness="1" HorizontalAlignment="Left" Height="149" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
@@ -148,8 +148,8 @@
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="putonArmor" Content="Armure" HorizontalAlignment="Left" Margin="121,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox x:Name="putonJewel" Content="Bijoux" HorizontalAlignment="Left" Margin="248,10,0,0" VerticalAlignment="Top" IsChecked="{Binding SaveEnchant.on_jewel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <ListBox HorizontalAlignment="Left" Height="117" Margin="10,31,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding ArmorCats}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedCats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Multiple" DisplayMemberPath="categorie"/>
-                    <ListBox Height="118" Margin="121,31,137,0" VerticalAlignment="Top" ItemsSource="{Binding Armors}" DisplayMemberPath="emplacement" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedArmors}" IsEnabled="{Binding ElementName=putonArmor, Path=IsChecked}" SelectionMode="Multiple"/>
+                    <ListBox x:Name="CatChoice" HorizontalAlignment="Left" Height="117" Margin="10,31,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding ArmorCats}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedCats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Multiple" DisplayMemberPath="categorie" IsEnabled="{Binding ElementName=putonArmor, Path=IsChecked}" SelectionChanged="EnableChoice"/>
+                    <ListBox x:Name="PieceChoice" Height="118" Margin="121,31,137,0" VerticalAlignment="Top" ItemsSource="{Binding Armors}" DisplayMemberPath="emplacement" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedArmors}" IsEnabled="{Binding ElementName=putonArmor, Path=IsChecked}" SelectionMode="Multiple"/>
                     <ListBox Height="118" Margin="248,30,10,0" VerticalAlignment="Top" ItemsSource="{Binding Bijoux}" DisplayMemberPath="place" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedJewels}" IsEnabled="{Binding ElementName=putonJewel, Path=IsChecked}" SelectionMode="Multiple"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,9,0,0" TextWrapping="Wrap" Text="Type d'armures" VerticalAlignment="Top"/>
                 </Grid>
@@ -202,7 +202,7 @@
         <TextBox x:Name="posePrice" HorizontalAlignment="Left" Margin="223,145,0,0" Height="18" TextWrapping="Wrap" Text="{Binding SaveEnchant.prix_pose, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="51" TextChanged="MinposePrice"/>
         <TextBlock HorizontalAlignment="Left" Margin="5,175,0,0" TextWrapping="Wrap" Text="Cout en Mana" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="18" Margin="90,177,0,0" TextWrapping="Wrap" Text="{Binding SaveEnchant.cout_mana, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="43"/>
-        <ListBox HorizontalAlignment="Left" Height="52" Margin="148,10,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Effects}" DisplayMemberPath="effet" SelectionMode="Multiple" SelectionChanged="Effect_limits"/>
+        <ListBox HorizontalAlignment="Left" Height="52" Margin="148,10,0,0" VerticalAlignment="Top" Width="150" ItemsSource="{Binding Effects}" DisplayMemberPath="effet" SelectionMode="Multiple" SelectionChanged="Effect_limits" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedEffects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock HorizontalAlignment="Left" Margin="305,202,0,0" TextWrapping="Wrap" Text="Montrer : " VerticalAlignment="Top"/>
         <Button Content=" Types " HorizontalAlignment="Left" Margin="362,201,0,0" Height="19" VerticalAlignment="Top" Command="{Binding ShowTypes}"/>
         <Button Content=" Button " HorizontalAlignment="Left" Margin="407,201,0,0" VerticalAlignment="Top" Command="{Binding ShowEffects}"/>

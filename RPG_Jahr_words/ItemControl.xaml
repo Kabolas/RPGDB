@@ -202,7 +202,7 @@
             </Grid>
         </GroupBox>
         <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="96" Margin="10,350,0,0" VerticalAlignment="Top" Width="290">
-            <local:GenOptions x:Name="Item"/>
+            <local:GenOptions x:Name="Item" Gen="{Binding Gen, RelativeSource={RelativeSource AncestorType={x:Type local:ItemControl}}}"/>
         </GroupBox>
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
             <TextBlock x:Name="Itemu_Label" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" Text="{Binding PrintedText, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>

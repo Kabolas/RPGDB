@@ -24,6 +24,18 @@ namespace RPG_Jahr_words
         private string _wordinword;
         private bool _before, _tripht, _symbole;
 
+        public NameGen Gen
+        {
+            get => (NameGen)GetValue(GenProperty);
+            set => SetValue(GenProperty, value);
+        }
+
+        public static readonly DependencyProperty GenProperty =
+            DependencyProperty.Register("Gen",
+                typeof(NameGen),
+                typeof(GenOptions), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+
         public int Value { get { return _letters; } set { _letters = (int)value; } }
         public string Word { get { return _wordinword; } set { _wordinword = value; } }
         public bool Symbol { get { return _symbole; } set { _symbole = value; } }
@@ -38,5 +50,8 @@ namespace RPG_Jahr_words
             InitializeComponent();
             DataContext = this;
         }
+
+        public string Generation() { return Gen.default_Generation_Sons(Value, Word, Before, Triphtongue, Symbol); }
+        public string Generation_gn() { return Gen.Generation_gn_Sons(Value, Word, Before, Triphtongue, Symbol); }
     }
 }

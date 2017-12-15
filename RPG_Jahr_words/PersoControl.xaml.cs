@@ -309,7 +309,7 @@ namespace RPG_Jahr_words
             return ret;
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { Perso_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { Perso_name.Text = Perso.Generation_gn(); }
 
         private void TraitDetail(object sender, RoutedEventArgs e)
         {
@@ -317,7 +317,7 @@ namespace RPG_Jahr_words
             Avantages.Text = "Avantages:\n" + Bdd.Trais.ToList().Find(t => t.nom == (sender as Button).Tag as string).avantage;
         }
 
-        private void Evol_Generation(object sender, RoutedEventArgs e) { Perso_evolved_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol); }
+        private void Evol_Generation(object sender, RoutedEventArgs e) { Perso_evolved_name.Text = Perso.Generation_gn(); }
 
         private void AjoutClick(object sender, RoutedEventArgs e)
         {

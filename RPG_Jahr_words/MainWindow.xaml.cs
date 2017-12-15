@@ -34,14 +34,13 @@ namespace RPG_Jahr_words
         Dico_terre,
     };
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
         public Tabitem Page { get; private set; }
         private NameGen _gen= new NameGen();
         public NameGen Gen { get => _gen; private set=> _gen = value; } 
         private SqlConnection con;
         private SqlCommand com;
-        public NumberRule rule { get; set; }
         private RPGEntities15 _bdd= new RPGEntities15();
         public RPGEntities15 Bdd { get => _bdd; private set => _bdd = value; } 
 
@@ -79,86 +78,6 @@ namespace RPG_Jahr_words
             
             UpdateWin();
         }
-        #region Personnage
-        private void Perso_Update()
-        {
-            /* 
-             DataSet set1 = new DataSet();
-             DataSet set = new DataSet();
-             new SqlDataAdapter("SELECT * FROM Race_Stat_Cap", con).Fill(set, "Race_Stat_Cap");
-             new SqlDataAdapter("SELECT type FROM Categorie", con).Fill(set1, "Categorie");
-             foreach (DataRow item in set.Tables["Race_Stat_Cap"].Rows)
-             {
-                 if (!Perso_Race.Items.Contains(item.ItemArray[0]))
-                 {
-                     if ((string)item.ItemArray[0] == "Jahr" || (string)item.ItemArray[item.ItemArray.Length - 1] == "False") Perso_Race.Items.Add(item.ItemArray[0]);
-                 }
-                 if (!Perso_show_Race.Items.Contains(item.ItemArray[0])) Perso_show_Race.Items.Add(item.ItemArray[0]);
-             }
-             foreach (DataRow row in set1.Tables["Categorie"].Rows)
-             {
-                 if (!Perso_Categ.Items.Contains(row.ItemArray[0])) Perso_Categ.Items.Add(row.ItemArray[0]);
-                 if (!Perso_show_Cat.Items.Contains(row.ItemArray[0])) Perso_show_Cat.Items.Add(row.ItemArray[0]);
-             }
-             if (!Perso_Origin.Items.Contains("Magique"))
-             {
-                 Perso_Origin.Items.Add("Magique");
-                 Perso_Origin.Items.Add("Technologique");
-                 Perso_show_origin.Items.Add("");
-                 Perso_show_origin.Items.Add("");
-             }
-             if (Perso_Race.SelectedIndex != 0)
-             {
-                 if ((string)Perso_Race.SelectedItem != "Humain")
-                 {
-                     Perso_Origin.IsEnabled = false;
-                     Perso_Origin.Visibility = Visibility.Hidden;
-                 }
-                 else
-                 {
-                     Perso_Origin.IsEnabled = true;
-                     Perso_Origin.Visibility = Visibility.Visible;
-                 }
-             }
-
-             con.Close();*/
-        }
-        private void AddCat_Perso()
-        {
-            //AddSmthng fntre = new AddSmthng("Entrer votre nouvelle categorie.\n" + "Les noms de categories doivent commencer par des Majuscules.")
-            //{
-            //    Title = "Nouvelle categorie"
-            //};
-            //fntre.ShowDialog();
-            //if (AddSmthng.maj)
-            //{
-            //    con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Bryan\Documents\Visual Studio 2015\Projects\RPG_Jahr_words\RPG_Jahr_words\Personnages.mdf;Integrated Security=True;");// Connect Timeout=30;");// User Instance=True");
-            //    com = new SqlCommand("INSERT INTO [Categorie](type) VALUES ('" + AddSmthng.nouveau + "');", con);
-            //    try
-            //    {
-
-            //        com.ExecuteNonQuery();
-            //        Perso_Label.Content = "Nouvelle Categorie de personnages " + AddSmthng.nouveau + " ajoutée";
-
-            //    }
-            //    catch (SqlException)
-            //    {
-            //        Perso_Label.Content = "Categorie " + AddSmthng.nouveau + " non Ajoutée car deja existante.";
-            //    }
-            //}
-            //else Perso_Label.Content = "Le nom des categories doit commencer par une majuscule!";
-            //if (AddSmthng.nouveau == "") Perso_Label.Content = "Veuillez entrer un mot pour ajouter une categorie!";
-            //Perso_Update();
-        }//TODO
-        private void Perso_save()
-        {
-
-        }//TODO
-        private void Show_perso()
-        {
-
-        }//TODO
-        #endregion Personnage
         #region Bestiaire
         private void BeastUpdate()
         {
@@ -378,7 +297,7 @@ namespace RPG_Jahr_words
                     catch { }
                     break;
                 case Tabitem.Personnages:
-                    try { Perso_Update(); }
+                    try {}
                     catch { }
                     break;
                 case Tabitem.Bestiaire:
@@ -419,10 +338,6 @@ namespace RPG_Jahr_words
                 case Tabitem.Items:
                     break;
                 case Tabitem.Personnages:
-                    if (sender == Perso_NameGen)
-                        Perso_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
-                    else if (sender == Perso_evolved_nameGen)
-                        Perso_evolved_name.Text = Gen.Generation_gn_Sons(Perso.Value, Perso.Word, Perso.Before, Perso.Triphtongue, Perso.Symbol);
                     break;
                 case Tabitem.Bestiaire:
                     Beast_name.Text = Gen.Generation_gn_Sons(BeastGen.Value, BeastGen.Word, BeastGen.Before, BeastGen.Triphtongue, BeastGen.Symbol);
@@ -512,7 +427,6 @@ namespace RPG_Jahr_words
                 case Tabitem.Items:
                     break;
                 case Tabitem.Personnages:
-                    AddCat_Perso();
                     break;
                 case Tabitem.Bestiaire:
                     if (sender == new_catbut) AddBeast_cat();
@@ -604,10 +518,6 @@ namespace RPG_Jahr_words
             }
         }
 
-        private void Change_Cat(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void Regle_Click(object sender, RoutedEventArgs e)
         {
@@ -659,17 +569,6 @@ namespace RPG_Jahr_words
             else if (Selection.SelectedItem == Dico_hum) Page = Tabitem.Dico_human;
             else if (Selection.SelectedItem == Dico_Ter) Page = Tabitem.Dico_terre;
             UpdateWin();
-        }
-
-        private void Perso_evolved_Checked(object sender, RoutedEventArgs e)
-        {
-            Perso_evolved_nameGen.IsEnabled = Perso_evolved_name.IsEnabled = false;
-            Perso_evolved_nameGen.Visibility = Perso_evolved_name.Visibility = Visibility.Hidden;
-        }
-        private void Perso_evolved_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Perso_evolved_nameGen.IsEnabled = Perso_evolved_name.IsEnabled = true;
-            Perso_evolved_nameGen.Visibility = Perso_evolved_name.Visibility = Visibility.Visible;
         }
 
         private void AjoutClick(object sender, RoutedEventArgs e)
@@ -814,6 +713,11 @@ namespace RPG_Jahr_words
                 foreach (DataRow row in set.Tables["Beasts"].Rows)
                     subevol.Items.Add(row.ItemArray[1] + ";" + row.ItemArray[2] + "," + row.ItemArray[0]);
             }
+        }
+
+        public void Dispose()
+        {
+            Bdd.Dispose();
         }
     }
 }

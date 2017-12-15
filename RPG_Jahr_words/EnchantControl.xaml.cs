@@ -52,7 +52,7 @@ namespace RPG_Jahr_words
             InitializeComponent();
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { Enchant_name.Text = Gen.Generation_gn_Sons(Ench.Value, Ench.Word, (bool)Ench.Before, Ench.Triphtongue, Ench.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { Enchant_name.Text = Ench.Generation_gn(); }
 
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
@@ -119,6 +119,12 @@ namespace RPG_Jahr_words
             {
                 if (prix < minpricesell) (sender as TextBox).Text = "" + minpricesell;
             }
+        }
+
+        private void EnableChoice(object sender, SelectionChangedEventArgs e)
+        {
+            if (CatChoice.SelectedItems.Count == 1) PieceChoice.IsEnabled = CatChoice.SelectedItem == Bdd.Armor_cat.ToList().Find(ar => ar.categorie == "Exoquelette");
+            else PieceChoice.IsEnabled = true;
         }
 
         private void Effect_limits(object sender, SelectionChangedEventArgs e)

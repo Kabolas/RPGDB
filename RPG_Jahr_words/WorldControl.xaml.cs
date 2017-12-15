@@ -164,7 +164,7 @@ namespace RPG_Jahr_words
             return true;
         }
 
-        private void Generation(object sender, RoutedEventArgs e) { World_name.Text = Gen.Generation_gn_Sons(World.Value, World.Word, (bool)World.Before, World.Triphtongue, World.Symbol); }
+        private void Generation(object sender, RoutedEventArgs e) { World_name.Text = World.Generation_gn(); }
 
         private void Selecion_with_all(object sender, SelectionChangedEventArgs e)
         {
