@@ -35,7 +35,25 @@ namespace RPG_Jahr_words
                 typeof(RPGEntities15),
                 typeof(ItemControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
 
-        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e) { (d as ItemControl).DataContext = new ItemViewModel(e.NewValue as RPGEntities15); }
+        public event EventHandler ItemAdded;
+        public event EventHandler NewWeapontype;
+        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ViewModel.ItemViewModel vm = new ItemViewModel(e.NewValue as RPGEntities15);
+            vm.WeaponAdded += (d as ItemControl).RaiseWeaponAdded;
+            vm.ItemAdded += (d as ItemControl).RaiseItemAdded;
+            (d as ItemControl).DataContext = vm;
+        }
+
+        private void RaiseItemAdded(object sender, EventArgs e)
+        {
+            ItemAdded?.Invoke(sender, e);
+        }
+        private void RaiseWeaponAdded(object sender, EventArgs e)
+        {
+            NewWeapontype?.Invoke(sender, e);
+        }
+
         public NameGen Gen
         {
             get => (NameGen)GetValue(GenProperty);
@@ -74,7 +92,7 @@ namespace RPG_Jahr_words
                         case "Bijoux": return (obj as Items).Bijoux != null;
                         case "Consommable": return (obj as Items).Consommables != null;
                         case "Loot": return (obj as Items).Loot != null;
-                        case "Livre":return (obj as Items).Livre != null;
+                        case "Livre": return (obj as Items).Livre != null;
                         case "Métaux": return (obj as Items).Mineraux != null && (obj as Items).Mineraux.Minerai_type.type == "Métal";
                         case "Parchemins": return (obj as Items).Parchemins != null;
                         case "Pierres":
@@ -551,7 +569,7 @@ namespace RPG_Jahr_words
             if (Item_rec_manacost.Text != "" && int.TryParse(Item_rec_manacost.Text, out int ncost))
                 if ((Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Any(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0))
                     (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).First(r => r.N_recette == (int)recipeId.SelectedItem && r.Component.Id == 0).Quantite = ncost;
-                else (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(new RecipeItem { Component = new Items { Id=0, nom = "Mana", origine = "Originel" }, Quantite = ncost, N_recette = (int)recipeId.SelectedItem });
+                else (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(new RecipeItem { Component = new Items { Id = 0, nom = "Mana", origine = "Originel" }, Quantite = ncost, N_recette = (int)recipeId.SelectedItem });
             else Itemu_Label.Text += "Veuillez entrer un nombre entier valide.\n";
             (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette);
         }

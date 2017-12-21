@@ -222,6 +222,7 @@ namespace RPG_Jahr_words.ViewModel
                     SelectedArmors = new List<Piece>();
                     Requirements = new System.Collections.ObjectModel.ObservableCollection<RecipeItem>();
                     RecipeCount = new List<int> { 1 };
+                    EnchantCreated?.Invoke(this, new EventArgs());
                 }
             }
             catch
@@ -248,5 +249,7 @@ namespace RPG_Jahr_words.ViewModel
             foreach (Enchant_Type type in Bdd.Enchant_Type)
                 PrintedText += type.type + " : " + type.descr + "\n";
         }
+
+        public event EventHandler EnchantCreated;
     }
 }

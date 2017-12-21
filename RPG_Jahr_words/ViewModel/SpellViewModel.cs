@@ -114,6 +114,7 @@ namespace RPG_Jahr_words.ViewModel
                     PrintedText += "Sauvegarde du sort\n";
                     Bd.Sorts.Add(SaveSort);
                     Bd.SaveChanges();
+                    SpellAdded?.Invoke(this, EventArgs.Empty); 
                     PrintedText += "Sort " + SaveSort.nom + " sauvegardé.\nCréation du parchemin.\n";
                     Items itemParc = new Items
                     {

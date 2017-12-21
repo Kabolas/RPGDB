@@ -119,7 +119,7 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Monde_w> Worlds { get => _worlds; set => _worlds = value; }
         public RelayCommand NewUse { get => _newUse ?? (_newUse = new RelayCommand(MakeUse)); }
-
+        public event EventHandler BiomeAdded, ContinentAdded, MineAdded, MinerAdded, AllAdded;
         private void MakeUse()
         {
             AddSmthng fntre = new AddSmthng("Entrer votre nouvelle utilisation.\n" + "Les noms d'utilisation doivent commencer par des Majuscules.");
@@ -156,6 +156,7 @@ namespace RPG_Jahr_words.ViewModel
                     Biome = Bd.Biomes.ToList();
                     PhenomCrit.Add(Bd.Biomes.Last());
                     PrintedText += "Nouveau Biome " + fntre.Nouveau + " ajouté.\n";
+                    BiomeAdded?.Invoke(this, EventArgs.Empty);
                 }
                 catch { PrintedText += "Biome deja existant.\n"; }
             }
@@ -208,6 +209,7 @@ namespace RPG_Jahr_words.ViewModel
                         Bd.Continent.Add(SaveConti);
                         Bd.SaveChanges();
                         PrintedText += "Nouveau continent " + SaveConti.nom + " Ajouté.\n";
+                        ContinentAdded?.Invoke(this, EventArgs.Empty);
                         SaveConti = new Continent();
                         Continents = Bd.Continent.ToList();
                         SelectedBiomes.Clear();
@@ -241,6 +243,7 @@ namespace RPG_Jahr_words.ViewModel
                         Bd.Mineraux.Add(MinerSave);
                         Bd.SaveChanges();
                         PrintedText += "Nouveau minerai " + SaveMiner.nom + " Ajouté.\n";
+                        MinerAdded?.Invoke(this, EventArgs.Empty);
                         SaveMiner = new Items();
                         MinerSave = new Mineraux();
                         Materiau = new ObservableCollection<Items>(Bd.Items.Where(i => i.Mineraux != null));
@@ -268,6 +271,7 @@ namespace RPG_Jahr_words.ViewModel
                         Bd.Items.Add(SaveMiner);
                         Bd.Alliage.Add(new Alliage { Items = SaveAll });
                         Bd.SaveChanges();
+                        AllAdded?.Invoke(this, EventArgs.Empty);
                         PrintedText += "Nouvel alliage " + SaveAll.nom + " Ajouté.\n";
                         SaveAll = new Items();
                         break;
@@ -298,6 +302,7 @@ namespace RPG_Jahr_words.ViewModel
                 {
                     Bd.SaveChanges();
                     MinerTypes = Bd.Minerai_type.ToList();
+                    MineAdded?.Invoke(this, EventArgs.Empty);
                     PrintedText += "Nouvelle utilisation " + fntre.Nouveau + " ajouté.\n";
                 }
                 catch { PrintedText += "utilisation déja existante.\n"; }

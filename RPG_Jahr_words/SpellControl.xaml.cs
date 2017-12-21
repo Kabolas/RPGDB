@@ -30,7 +30,15 @@ namespace RPG_Jahr_words
                 typeof(RPGEntities15),
                 typeof(SpellControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
 
-        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e) { (d as SpellControl).DataContext = new ViewModel.SpellViewModel(e.NewValue as RPGEntities15); }
+        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ViewModel.SpellViewModel mod = new ViewModel.SpellViewModel(e.NewValue as RPGEntities15);
+            mod.SpellAdded += (d as SpellControl).RaiseSpellAdded;
+            (d as SpellControl).DataContext = mod;
+        }
+
+        private void RaiseSpellAdded(object sender, EventArgs e) { AddedSpell?.Invoke(sender, e); }
+
         public NameGen Gen
         {
             get => (NameGen)GetValue(GenProperty);
@@ -44,7 +52,7 @@ namespace RPG_Jahr_words
         {
             InitializeComponent();
         }
-
+        public event EventHandler AddedSpell;
         private void Display(object sender, RoutedEventArgs e)
         {
             if ((bool)combo_show.IsChecked)
@@ -99,12 +107,12 @@ namespace RPG_Jahr_words
                         break;
                 }
                 foreach (Combo combo in Show)
-                    Spellu_Label.Text += combo.nom + " -- " + combo.type + ", niveau "+combo.niveau+" ==> attaque : " + combo.attaque + ", puissance : " + combo.puissance + ", type de ciblage : " + combo.ciblage +
+                    Spellu_Label.Text += combo.nom + " -- " + combo.type + ", niveau " + combo.niveau + " ==> attaque : " + combo.attaque + ", puissance : " + combo.puissance + ", type de ciblage : " + combo.ciblage +
                                             "\ncout en stamina : " + combo.stamina_cout + "cout en mana : " + combo.mana_cout + ", portée : " + combo.portee + ", rayon d'action : " + combo.rayon + "\n" +
                                           (combo.Crowd_control != null ? combo.Cc_chance + "% de chances d'infliger : " + combo.Cc + " pendant " + combo.Cc_duree + "s+\n" : "") +
                                           (combo.Buff1 != null ? combo.buff_chance + "% de chances d'avoir " + combo.buff + " pendant " + combo.buff_duree + "s\n" : "") +
                                           (combo.Etat1 != null ? combo.etat_chance + "% de chances d'infliger " + combo.etat + " pendant " + combo.etat_duree + "s\n" : "") +
-                                          "Utilisable par :" + combo.weapons + "\nUtilise les ecoles de " + combo.magie_use + " au niveau " + combo.lvl_use + ".\n Puissance du Combo basé sur "+combo.stat+"\n";
+                                          "Utilisable par :" + combo.weapons + "\nUtilise les ecoles de " + combo.magie_use + " au niveau " + combo.lvl_use + ".\n Puissance du Combo basé sur " + combo.stat + "\n";
             }
             else
             {
@@ -124,7 +132,7 @@ namespace RPG_Jahr_words
                         Show = Show.FindAll(c => c.Mag_element == Spell_critere.SelectedItem as Mag_element);
                         break;
                     case "Ecole":
-                        Show = Show.FindAll(c => c.Magie_type == Spell_critere.SelectedItem );
+                        Show = Show.FindAll(c => c.Magie_type == Spell_critere.SelectedItem);
                         break;
                     case "Cout (Stamina)":
                         Show = Show.FindAll(c => ((bool)is_inf.IsChecked) ? c.stamina_cout <= int.Parse(spel_cri_val.Text) : c.stamina_cout > int.Parse(spel_cri_val.Text));
@@ -152,8 +160,8 @@ namespace RPG_Jahr_words
                                             "\ncout en stamina : " + combo.stamina_cout + "cout en mana : " + combo.mana_cost + ", portée : " + combo.portee + ", rayon d'action : " + combo.rayon + "\n" +
                                           (combo.Crowd_control != null ? combo.Cc_chance + "% de chances d'infliger : " + combo.Cc + " pendant " + combo.Cc_duree + "s+\n" : "") +
                                           (combo.Buff1 != null ? combo.buff_chance + "% de chances d'avoir " + combo.buff + " pendant " + combo.buff_duree + "s\n" : "") +
-                                          (combo.Mag_element!= null ? combo.etat_chance + "% de chances d'infliger " + combo.Mag_element.etat+ " pendant " + combo.etat_duree + "s\n" : "") +
-                                          "Puissance du Sort basée sur :"+combo.stat + "\nSort de" + combo.Magie_type.ecole+ " de niveau " + combo.niveau+ ".\n\n";
+                                          (combo.Mag_element != null ? combo.etat_chance + "% de chances d'infliger " + combo.Mag_element.etat + " pendant " + combo.etat_duree + "s\n" : "") +
+                                          "Puissance du Sort basée sur :" + combo.stat + "\nSort de" + combo.Magie_type.ecole + " de niveau " + combo.niveau + ".\n\n";
             }
         }
 

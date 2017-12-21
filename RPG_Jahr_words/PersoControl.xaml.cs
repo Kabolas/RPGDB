@@ -21,6 +21,7 @@ namespace RPG_Jahr_words
     /// </summary>
     public partial class PersoControl : UserControl
     {
+        public event EventHandler AddedPerso;
         public RPGEntities15 Bdd
         {
             get => (RPGEntities15)GetValue(BddProperty);
@@ -35,9 +36,12 @@ namespace RPG_Jahr_words
         {
             ViewModel.PersoViewModel model = new ViewModel.PersoViewModel(e.NewValue as RPGEntities15);
             model.PersoAdded += (d as PersoControl).UpdatePersosList;
+            model.PersoAdded += (d as PersoControl).RaisePersoAdded;
             (d as PersoControl).DataContext = model;
             (d as PersoControl).Show = (d as PersoControl).Bdd.Persos.ToList();
         }
+
+        private void RaisePersoAdded(object sender, EventArgs e) { AddedPerso?.Invoke(sender, e); }
 
         private void UpdatePersosList(object sender, EventArgs e)
         {

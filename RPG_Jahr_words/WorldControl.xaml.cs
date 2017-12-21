@@ -31,7 +31,27 @@ namespace RPG_Jahr_words
                 typeof(RPGEntities15),
                 typeof(WorldControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(ChargeFromDb)));
 
-        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e) { (d as WorldControl).DataContext = new ViewModel.WorldViewModel(e.NewValue as RPGEntities15); }
+        private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ViewModel.WorldViewModel vm = new ViewModel.WorldViewModel(e.NewValue as RPGEntities15);
+            vm.AllAdded += (d as WorldControl).RaiseAlliageAdded;
+            vm.MineAdded += (d as WorldControl).RaiseMineTypeAdded;
+            vm.MinerAdded += (d as WorldControl).RaiseMineraiAdded;
+            vm.ContinentAdded += (d as WorldControl).RaiseContinentAdded;
+            vm.BiomeAdded += (d as WorldControl).RaiseBiomeAdded;
+            (d as WorldControl).DataContext = vm;
+        }
+
+        private void RaiseBiomeAdded(object sender, EventArgs e) { AddedBiome?.Invoke(sender, e); }
+
+        private void RaiseContinentAdded(object sender, EventArgs e) { AddedContinent?.Invoke(sender, e); }
+
+        private void RaiseMineraiAdded(object sender, EventArgs e) { AddedMinerai?.Invoke(sender, e); }
+
+        private void RaiseMineTypeAdded(object sender, EventArgs e) { AdddedMineType?.Invoke(sender, e); }
+
+        private void RaiseAlliageAdded(object sender, EventArgs e) { AddedAlliage?.Invoke(sender, e); }
+
         public NameGen Gen
         {
             get => (NameGen)GetValue(GenProperty);
@@ -41,11 +61,11 @@ namespace RPG_Jahr_words
             DependencyProperty.Register("Gen",
                 typeof(NameGen),
                 typeof(WorldControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+        public event EventHandler AddedAlliage, AdddedMineType, AddedMinerai, AddedContinent, AddedBiome;
         private bool ignore = false;
         public WorldControl()
         {
             InitializeComponent();
-            //DataContext = new ViewModel.WorldViewModel(Bdd);
             CollectionView biom = (CollectionView)CollectionViewSource.GetDefaultView(ShowThing.Items);
             CollectionView mats = (CollectionView)CollectionViewSource.GetDefaultView(Materials.Items);
             mats.Filter = FilterMinerals;

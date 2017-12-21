@@ -194,6 +194,8 @@ namespace RPG_Jahr_words.ViewModel
         public List<Book_type> Types { get => _types; set { _types = value; RaisePropertyChanged(); } }
         #endregion Item
 
+        public event EventHandler ItemAdded;
+        public event EventHandler WeaponAdded;
         public void Dispose() { Bd.Dispose(); }
         private void AddRecipe()
         {
@@ -544,6 +546,7 @@ namespace RPG_Jahr_words.ViewModel
                     default:
                         break;
                 }
+                ItemAdded?.Invoke(this, EventArgs.Empty);
             }
             catch { PrintedText += "Item non sauvegardé"; }
 
@@ -678,6 +681,7 @@ namespace RPG_Jahr_words.ViewModel
                             if (add.Choices.Contains("CaC")) Armes_aucac = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "CaC");
                             if (add.Choices.Contains("Distance")) Armes_adist = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "Distance");
                             if (add.Choices.Contains("Magique")) Armes_magique = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "Magique");
+                            WeaponAdded?.Invoke(this, EventArgs.Empty);
                         }
                         catch
                         {

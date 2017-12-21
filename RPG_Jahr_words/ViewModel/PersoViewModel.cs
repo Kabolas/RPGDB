@@ -195,12 +195,6 @@ namespace RPG_Jahr_words.ViewModel
         }
         private void Saving()
         {
-            //if (NewPerso.Races != null)
-            //    IsPers();
-            //else if (NewPerso.Bestiaire_Beast != null)
-            //    IsPet();
-            //else if (NewPerso.Perso_Creature != null)
-            //    IsCrea();
             try
             {
                 PrintedText += "Création du personnage.\n";

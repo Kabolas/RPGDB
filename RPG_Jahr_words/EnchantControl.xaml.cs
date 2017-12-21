@@ -26,7 +26,7 @@ namespace RPG_Jahr_words
             get => (NameGen)GetValue(GenProperty);
             set => SetValue(GenProperty, value);
         }
-
+        public event EventHandler EnchantAdded;
         public static readonly DependencyProperty GenProperty =
             DependencyProperty.Register("Gen",
                 typeof(NameGen),
@@ -44,8 +44,12 @@ namespace RPG_Jahr_words
 
         private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as EnchantControl).DataContext = new ViewModel.EnchantViewModel(e.NewValue as RPGEntities15);
+            ViewModel.EnchantViewModel vm = new ViewModel.EnchantViewModel(e.NewValue as RPGEntities15);
+            vm.EnchantCreated += (d as EnchantControl).RaiseEnchantCreated;
+            (d as EnchantControl).DataContext = vm;
         }
+
+        private void RaiseEnchantCreated(object sender, EventArgs e) { EnchantAdded?.Invoke(sender, e); }
 
         public EnchantControl()
         {
@@ -96,9 +100,9 @@ namespace RPG_Jahr_words
                 while (Item_rec.SelectedItems.Count > 0)
                 {
                     minpricepose -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago;
-                    minpricesell -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago/2;
-                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.',',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago/2)).Replace(',','.');
-                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.',',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago)).Replace(',','.');
+                    minpricesell -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago / 2;
+                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.', ',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago / 2)).Replace(',', '.');
+                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.', ',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago)).Replace(',', '.');
                     (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Remove(Item_rec.SelectedItems[0] as RecipeItem);
                 }
             }
