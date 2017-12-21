@@ -191,7 +191,8 @@ namespace RPG_Jahr_words
                 else choix = k.Next(2);
                 if (choix == 0)
                 {
-                    ret += voyelles.First(v => v.Value == k.Next(voyelles.Count)).Key;
+                    int ch = k.Next(voyelles.Count);
+                    ret += voyelles.First(v => v.Value == ch).Key;
                     comp_voy++;
                     comp_cons = 0;
                     if (symbol && !sign_flag && k.Next(2) == 0 && i >= 1)
@@ -203,7 +204,8 @@ namespace RPG_Jahr_words
                 else if (choix == 1)
                 {
                     comp_voy = 0;
-                    ret += consonnes.First(c => c.Value == k.Next(consonnes.Count - 1));
+                    int ch = k.Next(consonnes.Count - 1);
+                    ret += consonnes.First(c => c.Value == ch).Key;
                     comp_cons++;
                 }
             }
@@ -223,7 +225,9 @@ namespace RPG_Jahr_words
                 else choix = k.Next(2);
                 if (choix == 0)
                 {
-                    ret += voyelles.First(v => v.Value == k.Next(voyelles.Count));
+                    int ch = k.Next(voyelles.Count);
+                    ret += voyelles.First(v => v.Value == ch).Key;
+                    //ret += voyelles.First(v => v.Value == ch);
                     comp_voy++;
                     comp_cons = 0;
                     if (symbol && !sign_flag && k.Next(2) == 0 && i >= 1)
@@ -235,7 +239,8 @@ namespace RPG_Jahr_words
                 else if (choix == 1)
                 {
                     comp_voy = 0;
-                    ret += consonnes.First(c => c.Value == k.Next(consonnes.Count));
+                    int ch = k.Next(consonnes.Count);
+                    ret += consonnes.First(c => c.Value == ch).Key;
                     comp_cons++;
                 }
 
@@ -273,9 +278,9 @@ namespace RPG_Jahr_words
                     voyfnd = false;
 
                     if (voyfnd = voyelles.ContainsKey(rec))
-                        ret += RPG_voy.First(v => v.Value == voyelles[rec]);
+                        ret += RPG_voy.First(v => v.Value == voyelles[rec]).Key;
                     if (confnd = consonnes.ContainsKey(rec))
-                        ret += RPG_cons.First(v => v.Value == voyelles[rec]);
+                        ret += RPG_cons.First(v => v.Value == consonnes[rec]).Key;
                     if (signes.Contains(word[i]))
                         ret += word[i];
                 }

@@ -31,7 +31,7 @@
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="132,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="387,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
         <TextBox x:Name="genwordnorm" Height="25" Margin="273,10,319,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <TextBox.Resources>
                 <local:WorldOrWord x:Key="WordOrWorld"/>
