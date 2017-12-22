@@ -21,7 +21,7 @@
         </GroupBox>
         <GroupBox BorderBrush="Black" Header="Affichage" BorderThickness="1" HorizontalAlignment="Left" Height="149" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid>
-                <ComboBox HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="type">
+                <ComboBox x:Name="showtype" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="type">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Type" Source="{Binding Types}"/>
                     </ComboBox.Resources>
@@ -32,7 +32,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="effet">
+                <ComboBox x:Name="showeffect" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="effet" SelectedValuePath="effet">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Effects"/>
                     </ComboBox.Resources>
@@ -43,7 +43,7 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="nom">
+                <ComboBox x:Name="ShowOri" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="102" SelectedIndex="0" DisplayMemberPath="nom">
                     <ComboBox.Resources>
                         <CollectionViewSource x:Key="Mondes" Source="{Binding Origines}"/>
                     </ComboBox.Resources>
@@ -54,12 +54,21 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="140,10,0,0" VerticalAlignment="Top" Width="127">
+                <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="50" Margin="140,10,0,0" VerticalAlignment="Top" Width="127">
                     <Grid>
-                        <TextBox HorizontalAlignment="Left" Height="23" Margin="75,0,-0.2,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="12,4,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                        <TextBox x:Name="ShowLevel" HorizontalAlignment="Left" Height="23" Margin="54,0,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="12,4,0,0" TextWrapping="Wrap" Text="Niveau" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="ShowUnder" Content="&lt;" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="ShowEquals" Content="=" HorizontalAlignment="Left" Margin="42,28,0,0" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="Showabove" Content=">" HorizontalAlignment="Left" Margin="77,28,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     </Grid>
                 </Border>
+                <CheckBox x:Name="showVarpow" Content="Puissance Variable" HorizontalAlignment="Left" Margin="117,65,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="ShowCando" Content="Déblocable" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="ShowOrd" Content="Ordinaire" HorizontalAlignment="Left" Margin="95,91,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=ShowCando, Path=IsChecked}" Visibility="{Binding ElementName=ShowCando, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+                <CheckBox x:Name="ShowExprt" Content="Expert" HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=ShowCando, Path=IsChecked}" Visibility="{Binding ElementName=ShowCando, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+                <CheckBox x:Name="ShowLgndr" Content="Légendaire" HorizontalAlignment="Left" Margin="68,111,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=ShowCando, Path=IsChecked}" Visibility="{Binding ElementName=ShowCando, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+                <Button Content=" Afficher " HorizontalAlignment="Left" Margin="216,98,0,0" VerticalAlignment="Top" Click="ShowEnchants"/>
             </Grid>
         </GroupBox>
         <TextBox x:Name="Enchant_name" HorizontalAlignment="Left" Height="25" Margin="5,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" Text="{Binding SaveEnchant.nom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

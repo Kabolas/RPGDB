@@ -131,6 +131,23 @@ namespace RPG_Jahr_words
             else PieceChoice.IsEnabled = true;
         }
 
+        private void ShowEnchants(object sender, RoutedEventArgs e)
+        {
+            foreach (Enchantements enchant in Bdd.Enchantements.Where(ech => (showeffect.SelectedIndex > 0 ? ech.effects.Contains(showeffect.SelectedValue as string) : true) && (showtype.SelectedIndex > 0 ? ech.Enchant_Type == showtype.SelectedItem as Enchant_Type : true)
+             && (ShowOri.SelectedIndex > 0 ? ech.Monde_w == ShowOri.SelectedItem as Monde_w : true) && ((bool)ShowUnder.IsChecked ? ech.niveau < int.Parse(ShowLevel.Text) : (bool)Showabove.IsChecked ? ech.niveau > int.Parse(ShowLevel.Text) : ech.niveau == int.Parse(ShowLevel.Text))
+             && ((bool)showVarpow.IsChecked ? ech.power_on_craft : true) && ((bool)ShowCando.IsChecked ? ech.unlockable && ((bool)ShowOrd.IsChecked ? !ech.expert && !ech.lengendary : true) && ((bool)ShowExprt.IsChecked ? ech.expert : true) && ((bool)ShowLgndr.IsChecked ? ech.lengendary : true) : true)))
+                Enchantu_Label.Text += enchant.nom + ", d'origine" + enchant.origine + " : " + enchant.type + (enchant.expert ? " expert" : enchant.lengendary ? " légendaire" : " ordinaire") + " de niveau " + enchant.niveau +
+                    "de puissance " + (enchant.power_on_craft ? "variable d'un rapoort de " + enchant.rapport + " par rapport à la maitrise de l'enchantement en plus de la puissance de base de " + enchant.puissance + " de l'enchantement " : "" + enchant.puissance) +
+                    "d'effet:" + enchant.effects +
+                    "\nutilisable sur " +
+                    (enchant.on_armor ? "des armures; à savoir:\n" + enchant.armors_cats + "\n" + enchant.armors + "\n" : "") +
+                    (enchant.on_jewel ? "des bijoux; à savoir:\n" + enchant.jewels + "\n" : "") +
+                    (enchant.on_cac ? "des armes de corps à corps; à savoir :\n" + enchant.weapons_cac + "\n" : "") +
+                    (enchant.on_dist ? "des armes à distance; à savoir:\n" + enchant.weapons_dist + "\n" : "") +
+                    (enchant.on_mag ? "des armes magiques; à savoir:\n" + enchant.weapons_mag + "\n" : "") +
+                    (enchant.unlockable ? "dont la pose necessite : " + enchant.requirements : "") + enchant.descr;
+        }
+
         private void Effect_limits(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListBox).SelectedItems.Count > 3)
