@@ -767,4 +767,22 @@ namespace RPG_Jahr_words
             return (targetType == typeof(int) ? int.Parse(value as string) * int.Parse(parameter as string) : double.Parse(value as string) * double.Parse(parameter as string));
         }
     }
+
+    public class Enchantable : IValueConverter
+    {
+        public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null)
+                if ((value as Items).Weaponry != null && (value as Items).Weaponry.enchantable) return true;
+                else if ((value as Items).Armory != null && (value as Items).Armory.enchantable) return true;
+                else if ((value as Items).Bijoux != null && (value as Items).Bijoux.enchantable) return true;
+                else if ((value as Items).Munition != null && (value as Items).Munition.enchantable) return true;
+            return false;
+        }
+
+        public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

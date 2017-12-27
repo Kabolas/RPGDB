@@ -693,21 +693,22 @@ namespace RPG_Jahr_words.ViewModel
                                 if (add.Choices.IndexOf(str) == 0)
                                     typee += str;
                                 else typee += ',' + str;
-                            Weapon_type weapon = new Weapon_type { categorie = add.Ch1, type = typee };
+                            Weapon_type weapon = new Weapon_type { type = add.Ch1, categorie = typee };
                             Bd.Weapon_type.Add(weapon);
                             Bd.SaveChanges();
-                            PrintedText += "Nouveau type d'arme " + add.Ch1 + " ajouté.";
+                            PrintedText += "Nouveau type d'arme " + add.Ch1 + " ajouté.\n";
                             if (add.Choices.Contains("CaC")) Armes_aucac = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "CaC");
                             if (add.Choices.Contains("Distance")) Armes_adist = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "Distance");
                             if (add.Choices.Contains("Magique")) Armes_magique = Bd.Weapon_type.ToList().FindAll(w => w.categorie == "Magique");
                             WeaponAdded?.Invoke(this, EventArgs.Empty);
+                            System.Threading.Thread.Sleep(100);
                         }
-                        catch
+                        catch (Exception e)
                         {
                             PrintedText += "Nouveau type d'arme non ajouté.\n";
                         }
                     else
-                        PrintedText += "La categorie d'arme doit exister et etre bien orthographiée.\n";
+                        PrintedText += "Une catégorie doit etre choisie au moins.\n";
                 }
                 else
                     PrintedText += "Ce que vous entrez doit commencer par une majuscule.\n";

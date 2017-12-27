@@ -40,14 +40,26 @@ namespace RPG_Jahr_words.ViewModel
         private List<Mode_deplacement> _deplacement;
         private List<Maniabilite> _maniabilities;
         private List<Usage> _uses;
+
+        internal void EnchantRefresh(object sender, EventArgs e) { Enchantements = Bd.Enchantements.ToList(); }
+        internal void EnchantTypeRefresh(object sender, EventArgs e) { EnchType = Bd.Enchant_Type.ToList(); }
+        internal void ItemRefresh(object sender, EventArgs e) { LootList = Bd.Items.ToList(); StuffList = Bd.Items.ToList(); }
+        internal void EnchantEffetRefresh(object sender, EventArgs e) { EnchEffet = Bd.Enchant_Effets.ToList(); }
+        internal void WeaponAdded(object sender, EventArgs e)
+        {
+            foreach (Weapon_type weapon in Bd.Weapon_type)
+                if (!NewPerso.Perso_weap_Master.Any(p => p.Weapon_type == weapon))
+                    NewPerso.Perso_weap_Master.Add(new Perso_weap_Master { Persos = NewPerso, Weapon_type = weapon, maitrise = 0 });
+        }
+
         private List<Trais> _selectedTrais = new List<Trais>();
+
         private List<Condition> _conditions;
         private List<Enchantements> _enchantements;
         private List<Enchant_Effets> _enchEffet;
         private List<Enchant_Type> _enchType;
 
         private List<Tailles> _criSize;
-        public NameGen Gen { get; set; } = new NameGen();
         private RelayCommand _newTrais, _newCat, _newCreature, _save;
         private RelayCommand _newCondition;
         private string _printedText;

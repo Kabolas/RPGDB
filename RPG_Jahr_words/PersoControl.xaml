@@ -19,6 +19,8 @@
         <local:And x:Key="And"/>
         <local:Or x:Key="Or"/>
         <local:IntEquals x:Key="intEquals"/>
+        <local:Enchantable x:Key="CanEnch"/>
+        <local:IntToBool x:Key="Not0"/>
         <CollectionViewSource x:Key="Origine" Source="{Binding Origines}"/>
         <CollectionViewSource x:Key="Races" Source="{Binding Races}"/>
         <CollectionViewSource x:Key="categories" Source="{Binding Cats}"/>
@@ -609,28 +611,89 @@
                         </ComboBox>
                         <Button Content="✗" HorizontalAlignment="Left" Margin="282,81,0,0" Width="25" Click="DelStuff" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=ChosenStuff}" Height="25" VerticalAlignment="Top"/>
                         <ComboBox HorizontalAlignment="Left" Margin="5,152,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="type">
+                            <ComboBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                </MultiBinding>
+                            </ComboBox.IsEnabled>
                             <ComboBox.Resources>
-                                <CollectionViewSource x:Key="Effects" Source="{Binding EnchEffet}"/>
+                                <CollectionViewSource x:Key="Types" Source="{Binding EnchTypes}"/>
                             </ComboBox.Resources>
                             <ComboBox.ItemsSource>
                                 <CompositeCollection>
                                     <local:Enchant_Type type="~Type~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Types}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Left" Margin="5,179,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" DisplayMemberPath="effet">
+                            <ComboBox.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                </MultiBinding>
+                            </ComboBox.IsEnabled><ComboBox.Resources>
+                                <CollectionViewSource x:Key="Effects" Source="{Binding EnchEffet}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Enchant_Effets effet="~Effet~"/>
                                     <CollectionContainer Collection="{Binding Source={StaticResource Effects}}"/>
                                 </CompositeCollection>
                             </ComboBox.ItemsSource>
                         </ComboBox>
-                        <ComboBox HorizontalAlignment="Left" Margin="5,179,0,0" VerticalAlignment="Top" Width="120"/>
-                        <ListView HorizontalAlignment="Left" Margin="13,206,0,5" Width="112" ItemsSource="{Binding Enchantements}">
+                        <ListView x:Name="EnchList" HorizontalAlignment="Left" Margin="5,206,0,5" Width="120" ItemsSource="{Binding Enchantements}" SelectionMode="Multiple">
+                            <ListView.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                </MultiBinding>
+                            </ListView.IsEnabled>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                    <GridViewColumn Header="Niveau" Width="Auto" DisplayMemberBinding="{Binding niveau}"/>
+                                    <GridViewColumn Header="Puissance" Width="Auto" DisplayMemberBinding="{Binding puissance}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <ListBox HorizontalAlignment="Left" Height="128" Margin="163,152,0,0" VerticalAlignment="Top" Width="144"/>
-                        <Button Content="⇴" FontSize="30" Padding="-2,-11,1,1" HorizontalAlignment="Left" Margin="130,162,0,0" VerticalAlignment="Top" Width="25" Height="25"/>
-                        <Button Content="✗" FontSize="22" Padding="1,-5,1,1" HorizontalAlignment="Left" Margin="130,225,0,0" VerticalAlignment="Top" Width="25" Height="25"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="323,152,0,0" TextWrapping="Wrap" Text="Pour ajouter un enchantement à un objet, il faut qu'un seul objet soit sélectionné. Ensuite il faut que l'objet en question soit enchantable et enfin, il suffit de cliquer sur le bouton pour le mettre dans la liste de l'équipement." VerticalAlignment="Top" Height="123" Width="125"/>
+                        <ListView x:Name="AppliedEnch" HorizontalAlignment="Left" Height="128" Margin="163,152,0,0" VerticalAlignment="Top" Width="144" SelectionMode="Multiple">
+                            <ListView.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                </MultiBinding>
+                            </ListView.IsEnabled>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                    <GridViewColumn Header="Niveau" Width="Auto" DisplayMemberBinding="{Binding niveau}"/>
+                                    <GridViewColumn Header="Puissance" Width="Auto" DisplayMemberBinding="{Binding puissance}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="⇴" FontSize="30" Padding="-2,-11,1,1" HorizontalAlignment="Left" Margin="130,162,0,0" VerticalAlignment="Top" Width="25" Height="25" Click="AddEnch">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                    <Binding ElementName="EnchList" Path="SelectedIems.Count" Converter="{StaticResource Not0}"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                        <Button Content="✗" FontSize="22" Padding="1,-5,1,1" HorizontalAlignment="Left" Margin="130,225,0,0" VerticalAlignment="Top" Width="25" Height="25" Click="DelEnnch">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource And}">
+                                    <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
+                                    <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
+                                    <Binding ElementName="AppliedEnch" Path="SelectedIems.Count" Converter="{StaticResource Not0}"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                        <ScrollViewer HorizontalAlignment="Left" Margin="323,152,0,0" VerticalAlignment="Top" Height="123" Width="125">
+                            <TextBlock TextWrapping="Wrap" Text="Pour ajouter un enchantement à un objet, il faut qu'un seul objet soit sélectionné. Ensuite il faut que l'objet en question soit enchantable et enfin, il suffit de cliquer sur le bouton pour le mettre dans la liste de l'équipement." />
+                        </ScrollViewer>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

@@ -22,6 +22,8 @@ namespace RPG_Jahr_words
     public partial class PersoControl : UserControl
     {
         public event EventHandler AddedPerso;
+        public event EventHandler CallEnchantRefresh, CallEnchEffectRefresh, CallEnchTypeRefresh;
+        public event EventHandler CallItemRefresh, CallWeaponAdded;
         public RPGEntities15 Bdd
         {
             get => (RPGEntities15)GetValue(BddProperty);
@@ -37,12 +39,21 @@ namespace RPG_Jahr_words
             ViewModel.PersoViewModel model = new ViewModel.PersoViewModel(e.NewValue as RPGEntities15);
             model.PersoAdded += (d as PersoControl).UpdatePersosList;
             model.PersoAdded += (d as PersoControl).RaisePersoAdded;
+            (d as PersoControl).CallEnchantRefresh += model.EnchantRefresh;
+            (d as PersoControl).CallEnchEffectRefresh += model.EnchantEffetRefresh;
+            (d as PersoControl).CallEnchTypeRefresh += model.EnchantTypeRefresh;
+            (d as PersoControl).CallItemRefresh += model.ItemRefresh;
+            (d as PersoControl).CallWeaponAdded += model.WeaponAdded;
             (d as PersoControl).DataContext = model;
             (d as PersoControl).Show = (d as PersoControl).Bdd.Persos.ToList();
         }
 
         private void RaisePersoAdded(object sender, EventArgs e) { AddedPerso?.Invoke(sender, e); }
-
+        public void CallEnchRfrsh(object sender, EventArgs e) { CallEnchantRefresh?.Invoke(sender, e); }
+        public void CallEnchEffectRfrsh(object sender, EventArgs e) { CallEnchEffectRefresh?.Invoke(sender, e); }
+        public void CallEnchTypeRfrsh(object sender, EventArgs e) { CallEnchTypeRefresh?.Invoke(sender, e); }
+        public void CallItemRfrsh(object sender, EventArgs e) { CallItemRefresh?.Invoke(sender, e); }
+        public void CallWeaponAdd(object sender, EventArgs e) { CallWeaponAdded?.Invoke(sender, e); }
         private void UpdatePersosList(object sender, EventArgs e)
         {
             Show = Bdd.Persos.ToList();
@@ -572,6 +583,19 @@ namespace RPG_Jahr_words
                 Peruso_Label.Text += ", Originaire du " + perso.origine == "Originel" ? "monde " : "" + perso.origine + ", mesure " + perso.Pers_carac.taille + "m, pèese " + perso.Pers_carac.masse + "kg\n" +
                     "" + perso.background;
             }
+        }
+
+        private void AddEnch(object sender, RoutedEventArgs e)
+        {
+            if (AppliedEnch.Items.Count < 3 && AppliedEnch.Items.Count + EnchList.SelectedItems.Count <= 3)
+                foreach (Enchantements ench in EnchList.SelectedItems)
+                    AppliedEnch.Items.Add(ench);
+            else Peruso_Label.Text += "Vous ne pouvez pas ajouter plus d'enchantements à cet objet.\n";
+        }
+        private void DelEnnch(object sender, RoutedEventArgs e)
+        {
+            while (AppliedEnch.Items.Count > 0)
+                AppliedEnch.Items.Remove(AppliedEnch.SelectedItems[0]);
         }
 
         private void ShowStatsRace(object sender, RoutedEventArgs e)
