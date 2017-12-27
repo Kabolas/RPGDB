@@ -516,7 +516,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nom" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="effects" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="30" Nullable="false" />
@@ -539,7 +539,7 @@
           <Property Name="origine" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="prix_pose" Type="money" />
           <Property Name="prix_aj" Type="money" />
-          <Property Name="puissance" Type="int" />
+          <Property Name="puissance" Type="int" Nullable="false" />
           <Property Name="rapport" Type="int" />
           <Property Name="niveau" Type="int" Nullable="false" />
           <Property Name="requirements" Type="varchar(max)" />
@@ -6122,7 +6122,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nom" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="effects" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="type" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -6135,6 +6135,7 @@
           <Property Name="weapons_dist" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="weapons_mag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="on_armor" Type="Boolean" Nullable="false" />
+          <Property Name="armors_cats" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="armors" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="on_jewel" Type="Boolean" Nullable="false" />
           <Property Name="jewels" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -6144,14 +6145,13 @@
           <Property Name="origine" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="prix_pose" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="prix_aj" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="puissance" Type="Int32" />
+          <Property Name="puissance" Type="Int32" Nullable="false" />
           <Property Name="rapport" Type="Int32" />
           <Property Name="niveau" Type="Int32" Nullable="false" />
+          <Property Name="requirements" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Enchant_Type" Relationship="RPGModel.FK_enchant_type" FromRole="Enchantements" ToRole="Enchant_Type" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_enchant_origin" FromRole="Enchantements" ToRole="Monde_w" />
-          <Property Name="armors_cats" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="requirements" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_enchant_type">
           <End Type="RPGModel.Enchant_Type" Role="Enchant_Type" Multiplicity="1" />
@@ -7296,9 +7296,8 @@
           <EntitySetMapping Name="Enchantements">
             <EntityTypeMapping TypeName="RPGModel.Enchantements">
               <MappingFragment StoreEntitySet="Enchantements">
-                <ScalarProperty Name="requirements" ColumnName="requirements" />
-                <ScalarProperty Name="armors_cats" ColumnName="armors_cats" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="requirements" ColumnName="requirements" />
                 <ScalarProperty Name="niveau" ColumnName="niveau" />
                 <ScalarProperty Name="rapport" ColumnName="rapport" />
                 <ScalarProperty Name="puissance" ColumnName="puissance" />
@@ -7311,6 +7310,7 @@
                 <ScalarProperty Name="jewels" ColumnName="jewels" />
                 <ScalarProperty Name="on_jewel" ColumnName="on_jewel" />
                 <ScalarProperty Name="armors" ColumnName="armors" />
+                <ScalarProperty Name="armors_cats" ColumnName="armors_cats" />
                 <ScalarProperty Name="on_armor" ColumnName="on_armor" />
                 <ScalarProperty Name="weapons_mag" ColumnName="weapons_mag" />
                 <ScalarProperty Name="weapons_dist" ColumnName="weapons_dist" />

@@ -291,11 +291,6 @@
                 </TabItem>
                 <TabItem x:Name="Item_enchant_tab" Header="Enchant/livre" FontSize="7.5">
                     <Grid x:Name="enchant_grid">
-                        <ListBox x:Name="Item_enchant" FontSize="12" HorizontalAlignment="Left" Height="134" Margin="304,10,0,0" VerticalAlignment="Top" Width="130" SelectionMode="Multiple" SelectionChanged="Selecion_with_all"/>
-                        <ComboBox x:Name="Item_enchantype" FontSize="10" HorizontalAlignment="Left" Height="20" Margin="211,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0">
-                            <ComboBoxItem Content="~Categorie~"/>
-                        </ComboBox>
-                        <TextBlock x:Name="filename" HorizontalAlignment="Left" FontSize="10" Margin="48,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                         <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="147" Margin="5,5,0,0" VerticalAlignment="Top" Width="201" IsEnabled="{Binding ElementName=Livre, Path=IsSelected}">
                             <Grid>
                                 <ComboBox HorizontalAlignment="Left" FontSize="10" Margin="0,25,0,0" VerticalAlignment="Top" DisplayMemberPath="nom" Width="72" Height="20" SelectedItem="{Binding SaveBookin.Idiome, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="nom" SelectedValue="{Binding SaveBookin.langue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="process_SelectionChanged">
@@ -388,6 +383,31 @@
                                 <TextBox HorizontalAlignment="Left" Height="23" Margin="114,102,0,0" TextWrapping="Wrap" Text="{Binding SaveBookin.raise_weap, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="66" FontSize="10" IsEnabled="{Binding SelectedValue, ConverterParameter=Raise, Converter={StaticResource StringEquals}, ElementName=booktype}"/>
                             </Grid>
                         </Border>
+                        <ComboBox x:Name="Item_enchantype" FontSize="10" HorizontalAlignment="Left" Height="20" Margin="211,10,0,0" VerticalAlignment="Top" Width="88" SelectedIndex="0" DisplayMemberPath="type" SelectionChanged="FilterEnchants" IsEnabled="{Binding ElementName=Enchantable, Path=IsChecked, Converter={StaticResource NOT}}">
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Enchantypes" Source="{Binding EnchantTypes}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Enchant_Type type="~Categorie~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Enchantypes}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <ComboBox x:Name="Item_enchanteffet" HorizontalAlignment="Left" Margin="211,35,0,0" VerticalAlignment="Top" Width="88" Height="20" DisplayMemberPath="effet" SelectedValuePath="effet" FontSize="10" SelectedIndex="0" SelectionChanged="FilterEnchants" IsEnabled="{Binding ElementName=Enchantable, Path=IsChecked, Converter={StaticResource NOT}}">
+                            <ComboBox.Resources>
+                                <CollectionViewSource x:Key="Enchanteffects" Source="{Binding EnchantEffets}"/>
+                            </ComboBox.Resources>
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <local:Enchant_Effets effet="~Effet~"/>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource Enchanteffects}}"/>
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <TextBlock x:Name="filename" HorizontalAlignment="Left" FontSize="10" Margin="48,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                        <ListBox x:Name="Item_enchant" FontSize="12" HorizontalAlignment="Left" Height="68" Margin="309,5,0,0" VerticalAlignment="Top" Width="130" SelectionMode="Multiple" ItemsSource="{Binding Enchants}" IsEnabled="{Binding ElementName=Enchantable, Path=IsChecked, Converter={StaticResource NOT}}"/>
+                        <ListBox x:Name="Item_selesctedEnchant" FontSize="12" HorizontalAlignment="Left" Height="68" Margin="309,84,0,0" VerticalAlignment="Top" Width="130" SelectionMode="Multiple" ItemsSource="{Binding SelectedEnchants}" IsEnabled="{Binding ElementName=Enchantable, Path=IsChecked, Converter={StaticResource NOT}}"/>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="Item_armes_tab" Header="Arme">
@@ -1139,7 +1159,7 @@
             </Grid>
         </GroupBox>
         <CheckBox x:Name="Enchantable" Content="Enchantable" HorizontalAlignment="Left" Height="15" Margin="10,114,0,0" VerticalAlignment="Top" Width="92" IsChecked="{Binding Enchantable, Mode=TwoWay}"/>
-        <ComboBox x:Name="Item_elem" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="107" SelectedValue="{Binding Choice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SelectionToType}}" SelectedValuePath="Content" SelectionChanged="process_SelectionChanged">
+        <ComboBox x:Name="Item_elem" HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="107" SelectedValue="{Binding Choice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SelectionToType}}" SelectedValuePath="Content" SelectionChanged="FilterEnchants">
             <ComboBox.Style>
                 <Style TargetType="{x:Type ComboBox}">
                     <Style.Triggers>

@@ -30,7 +30,7 @@ namespace RPG_Jahr_words.ViewModel
         Loot,
         [Description("Vehicule")]
         Vehicule,
-        [Description ("Livre")]
+        [Description("Livre")]
         Livre,
         [Description("Communs")]
         Comon,
@@ -86,6 +86,9 @@ namespace RPG_Jahr_words.ViewModel
         private List<Tailles> _sizes;
         private List<Idiome> _idiomes;
         private List<Book_type> _types;
+        private List<Enchantements> _enchants;
+        private List<Enchant_Effets> _enchantEffets;
+        private List<Enchant_Type> _enchantTypes;
         private List<int> _recipeCount = new List<int> { 1 };
         private RelayCommand _newMun;
         private RelayCommand _newWeap;
@@ -97,13 +100,14 @@ namespace RPG_Jahr_words.ViewModel
         #endregion
 
         #region SelectLists
-        private List<string> _selCacdmgtype = new List<string>(), _selMundmgtype = new List<string>();
-        private List<Sorts> _selectedSpells = new List<Sorts>();
+        private ObservableCollection<string> _selCacdmgtype = new ObservableCollection<string>(), _selMundmgtype = new ObservableCollection<string>();
+        private ObservableCollection<Sorts> _selectedSpells = new ObservableCollection<Sorts>();
         private ObservableCollection<Procede> _selectedObtentions = new ObservableCollection<Procede>();
-        private List<Capacites_armor> _selectedCaps = new List<Capacites_armor>();
-        private List<Mode_deplacement> _selectedMode = new List<Mode_deplacement>();
-        private List<Carburant> _selectedCarbu = new List<Carburant>();
-        private List<Voies> _selectedVoie = new List<Voies>();
+        private ObservableCollection<Capacites_armor> _selectedCaps = new ObservableCollection<Capacites_armor>();
+        private ObservableCollection<Mode_deplacement> _selectedMode = new ObservableCollection<Mode_deplacement>();
+        private ObservableCollection<Carburant> _selectedCarbu = new ObservableCollection<Carburant>();
+        private ObservableCollection<Voies> _selectedVoie = new ObservableCollection<Voies>();
+        private ObservableCollection<Enchantements> _selectedEnchants = new ObservableCollection<Enchantements>();
         private ObservableCollection<RecipeItem> _recipe = new ObservableCollection<RecipeItem>();
         private ObservableCollection<RecipeResult> _recipeResults = new ObservableCollection<RecipeResult>() { new RecipeResult() { IdRecipe = 1, Nombre = 1 } };
         #endregion
@@ -144,14 +148,14 @@ namespace RPG_Jahr_words.ViewModel
 
         public List<Mag_element> TruncElements { get => _truncElements; set => _truncElements = value; }
         public bool Enchantable { get => _enchantable; set { _enchantable = value; RaisePropertyChanged(); } }
-
-        public List<string> SelCacdmgtype { get => _selCacdmgtype; set { _selCacdmgtype = value; RaisePropertyChanged(); } }
-        public List<string> SelMundmgtype { get => _selMundmgtype; set { _selMundmgtype = value; RaisePropertyChanged(); } }
-        public List<Sorts> SelectedSpells { get => _selectedSpells; set { _selectedSpells = value; RaisePropertyChanged(); } }
-        public List<Capacites_armor> SelectedCaps { get => _selectedCaps; set { _selectedCaps = value; RaisePropertyChanged(); } }
-        public List<Mode_deplacement> SelectedMode { get => _selectedMode; set { _selectedMode = value; RaisePropertyChanged(); } }
-        public List<Voies> SelectedVoie { get => _selectedVoie; set { _selectedVoie = value; RaisePropertyChanged(); } }
-        public List<Carburant> SelectedCarbu { get => _selectedCarbu; set { _selectedCarbu = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Enchantements> SelectedEnchants { get => _selectedEnchants; set { _selectedEnchants = value; RaisePropertyChanged(); } }
+        public ObservableCollection<string> SelCacdmgtype { get => _selCacdmgtype; set { _selCacdmgtype = value; RaisePropertyChanged(); } }
+        public ObservableCollection<string> SelMundmgtype { get => _selMundmgtype; set { _selMundmgtype = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Sorts> SelectedSpells { get => _selectedSpells; set { _selectedSpells = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Capacites_armor> SelectedCaps { get => _selectedCaps; set { _selectedCaps = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Mode_deplacement> SelectedMode { get => _selectedMode; set { _selectedMode = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Voies> SelectedVoie { get => _selectedVoie; set { _selectedVoie = value; RaisePropertyChanged(); } }
+        public ObservableCollection<Carburant> SelectedCarbu { get => _selectedCarbu; set { _selectedCarbu = value; RaisePropertyChanged(); } }
         public int ManaCraftCost { get => _manaCraftCost; set { _manaCraftCost = value; RaisePropertyChanged(); } }
 
         public RelayCommand NewProcess { get { return _newProcess ?? (_newProcess = new RelayCommand(AddProcess)); } }
@@ -192,6 +196,10 @@ namespace RPG_Jahr_words.ViewModel
         public List<Idiome> Idiomes { get => _idiomes; set { _idiomes = value; RaisePropertyChanged(); } }
 
         public List<Book_type> Types { get => _types; set { _types = value; RaisePropertyChanged(); } }
+
+        public List<Enchantements> Enchants { get => _enchants; set { _enchants = value; RaisePropertyChanged(); } }
+        public List<Enchant_Effets> EnchantEffets { get => _enchantEffets; set { _enchantEffets = value; RaisePropertyChanged(); } }
+        public List<Enchant_Type> EnchantTypes { get => _enchantTypes; set { _enchantTypes = value; RaisePropertyChanged(); } }
         #endregion Item
 
         public event EventHandler ItemAdded;
@@ -230,11 +238,14 @@ namespace RPG_Jahr_words.ViewModel
             Sorts = Bd.Sorts.ToList();
             Idiomes = Bd.Idiome.ToList();
             Types = Bd.Book_type.ToList();
+            Enchants = Bd.Enchantements.ToList();
+            EnchantTypes = Bd.Enchant_Type.ToList();
+            EnchantEffets = Bd.Enchant_Effets.ToList();
             foreach (Mag_element element in Elements)
                 if (!element.element.Contains("Tous"))
                 {
                     TruncElements.Add(element);
-                    SaveArmory.ElemResArmorAssoc.Add(new ElemResArmorAssoc { Armory = SaveArmory, Mag_element = element, element=element.element, resValue = 0 });
+                    SaveArmory.ElemResArmorAssoc.Add(new ElemResArmorAssoc { Armory = SaveArmory, Mag_element = element, element = element.element, resValue = 0 });
                 }
         }
         public void Sauver()
@@ -291,8 +302,10 @@ namespace RPG_Jahr_words.ViewModel
                                 SaveWeapon.puissance_2 = SaveWeapon.duree_2 = SaveWeapon.chance_2 = null;
                             }
 
-                            SaveWeapon.enchantements = "";
                             SaveWeapon.enchantable = Enchantable;
+                            if (!Enchantable)
+                                foreach (Enchantements enchant in SelectedEnchants)
+                                    SaveWeapon.enchantements += enchant.Id + "|" + enchant.nom + (enchant != SelectedEnchants.Last() ? "\n" : "");
                             PrintedText += "Arme créée.\n";
                             Bd.Weaponry.Add(SaveWeapon);
                             PrintedText += "Sauvegarde de l'arme.\n";
@@ -305,11 +318,14 @@ namespace RPG_Jahr_words.ViewModel
                         {
                             PrintedText += "Création de l'arme de corps à corps.\n";
                             SaveCac.Weaponry = SaveWeapon;
+                            foreach (string str in SelCacdmgtype)
+                                SaveCac.degats_type += str + (str != SelCacdmgtype.Last() ? "\n" : "");
                             PrintedText += "Arme de corps à corps créée.\n";
                             Bd.Armes_cac.Add(SaveCac);
                             PrintedText += "Sauvegarde de l'arme.\n";
                             Bd.SaveChanges();
                             PrintedText += "Sauvegarde réussie, nouvelle arme de corps à corps sauvegardée.\n";
+                            SelCacdmgtype.Clear();
                             SaveCac = new Armes_cac();
                         }
                         if (NewDist)
@@ -327,19 +343,14 @@ namespace RPG_Jahr_words.ViewModel
                         {
                             PrintedText += "Création de l'arme magique.\n";
                             SaveMag.Weaponry = SaveWeapon;
-                            if (SelectedSpells.Count > 0)
-                            {
-                                SaveMag.spells = "";
-                                foreach (Sorts spell in SelectedSpells)
-                                    if (spell == SelectedSpells.Last())
-                                        SaveMag.spells += spell.Id + "|" + spell.nom;
-                                    else SaveMag.spells += spell.Id + "|" + spell.nom;
-                            }
+                            foreach (Sorts spell in SelectedSpells)
+                                SaveMag.spells += spell.Id + "|" + spell.nom + (spell != SelectedSpells.Last() ? "\n" : "");
                             PrintedText += "Arme magique créée.\n";
                             Bd.Armes_magique.Add(SaveMag);
                             PrintedText += "Sauvegarde de l'arme.\n";
                             Bd.SaveChanges();
                             PrintedText += "Sauvegarde réussie, nouvelle arme magique sauvegardée.\n";
+                            SelectedSpells.Clear();
                             SaveMag = new Armes_magique();
                         }
                         SaveWeapon = new Weaponry();
@@ -353,18 +364,16 @@ namespace RPG_Jahr_words.ViewModel
                         PrintedText += "Création de l'armure.\n";
                         SaveArmory.Items = Saving;
                         SaveArmory.enchantable = Enchantable;
-                        //SaveArmory.capacites = SaveArmory.elements = SaveArmory.enchantement = "";
                         if (!Bd.Piece.Any(p => p.emplacement == SaveArmory.piece))
                         {
                             SaveArmory.piece = null;
                             SaveArmory.Piece1 = null;
                         }
-                        //enchantements
-                        if (SelectedCaps.Count > 0)
-                            foreach (Capacites_armor cap in SelectedCaps)
-                                if (cap != SelectedCaps.Last())
-                                    SaveArmory.capacites += cap.pouvoir + '\n';
-                                else SaveArmory.capacites += cap.pouvoir;
+                        if (!Enchantable)
+                            foreach (Enchantements enchant in SelectedEnchants)
+                                SaveArmory.enchantement += enchant.Id + "|" + enchant.nom + (enchant != SelectedEnchants.Last() ? "\n" : "");
+                        foreach (Capacites_armor cap in SelectedCaps)
+                            SaveArmory.capacites += cap.pouvoir + (cap != SelectedCaps.Last() ? "\n" : "");
                         PrintedText += "Armure créée.\n";
                         Bd.Armory.Add(SaveArmory);
                         foreach (ElemResArmorAssoc er in SaveArmory.ElemResArmorAssoc)
@@ -377,6 +386,7 @@ namespace RPG_Jahr_words.ViewModel
                             if (!element.element.Contains("Tous"))
                                 SaveArmory.ElemResArmorAssoc.Add(new ElemResArmorAssoc { Armory = SaveArmory, Mag_element = element, element = element.element, resValue = 0 });
                         Saving = new Items();
+                        SelectedCaps.Clear();
                         Linked = false;
                         Choice = ItemType.None;
                         break;
@@ -386,8 +396,9 @@ namespace RPG_Jahr_words.ViewModel
                         PrintedText += "Création du bijoux.\n";
                         SaveJewel.enchantable = Enchantable;
                         SaveJewel.Items = Saving;
-                        SaveJewel.enchantements = "";
-                        //enchantements
+                        if (!Enchantable)
+                            foreach (Enchantements enchant in SelectedEnchants)
+                                SaveJewel.enchantements += enchant.Id + "|" + enchant.nom + (enchant != SelectedEnchants.Last() ? "\n" : "");
                         PrintedText += "Bijou créé.\n";
                         Bd.Bijoux.Add(SaveJewel);
                         PrintedText += "Sauvegarde du Bijou.\n";
@@ -460,6 +471,10 @@ namespace RPG_Jahr_words.ViewModel
                             SaveMun.element_2 = null;
                             SaveMun.puissance_2 = SaveMun.duree_2 = SaveMun.chance_2 = null;
                         }
+                        SaveMun.enchantable = Enchantable;
+                        if (!Enchantable)
+                            foreach (Enchantements enchant in SelectedEnchants)
+                                SaveMun.enchantements += enchant.Id + "|" + enchant.nom + (enchant != SelectedEnchants.Last() ? "\n" : "");
                         if (SelMundmgtype.Count > 0)
                             foreach (string str in SelMundmgtype)
                                 if (str != SelMundmgtype.Last())
@@ -472,6 +487,7 @@ namespace RPG_Jahr_words.ViewModel
                         PrintedText += "Sauvegarde de la munition.\n";
                         Bd.SaveChanges();
                         PrintedText += "Sauvegarde réussie, nouvelle munition sauvegardée.\n";
+                        SelMundmgtype.Clear();
                         SaveMun = new Munition();
                         Saving = new Items();
                         Linked = false;
@@ -519,6 +535,9 @@ namespace RPG_Jahr_words.ViewModel
                         Bd.Vehicule.Add(SaveVehicule);
                         PrintedText += "Sauvegarde du vehicule.\n";
                         Bd.SaveChanges();
+                        SelectedMode.Clear();
+                        SelectedCarbu.Clear();
+                        SelectedVoie.Clear();
                         PrintedText += "Sauvegarde réussie, nouveau vehicule ajouté.\n";
                         SaveVehicule = new Vehicule();
                         Saving = new Items();
@@ -528,7 +547,7 @@ namespace RPG_Jahr_words.ViewModel
                     #endregion
                     case ItemType.Livre:
                         SaveBookin.Items = Saving;
-                        PrintedText +="Sauvegarde du livre \n";
+                        PrintedText += "Sauvegarde du livre \n";
                         Bd.Livre.Add(SaveBookin);
                         Bd.SaveChanges();
                         PrintedText += "Sauvegarde réussie\n";
@@ -694,5 +713,9 @@ namespace RPG_Jahr_words.ViewModel
                     PrintedText += "Ce que vous entrez doit commencer par une majuscule.\n";
 
         }
+        public void RefreshEnchants(object sender, EventArgs e) { Enchants = Bd.Enchantements.ToList(); }
+        public void RefreshEnchantypes(object sender, EventArgs e) { EnchantTypes = Bd.Enchant_Type.ToList(); }
+        public void RefreshEnchanteffet(object sender, EventArgs e) { EnchantEffets = Bd.Enchant_Effets.ToList(); }
+
     }
 }

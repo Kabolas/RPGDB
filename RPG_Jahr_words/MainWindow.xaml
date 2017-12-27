@@ -16,7 +16,7 @@
             </Grid>
         </TabItem>
         <TabItem x:Name="Items" Header="Items">
-            <local:ItemControl x:Name="ItemsControl" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+            <local:ItemControl x:Name="Item" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Personnages" Header="Personnages">
             <local:PersoControl x:Name="Persos" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
@@ -230,7 +230,7 @@
             </Grid>
         </TabItem>
         <TabItem x:Name="Enchantements" Header="Enchantements">
-            <local:EnchantControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
+            <local:EnchantControl x:Name="Enchants" Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>
         </TabItem>
         <TabItem x:Name="Sorts" Header="Sorts">
             <local:SpellControl Gen="{Binding Path=Gen, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Bdd="{Binding Path=Bdd, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}"/>

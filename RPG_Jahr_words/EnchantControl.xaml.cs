@@ -26,7 +26,8 @@ namespace RPG_Jahr_words
             get => (NameGen)GetValue(GenProperty);
             set => SetValue(GenProperty, value);
         }
-        public event EventHandler EnchantAdded;
+        public event EventHandler EnchantAdded, TypeAdded, EffectAdded;
+        public event EventHandler CallItemRfresh, CallWeaponsRefresh;
         public static readonly DependencyProperty GenProperty =
             DependencyProperty.Register("Gen",
                 typeof(NameGen),
@@ -46,8 +47,15 @@ namespace RPG_Jahr_words
         {
             ViewModel.EnchantViewModel vm = new ViewModel.EnchantViewModel(e.NewValue as RPGEntities15);
             vm.EnchantCreated += (d as EnchantControl).RaiseEnchantCreated;
+            vm.EffecCreated += (d as EnchantControl).RaiseEffectCreated;
+            vm.TypeCreated += (d as EnchantControl).RaiseTypeCreated;
+            (d as EnchantControl).CallItemRfresh += vm.RefreshItems;
             (d as EnchantControl).DataContext = vm;
         }
+
+        private void RaiseTypeCreated(object sender, EventArgs e) { TypeAdded?.Invoke(sender, e); }
+
+        private void RaiseEffectCreated(object sender, EventArgs e) { EffectAdded?.Invoke(sender, e); }
 
         private void RaiseEnchantCreated(object sender, EventArgs e) { EnchantAdded?.Invoke(sender, e); }
 
@@ -68,7 +76,7 @@ namespace RPG_Jahr_words
                     {
                         N_recette = (int)recipeId.SelectedItem,
                         Component = (item),
-                        Quantite = 0
+                        Quantite = 1
                     };
                     (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Add(b);
                     Component_type.SelectedIndex = 0;
@@ -92,6 +100,9 @@ namespace RPG_Jahr_words
 
         }
 
+        internal void CallWeapsRefresh(object sender, EventArgs e) { CallWeaponsRefresh?.Invoke(sender, e); }
+        internal void CallItemRefresh(object sender, EventArgs e) { CallItemRfresh?.Invoke(sender, e); }
+
         private void Del_but_Click(object sender, RoutedEventArgs e)
         {
             if (Item_rec.SelectedItems != null)
@@ -102,7 +113,7 @@ namespace RPG_Jahr_words
                     minpricepose -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago;
                     minpricesell -= (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago / 2;
                     sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.', ',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago / 2)).Replace(',', '.');
-                    sellPlus.Text = ("" + (decimal.Parse(sellPlus.Text.Replace('.', ',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago)).Replace(',', '.');
+                    posePrice.Text = ("" + (decimal.Parse(posePrice.Text.Replace('.', ',')) - (decimal)(Item_rec.SelectedItems[0] as RecipeItem).Component.prix_mago)).Replace(',', '.');
                     (Item_rec.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).Remove(Item_rec.SelectedItems[0] as RecipeItem);
                 }
             }
@@ -125,9 +136,25 @@ namespace RPG_Jahr_words
             }
         }
 
+        private void MultPrice(object sender, TextChangedEventArgs e)
+        {
+            decimal pval = decimal.Parse(posePrice.Text.Replace('.', ',')) - minpricepose, sval = decimal.Parse(sellPlus.Text.Replace('.', ',')) - minpricesell;
+            minpricesell = minpricepose = 0;
+            foreach (RecipeItem rec in Item_rec.Items)
+            {
+                decimal n = (decimal)rec.Quantite;
+                minpricepose += ((decimal)rec.Component.prix_mago)*n;
+                minpricesell += ((decimal)rec.Component.prix_mago/2)*n;
+                    }
+            pval += minpricepose;
+            sval += minpricesell;
+            posePrice.Text = ("" + pval).Replace(',', '.');
+            sellPlus.Text = ("" + sval).Replace(',', '.');
+        }
+
         private void EnableChoice(object sender, SelectionChangedEventArgs e)
         {
-            if (CatChoice.SelectedItems.Count == 1) PieceChoice.IsEnabled = CatChoice.SelectedItem == Bdd.Armor_cat.ToList().Find(ar => ar.categorie == "Exoquelette");
+            if (CatChoice.SelectedItems.Count == 1) PieceChoice.IsEnabled = (CatChoice.SelectedItem as Armor_cat).categorie != "Exosquelette";
             else PieceChoice.IsEnabled = true;
         }
 
@@ -147,6 +174,8 @@ namespace RPG_Jahr_words
                     (enchant.on_mag ? "des armes magiques; à savoir:\n" + enchant.weapons_mag + "\n" : "") +
                     (enchant.unlockable ? "dont la pose necessite : " + enchant.requirements : "") + enchant.descr;
         }
+
+        private void PlaceHolder(object sender, SelectionChangedEventArgs e) { if (((ComboBox)sender).SelectedItem == null) ((ComboBox)sender).SelectedIndex = 0; }
 
         private void Effect_limits(object sender, SelectionChangedEventArgs e)
         {

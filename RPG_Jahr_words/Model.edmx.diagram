@@ -217,7 +217,7 @@
         <AssociationConnector Association="RPGModel.FK_Continent_Monde" />
         <AssociationConnector Association="RPGModel.FK_item_Origin" />
         <AssociationConnector Association="RPGModel.FK_origin_Pers" />
-        <EntityTypeShape EntityType="RPGModel.Enchantements" Width="1.5" PointX="19" PointY="10.75" />
+        <EntityTypeShape EntityType="RPGModel.Enchantements" Width="1.5" PointX="19" PointY="10.5" />
         <AssociationConnector Association="RPGModel.FK_enchant_type" />
         <AssociationConnector Association="RPGModel.FK_enchant_origin" />
         </Diagram>

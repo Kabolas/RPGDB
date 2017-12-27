@@ -13,10 +13,6 @@ namespace RPG_Jahr_words.ViewModel
     {
         private RPGEntities15 _bd;
         private Persos _newPerso = new Persos();
-        //Perso_elem _saveElem = new Perso_elem();
-        //Perso_elemRes _saveElemRes = new Perso_elemRes();
-        //Pers_mago _saveMago = new Pers_mago();
-        //Pers_magoRes _saveMagoRes = new Pers_magoRes();
         private Pers_stats _saveStats = new Pers_stats();
         private Pers_carac _saveCaracs = new Pers_carac();
         private List<Trais> _trais;
@@ -46,6 +42,9 @@ namespace RPG_Jahr_words.ViewModel
         private List<Usage> _uses;
         private List<Trais> _selectedTrais = new List<Trais>();
         private List<Condition> _conditions;
+        private List<Enchantements> _enchantements;
+        private List<Enchant_Effets> _enchEffet;
+        private List<Enchant_Type> _enchType;
 
         private List<Tailles> _criSize;
         public NameGen Gen { get; set; } = new NameGen();
@@ -147,6 +146,10 @@ namespace RPG_Jahr_words.ViewModel
 
         public RelayCommand NewCondition { get => _newCondition ?? (_newCondition = new RelayCommand(MakeCondition)); }
         public List<Condition> Conditions { get => _conditions; set { _conditions = value; RaisePropertyChanged(); } }
+
+        public List<Enchantements> Enchantements { get => _enchantements; set { _enchantements = value; RaisePropertyChanged(); } }
+        public List<Enchant_Effets> EnchEffet { get => _enchEffet; set { _enchEffet = value; RaisePropertyChanged(); } }
+        public List<Enchant_Type> EnchType { get => _enchType; set { _enchType = value; RaisePropertyChanged(); } }
 
         private void MakeCondition()
         {

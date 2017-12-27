@@ -27,6 +27,7 @@ namespace RPG_Jahr_words
         public string weapons_dist { get; set; }
         public string weapons_mag { get; set; }
         public bool on_armor { get; set; }
+        public string armors_cats { get; set; }
         public string armors { get; set; }
         public bool on_jewel { get; set; }
         public string jewels { get; set; }
@@ -36,12 +37,11 @@ namespace RPG_Jahr_words
         public string origine { get; set; }
         public Nullable<decimal> prix_pose { get; set; }
         public Nullable<decimal> prix_aj { get; set; }
-        public Nullable<int> puissance { get; set; }
+        public int puissance { get; set; }
         public Nullable<int> rapport { get; set; }
         public int niveau { get; set; }
-        public string descr { get; set; }
-        public string armors_cats { get; set; }
         public string requirements { get; set; }
+        public string descr { get; set; }
     
         public virtual Enchant_Type Enchant_Type { get; set; }
         public virtual Monde_w Monde_w { get; set; }

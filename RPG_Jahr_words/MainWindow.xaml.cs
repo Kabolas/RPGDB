@@ -75,7 +75,11 @@ namespace RPG_Jahr_words
             //button13_Copy4.Background = button13_Copy6.Background= momo;
             //button13.Background = button13_Copy1.Background= mo;
             //con.Open();
-            
+            Enchants.EnchantAdded += Item.CallEnchRfrsh;
+            Enchants.TypeAdded += Item.CallEnchTypeRfrsh;
+            Enchants.EffectAdded += Item.CallEnchEffectRfrsh;
+            Item.ItemAdded += Enchants.CallItemRefresh;
+            Item.NewWeapontype += Enchants.CallWeapsRefresh;
             UpdateWin();
         }
         #region Bestiaire

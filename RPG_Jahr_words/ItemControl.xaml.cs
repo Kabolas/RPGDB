@@ -37,22 +37,20 @@ namespace RPG_Jahr_words
 
         public event EventHandler ItemAdded;
         public event EventHandler NewWeapontype;
+        public event EventHandler CallEnchantRefresh, CallEnchTypeRefresh, CallEnchEffectRefresh;
         private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ViewModel.ItemViewModel vm = new ItemViewModel(e.NewValue as RPGEntities15);
             vm.WeaponAdded += (d as ItemControl).RaiseWeaponAdded;
             vm.ItemAdded += (d as ItemControl).RaiseItemAdded;
+            (d as ItemControl).CallEnchantRefresh += vm.RefreshEnchants;
+            (d as ItemControl).CallEnchTypeRefresh += vm.RefreshEnchantypes;
+            (d as ItemControl).CallEnchEffectRefresh += vm.RefreshEnchanteffet;
             (d as ItemControl).DataContext = vm;
         }
 
-        private void RaiseItemAdded(object sender, EventArgs e)
-        {
-            ItemAdded?.Invoke(sender, e);
-        }
-        private void RaiseWeaponAdded(object sender, EventArgs e)
-        {
-            NewWeapontype?.Invoke(sender, e);
-        }
+        private void RaiseItemAdded(object sender, EventArgs e) { ItemAdded?.Invoke(sender, e); }
+        private void RaiseWeaponAdded(object sender, EventArgs e) { NewWeapontype?.Invoke(sender, e); }
 
         public NameGen Gen
         {
@@ -71,10 +69,27 @@ namespace RPG_Jahr_words
             CollectionView spells = (CollectionView)CollectionViewSource.GetDefaultView(Weap_Spel_list.Items);
             CollectionView compo = (CollectionView)CollectionViewSource.GetDefaultView(Component.Items);
             CollectionView links = (CollectionView)CollectionViewSource.GetDefaultView(Bijoux_link.Items);
+            CollectionView chants = (CollectionView)CollectionViewSource.GetDefaultView(Item_enchant.Items);
             spells.Filter = FilterSpell;
             compo.Filter = FilterCompo;
             links.Filter = FilterLink;
+            chants.Filter = FilterChants;
         }
+
+        private bool FilterChants(object obj)
+        {
+            bool ret = true;
+            ViewModel.ItemType typ = (ItemType)Enum.Parse(typeof(ItemType), Item_elem.SelectedItem as string);
+            if (Item_enchantype.SelectedIndex != 0)
+                ret = ret && (obj as Enchantements).Enchant_Type == Item_enchantype.SelectedItem as Enchant_Type;
+            if (Item_enchanteffet.SelectedIndex != 0)
+                ret = ret && (obj as Enchantements).effects.Contains(Item_enchanteffet.SelectedValue as string);
+            return ret;
+        }
+
+        internal void CallEnchEffectRfrsh(object sender, EventArgs e) { CallEnchEffectRefresh?.Invoke(sender, e); }
+        internal void CallEnchTypeRfrsh(object sender, EventArgs e) { CallEnchTypeRefresh?.Invoke(sender, e); }
+        internal void CallEnchRfrsh(object sender, EventArgs e) { CallEnchantRefresh?.Invoke(sender, e); }
 
         private bool FilterLink(object obj)
         {
@@ -610,6 +625,12 @@ namespace RPG_Jahr_words
         {
             (Results.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = procRecipe.SelectedItem as Procede;
             (Results.Items as CollectionView).Refresh();
+        }
+
+        private void FilterEnchants(object sender, SelectionChangedEventArgs e)
+        {
+            (Item_enchant?.Items as CollectionView)?.Refresh();
+            process_SelectionChanged(sender, e);
         }
     }
 }
