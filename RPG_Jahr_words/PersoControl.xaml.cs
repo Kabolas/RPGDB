@@ -337,13 +337,25 @@ namespace RPG_Jahr_words
         private void AjoutClick(object sender, RoutedEventArgs e)
         {
             foreach (Items item in ListLoot.SelectedItems)
-                (PersoLoot.ItemsSource as ObservableCollection<LootItem>).Add(new LootItem { Loot = item, Chance = 0, Quantite = 0 });
+                (PersoLoot.ItemsSource as ObservableCollection<LootItem>).Add(new LootItem { Loot = item, Chance = 0, Quantite = 1 });
         }
 
         private void AjoutClickStuff(object sender, RoutedEventArgs e)
         {
-            foreach (Items item in StuffList.SelectedItems)
-                (ChosenStuff.ItemsSource as ObservableCollection<StuffItem>).Add(new StuffItem { Stuff = item, Nombre = 0 });
+            if (StuffList.SelectedItems.Count > 1)
+                foreach (Items item in StuffList.SelectedItems)
+                    (ChosenStuff.ItemsSource as ObservableCollection<StuffItem>).Add(new StuffItem { Stuff = item, Nombre = 1 });
+            else if (StuffList.SelectedItems.Count == 1 && AppliedEnch.Items.Count > 0)
+            {
+                StuffItem stuf = new StuffItem { Stuff = StuffList.SelectedItem as Items, Nombre = 1, Enchanted = true, Ench1 = AppliedEnch.Items[0] as Enchantements };
+                AppliedEnch.Items.Remove(AppliedEnch.Items[0]);
+                if (AppliedEnch.Items.Count > 0)
+                { stuf.Ench2 = AppliedEnch.Items[0] as Enchantements; AppliedEnch.Items.Remove(AppliedEnch.Items[0]); }
+                if (AppliedEnch.Items.Count > 0)
+                { stuf.Ench3 = AppliedEnch.Items[0] as Enchantements; AppliedEnch.Items.Remove(AppliedEnch.Items[0]); }
+                (ChosenStuff.ItemsSource as ObservableCollection<StuffItem>).Add(stuf);
+            }
+            else (ChosenStuff.ItemsSource as ObservableCollection<StuffItem>).Add(new StuffItem { Stuff = StuffList.SelectedItem as Items, Nombre = 1 });
         }
 
         private void ElemCheck(object sender, TextChangedEventArgs e)
@@ -596,6 +608,12 @@ namespace RPG_Jahr_words
         {
             while (AppliedEnch.Items.Count > 0)
                 AppliedEnch.Items.Remove(AppliedEnch.SelectedItems[0]);
+        }
+
+        private void AjoutStuffClick(object sender, RoutedEventArgs e)
+        {
+            foreach (Items item in StuffLootList.SelectedItems)
+                (PersoLoot.ItemsSource as ObservableCollection<LootItem>).Add(new LootItem { Loot = item, Chance = 0, Quantite = 1 });
         }
 
         private void ShowStatsRace(object sender, RoutedEventArgs e)

@@ -372,6 +372,13 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <GridViewColumn Header="Enchanté" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="false" IsChecked="{Binding Enchanted}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -633,7 +640,8 @@
                                     <Binding ElementName="StuffList" Path="SelectedItems.Count" Converter="{StaticResource intEquals}" ConverterParameter="1"/>
                                     <Binding ElementName="StuffList" Path="SelectedItem" Converter="{StaticResource CanEnch}"/>
                                 </MultiBinding>
-                            </ComboBox.IsEnabled><ComboBox.Resources>
+                            </ComboBox.IsEnabled>
+                            <ComboBox.Resources>
                                 <CollectionViewSource x:Key="Effects" Source="{Binding EnchEffet}"/>
                             </ComboBox.Resources>
                             <ComboBox.ItemsSource>
@@ -698,71 +706,105 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Loot">
-                <Grid Background="#FFE5E5E5">
-                    <ComboBox x:Name="Loottype" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="116" SelectedIndex="0" SelectionChanged="RefreshLoot">
-                        <System:String>~Type d'objet~</System:String>
-                        <System:String>Alliages</System:String>
-                        <System:String>Armes</System:String>
-                        <System:String>Armures</System:String>
-                        <System:String>Bijoux</System:String>
-                        <System:String>Consommable</System:String>
-                        <System:String>Loot</System:String>
-                        <System:String>Livre</System:String>
-                        <System:String>Métaux</System:String>
-                        <System:String>Pierres</System:String>
-                        <System:String>Végétaux</System:String>
-                        <System:String>Munitions</System:String>
-                        <System:String>Parchemins</System:String>
-                        <System:String>Véhicule</System:String>
-                        <System:String>Communs</System:String>
-                        <System:String>Conteneur</System:String>
-                    </ComboBox>
-                    <ListView x:Name="PersoLoot" Height="133" Margin="231,5,5,0" VerticalAlignment="Top" ItemsSource="{Binding Loots}" SelectionMode="Multiple">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Loot.Id}"/>
-                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding Loot.nom}"/>
-                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding Loot.origine}"/>
-                                <GridViewColumn Header="Chances" Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Width="20" Text="{Binding Chance}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Nombre" Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Width="20" Text="{Binding Quantite}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="Auto" >
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox Width="50" SelectedItem="{Binding Condition, Mode=OneWayToSource}" SelectedIndex="0" ItemsSource="{Binding Source={StaticResource Conds}}" DisplayMemberPath="facon"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <ListView x:Name="ListLoot" Margin="80,32,248,5" ItemsSource="{Binding LootList}" SelectionMode="Multiple">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
-                                <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding origine}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="150,5,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
-                    <Button Content="✗" HorizontalAlignment="Left" Margin="201,5,0,113" Width="25" Click="DelLoot" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}"/>
-                    <ComboBox x:Name="CondList" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Conditions}" DisplayMemberPath="facon" SelectedIndex="0"/>
-                    <ScrollViewer HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="70" Height="79" VerticalScrollBarVisibility="Auto">
-                        <TextBlock TextWrapping="WrapWithOverflow" FontSize="9.5" Text="{Binding ElementName=CondList, Path=SelectedItem.description, StringFormat=Description: {0}}"/>
-                    </ScrollViewer>
-                </Grid>
+                <ScrollViewer>
+                    <Grid Background="#FFE5E5E5" Height="285">
+                        <ComboBox x:Name="Loottype" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="116" SelectedIndex="0" SelectionChanged="RefreshLoot">
+                            <System:String>~Type d'objet~</System:String>
+                            <System:String>Alliages</System:String>
+                            <System:String>Armes</System:String>
+                            <System:String>Armures</System:String>
+                            <System:String>Bijoux</System:String>
+                            <System:String>Consommable</System:String>
+                            <System:String>Loot</System:String>
+                            <System:String>Livre</System:String>
+                            <System:String>Métaux</System:String>
+                            <System:String>Pierres</System:String>
+                            <System:String>Végétaux</System:String>
+                            <System:String>Munitions</System:String>
+                            <System:String>Parchemins</System:String>
+                            <System:String>Véhicule</System:String>
+                            <System:String>Communs</System:String>
+                            <System:String>Conteneur</System:String>
+                        </ComboBox>
+                        <ListView x:Name="PersoLoot" Height="133" Margin="231,5,5,0" VerticalAlignment="Top" ItemsSource="{Binding Loots}" SelectionMode="Multiple">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Loot.Id}"/>
+                                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding Loot.nom}"/>
+                                    <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding Loot.origine}"/>
+                                    <GridViewColumn Header="Enchanté" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Enchanted}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Chances" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Text="{Binding Chance}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Nombre" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Text="{Binding Quantite}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Condition" Width="Auto" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox Width="50" SelectedItem="{Binding Condition, Mode=OneWayToSource}" SelectedIndex="0" ItemsSource="{Binding Source={StaticResource Conds}}" DisplayMemberPath="facon"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView x:Name="ListLoot" Margin="80,32,231.6,147" ItemsSource="{Binding LootList}" SelectionMode="Multiple">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                                    <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding origine}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="150,5,0,0" VerticalAlignment="Top" Width="25" Click="AjoutClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element à la recette."/>
+                        <Button Content="✗" HorizontalAlignment="Left" Margin="201,5,0,0" Width="25" Click="DelLoot" FontSize="22" Padding="1,-5,1,1" IsEnabled="{Binding SelectedItems.Count, ElementName=PersoLoot}" Height="28" VerticalAlignment="Top"/>
+                        <ComboBox x:Name="CondList" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" Width="70" ItemsSource="{Binding Conditions}" DisplayMemberPath="facon" SelectedIndex="0"/>
+                        <ScrollViewer HorizontalAlignment="Left" Margin="5,59,0,0" VerticalAlignment="Top" Width="70" Height="79" VerticalScrollBarVisibility="Auto">
+                            <TextBlock TextWrapping="WrapWithOverflow" FontSize="9.5" Text="{Binding ElementName=CondList, Path=SelectedItem.description, StringFormat=Description: {0}}"/>
+                        </ScrollViewer>
+                        <ListView x:Name="StuffLootList" HorizontalAlignment="Left" Height="132" Margin="102,143,0,0" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Stuff}" IsEnabled="{Binding ElementName=FromStuff, Path=IsChecked}" SelectionMode="Multiple">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding Stuff.Id}"/>
+                                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding Stuff.nom}"/>
+                                    <GridViewColumn Header="Origine" Width="Auto" DisplayMemberBinding="{Binding Stuff.origine}"/>
+                                    <GridViewColumn Header="Nombre" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="20" Text="{Binding Nombre}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Enchanté" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="false" IsChecked="{Binding Enchanted}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <CheckBox x:Name="FromStuff" Content="Depuis le Stuff" HorizontalAlignment="Left" Margin="5,154,0,0" VerticalAlignment="Top"/>
+                        <Button Content="⇴" HorizontalAlignment="Left" Height="25" Margin="277,154,0,0" VerticalAlignment="Top" Width="25" Click="AjoutStuffClick" IsEnabled="{Binding SelectedItems.Count, ElementName=ListLoot}" FontSize="30" Padding="-2,-11,1,1" ToolTip="Ajouter un element aux elements lootables."/>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Trais">
                 <Grid Background="#FFE5E5E5">

@@ -11,10 +11,36 @@ namespace RPG_Jahr_words
     {
         private Items _stuff;
         private int _nombre;
+        private bool enchanted;
+        private Enchantements ench1, ench2, ench3;
 
         public int Nombre { get => _nombre; set => _nombre = value; }
         public Items Stuff { get => _stuff; set => _stuff = value; }
-        public override string ToString() { return Stuff.nom + "|" + Stuff.Id + "~" + Nombre; }
+        public bool Enchanted { get => enchanted; set => enchanted = value; }
+        public Enchantements Ench1 { get => ench1; set => ench1 = value; }
+        public Enchantements Ench2 { get => ench2; set => ench2 = value; }
+        public Enchantements Ench3 { get => ench3; set => ench3 = value; }
+
+        public override string ToString()
+        {
+            string ret = Stuff.nom + "|" + Stuff.Id + "~" + Nombre;
+            if (Enchanted)
+            {
+                ret += "[";
+                if (Ench1 != null)
+                    ret += Ench1.Id + "|" + Ench1.nom;
+                {
+                    if (Ench2 != null)
+                    {
+                        ret += ";" + Ench2.Id + "|" + Ench2.nom;
+                        if (Ench3 != null)
+                            ret += ";" + Ench3.Id + "|" + Ench3;
+                    }
+                }
+                ret += "]";
+            }
+            return ret;
+        }
     }
     public class RecipeItem
     {
@@ -35,12 +61,36 @@ namespace RPG_Jahr_words
         private Items _loot;
         private double _quantite;
         private Condition _condition;
+        private bool enchanted;
+        private Enchantements ench1, ench2, ench3;
 
         public double Quantite { get => _quantite; set => _quantite = value; }
         public Items Loot { get => _loot; set => _loot = value; }
         public int Chance { get => _chance; set => _chance = value; }
         public Condition Condition { get => _condition; set => _condition = value; }
-        public override string ToString() { return Loot.nom + "|" + Loot.Id + "~" + Chance + "%~" + Condition.facon + "=>" + Quantite; }
+        public bool Enchanted { get => enchanted; set => enchanted = value; }
+        public Enchantements Ench1 { get => ench1; set => ench1 = value; }
+        public Enchantements Ench2 { get => ench2; set => ench2 = value; }
+        public Enchantements Ench3 { get => ench3; set => ench3 = value; }
+        public override string ToString()
+        {
+            string ret = Loot.nom + "|" + Loot.Id + "~" + Chance + "%~" + Condition.facon + "=>" + Quantite; if (Enchanted)
+            {
+                ret += "[";
+                if (Ench1 != null)
+                    ret += Ench1.Id + "|" + Ench1.nom;
+                {
+                    if (Ench2 != null)
+                    {
+                        ret += ";" + Ench2.Id + "|" + Ench2.nom;
+                        if (Ench3 != null)
+                            ret += ";" + Ench3.Id + "|" + Ench3;
+                    }
+                }
+                ret += "]";
+            }
+            return ret;
+        }
     }
 
     public class RecipeResult
