@@ -20,8 +20,8 @@ namespace RPG_Jahr_words
             this.Bestiaire_Beast = new HashSet<Bestiaire_Beast>();
             this.Continent = new HashSet<Continent>();
             this.Items = new HashSet<Items>();
-            this.Persos = new HashSet<Persos>();
             this.Enchantements = new HashSet<Enchantements>();
+            this.Persos = new HashSet<Persos>();
         }
     
         public string nom { get; set; }
@@ -33,8 +33,8 @@ namespace RPG_Jahr_words
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Items> Items { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Persos> Persos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Enchantements> Enchantements { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Persos> Persos { get; set; }
     }
 }

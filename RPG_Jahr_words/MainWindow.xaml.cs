@@ -85,6 +85,8 @@ namespace RPG_Jahr_words
             Item.NewWeapontype += Enchants.CallWeapsRefresh;
             Item.ItemAdded += Persos.CallItemRfrsh;
             Item.NewWeapontype += Persos.CallWeaponAdd;
+            Spells.AddedSpell += Item.CallSpellRefrsh;
+            Spells.AddedSpell += Persos.CallSpellsRefrsh;
             UpdateWin();
         }
         #region Bestiaire

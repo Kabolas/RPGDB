@@ -37,7 +37,7 @@ namespace RPG_Jahr_words
 
         public event EventHandler ItemAdded;
         public event EventHandler NewWeapontype;
-        public event EventHandler CallEnchantRefresh, CallEnchTypeRefresh, CallEnchEffectRefresh;
+        public event EventHandler CallSpellRefresh, CallEnchantRefresh, CallEnchTypeRefresh, CallEnchEffectRefresh;
         private static void ChargeFromDb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ViewModel.ItemViewModel vm = new ItemViewModel(e.NewValue as RPGEntities15);
@@ -46,6 +46,7 @@ namespace RPG_Jahr_words
             (d as ItemControl).CallEnchantRefresh += vm.RefreshEnchants;
             (d as ItemControl).CallEnchTypeRefresh += vm.RefreshEnchantypes;
             (d as ItemControl).CallEnchEffectRefresh += vm.RefreshEnchanteffet;
+            (d as ItemControl).CallSpellRefresh += vm.RefresSpells;
             (d as ItemControl).DataContext = vm;
         }
 
@@ -89,6 +90,9 @@ namespace RPG_Jahr_words
 
         internal void CallEnchEffectRfrsh(object sender, EventArgs e) { CallEnchEffectRefresh?.Invoke(sender, e); }
         internal void CallEnchTypeRfrsh(object sender, EventArgs e) { CallEnchTypeRefresh?.Invoke(sender, e); }
+
+        internal void CallSpellRefrsh(object sender, EventArgs e)        {            CallSpellRefresh?.Invoke(sender, e);        }
+
         internal void CallEnchRfrsh(object sender, EventArgs e) { CallEnchantRefresh?.Invoke(sender, e); }
 
         private bool FilterLink(object obj)

@@ -62,6 +62,8 @@ namespace RPG_Jahr_words.ViewModel
         private Loot _saveLoot = new Loot();
         private Livre _saveBookin = new Livre();
 
+        internal void RefresSpells(object sender, EventArgs e)        {            Sorts = Bd.Sorts.ToList();        }
+
         #region PrintedLists
         private List<Items> _components, _linkList;
         private List<Capacites_armor> _armor_caps;

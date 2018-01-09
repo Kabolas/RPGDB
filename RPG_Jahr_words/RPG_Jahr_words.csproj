@@ -108,6 +108,9 @@
     <Compile Include="AddTrait.xaml.cs">
       <DependentUpon>AddTrait.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Alignement.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Alliage.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -249,6 +252,9 @@
     <Compile Include="Degat_type.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Divinite.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Effets.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -339,6 +345,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Munition_type.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pantheon.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Parchemins.cs">
@@ -441,6 +450,7 @@
     </Compile>
     <Compile Include="ViewModel\BeastViewModel.cs" />
     <Compile Include="ViewModel\EnchantViewModel.cs" />
+    <Compile Include="ViewModel\GodViewModel.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\JahrWordsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

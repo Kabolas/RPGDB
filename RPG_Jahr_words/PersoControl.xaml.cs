@@ -23,7 +23,7 @@ namespace RPG_Jahr_words
     {
         public event EventHandler AddedPerso;
         public event EventHandler CallEnchantRefresh, CallEnchEffectRefresh, CallEnchTypeRefresh;
-        public event EventHandler CallItemRefresh, CallWeaponAdded;
+        public event EventHandler CallItemRefresh, CallWeaponAdded, CallSpellsRefresh;
         public RPGEntities15 Bdd
         {
             get => (RPGEntities15)GetValue(BddProperty);
@@ -44,6 +44,7 @@ namespace RPG_Jahr_words
             (d as PersoControl).CallEnchTypeRefresh += model.EnchantTypeRefresh;
             (d as PersoControl).CallItemRefresh += model.ItemRefresh;
             (d as PersoControl).CallWeaponAdded += model.WeaponAdded;
+            (d as PersoControl).CallSpellsRefresh += model.SpellAdded;
             (d as PersoControl).DataContext = model;
             (d as PersoControl).Show = (d as PersoControl).Bdd.Persos.ToList();
         }
@@ -79,6 +80,8 @@ namespace RPG_Jahr_words
                     break;
             }
         }
+
+        internal void CallSpellsRefrsh(object sender, EventArgs e) { CallSpellsRefresh?.Invoke(sender, e); }
 
         private List<Persos> Show;
         public NameGen Gen

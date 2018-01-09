@@ -19,5 +19,10 @@
         </GroupBox>
         <TextBox x:Name="God_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
+        <RadioButton Content="Panthéon" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+        <RadioButton Content="Divinité" HorizontalAlignment="Left" Margin="89,40,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,173,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <ComboBox HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </UserControl>

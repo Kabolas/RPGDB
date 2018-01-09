@@ -120,11 +120,14 @@ namespace RPG_Jahr_words
         public virtual DbSet<Best_stats> Best_stats { get; set; }
         public virtual DbSet<Creature_Stats> Creature_Stats { get; set; }
         public virtual DbSet<Pers_stats> Pers_stats { get; set; }
-        public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Condition> Condition { get; set; }
         public virtual DbSet<Enchant_Type> Enchant_Type { get; set; }
         public virtual DbSet<Table> Table { get; set; }
         public virtual DbSet<Monde_w> Monde_w { get; set; }
         public virtual DbSet<Enchantements> Enchantements { get; set; }
+        public virtual DbSet<Alignement> Alignement { get; set; }
+        public virtual DbSet<Divinite> Divinite { get; set; }
+        public virtual DbSet<Pantheon> Pantheon { get; set; }
+        public virtual DbSet<Persos> Persos { get; set; }
     }
 }

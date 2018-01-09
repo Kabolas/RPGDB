@@ -23,6 +23,7 @@ namespace RPG_Jahr_words.ViewModel
         private ObservableCollection<StuffItem> _stuff = new ObservableCollection<StuffItem>();
         private List<Perso_Creature> _creature;
         private List<Bestiaire_Beast> _beasts;
+        private List<Alignement> _aligns;
         private List<Items> _lootList, _stuffList;
         private List<Magie_type> _magie;
         private List<ComboCat> _categoriescombo;
@@ -44,6 +45,13 @@ namespace RPG_Jahr_words.ViewModel
         internal void EnchantRefresh(object sender, EventArgs e) { Enchantements = Bd.Enchantements.ToList(); }
         internal void EnchantTypeRefresh(object sender, EventArgs e) { EnchType = Bd.Enchant_Type.ToList(); }
         internal void ItemRefresh(object sender, EventArgs e) { LootList = Bd.Items.ToList(); StuffList = Bd.Items.ToList(); }
+
+        internal void SpellAdded(object sender, EventArgs e)
+        {
+            Sort = Bd.Sorts.ToList();
+            Combos = Bd.Combo.ToList();
+        }
+
         internal void EnchantEffetRefresh(object sender, EventArgs e) { EnchEffet = Bd.Enchant_Effets.ToList(); }
         internal void WeaponAdded(object sender, EventArgs e)
         {
@@ -78,6 +86,7 @@ namespace RPG_Jahr_words.ViewModel
             MunType = Bd.Munition_type.ToList();
             Carbus = Bd.Carburant.ToList();
             Voie = Bd.Voies.ToList();
+            Aligns = Bd.Alignement.ToList();
             Deplacement = Bd.Mode_deplacement.ToList();
             Maniabilities = Bd.Maniabilite.ToList();
             Uses = Bd.Usage.ToList();
@@ -162,6 +171,8 @@ namespace RPG_Jahr_words.ViewModel
         public List<Enchantements> Enchantements { get => _enchantements; set { _enchantements = value; RaisePropertyChanged(); } }
         public List<Enchant_Effets> EnchEffet { get => _enchEffet; set { _enchEffet = value; RaisePropertyChanged(); } }
         public List<Enchant_Type> EnchType { get => _enchType; set { _enchType = value; RaisePropertyChanged(); } }
+
+        public List<Alignement> Aligns { get => _aligns; set => _aligns = value; }
 
         private void MakeCondition()
         {

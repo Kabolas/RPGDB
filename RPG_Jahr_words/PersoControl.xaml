@@ -901,12 +901,32 @@
         </ComboBox>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="58,130,0,0" TextWrapping="Wrap" Text="{Binding NewPerso.lvl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="58"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,133,0,0" TextWrapping="Wrap" Text="Niveau :" VerticalAlignment="Top"/>
-        <TextBox x:Name="Taille" HorizontalAlignment="Left" Height="23" Margin="133,102,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.taille, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="23" Margin="133,56,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Masse" HorizontalAlignment="Left" Height="23" Margin="133,148,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.masse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
-        <TextBlock HorizontalAlignment="Left" Margin="133,40,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="133,86,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="133,132,0,0" TextWrapping="Wrap" Text="Masse (kg)" VerticalAlignment="Top"/>
+        <TextBox x:Name="Taille" HorizontalAlignment="Left" Height="18" Margin="133,119,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.taille, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="18" Margin="133,82,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
+        <TextBox x:Name="Masse" HorizontalAlignment="Left" Height="18" Margin="133,153,0,0" TextWrapping="Wrap" Text="{Binding SaveCaracs.masse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="63"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,66,0,0" TextWrapping="Wrap" Text="Âge" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,103,0,0" TextWrapping="Wrap" Text="Taille (m)" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="133,137,0,0" TextWrapping="Wrap" Text="Masse (kg)" VerticalAlignment="Top"/>
         <Button Content=" Condition " Command="{Binding NewCondition}" HorizontalAlignment="Left" Margin="313,181,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="123,40,0,0" VerticalAlignment="Top" Width="83" DisplayMemberPath="aligne" SelectedValuePath="aligne" SelectedValue="{Binding NewPerso.alignement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding NewPerso.Alignement1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Alignements" Source="{Binding Aligns}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Alignement aligne="~Alignement~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Alignements}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
     </Grid>
 </UserControl>
