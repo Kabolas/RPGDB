@@ -26,6 +26,7 @@ namespace RPG_Jahr_words
         public string alignement { get; set; }
         public string importance { get; set; }
         public string description { get; set; }
+        public string temples { get; set; }
     
         public virtual Alignement Alignement1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -102,6 +102,9 @@
     <Compile Include="Add2Chps.xaml.cs">
       <DependentUpon>Add2Chps.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddImage.xaml.cs">
+      <DependentUpon>AddImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddRestrict.xaml.cs">
       <DependentUpon>AddRestrict.xaml</DependentUpon>
     </Compile>
@@ -480,6 +483,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddRestrict.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -655,6 +662,21 @@
     <Resource Include="main canalisation.jpg" />
     <Resource Include="reunion.jpg" />
     <None Include="FodyWeavers.xml" />
+    <Resource Include="bin\Debug\Ressources\Corpsacorps.jpg" />
+    <Resource Include="bin\Debug\Ressources\Distance.jpg" />
+    <Resource Include="bin\Debug\Ressources\Icon1.ico" />
+    <Resource Include="bin\Debug\Ressources\IMG_20170420_215019 - Copie.jpg" />
+    <Resource Include="bin\Debug\Ressources\IMG_20170420_215019.jpg" />
+    <Resource Include="bin\Debug\Ressources\IMG_20170420_215029.jpg" />
+    <Resource Include="bin\Debug\Ressources\IMG_20170420_215053.jpg" />
+    <Resource Include="bin\Debug\Ressources\leless.jpg" />
+    <Resource Include="bin\Debug\Ressources\less.jpg" />
+    <Resource Include="bin\Debug\Ressources\main canalisation.jpg" />
+    <Resource Include="bin\Debug\Ressources\momore.jpg" />
+    <Resource Include="bin\Debug\Ressources\more.jpg" />
+    <Resource Include="bin\Debug\Ressources\nextprec.jpg" />
+    <Resource Include="bin\Debug\Ressources\reunion.jpg" />
+    <Resource Include="bin\Debug\Ressources\Vouivre_armor.jpg" />
     <Content Include="Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -690,7 +712,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Debug\Ressources\InDB\" />
+    <Folder Include="bin\Debug\Ressources\marks\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

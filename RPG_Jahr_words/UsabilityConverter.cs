@@ -380,14 +380,13 @@ namespace RPG_Jahr_words
             throw new NotImplementedException();
         }
     }
+
     public class ComboOrSpell : DependencyObject, IMultiValueConverter
     {
-
         public static bool isCombo;
         private bool _oneToSource = false;
         private bool ignore = false;
         public bool OneToSource { get => _oneToSource; set => _oneToSource = value; }
-
         private object defvalue1, defvalue2;
 
         public object Convert(object[] values, System.Type targetType, object parameter, CultureInfo culture)
@@ -410,6 +409,63 @@ namespace RPG_Jahr_words
         {
             ignore = true;
             if (isCombo)
+            {
+                if (OneToSource)
+                    defvalue1 = value;
+                if (targetTypes[0] == typeof(string))
+                    return new object[] { value, defvalue2 };
+                else if (targetTypes[0] == typeof(double) || targetTypes[0] == typeof(double?))
+                    return new object[] { (string)value == "" ? 0 : double.Parse((value as string).Replace('.', ',')), defvalue2 };
+                else if (targetTypes[0] == typeof(int) || targetTypes[0] == typeof(int?))
+                    return new object[] { (string)value == "" ? 0 : int.Parse(value as string), defvalue2 };
+                else
+                    return new object[] { value, defvalue2 };
+            }
+            else
+            {
+                if (OneToSource)
+                    defvalue2 = value;
+                if (targetTypes[0] == typeof(string))
+                    return new object[] { defvalue1, value };
+                else if (targetTypes[0] == typeof(double) || targetTypes[0] == typeof(double?))
+                    return new object[] { defvalue1, (string)value == "" ? 0 : double.Parse((value as string).Replace('.', ',')) };
+                else if (targetTypes[0] == typeof(int) || targetTypes[0] == typeof(int?))
+                    return new object[] { defvalue1, (string)value == "" ? 0 : int.Parse(value as string) };
+                else
+                    return new object[] { defvalue1, value };
+            }
+        }
+    }
+    public class GodOrPant : DependencyObject, IMultiValueConverter
+    {
+
+        public static bool isPant;
+        private bool _oneToSource = false;
+        private bool ignore = false;
+        public bool OneToSource { get => _oneToSource; set => _oneToSource = value; }
+
+        private object defvalue1, defvalue2;
+
+        public object Convert(object[] values, System.Type targetType, object parameter, CultureInfo culture)
+        {
+            defvalue1 = values[0];
+            defvalue2 = values[1];
+            if (ignore)
+            {
+                ignore = false;
+                if (isPant)
+                { return "" + values[0]; }
+                else { return "" + values[1]; }
+            }
+            else if (!isPant)
+            { return "" + values[0]; }
+            else { return "" + values[1]; }
+        }
+
+        public object[] ConvertBack(object value, System.Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            ignore = true;
+            if (isPant)
             {
                 if (OneToSource)
                     defvalue1 = value;
@@ -785,4 +841,6 @@ namespace RPG_Jahr_words
             throw new NotImplementedException();
         }
     }
+
+
 }

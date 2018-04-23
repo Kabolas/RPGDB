@@ -21,6 +21,10 @@ namespace RPG_Jahr_words
         public string sous_domaine { get; set; }
         public string alignement { get; set; }
         public string background { get; set; }
+        public string symbole { get; set; }
+        public string importance { get; set; }
+        public string cultistes { get; set; }
+        public string temples { get; set; }
     
         public virtual Alignement Alignement1 { get; set; }
         public virtual Pantheon Pantheon1 { get; set; }

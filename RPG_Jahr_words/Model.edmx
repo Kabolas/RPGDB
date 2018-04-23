@@ -400,7 +400,8 @@
           <Property Name="identification" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="monde" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="biomes" Type="text" Nullable="false" />
-          <Property Name="carte" Type="image" />
+          <Property Name="carte_villes" Type="varchar" MaxLength="500" />
+          <Property Name="carte_region" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="Creature_elem">
           <Key>
@@ -499,7 +500,11 @@
           <Property Name="surnom" Type="varchar" MaxLength="100" />
           <Property Name="pantheon" Type="int" />
           <Property Name="sous_domaine" Type="varchar" MaxLength="50" />
+          <Property Name="symbole" Type="varchar" MaxLength="50" />
+          <Property Name="importance" Type="varchar" MaxLength="20" />
+          <Property Name="cultistes" Type="varchar" MaxLength="150" />
           <Property Name="alignement" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="temples" Type="varchar(max)" />
           <Property Name="background" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Effets">
@@ -722,6 +727,7 @@
           <Property Name="domaine" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="alignement" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="importance" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="temples" Type="varchar(max)" />
           <Property Name="description" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Parchemins">
@@ -3253,18 +3259,6 @@
           <Property Name="cumul" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_containing" FromRole="Conteneurs" ToRole="Items" />
         </EntityType>
-        <EntityType Name="Continent">
-          <Key>
-            <PropertyRef Name="nom" />
-          </Key>
-          <Property Name="nom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="identification" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="monde" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="biomes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Region" Relationship="Self.FK_Region_Continent" FromRole="Continent" ToRole="Region" />
-          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_Continent_Monde" FromRole="Continent" ToRole="Monde_w" />
-          <Property Name="carte" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="Crowd_control">
           <Key>
             <PropertyRef Name="CC" />
@@ -3460,8 +3454,8 @@
           <Property Name="nom" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="continent" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="biomes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Continent1" Relationship="Self.FK_Region_Continent" FromRole="Region" ToRole="Continent" />
           <NavigationProperty Name="Ville" Relationship="Self.FK_Ville_Region" FromRole="Region" ToRole="Ville" />
+          <NavigationProperty Name="Continent1" Relationship="RPGModel.FK_Region_Continent" FromRole="Region" ToRole="Continent" />
         </EntityType>
         <EntityType Name="Reload_cat">
           <Key>
@@ -3615,18 +3609,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Region_Continent">
-          <End Role="Continent" Type="Self.Continent" Multiplicity="1" />
-          <End Role="Region" Type="Self.Region" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Continent">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Region">
-              <PropertyRef Name="continent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_elem_1_mun">
           <End Role="Mag_element" Type="Self.Mag_element" Multiplicity="0..1" />
           <End Role="Munition" Type="Self.Munition" Multiplicity="*" />
@@ -3730,7 +3712,6 @@
           <EntitySet Name="Comportements" EntityType="Self.Comportements" />
           <EntitySet Name="Conso_type" EntityType="Self.Conso_type" />
           <EntitySet Name="Conteneurs" EntityType="Self.Conteneurs" />
-          <EntitySet Name="Continent" EntityType="Self.Continent" />
           <EntitySet Name="Crowd_control" EntityType="Self.Crowd_control" />
           <EntitySet Name="Degat_type" EntityType="Self.Degat_type" />
           <EntitySet Name="Effets" EntityType="Self.Effets" />
@@ -3783,10 +3764,6 @@
           <AssociationSet Name="FK_jewelry_place" Association="Self.FK_jewelry_place">
             <End Role="Bijoux_place" EntitySet="Bijoux_place" />
             <End Role="Bijoux" EntitySet="Bijoux" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Region_Continent" Association="Self.FK_Region_Continent">
-            <End Role="Continent" EntitySet="Continent" />
-            <End Role="Region" EntitySet="Region" />
           </AssociationSet>
           <AssociationSet Name="FK_elem_1_mun" Association="Self.FK_elem_1_mun">
             <End Role="Mag_element" EntitySet="Mag_element" />
@@ -4203,10 +4180,6 @@
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Bestiaire_Beast" EntitySet="Bestiaire_Beast" />
           </AssociationSet>
-          <AssociationSet Name="FK_Continent_Monde" Association="RPGModel.FK_Continent_Monde">
-            <End Role="Monde_w" EntitySet="Monde_w" />
-            <End Role="Continent" EntitySet="Continent" />
-          </AssociationSet>
           <AssociationSet Name="FK_item_Origin" Association="RPGModel.FK_item_Origin">
             <End Role="Monde_w" EntitySet="Monde_w" />
             <End Role="Items" EntitySet="Items" />
@@ -4287,6 +4260,15 @@
           <AssociationSet Name="Fk_perso_race" Association="RPGModel.Fk_perso_race">
             <End Role="Races" EntitySet="Races" />
             <End Role="Persos" EntitySet="Persos" />
+          </AssociationSet>
+          <EntitySet Name="Continent" EntityType="RPGModel.Continent" />
+          <AssociationSet Name="FK_Continent_Monde" Association="RPGModel.FK_Continent_Monde">
+            <End Role="Monde_w" EntitySet="Monde_w" />
+            <End Role="Continent" EntitySet="Continent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Continent" Association="RPGModel.FK_Region_Continent">
+            <End Role="Continent" EntitySet="Continent" />
+            <End Role="Region" EntitySet="Region" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Tailles">
@@ -6023,10 +6005,10 @@
           </Key>
           <Property Name="nom" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Bestiaire_Beast" Relationship="RPGModel.FK_origin_Beast" FromRole="Monde_w" ToRole="Bestiaire_Beast" />
-          <NavigationProperty Name="Continent" Relationship="RPGModel.FK_Continent_Monde" FromRole="Monde_w" ToRole="Continent" />
           <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_Origin" FromRole="Monde_w" ToRole="Items" />
           <NavigationProperty Name="Enchantements" Relationship="RPGModel.FK_enchant_origin" FromRole="Monde_w" ToRole="Enchantements" />
           <NavigationProperty Name="Persos" Relationship="RPGModel.FK_origin_Pers" FromRole="Monde_w" ToRole="Persos" />
+          <NavigationProperty Name="Continent" Relationship="RPGModel.FK_Continent_Monde" FromRole="Monde_w" ToRole="Continent" />
         </EntityType>
         <Association Name="FK_origin_Beast">
           <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
@@ -6037,18 +6019,6 @@
             </Principal>
             <Dependent Role="Bestiaire_Beast">
               <PropertyRef Name="origine" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Continent_Monde">
-          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
-          <End Type="RPGModel.Continent" Role="Continent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Monde_w">
-              <PropertyRef Name="nom" />
-            </Principal>
-            <Dependent Role="Continent">
-              <PropertyRef Name="monde" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6145,6 +6115,10 @@
           <Property Name="background" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Alignement1" Relationship="RPGModel.Fk_God_align" FromRole="Divinite" ToRole="Alignement" />
           <NavigationProperty Name="Pantheon1" Relationship="RPGModel.FK_panth_God" FromRole="Divinite" ToRole="Pantheon" />
+          <Property Name="symbole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="importance" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cultistes" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="temples" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Pantheon">
           <Key>
@@ -6158,6 +6132,7 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Alignement1" Relationship="RPGModel.Fk_panth_align" FromRole="Pantheon" ToRole="Alignement" />
           <NavigationProperty Name="Divinite" Relationship="RPGModel.FK_panth_God" FromRole="Pantheon" ToRole="Divinite" />
+          <Property Name="temples" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Persos">
           <Key>
@@ -6381,6 +6356,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Continent">
+          <Key>
+            <PropertyRef Name="nom" />
+          </Key>
+          <Property Name="nom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="identification" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="monde" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="biomes" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="carte_villes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="carte_region" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_Continent_Monde" FromRole="Continent" ToRole="Monde_w" />
+          <NavigationProperty Name="Region" Relationship="RPGModel.FK_Region_Continent" FromRole="Continent" ToRole="Region" />
+        </EntityType>
+        <Association Name="FK_Continent_Monde">
+          <End Type="RPGModel.Monde_w" Role="Monde_w" Multiplicity="1" />
+          <End Type="RPGModel.Continent" Role="Continent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Monde_w">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Continent">
+              <PropertyRef Name="monde" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Continent">
+          <End Type="RPGModel.Continent" Role="Continent" Multiplicity="1" />
+          <End Type="RPGModel.Region" Role="Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Continent">
+              <PropertyRef Name="nom" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="continent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6557,17 +6569,6 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="taille" ColumnName="taille" />
                 <ScalarProperty Name="rempli" ColumnName="rempli" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Continent">
-            <EntityTypeMapping TypeName="RPGModel.Continent">
-              <MappingFragment StoreEntitySet="Continent">
-                <ScalarProperty Name="carte" ColumnName="carte" />
-                <ScalarProperty Name="nom" ColumnName="nom" />
-                <ScalarProperty Name="identification" ColumnName="identification" />
-                <ScalarProperty Name="monde" ColumnName="monde" />
-                <ScalarProperty Name="biomes" ColumnName="biomes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7525,6 +7526,10 @@
           <EntitySetMapping Name="Divinite">
             <EntityTypeMapping TypeName="RPGModel.Divinite">
               <MappingFragment StoreEntitySet="Divinite">
+                <ScalarProperty Name="temples" ColumnName="temples" />
+                <ScalarProperty Name="cultistes" ColumnName="cultistes" />
+                <ScalarProperty Name="importance" ColumnName="importance" />
+                <ScalarProperty Name="symbole" ColumnName="symbole" />
                 <ScalarProperty Name="background" ColumnName="background" />
                 <ScalarProperty Name="alignement" ColumnName="alignement" />
                 <ScalarProperty Name="sous_domaine" ColumnName="sous_domaine" />
@@ -7538,6 +7543,7 @@
           <EntitySetMapping Name="Pantheon">
             <EntityTypeMapping TypeName="RPGModel.Pantheon">
               <MappingFragment StoreEntitySet="Pantheon">
+                <ScalarProperty Name="temples" ColumnName="temples" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="importance" ColumnName="importance" />
                 <ScalarProperty Name="alignement" ColumnName="alignement" />
@@ -7562,6 +7568,18 @@
                 <ScalarProperty Name="race" ColumnName="race" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Continent">
+            <EntityTypeMapping TypeName="RPGModel.Continent">
+              <MappingFragment StoreEntitySet="Continent">
+                <ScalarProperty Name="carte_region" ColumnName="carte_region" />
+                <ScalarProperty Name="carte_villes" ColumnName="carte_villes" />
+                <ScalarProperty Name="biomes" ColumnName="biomes" />
+                <ScalarProperty Name="monde" ColumnName="monde" />
+                <ScalarProperty Name="identification" ColumnName="identification" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,10 +24,11 @@ namespace RPG_Jahr_words
         public string identification { get; set; }
         public string monde { get; set; }
         public string biomes { get; set; }
-        public byte[] carte { get; set; }
+        public string carte_villes { get; set; }
+        public string carte_region { get; set; }
     
+        public virtual Monde_w Monde_w { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Region { get; set; }
-        public virtual Monde_w Monde_w { get; set; }
     }
 }

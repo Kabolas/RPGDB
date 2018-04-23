@@ -4,25 +4,204 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RPG_Jahr_words"
+             xmlns:ff="clr-namespace:FunctionalFun.UI.Behaviours"
              mc:Ignorable="d" 
              d:DesignHeight="456" d:DesignWidth="701">
+    <UserControl.Resources>
+        <local:SelectedToVisible x:Key="BoolToVisible"/>
+        <DataTemplate x:Key="SortDown">
+            <DockPanel LastChildFill="True" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridColumnHeader}}}">
+                <Path x:Name="arrowdown" StrokeThickness="1" Fill="Black" Data="M 5,5 L 10, 10 L 15,5 L 5,5" DockPanel.Dock="Right" Width="20" HorizontalAlignment="Right" Margin="5,0,5,0" SnapsToDevicePixels="True"/>
+                <TextBlock Text="{Binding }"/>
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SortUp">
+            <DockPanel LastChildFill="True" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridColumnHeader}}}">
+                <Path x:Name="arrowup" StrokeThickness="1" Fill="Black" Data="M 5,10 L 15, 10 L 10,5 L 5,10" DockPanel.Dock="Right" Width="20" HorizontalAlignment="Right" Margin="5,0,5,0" SnapsToDevicePixels="True"/>
+                <TextBlock Text="{Binding }"/>
+            </DockPanel>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
-
         <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="223" Margin="305,223,0,0" VerticalAlignment="Top" Width="386">
             <TextBlock x:Name="Godo_Label" TextTrimming="WordEllipsis" TextWrapping="WrapWithOverflow" Text="{Binding PrintedText, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Border>
         <GroupBox BorderBrush="Black" Header="Generation Option" BorderThickness="1" HorizontalAlignment="Left" Height="96" Margin="10,350,0,0" VerticalAlignment="Top" Width="290">
-            <local:GenOptions x:Name="Gods"/>
+            <local:GenOptions x:Name="Gods" Gen="{Binding Gen,RelativeSource={RelativeSource AncestorType={x:Type local:GodControl}}}"/>
         </GroupBox>
         <GroupBox BorderBrush="Black" Header="Affichage" BorderThickness="1" HorizontalAlignment="Left" Height="149" Margin="10,196,0,0" VerticalAlignment="Top" Width="290">
             <Grid/>
         </GroupBox>
-        <TextBox x:Name="God_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106"/>
+        <TextBox x:Name="God_name" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106">
+            <TextBox.Resources>
+                <local:GodOrPant x:Key="GodPant"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource GodPant}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SavePant.nom" Mode="TwoWay"/>
+                    <Binding Path="SaveDivin.nom" Mode="TwoWay"/>
+                    <Binding Path="PantAdd" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="123,10,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
-        <RadioButton Content="Panthéon" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-        <RadioButton Content="Divinité" HorizontalAlignment="Left" Margin="89,40,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,173,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Width="120"/>
+        <RadioButton x:Name="isPant" Content="Panthéon" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" IsChecked="{Binding PantAdd}" Checked="Pant_Check" Unchecked="Pant_Unchecked"/>
+        <RadioButton x:Name="isGod" Content="Divinité" HorizontalAlignment="Left" Margin="89,40,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="89,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+            <TextBox.Resources>
+                <local:GodOrPant x:Key="GodPant"/>
+            </TextBox.Resources>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource GodPant}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SavePant.domaine" Mode="TwoWay"/>
+                    <Binding Path="SaveDivin.sous_domaine" Mode="TwoWay"/>
+                    <Binding Path="PantAdd" Mode="OneWay"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+        <ComboBox HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="aligne" SelectedValuePath="aligne" SelectionChanged="Placeholder">
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.Resources>
+                <local:GodOrPant x:Key="GosPant"/>
+                <local:GodOrPant x:Key="SelectItem" OneToSource="True"/>
+                <CollectionViewSource x:Key="Lignes" Source="{Binding Alignements}"/>
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Alignement aligne="~Alignement~"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource Lignes}}"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+            <ComboBox.SelectedItem>
+                <MultiBinding Converter="{StaticResource SelectItem}" Mode="OneWayToSource">
+                    <Binding Path="SavePant.Alignement1"/>
+                    <Binding Path="SaveDivin.Alignement1"/>
+                    <Binding Path="PantAdd" Mode="OneWay"/>
+                </MultiBinding>
+            </ComboBox.SelectedItem>
+            <ComboBox.SelectedValue>
+                <MultiBinding Converter="{StaticResource GosPant}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SavePant.alignement"/>
+                    <Binding Path="SaveDivin.alignement"/>
+                    <Binding Path="PantAdd" Mode="OneWay"/>
+                </MultiBinding>
+            </ComboBox.SelectedValue>
+        </ComboBox>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="616,201,0,0" VerticalAlignment="Top" Width="75"/>
+        <ComboBox HorizontalAlignment="Left" Margin="158,35,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="nom" SelectedValuePath="nom" SelectedItem="{Binding SaveDivin.Pantheon1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveDivin.pantheon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
+            <ComboBox.Resources>
+                <CollectionViewSource x:Key="Pantheons" Source="{Binding Pantheons}"/>
+            </ComboBox.Resources>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="SelectedValue" Value="{x:Null}">
+                            <Setter Property="SelectedIndex" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <local:Pantheon nom="~Pantheon~"/>
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+        <RichTextBox HorizontalAlignment="Left" Height="186" Margin="430,10,0,0" VerticalAlignment="Top" Width="261">
+            <RichTextBox.Resources>
+                <local:GodOrPant x:Key="GodPant"/>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <Run>
+                        <Run.Text>
+                            <MultiBinding Converter="{StaticResource GodPant}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="SavePant.description" Mode="TwoWay"/>
+                                <Binding Path="SaveDivin.background" Mode="TwoWay"/>
+                                <Binding Path="PantAdd" Mode="OneWay"/>
+                            </MultiBinding>
+                        </Run.Text>
+                    </Run>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <TextBlock HorizontalAlignment="Left" Margin="10,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Text" Value="Domaine"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=isGod, Path=IsChecked}" Value="True">
+                            <Setter Property="Text" Value="SousDomaine"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=isPant, Path=IsChecked}" Value="True">
+                            <Setter Property="Text" Value="Domaine"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Border BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="82" Margin="135,60,0,0" VerticalAlignment="Top" Width="92">
+            <Grid x:Name="portancegrid">
+                <RadioButton x:Name="absport" Content="Absolue" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Checked="AbImp"/>
+                <RadioButton x:Name="majport" Content="Majeure" HorizontalAlignment="Left" Margin="1,25,0,0" VerticalAlignment="Top" Checked="MajImp"/>
+                <RadioButton x:Name="minport" Content="Mineure" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" IsChecked="True" Checked="MinImp"/>
+                <RadioButton x:Name="negport" Content="Négligeable" HorizontalAlignment="Left" Margin="0,65,0,0" VerticalAlignment="Top" Checked="NegImp"/>
+                <TextBox x:Name="importance" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="Changed" Visibility="Hidden">
+                    <TextBox.Resources>
+                        <local:GodOrPant x:Key="GorOr"/>
+                    </TextBox.Resources>
+                    <TextBox.Text>
+                        <MultiBinding Converter="{StaticResource GorOr}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="SavePant.importance" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="SaveDivin.importance" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="PantAdd"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </Border>
+        <TextBox x:Name="Godnick" HorizontalAlignment="Left" Height="25" Margin="153,10,0,0" TextWrapping="Wrap" Text="{Binding SaveDivin.surnom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="100" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+        <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="258,10,0,0" VerticalAlignment="Top" Click="SurGen" FontSize="24" Padding="1,-7,1,1" Foreground="Blue" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
+        <ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantCultists}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>
+        <ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodCultists}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>
+        <ListView HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" Width="193" ItemsSource="{Binding Villes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantVilles}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
+                    <GridViewColumn Header="Region" Width="Auto" DisplayMemberBinding="{Binding region}"/>
+                    <GridViewColumn Header="Continent" Width="Auto" DisplayMemberBinding="{Binding Region1.continent}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="zz" HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" Width="193" ItemsSource="{Binding Villes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodVilles}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
+            <ListView.View>
+                <GridView x:Name="zzz">
+                    <GridViewColumn x:Name="zze" Width="Auto" DisplayMemberBinding="{Binding nom}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader x:Name="de" Click="NameSort" Content="Nom">
+                                <GridViewColumnHeader.Resources>
+                                    <local:Sorting x:Key="Sort"/>
+                                </GridViewColumnHeader.Resources>
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding region}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Click="Name" Content="Region"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Continent" Width="Auto" DisplayMemberBinding="{Binding Region1.continent}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,147,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
     </Grid>
 </UserControl>

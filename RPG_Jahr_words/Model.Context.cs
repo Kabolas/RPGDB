@@ -43,7 +43,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Comportements> Comportements { get; set; }
         public virtual DbSet<Conso_type> Conso_type { get; set; }
         public virtual DbSet<Conteneurs> Conteneurs { get; set; }
-        public virtual DbSet<Continent> Continent { get; set; }
         public virtual DbSet<Crowd_control> Crowd_control { get; set; }
         public virtual DbSet<Degat_type> Degat_type { get; set; }
         public virtual DbSet<Effets> Effets { get; set; }
@@ -129,5 +128,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Divinite> Divinite { get; set; }
         public virtual DbSet<Pantheon> Pantheon { get; set; }
         public virtual DbSet<Persos> Persos { get; set; }
+        public virtual DbSet<Continent> Continent { get; set; }
     }
 }

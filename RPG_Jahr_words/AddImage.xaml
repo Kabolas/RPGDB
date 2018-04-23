@@ -1,0 +1,39 @@
+﻿<Window x:Class="RPG_Jahr_words.AddImage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RPG_Jahr_words"
+        mc:Ignorable="d"
+        Title="AddImage" MinHeight="500" Height="501" Width="600" MinWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="484*"/>
+            <RowDefinition Height="37*"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="0,0,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+                <Canvas x:Name="Canva" MouseMove="ImageMoove" MouseRightButtonDown="EndDraw" MinHeight="436.8" MinWidth="576.8" Background="GhostWhite" MouseLeftButtonDown="SetImagePos" >
+                    <Image x:Name="paste" Margin="0,0,0,0"/>
+                    <StackPanel x:Name="Legends"/>
+                    <TextBlock x:Name="TextToPrint" Panel.ZIndex="10"/>
+                </Canvas>
+            </ScrollViewer>
+        </Border>
+        <Button x:Name="SearchBut" Content=" Charger " Margin="9,0,0,8" Grid.Row="1" Click="SearchImage" HorizontalAlignment="Left" Height="21" VerticalAlignment="Bottom"/>
+        <Button Content=" Annuler " Margin="0,0,55,8" Grid.Row="1" Click="Back" HorizontalAlignment="Right" Height="21" VerticalAlignment="Bottom"/>
+        <Button x:Name="SaveBut" Content=" Sauver " Margin="0,0,5,8" Grid.Row="1" Click="SaveImage" HorizontalAlignment="Right" Height="21" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="PrintedName" Margin="67,5.,196.6,5" Grid.Row="1" TextWrapping="Wrap" Text=""/>
+        <ComboBox x:Name="Color" Margin="402,4.4,109.6,7.2" Grid.Row="1" ItemsSource="{Binding colors}" SelectionChanged="TextColorChange" IsEnabled="False" Visibility="Hidden">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Background="{Binding Color}"/>
+                        <TextBlock Text="{Binding Name}"/>
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+    </Grid>
+</Window>

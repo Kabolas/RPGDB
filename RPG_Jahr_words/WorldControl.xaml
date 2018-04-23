@@ -251,10 +251,10 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button x:Name="del_item_but" Content="✗" HorizontalAlignment="Left" Height="25" Margin="31,91,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
+                <Button x:Name="del_item_but" Foreground="Red" Content="✗" HorizontalAlignment="Left" Height="25" Margin="31,91,0,0" VerticalAlignment="Top" Width="25" Click="Del_but_Click" FontSize="22" Padding="1,-5,1,1" Visibility="{Binding ElementName=Alliage, Path=IsSelected, Converter={StaticResource BoolToVisible}}">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource And}">
-                            <Binding Path="SelectedItems.Count" ElementName="AlliageRecipe"/>
+                            <Binding Path="SelectedItems.Count" ElementName="AlliageRecipe" Converter="{StaticResource EmptyBool}"/>
                             <Binding ElementName="Alliage" Path="IsSelected"/>
                         </MultiBinding>
                     </Button.IsEnabled>
@@ -272,7 +272,7 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button Content="⇀" HorizontalAlignment="Left" Margin="29,0,0,58" Width="23" FontSize="24" Padding="0,-9,1,1" Height="16" VerticalAlignment="Bottom" Click="ChangeProcess" Visibility="{Binding ElementName=fromFor, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
+                <Button Content="⇀" HorizontalAlignment="Left" Margin="29,0,0,58" Width="23" FontSize="24" Padding="0,-9,1,1" Height="16" VerticalAlignment="Bottom" Click="ChangeProcessFor" Visibility="{Binding ElementName=fromFor, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource And}">
                             <Binding ElementName="recipeId" Path="SelectedItem" Converter="{StaticResource NullFalse}"/>

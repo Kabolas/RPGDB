@@ -24,8 +24,8 @@ namespace RPG_Jahr_words
         public string continent { get; set; }
         public string biomes { get; set; }
     
-        public virtual Continent Continent1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ville> Ville { get; set; }
+        public virtual Continent Continent1 { get; set; }
     }
 }

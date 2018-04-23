@@ -37,19 +37,19 @@ namespace RPG_Jahr_words
     public partial class MainWindow : Window, IDisposable
     {
         public Tabitem Page { get; private set; }
-        private NameGen _gen= new NameGen();
-        public NameGen Gen { get => _gen; private set=> _gen = value; } 
+        private NameGen _gen = new NameGen();
+        public NameGen Gen { get => _gen; private set => _gen = value; }
         private SqlConnection con;
         private SqlCommand com;
-        private RPGEntities15 _bdd= new RPGEntities15();
-        public RPGEntities15 Bdd { get => _bdd; private set => _bdd = value; } 
+        private RPGEntities15 _bdd = new RPGEntities15();
+        public RPGEntities15 Bdd { get => _bdd; private set => _bdd = value; }
 
         public MainWindow()
         {
             DataContext = new ViewModel.MainViewModel { Bdd = this.Bdd, Gen = this.Gen };
             InitializeComponent();
             //con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Projects\RPG_Jahr_words\RPG_Jahr_words\RPG.mdf;Integrated Security=True;");// Connect Timeout=30;");// User Instance=True");
-            
+
             NameGen.adjectif = false;
             NameGen.monde = false;
             NameGen.mots = false;
@@ -308,7 +308,7 @@ namespace RPG_Jahr_words
                     catch { }
                     break;
                 case Tabitem.Personnages:
-                    try {}
+                    try { }
                     catch { }
                     break;
                 case Tabitem.Bestiaire:
@@ -729,6 +729,15 @@ namespace RPG_Jahr_words
         public void Dispose()
         {
             Bdd.Dispose();
+        }
+
+        private void openImage(object sender, RoutedEventArgs e)
+        {
+            AddImage im = new AddImage { Title = "Ajouter une image", Draws = true };
+            im.ImageFor = Imaging.Regions;
+            im.NameToPrint = "Lapatest";
+            im.Draws = true;
+            im.ShowDialog();
         }
     }
 }

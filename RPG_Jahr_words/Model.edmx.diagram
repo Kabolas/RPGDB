@@ -23,7 +23,6 @@
         <EntityTypeShape EntityType="RPGModel.Comportements" Width="1.5" PointX="0.75" PointY="38.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Conso_type" Width="1.5" PointX="9" PointY="26.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Conteneurs" Width="1.5" PointX="8.25" PointY="45.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RPGModel.Continent" Width="1.5" PointX="3" PointY="48.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Crowd_control" Width="1.5" PointX="3.75" PointY="16" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Degat_type" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Effets" Width="1.5" PointX="9" PointY="23.75" IsExpanded="true" />
@@ -59,7 +58,6 @@
         <AssociationConnector Association="RPGModel.FK_cac_waepon_type" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_mag_waepon_type" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_jewelry_place" ManuallyRouted="false" />
-        <AssociationConnector Association="RPGModel.FK_Region_Continent" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_elem_1_mun" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_elem_2_mun" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.fk_maniabilite" ManuallyRouted="false" />
@@ -202,7 +200,6 @@
         <EntityTypeShape EntityType="RPGModel.Table" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="RPGModel.Monde_w" Width="1.5" PointX="0.75" PointY="24.75" />
         <AssociationConnector Association="RPGModel.FK_origin_Beast" />
-        <AssociationConnector Association="RPGModel.FK_Continent_Monde" />
         <AssociationConnector Association="RPGModel.FK_item_Origin" />
         <EntityTypeShape EntityType="RPGModel.Enchantements" Width="1.5" PointX="19" PointY="10.5" />
         <AssociationConnector Association="RPGModel.FK_enchant_type" />
@@ -227,6 +224,9 @@
         <AssociationConnector Association="RPGModel.FK_perso_weap" />
         <AssociationConnector Association="RPGModel.FK_cat_Pers" />
         <AssociationConnector Association="RPGModel.Fk_perso_race" />
+        <EntityTypeShape EntityType="RPGModel.Continent" Width="1.5" PointX="3" PointY="39.5" />
+        <AssociationConnector Association="RPGModel.FK_Continent_Monde" />
+        <AssociationConnector Association="RPGModel.FK_Region_Continent" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

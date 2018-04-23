@@ -538,20 +538,29 @@ namespace RPG_Jahr_words
         private void FromFor_Checked(object sender, RoutedEventArgs e)
         {
             if (recipeId.Items.Contains(2) || fromAlc.IsChecked == false)
-                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Forge\n";
+            {
+                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += ((DataContext as ViewModel.WorldViewModel).SaveAll.obtention == "" ? "" : "\n") + "Forge";
+            }
             else (sender as CheckBox).IsChecked = false;
         }
 
-        private void FromFor_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n", ""); }
+        private void FromFor_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace(((DataContext as ViewModel.WorldViewModel).SaveAll.obtention.StartsWith("Forge") ? "" : "\n") + "Forge", ""); }
+
+        private void ChangeProcessFor(object sender, RoutedEventArgs e)
+        {
+            (Results.ItemsSource as ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = Bdd.Procede.First(p => p.process == "Forge"); (Results.Items as CollectionView).Refresh();
+        }
 
         private void FromAlc_Checked(object sender, RoutedEventArgs e)
         {
             if (recipeId.Items.Contains(2) || fromFor.IsChecked == false)
-                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += "Alchimie\n";
+            {
+                (DataContext as ViewModel.WorldViewModel).SaveAll.obtention += ((DataContext as ViewModel.WorldViewModel).SaveAll.obtention == "" ? "" : "\n") + "Alchimie";
+            }
             else (sender as CheckBox).IsChecked = false;
         }
 
-        private void FromAlc_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace("Forge\n", ""); }
+        private void FromAlc_Unchecked(object sender, RoutedEventArgs e) { (DataContext as ViewModel.WorldViewModel).SaveAll.obtention.Replace(((DataContext as ViewModel.WorldViewModel).SaveAll.obtention.StartsWith("Alchimie") ? "" : "\n") + "Alchimie", ""); }
 
         private void AddMana(object sender, RoutedEventArgs e)
         {
@@ -563,6 +572,9 @@ namespace RPG_Jahr_words
             (AlliageRecipe.ItemsSource as System.Collections.ObjectModel.ObservableCollection<RecipeItem>).OrderBy(r => r.N_recette);
         }
 
-        private void ChangeProcess(object sender, RoutedEventArgs e) { (Results.ItemsSource as ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = Bdd.Procede.First(p => p.process == ((bool)fromAlc.IsChecked ? "Alchimie" : "Forge")); (Results.Items as CollectionView).Refresh(); }
+        private void ChangeProcess(object sender, RoutedEventArgs e)
+        {
+            (Results.ItemsSource as ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = Bdd.Procede.First(p => p.process == "Alchimie"); (Results.Items as CollectionView).Refresh();
+        }
     }
 }
