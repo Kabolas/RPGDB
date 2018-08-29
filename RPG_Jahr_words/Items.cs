@@ -32,7 +32,6 @@ namespace RPG_Jahr_words
         public virtual Bijoux Bijoux { get; set; }
         public virtual Conteneurs Conteneurs { get; set; }
         public virtual Loot Loot { get; set; }
-        public virtual Mineraux Mineraux { get; set; }
         public virtual Munition Munition { get; set; }
         public virtual Parchemins Parchemins { get; set; }
         public virtual Tailles Tailles { get; set; }
@@ -42,5 +41,6 @@ namespace RPG_Jahr_words
         public virtual Weaponry Weaponry { get; set; }
         public virtual Livre Livre { get; set; }
         public virtual Monde_w Monde_w { get; set; }
+        public virtual Mineraux Mineraux { get; set; }
     }
 }

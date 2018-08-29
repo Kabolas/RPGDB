@@ -33,7 +33,6 @@
         <EntityTypeShape EntityType="RPGModel.Magie_type" Width="1.5" PointX="3.75" PointY="21.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Maniabilite" Width="1.5" PointX="12" PointY="27.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Minerai_type" Width="1.5" PointX="9" PointY="54.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RPGModel.Mineraux" Width="1.5" PointX="11.25" PointY="38.375" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Mode_deplacement" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Munition" Width="1.5" PointX="14.25" PointY="33.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RPGModel.Munition_type" Width="1.5" PointX="12" PointY="41.5" IsExpanded="true" />
@@ -61,7 +60,6 @@
         <AssociationConnector Association="RPGModel.FK_elem_1_mun" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_elem_2_mun" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.fk_maniabilite" ManuallyRouted="false" />
-        <AssociationConnector Association="RPGModel.FK_Mineraux_Totype" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_type_de_mun" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_Ville_Region" ManuallyRouted="false" />
         <AssociationConnector Association="RPGModel.FK_Ville_Peuplade" ManuallyRouted="false" />
@@ -135,7 +133,6 @@
         <AssociationConnector Association="RPGModel.fk_bijoux_item" />
         <AssociationConnector Association="RPGModel.FK_item_containing" />
         <AssociationConnector Association="RPGModel.FK_Item_loot" />
-        <AssociationConnector Association="RPGModel.FK_item_miner" />
         <AssociationConnector Association="RPGModel.FK_item_munition" />
         <AssociationConnector Association="RPGModel.FK_item_parchemin" />
         <AssociationConnector Association="RPGModel.FK_size_cat" />
@@ -227,6 +224,9 @@
         <EntityTypeShape EntityType="RPGModel.Continent" Width="1.5" PointX="3" PointY="39.5" />
         <AssociationConnector Association="RPGModel.FK_Continent_Monde" />
         <AssociationConnector Association="RPGModel.FK_Region_Continent" />
+        <EntityTypeShape EntityType="RPGModel.Mineraux" Width="1.5" PointX="11.25" PointY="31.25" />
+        <AssociationConnector Association="RPGModel.FK_item_miner" />
+        <AssociationConnector Association="RPGModel.FK_Mineraux_Totype" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -95,7 +95,7 @@
                 </MultiBinding>
             </ComboBox.SelectedValue>
         </ComboBox>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="616,201,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="616,201,0,0" VerticalAlignment="Top" Width="75" Command="{Binding Saving}"/>
         <ComboBox HorizontalAlignment="Left" Margin="158,35,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="nom" SelectedValuePath="nom" SelectedItem="{Binding SaveDivin.Pantheon1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SaveDivin.pantheon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}">
             <ComboBox.Resources>
                 <CollectionViewSource x:Key="Pantheons" Source="{Binding Pantheons}"/>
@@ -170,35 +170,67 @@
         </Border>
         <TextBox x:Name="Godnick" HorizontalAlignment="Left" Height="25" Margin="153,10,0,0" TextWrapping="Wrap" Text="{Binding SaveDivin.surnom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="100" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="258,10,0,0" VerticalAlignment="Top" Click="SurGen" FontSize="24" Padding="1,-7,1,1" Foreground="Blue" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}"/>
-        <ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantCultists}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>
-        <ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodCultists}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>
-        <ListView HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" Width="193" ItemsSource="{Binding Villes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantVilles}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
+        <!--<ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" SelectionMode="Multiple" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantCultists}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>-->
+        <ListBox HorizontalAlignment="Left" Height="81" Margin="10,87,0,0" VerticalAlignment="Top" Width="120" SelectionMode="Multiple" ItemsSource="{Binding Cultists}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodCultists}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom"/>
+        <ListView x:Name="Pantown" HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" SelectionMode="Multiple" Width="193" ItemsSource="{Binding Villes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPantVilles}" IsEnabled="{Binding ElementName=isPant, Path=IsChecked}" Visibility="{Binding ElementName=isPant, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nom" Width="Auto" DisplayMemberBinding="{Binding nom}"/>
-                    <GridViewColumn Header="Region" Width="Auto" DisplayMemberBinding="{Binding region}"/>
-                    <GridViewColumn Header="Continent" Width="Auto" DisplayMemberBinding="{Binding Region1.continent}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="zz" HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" Width="193" ItemsSource="{Binding Villes}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodVilles}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
-            <ListView.View>
-                <GridView x:Name="zzz">
-                    <GridViewColumn x:Name="zze" Width="Auto" DisplayMemberBinding="{Binding nom}">
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding nom}" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader x:Name="de" Click="NameSort" Content="Nom">
+                            <GridViewColumnHeader Tag="nom" Click="RegSort" Content="Nom">
                                 <GridViewColumnHeader.Resources>
-                                    <local:Sorting x:Key="Sort"/>
+                                    <local:SortWrap x:Key="Sort" Sorting="None"/>
                                 </GridViewColumnHeader.Resources>
                             </GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding region}">
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Click="Name" Content="Region"/>
+                            <GridViewColumnHeader Content="Region" Tag="region" Click="RegSort">
+                                <GridViewColumnHeader.Resources>
+                                    <local:SortWrap x:Key="Sort" Sorting="None"/>
+                                </GridViewColumnHeader.Resources>
+                            </GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Header="Continent" Width="Auto" DisplayMemberBinding="{Binding Region1.continent}"/>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Region1.continent}">
+                        <GridViewColumnHeader Content="Continent" Tag="Region1.continent" Click="RegSort">
+                            <GridViewColumnHeader.Resources>
+                                <local:SortWrap x:Key="Sort" Sorting="None"/>
+                            </GridViewColumnHeader.Resources>
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="divtown" HorizontalAlignment="Left" Height="134" Margin="232,62,0,0" VerticalAlignment="Top" SelectionMode="Multiple" Width="193" ItemsSource="{Binding Villes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedGodVilles}" IsEnabled="{Binding ElementName=isGod, Path=IsChecked}" Visibility="{Binding ElementName=isGod, Path=IsChecked, Converter={StaticResource BoolToVisible}}" DisplayMemberPath="nom">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding nom}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="nom" Click="NameSort" Content="Nom">
+                                <GridViewColumnHeader.Resources>
+                                    <local:SortWrap x:Key="Sort" Sorting="None"/>
+                                </GridViewColumnHeader.Resources>
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding region}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Region" Tag="region" Click="NameSort">
+                                <GridViewColumnHeader.Resources>
+                                    <local:SortWrap x:Key="Sort" Sorting="None"/>
+                                </GridViewColumnHeader.Resources>
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Region1.continent}">
+                        <GridViewColumnHeader Content="Continent" Tag="Region1.continent" Click="NameSort">
+                            <GridViewColumnHeader.Resources>
+                                <local:SortWrap x:Key="Sort" Sorting="None"/>
+                            </GridViewColumnHeader.Resources>
+                        </GridViewColumnHeader>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

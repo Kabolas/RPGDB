@@ -51,7 +51,7 @@ namespace RPG_Jahr_words.ViewModel
         private List<Continent> _continents;
         private List<Ville> _villes;
         private List<Region> _regions;
-        private ObservableCollection<Region> _showReg;
+        private ObservableCollection<Region> _showReg, _minReg;
         private List<object> _phenomCrit = new List<object>();
 
         private ObservableCollection<Items> _materiau;
@@ -187,6 +187,8 @@ namespace RPG_Jahr_words.ViewModel
         public bool Buyable { get => _buyable; set { _buyable = value; RaisePropertyChanged(); } }
         public bool Lootable { get => _lootable; set { _lootable = value; RaisePropertyChanged(); } }
 
+        public ObservableCollection<Region> MinReg { get => _minReg; set { _minReg = value; RaisePropertyChanged(); } }
+
         private void AddRecipe()
         {
             RecipeCount.Add(RecipeCount.Count + 1);
@@ -238,15 +240,20 @@ namespace RPG_Jahr_words.ViewModel
                             SaveMiner.obtention += "\nLoot";
                         SaveMiner.masse = 1;
                         MinerSave.Items = SaveMiner;
-                        PrintedText += "Nouveau minerai créé.\nSauvegarde du minerai.\n";
-                        Bd.Items.Add(SaveMiner);
-                        Bd.Mineraux.Add(MinerSave);
-                        Bd.SaveChanges();
-                        PrintedText += "Nouveau minerai " + SaveMiner.nom + " Ajouté.\n";
-                        MinerAdded?.Invoke(this, EventArgs.Empty);
-                        SaveMiner = new Items();
-                        MinerSave = new Mineraux();
-                        Materiau = new ObservableCollection<Items>(Bd.Items.Where(i => i.Mineraux != null));
+                        if (MinReg.Count > 0)
+                        {
+                            MinerSave.Location = String.Join("; ", MinReg);
+                            PrintedText += "Nouveau minerai créé.\nSauvegarde du minerai.\n";
+                            Bd.Items.Add(SaveMiner);
+                            Bd.Mineraux.Add(MinerSave);
+                            Bd.SaveChanges();
+                            PrintedText += "Nouveau minerai " + SaveMiner.nom + " Ajouté.\n";
+                            MinerAdded?.Invoke(this, EventArgs.Empty);
+                            SaveMiner = new Items();
+                            MinerSave = new Mineraux();
+                            Materiau = new ObservableCollection<Items>(Bd.Items.Where(i => i.Mineraux != null));
+                        }
+                        else PrintedText += "Un minerai doit être trouvable quelque part.\n";
                         break;
                     case WorldType.Alliage:
                         SaveAll.storable = true;

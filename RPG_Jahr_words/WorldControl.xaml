@@ -35,6 +35,18 @@
         <CollectionViewSource x:Key="Peoples" Source="{Binding People}"/>
         <CollectionViewSource x:Key="MineType" Source="{Binding MinerTypes}"/>
         <CollectionViewSource x:Key="VilleType" Source="{Binding TownTypes}"/>
+        <DataTemplate x:Key="SortDown">
+            <DockPanel LastChildFill="True" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridColumnHeader}}}">
+                <Path x:Name="arrowdown" StrokeThickness="1" Fill="Black" Data="M 5,5 L 10, 10 L 15,5 L 5,5" DockPanel.Dock="Right" Width="20" HorizontalAlignment="Right" Margin="5,0,5,0" SnapsToDevicePixels="True"/>
+                <TextBlock Text="{Binding }"/>
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SortUp">
+            <DockPanel LastChildFill="True" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridColumnHeader}}}">
+                <Path x:Name="arrowup" StrokeThickness="1" Fill="Black" Data="M 5,10 L 15, 10 L 10,5 L 5,10" DockPanel.Dock="Right" Width="20" HorizontalAlignment="Right" Margin="5,0,5,0" SnapsToDevicePixels="True"/>
+                <TextBlock Text="{Binding }"/>
+            </DockPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Button Content="⟳" HorizontalAlignment="Left" Height="25" Width="25" Margin="115,26,0,0" VerticalAlignment="Top" Click="Generation" FontSize="24" Padding="1,-7,1,1"/>
@@ -157,6 +169,28 @@
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
                 </ComboBox>
+                <ListView x:Name="Minloc" Margin="132,5,5,5" ItemsSource="{Binding ShowReg}" ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding MinReg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="nom" SelectionMode="Multiple" DisplayMemberPath="nom" SelectionChanged="Showthingselection" IsEnabled="{Binding ElementName=Mineraux, Path=IsSelected}" Visibility="{Binding ElementName=Mineraux, Path=IsSelected, Converter={StaticResource BoolToVisible}}" Panel.ZIndex="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding nom}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="nom" Click="RegSort" Content="Nom">
+                                        <GridViewColumnHeader.Resources>
+                                            <local:SortWrap x:Key="Sort" Sorting="None"/>
+                                        </GridViewColumnHeader.Resources>
+                                    </GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding continent}">
+                                <GridViewColumnHeader Content="Continent" Tag="continent" Click="RegSort">
+                                    <GridViewColumnHeader.Resources>
+                                        <local:SortWrap x:Key="Sort" Sorting="None"/>
+                                    </GridViewColumnHeader.Resources>
+                                </GridViewColumnHeader>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
                 <ListBox x:Name="ShowThing" Margin="132,5,5,5" SelectionMode="{Binding ElementName=Ville, Path=IsSelected, Converter={StaticResource Single}}" DisplayMemberPath="nom" SelectionChanged="Showthingselection">
                     <ListBox.ItemsSource>
                         <MultiBinding Converter="{StaticResource WorldWrite}" Mode="OneWay">

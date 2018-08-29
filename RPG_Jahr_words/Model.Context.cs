@@ -53,7 +53,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Magie_type> Magie_type { get; set; }
         public virtual DbSet<Maniabilite> Maniabilite { get; set; }
         public virtual DbSet<Minerai_type> Minerai_type { get; set; }
-        public virtual DbSet<Mineraux> Mineraux { get; set; }
         public virtual DbSet<Mode_deplacement> Mode_deplacement { get; set; }
         public virtual DbSet<Munition> Munition { get; set; }
         public virtual DbSet<Munition_type> Munition_type { get; set; }
@@ -129,5 +128,6 @@ namespace RPG_Jahr_words
         public virtual DbSet<Pantheon> Pantheon { get; set; }
         public virtual DbSet<Persos> Persos { get; set; }
         public virtual DbSet<Continent> Continent { get; set; }
+        public virtual DbSet<Mineraux> Mineraux { get; set; }
     }
 }

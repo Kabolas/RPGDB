@@ -18,8 +18,9 @@ namespace RPG_Jahr_words
         public string usage { get; set; }
         public string type { get; set; }
         public int Id { get; set; }
+        public string Location { get; set; }
     
-        public virtual Minerai_type Minerai_type { get; set; }
         public virtual Items Items { get; set; }
+        public virtual Minerai_type Minerai_type { get; set; }
     }
 }

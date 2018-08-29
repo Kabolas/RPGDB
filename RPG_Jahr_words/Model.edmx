@@ -656,6 +656,7 @@
           <Property Name="usage" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Mode_deplacement">
           <Key>
@@ -3354,18 +3355,7 @@
             <PropertyRef Name="type" />
           </Key>
           <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Mineraux" Relationship="Self.FK_Mineraux_Totype" FromRole="Minerai_type" ToRole="Mineraux" />
-        </EntityType>
-        <EntityType Name="Mineraux">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="id_mineral" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="usage" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Minerai_type" Relationship="Self.FK_Mineraux_Totype" FromRole="Mineraux" ToRole="Minerai_type" />
-          <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_miner" FromRole="Mineraux" ToRole="Items" />
+          <NavigationProperty Name="Mineraux" Relationship="RPGModel.FK_Mineraux_Totype" FromRole="Minerai_type" ToRole="Mineraux" />
         </EntityType>
         <EntityType Name="Mode_deplacement">
           <Key>
@@ -3645,18 +3635,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Mineraux_Totype">
-          <End Role="Minerai_type" Type="Self.Minerai_type" Multiplicity="1" />
-          <End Role="Mineraux" Type="Self.Mineraux" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Minerai_type">
-              <PropertyRef Name="type" />
-            </Principal>
-            <Dependent Role="Mineraux">
-              <PropertyRef Name="type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_type_de_mun">
           <End Role="Munition_type" Type="Self.Munition_type" Multiplicity="1" />
           <End Role="Munition" Type="Self.Munition" Multiplicity="*" />
@@ -3722,7 +3700,6 @@
           <EntitySet Name="Magie_type" EntityType="Self.Magie_type" />
           <EntitySet Name="Maniabilite" EntityType="Self.Maniabilite" />
           <EntitySet Name="Minerai_type" EntityType="Self.Minerai_type" />
-          <EntitySet Name="Mineraux" EntityType="Self.Mineraux" />
           <EntitySet Name="Mode_deplacement" EntityType="Self.Mode_deplacement" />
           <EntitySet Name="Munition" EntityType="Self.Munition" />
           <EntitySet Name="Munition_type" EntityType="Self.Munition_type" />
@@ -3776,10 +3753,6 @@
           <AssociationSet Name="fk_maniabilite" Association="Self.fk_maniabilite">
             <End Role="Maniabilite" EntitySet="Maniabilite" />
             <End Role="Vehicule" EntitySet="Vehicule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Mineraux_Totype" Association="Self.FK_Mineraux_Totype">
-            <End Role="Minerai_type" EntitySet="Minerai_type" />
-            <End Role="Mineraux" EntitySet="Mineraux" />
           </AssociationSet>
           <AssociationSet Name="FK_type_de_mun" Association="Self.FK_type_de_mun">
             <End Role="Munition_type" EntitySet="Munition_type" />
@@ -3991,10 +3964,6 @@
           <AssociationSet Name="FK_Item_loot" Association="RPGModel.FK_Item_loot">
             <End Role="Items" EntitySet="Items" />
             <End Role="Loot" EntitySet="Loot" />
-          </AssociationSet>
-          <AssociationSet Name="FK_item_miner" Association="RPGModel.FK_item_miner">
-            <End Role="Items" EntitySet="Items" />
-            <End Role="Mineraux" EntitySet="Mineraux" />
           </AssociationSet>
           <AssociationSet Name="FK_item_munition" Association="RPGModel.FK_item_munition">
             <End Role="Items" EntitySet="Items" />
@@ -4269,6 +4238,15 @@
           <AssociationSet Name="FK_Region_Continent" Association="RPGModel.FK_Region_Continent">
             <End Role="Continent" EntitySet="Continent" />
             <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <EntitySet Name="Mineraux" EntityType="RPGModel.Mineraux" />
+          <AssociationSet Name="FK_item_miner" Association="RPGModel.FK_item_miner">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Mineraux" EntitySet="Mineraux" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mineraux_Totype" Association="RPGModel.FK_Mineraux_Totype">
+            <End Role="Minerai_type" EntitySet="Minerai_type" />
+            <End Role="Mineraux" EntitySet="Mineraux" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Tailles">
@@ -5120,7 +5098,6 @@
           <NavigationProperty Name="Bijoux" Relationship="RPGModel.fk_bijoux_item" FromRole="Items" ToRole="Bijoux" />
           <NavigationProperty Name="Conteneurs" Relationship="RPGModel.FK_item_containing" FromRole="Items" ToRole="Conteneurs" />
           <NavigationProperty Name="Loot" Relationship="RPGModel.FK_Item_loot" FromRole="Items" ToRole="Loot" />
-          <NavigationProperty Name="Mineraux" Relationship="RPGModel.FK_item_miner" FromRole="Items" ToRole="Mineraux" />
           <NavigationProperty Name="Munition" Relationship="RPGModel.FK_item_munition" FromRole="Items" ToRole="Munition" />
           <NavigationProperty Name="Parchemins" Relationship="RPGModel.FK_item_parchemin" FromRole="Items" ToRole="Parchemins" />
           <NavigationProperty Name="Tailles" Relationship="RPGModel.FK_size_cat" FromRole="Items" ToRole="Tailles" />
@@ -5130,6 +5107,7 @@
           <NavigationProperty Name="Weaponry" Relationship="RPGModel.FK_item_weapon" FromRole="Items" ToRole="Weaponry" />
           <NavigationProperty Name="Livre" Relationship="RPGModel.FK_bookId" FromRole="Items" ToRole="Livre" />
           <NavigationProperty Name="Monde_w" Relationship="RPGModel.FK_item_Origin" FromRole="Items" ToRole="Monde_w" />
+          <NavigationProperty Name="Mineraux" Relationship="RPGModel.FK_item_miner" FromRole="Items" ToRole="Mineraux" />
         </EntityType>
         <Association Name="FK_all_item">
           <End Type="RPGModel.Items" Role="Items" Multiplicity="1" />
@@ -5175,18 +5153,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Loot">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_item_miner">
-          <End Type="RPGModel.Items" Role="Items" Multiplicity="1" />
-          <End Type="RPGModel.Mineraux" Role="Mineraux" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Items">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Mineraux">
               <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -6393,6 +6359,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Mineraux">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="id_mineral" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usage" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Items" Relationship="RPGModel.FK_item_miner" FromRole="Mineraux" ToRole="Items" />
+          <NavigationProperty Name="Minerai_type" Relationship="RPGModel.FK_Mineraux_Totype" FromRole="Mineraux" ToRole="Minerai_type" />
+        </EntityType>
+        <Association Name="FK_item_miner">
+          <End Type="RPGModel.Items" Role="Items" Multiplicity="1" />
+          <End Type="RPGModel.Mineraux" Role="Mineraux" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mineraux">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mineraux_Totype">
+          <End Type="RPGModel.Minerai_type" Role="Minerai_type" Multiplicity="1" />
+          <End Type="RPGModel.Mineraux" Role="Mineraux" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Minerai_type">
+              <PropertyRef Name="type" />
+            </Principal>
+            <Dependent Role="Mineraux">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6646,16 +6648,6 @@
             <EntityTypeMapping TypeName="RPGModel.Minerai_type">
               <MappingFragment StoreEntitySet="Minerai_type">
                 <ScalarProperty Name="type" ColumnName="type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Mineraux">
-            <EntityTypeMapping TypeName="RPGModel.Mineraux">
-              <MappingFragment StoreEntitySet="Mineraux">
-                <ScalarProperty Name="id_mineral" ColumnName="id_mineral" />
-                <ScalarProperty Name="usage" ColumnName="usage" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7580,6 +7572,17 @@
                 <ScalarProperty Name="monde" ColumnName="monde" />
                 <ScalarProperty Name="identification" ColumnName="identification" />
                 <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mineraux">
+            <EntityTypeMapping TypeName="RPGModel.Mineraux">
+              <MappingFragment StoreEntitySet="Mineraux">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="usage" ColumnName="usage" />
+                <ScalarProperty Name="id_mineral" ColumnName="id_mineral" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

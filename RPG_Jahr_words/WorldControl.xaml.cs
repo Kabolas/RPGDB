@@ -551,6 +551,48 @@ namespace RPG_Jahr_words
             (Results.ItemsSource as ObservableCollection<RecipeResult>).First(r => r.IdRecipe == (int)recipeId.SelectedItem).Process = Bdd.Procede.First(p => p.process == "Forge"); (Results.Items as CollectionView).Refresh();
         }
 
+        private void Ordering(ListView view, string sorting, Sorting direction)
+        {
+            view.Items.SortDescriptions.Clear();
+            if (direction != Sorting.None)
+                view.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription(sorting, direction == Sorting.Up ? System.ComponentModel.ListSortDirection.Ascending : System.ComponentModel.ListSortDirection.Descending));
+        }
+
+        private Sorting Sort(Sorting s, GridViewColumnHeader column)
+        {
+            switch (s)
+            {
+                case Sorting.None:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.Up;
+                    column.Column.HeaderTemplate = Resources["SortUp"] as DataTemplate;
+                    break;
+                case Sorting.Up:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.Down;
+                    column.Column.HeaderTemplate = Resources["SortDown"] as DataTemplate;
+                    break;
+                case Sorting.Down:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.None;
+                    column.Column.HeaderTemplate = null;
+                    break;
+                default:
+                    break;
+            }
+            return s;
+        }
+
+        private void RegSort(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = sender as GridViewColumnHeader;
+            Sorting s = ((SortWrap)column.Resources["Sort"]).Sorting;
+            foreach (GridViewColumn col in ((GridView)Minloc.View).Columns)
+            {
+                ((SortWrap)((GridViewColumnHeader)col.Header)?.Resources["Sort"]).Sorting = Sorting.None;
+                ((GridViewColumnHeader)col.Header).Column.HeaderTemplate = null;
+            }
+            s = Sort(s, column);
+            Ordering(Minloc, column.Tag.ToString(), s);
+        }
+
         private void FromAlc_Checked(object sender, RoutedEventArgs e)
         {
             if (recipeId.Items.Contains(2) || fromFor.IsChecked == false)

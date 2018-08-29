@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,9 @@ using System.Windows.Shapes;
 
 namespace RPG_Jahr_words
 {
-    
-    public enum Sorting{
+
+    public enum Sorting
+    {
         None,
         Up,
         Down
@@ -24,7 +26,9 @@ namespace RPG_Jahr_words
 
     public class SortWrap
     {
-        public Sorting Sorting;
+        private Sorting _sorting;
+
+        public Sorting Sorting { get => _sorting; set => _sorting = value; }
     }
     /// <summary>
     /// Logique d'interaction pour GodControl.xaml
@@ -61,6 +65,8 @@ namespace RPG_Jahr_words
         public GodControl()
         {
             InitializeComponent();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(divtown);
+            //view.SortDescriptions.Add(new System.ComponentModel.SortDescription("nom", ))
         }
 
         private void Generation(object sender, RoutedEventArgs e) { God_name.Text = Gods.Generation_gn(); }
@@ -95,9 +101,59 @@ namespace RPG_Jahr_words
 
         private void Placeholder(object sender, SelectionChangedEventArgs e) { if (((ComboBox)sender).SelectedItem == null) ((ComboBox)sender).SelectedIndex = 0; }
 
+        private void Ordering(ListView view, string sorting, Sorting direction)
+        {
+            view.Items.SortDescriptions.Clear();
+            if (direction != Sorting.None)
+                view.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription(sorting, direction == Sorting.Up ? System.ComponentModel.ListSortDirection.Ascending : System.ComponentModel.ListSortDirection.Descending));
+        }
+
         private void NameSort(object sender, RoutedEventArgs e)
         {
-            
+            GridViewColumnHeader column = sender as GridViewColumnHeader;
+            Sorting s = ((SortWrap)column.Resources["Sort"]).Sorting;
+            foreach (GridViewColumn col in ((GridView)divtown.View).Columns)
+            {
+                ((SortWrap)((GridViewColumnHeader)col.Header)?.Resources["Sort"]).Sorting = Sorting.None;
+                ((GridViewColumnHeader)col.Header).Column.HeaderTemplate = null;
+            }
+            s = Sort(s, column);
+            Ordering(divtown, column.Tag.ToString(), s);
+        }
+
+        private Sorting Sort(Sorting s, GridViewColumnHeader column)
+        {
+            switch (s)
+            {
+                case Sorting.None:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.Up;
+                    column.Column.HeaderTemplate = Resources["SortUp"] as DataTemplate;
+                    break;
+                case Sorting.Up:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.Down;
+                    column.Column.HeaderTemplate = Resources["SortDown"] as DataTemplate;
+                    break;
+                case Sorting.Down:
+                    ((SortWrap)column.Resources["Sort"]).Sorting = s = Sorting.None;
+                    column.Column.HeaderTemplate = null;
+                    break;
+                default:
+                    break;
+            }
+            return s;
+        }
+
+        private void RegSort(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = sender as GridViewColumnHeader;
+            Sorting s = ((SortWrap)column.Resources["Sort"]).Sorting;
+            foreach (GridViewColumn col in ((GridView)Pantown.View).Columns)
+            {
+                ((SortWrap)((GridViewColumnHeader)col.Header)?.Resources["Sort"]).Sorting = Sorting.None;
+                ((GridViewColumnHeader)col.Header).Column.HeaderTemplate = null;
+            }
+            s = Sort(s, column);
+            Ordering(Pantown, column.Tag.ToString(), s);
         }
     }
 }
